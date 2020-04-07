@@ -28,7 +28,7 @@ R Packages zh_CN
    翻译说明
    排版约定
    封面
-   前言
+   序言
 
 
 * :ref:`genindex`
