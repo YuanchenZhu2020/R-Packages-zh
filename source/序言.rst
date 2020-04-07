@@ -4,25 +4,21 @@
 序言
 ----------
 
-欢迎来到第二版 ``R packages`` ！如果熟悉第一版本的内容，您会发现这篇序言介绍了第二版主要的内容更改，\
+欢迎来到第二版 R packages ！如果熟悉第一版本的内容，您会发现这篇序言介绍了第二版主要的内容更改，\
 以便您能够将学习的重点放在新的部分上。
 
 此版本有十个主要目标：
 
-* 更新以反映 ``devtools`` 程序包中的更改，特别是其“`有意识地解耦 <https://www.tidyverse.org/blog/2018/10/devtools-2-0-0/#conscious-uncoupling>`__”，\
-变成了一组更小、功能更集中的程序包（``packages``）。
-* 扩展了工作流（``workflows``）和流程（``process``）内容的覆盖范围，并且介绍了构成R包的所有重要的、可变动的部分。\ :sub: `temp`\
+* 更新以反映 ``devtools`` 程序包中的更改，特别是其“`有意识地解耦 <https://www.tidyverse.org/blog/2018/10/devtools-2-0-0/#conscious-uncoupling>`__”，变成了一组更小、功能更集中的程序包（packages）。
+* 扩展了工作流（workflows）和流程（process）内容的覆盖范围，并且介绍了构成R包的所有重要的、可变动的部分。\ :sub:`temp`
 * ……还有更多
 
 各章的详细信息：
 
 * 新的第二章：“整个流程”，概述了程序包开发过程中关键步骤。
-* 新的第三章：“Setup”\ :sub: `temp`\ ，已经从第一版的导言中删除，在这里对其做了更加详细的描述。
-* 删除了第一版第六章“R代码”中的“组织你的函数”和“代码风格”段落，以便使用**在线风格指南**， https://style.tidyverse.org/。\
-代码风格指南和新的样式程序包 ``styler`` 是配合使用的（Müller and Walthert `2018 <https://r-pkgs.org/preface.html#ref-styler>`__），\
-能够自动为您的代码应用许多样式规则。
-* 之前被称为“包的结构”的章节已经被扩展并分为两章，一章介绍了包的结构和状态 （Chapter `4 <https://r-pkgs.org/package-structure-state.html#package-structure-state>`__），\
-另一章介绍了工作流（``workflows``）和工具（``tools``）（Chapter `5 <https://r-pkgs.org/workflows101.html#workflows101>`__）。
+* 新的第三章：“Setup”\ :sub:`temp`\已经从第一版的导言中删除，在这里对其做了更加详细的描述。
+* 删除了第一版第六章“R代码”中的“组织你的函数”和“代码风格”段落，以便使用**在线风格指南**， https://style.tidyverse.org/。代码风格指南和新的样式程序包 ``styler`` 是配合使用的（Müller and Walthert `2018 <https://r-pkgs.org/preface.html#ref-styler>`__），\够自动为您的代码应用许多样式规则。
+* 之前被称为“包的结构”的章节已经被扩展并分为两章，一章介绍了包的结构和状态（Chapter `4 <https://r-pkgs.org/package-structure-state.html#package-structure-state>`__），另一章介绍了工作流（``workflows``）和工具（``tools``）（Chapter `5 <https://r-pkgs.org/workflows101.html#workflows101>`__）。
 * 关于 ``git/github`` 的一些内容
 
 
