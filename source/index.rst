@@ -14,9 +14,9 @@ R Packages zh_CN
 相关链接
 --------
 
-* **原书**: `R Packages <https://github.com/hadley/r-pkgs>`__
-* **原书网页文档版**: `R Packages <https://r-pkgs.org/>`__
-* **个人译本**: R Packages zh-CN
+* \ **原书**\ : `R Packages <https://github.com/hadley/r-pkgs>`__
+* \ **原书网页文档版**\ : `R Packages <https://r-pkgs.org/>`__
+* \ **个人译本**\ : `R Packages zh-CN <https://r-packages-zh-cn.readthedocs.io/zh_CN/latest/>`__
 * GitHub Repo: https://github.com/YuanchenZhu2020/R_Packages_zh_CN
 
 

@@ -1,0 +1,260 @@
+第一章 简介
+==============
+
+在\ **R中**\ ，包（packages）是可分享R代码的基本单位。程序包将代码、数据、文档和测试代码整合到一起，\
+很容易与人分享。截止到2019年6月，在综合R包存档网络 CRAN（ Comprehensive R Archive Network ），\
+或者说 R 包的公共发布平台上已经有 14,000 多个可用的程序包。拥有这么众多的程序包是 R 成功的原因之一：\
+也许有人已经解决了您正在尝试解决的问题，因此您可以通过下载程序包来从他们的工作中获益。
+
+如果您正在阅读这本书，那么就应该已经知道如何使用包了：
+
+* 从CRAN下载安装包：``install.packages("x")``
+* 在R中使用包：``library("x")``
+* 获取包的帮助文档：``package?x`` 以及 ``help(package = "x")``
+
+本书的目的是教您如何开发程序包，这样您就可以自己编写自己的程序包，而不仅仅是使用他人的程序包。\
+为什么我们要写程序包呢？一个令人信服的理由是，您想要与他人分享自己的代码。将您的代码整合到一个程\
+序包中能让他人更加轻松地使用它，因为和您一样，他们也知道如何使用包。如果您的代码放在包中，任何R的\
+用户都可以便利地下载、安装并且学会如何使用。
+
+但对您来说，即使从不共享代码，包也很有用。正如 Hilary Parker 在\ `介绍软件包 <https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/>`__\ \
+时所说：“严格来说，这不一定与共享代码有关（虽然这是一个附加的好处），它主要是能够节省你自己的时间。”\
+将您的代码组织在程序包中能够使工作变得更轻松，这是因为包有一些通用的约定。比如，你需要将R代码放在 \
+``R/`` 目录下，将测试放在 ``tests/`` 目录下，还有将数据放在 ``data/`` 目录下。这些约定很有用，因为：
+
+* 它们能节省时间——您不必考虑组织程序包的最佳方法，只需要按照模板来就可以了。
+* 标准化的规范带来标准化的工具——如果您遵循R包的封装规范，那么您能够免费获得许多工具。
+
+正如 Marwick,  Boettiger 以及 Mullen 在 (Marwick, Boettiger, and Mullen \ `2018a <https://r-pkgs.org/intro.html#ref-marwick2018-tas>`__\ ) (Marwick, Boettiger, and Mullen \ `2018b <https://r-pkgs.org/intro.html#ref-marwick2018-peerj>`__\ ) 中所说，您甚至可以用程序包来构建您的数据分析。
+
+
+1.1 开发理念
+----------------
+
+这本书支持了我们的程序包开发理念：任何能够自动化的东西都应该自动化。尽量减少手动操作。用函数完成\
+尽可能多的事情。这样是希望您将时间用于思考您想要包做什么工作，而不是包结构的各种细节。
+
+这种开发理念主要是 devtools 开发包来实现的，这个程序包是让通用开发任务自动化的 R 函数套件中的\
+代表。 devtools 在2018年10月发布了 2.0.0 版本，这标志着其内部结构重组为一系列功能更具针对性的\
+程序包，而它则更像是一个元程序包（ meta-package ）。 usethis 程序包是您最有可能与之交互的子程\
+序包，我们将在\ `3.2 <https://r-pkgs.org/setup.html#setup-usage>`__\ 节解释 devtools - usethis 之\
+间的关系。
+
+像往常一样， devtools 程序包的目的是让程序包的开发尽可能的轻松便利。它囊括了第一作者 \
+Hadley Wickham 这些年来作为一名多产的独立开发者的最佳实践经验。最近，他在 RStudio 集合了一个\
+由10名开发人员组成的团队，共同负责约 150 种开源 R 包的维护，其中包括被称为 \ `tidyverse <https://www.tidyverse.org/>`__\  \
+的著名程序包。这个团队的影响力使得我们能够在一个巨大的规模上探索所有可能出现的错误与问题。\
+幸运的是，它还让我们有机会与专家和友善的同事一起反思成功与失败。我们尝试找到一些能够使包的维护者\
+和使用者更快乐地工作生活的做法，而正是在 devtools 程序包里，您将看到这些方法是如何具体实现的。
+
+    .. image:: ./Image/Chapter_1/rstudio.png
+        :scale: 5%
+    在本书中，我们将在这种特殊格式的部分重点介绍：如何使用`Rstudio`的特殊方法加快包的开发工作流程。
+
+``devtools`` 与 ``RStudio`` 联系紧密、携手共进，而后者正是我们认为对大多数R用户最佳的开发环境。\
+它的主要替代者是 ``Emacs Speaks Statistics(ESS)``，如果您愿意花时间学习 ``Emacs`` 并根据自己的\
+需求来自定义它，那么它将是一个回报丰厚的开发环境。``ESS`` 的历史可以追溯到20年前（甚至比R还早！）\
+，但是它至今仍很活跃，本书中描述的许多工作流程也可以在上面使用。对于那些忠于 ``Vim`` 的人，我们\
+推荐使用 \ `Nvim-R plugin <https://github.com/jalvesaq/Nvim-R>`__\  插件。
+
+``devtools`` 和 ``RStudio`` 一起，让您无需关注包是怎样建立的这种低级细节。但是当您开始开发\
+更多的程序包时，我们强烈建议你去了解这些细节。 有关软件包开发细节的最好的官方资源，始终是官方 \
+\ `R 扩展开发手册 <https://cran.r-project.org/doc/manuals/R-exts.html#Creating-R-packages>`__\ 。\
+然而，如果您不熟悉包的基础知识，是很难理解这本手册的。它也很详尽，涵盖了所有可能的包的组件，\
+而不是像本书一样专注于那些最常见和最有用的组件。一旦你掌握了 R 包的基础知识，并且想深入了解更多的\
+知识，那么官方 \ `R 扩展开发手册 <https://cran.r-project.org/doc/manuals/R-exts.html#Creating-R-packages>`__\  \
+将是一个很有用的资源。
+
+
+1.2 本书内容
+--------------
+
+\ `第二章 <https://r-pkgs.org/whole-game.html#whole-game>`__\ 介绍了一个小型的示例程序包的开发。\
+这是为了在我们深入研究 R 包的关键组件之前，描绘开发的大图景并提出对一个工作流程的建议。
+
+\ `第三章 <https://r-pkgs.org/setup.html#setup>`__\ 介绍了如何为开发程序包准备好您的系统，\
+这与仅仅运行 R 脚本相比具有更多要求。这一章包括对一些可选设置的建议，这些设置可以使您的工作流程\
+更加轻松，从而带来更高质量的产品。
+
+程序包的基本结构以及它在不同状态下如何变化将在第 \ `17.2.2 <https://r-pkgs.org/r-cmd-check.html#package-structure>`__\  章中进行说明。
+
+\ `第五章 <https://r-pkgs.org/workflows101.html#workflows101>`__\ 介绍了程序包开发人员反复提出的\
+核心工作流程。本章还介绍了我们喜欢的工具，比如 devtools / usethis 和 RStudio 与这些工具设计时的\
+指导理念\ :sub:`意译`\ 之间的联系。
+
+本书的后续章节将详细介绍 R 包的每个组件。它们按重要性顺序被大致组织起来：
+
+*  \ `第六章 <https://r-pkgs.org/r.html#r>`__\ ，R 代码：最重要的目录是 R 代码所在的目录 ``R/``。即使是只有该目录的程序包仍然是可以使用的。（的确，即使您在本章结束后不再阅读，您仍然会学到一些有用的新技能。）
+*  \ `第七章 <https://r-pkgs.org/description.html#description>`__\ ，包的元数据：``DESCRIPTION`` 文件描述您的包需要依赖什么来正常工作。如果您要共享程序包，也会使用 ``DESCRIPTION`` 文件来描述程序包能做什么，谁可以使用它（许可证）以及在出现问题时与谁联系。
+*  \ `第八章 <https://r-pkgs.org/man.html#man>`__\ ，对象文档：如果您希望其他人（包括未来的您！）了解如何使用程序包中的函数，就需要撰写它们的使用文档。我们将向您展示如何使用 roxygen2 为函数撰写文档。我们建议使用 roxygen2 ，因为它可以让您在编写代码的同时直接撰写文档，同时能够\ :sub:`疑问`\ 生成 R 的标准格式的文档。
+*  \ `第九章 <https://r-pkgs.org/vignettes.html#vignettes>`__\ ，Vignettes：函数文档介绍了包中每个函数的细节，而 Vignettes 则描绘了如何从整体意义上使用包的功能。它们是长篇文档，显示了如何结合程序包的多个功能来解决实际问题。我们将向您展示如何使用 Rmarkdown 和 knitr 创建 Vignettes 。
+*  \ `第十章 <https://r-pkgs.org/tests.html#tests>`__\ ，测试：为确保您的程序包按照设计的那样工作（并在您修改它后能继续工作），编写定义了正确行为并在函数中断时提醒您的单元测试至关重要。在本章中，我们将教您如何使用 testthat 包将您正在做的的非正式的交互测试转换为正式的、自动化的测试。
+*  \ `第十一章 <https://r-pkgs.org/namespace.html#namespace>`__\ ，命名空间：为了和其他的包很好地协作，您的程序包需要定义它能够让其他程序包使用哪些函数，以及它需要使用其他程序包的哪些函数。这是 ``NAMESPACE`` 文件的工作，我们将向您展示如何使用 roxygen2 生成它。``NAMESPACE`` 是开发 R 程序包中更具挑战性的部分之一，但如果您希望程序包可靠地工作，那么掌握它是至关重要的。
+*  \ `第十二章 <https://r-pkgs.org/data.html#data>`__\ ，外部数据：``data/`` 目录允许您在包中包含数据。您可能会用这种方式在包种捆绑数据，以使 R 用户易于访问，或者只是在文档中提供令人信服的例子。
+*  \ `第十三章 <https://r-pkgs.org/src.html#src>`__\ ，编译后的代码： R 代码是为提高人类效率而设计的，而不是为了提高计算机效率，因此，如果包含一个允许您编写快速运行的代码的工具将非常有用。``src/`` 目录允许您引入快速运行的、编译好的 C 和 C++ 代码，以解决程序包中的性能瓶颈。
+*  \ `第十五章 <https://r-pkgs.org/misc.html#misc>`__\ ，其他组件：本章介绍了其他几个很少用到的组件：``demo/``，``exec/``，``po/`` 和 ``tools/``。
+
+最后几章介绍了几个通用的最佳做法，它们并没有专门针对包中某个特定的目录：
+
+* \ `第十六章 <https://r-pkgs.org/git.html#git>`__\ ， Git 和 GitHub ：掌握版本控制系统对于轻松地与他人协作至关重要，即使单独工作，它也非常有用，因为它使您可以轻松地将文件回退到错误之前。在本章中，您将学习如何基于 RStudio 使用流行的 Git 和 GitHub。
+* \ `第十七章 <https://r-pkgs.org/r-cmd-check.html#r-cmd-check>`__\ ，自动检查：R 以 ``R CMD check`` 的形式提供了非常有用的自动质量检查。定期运行它们是避免许多常见错误的好方法。有时它的结果可能有点含糊不清，因此我们提供了一个全面的备忘清单，可以帮助您将警告变为可理解的形式。\ :sub:`意译`\ 
+* \ `第十八章 <https://r-pkgs.org/release.html#release>`__\ ，发布：包的生命周期随着向公众发布而结束。本章比较了发布平台的两个主要选择（ CRAN 和 GitHub ），并提供了有关管理流程的一般建议。
+
+还有很多东西需要学习，但不要感到不知所措。从一些有用功能的最小一部分开始（例如，只有一个 ``R/`` 目录！），然后逐步建立并完善它。套用禅师铃木俊隆（ Shunryu Suzuki ）的话：“每个包都以它完美的方式存在——只是可以稍作改进”。\ :sub:`出处？`\ 
+
+
+1.3 致谢
+----------
+
+自第一版 R Packages 发行以来，支持本书描述的工作流程的程序包已经得到了广泛的开发。\
+原来的 devtools，roxygen2 和 testthat 的三重组合已经扩展为一系列\
+由 \ `devtools <https://r-pkgs.org/setup.html#setup-usage>`__\  的\
+\ `“有意识的解耦” <https://r-pkgs.org/setup.html#setup-usage>`__\  所创建的程序包。\
+由于它们与 devtools 的渊源，大多数程序包都源自 Hadley Wickham（HW）。还有许多其他重要的贡献者，\
+其中许多人现在成为了维护者：
+
+* devtools: HW, \ `Winston Chang <https://github.com/wch>`__\ , \ `Jim Hester <https://github.com/jimhester>`__\  (maintainer, >= v1.13.5)
+* usethis: HW, \ `Jennifer Bryan <https://github.com/jennybc>`__\  (maintainer >= v1.5.0)
+* roxygen2: HW (maintainer), \ `Peter Danenburg <https://github.com/klutometis>`__\ , \ `Manuel Eugster <https://github.com/mjaeugster>`__\ 
+* testthat: HW (maintainer)
+* desc: \ `Gábor Csárdi <https://github.com/gaborcsardi>`__\  (maintainer), \ `Kirill Müller <https://github.com/krlmlr>`__\ , \ `Jim Hester <https://github.com/jimhester>`__\ 
+* pkgbuild: HW, \ `Jim Hester <https://github.com/jimhester>`__\  (maintainer)
+* pkgload: HW, \ `Jim Hester <https://github.com/jimhester>`__\  (maintainer), \ `Winston Chang <https://github.com/wch>`__\ 
+* rcmdcheck: \ `Gábor Csárdi <https://github.com/gaborcsardi>`__\  (maintainer)
+* remotes: HW, \ `Jim Hester <https://github.com/jimhester>`__\  (maintainer), \ `Gábor Csárdi <https://github.com/gaborcsardi>`__\ , \ `Winston Chang <https://github.com/wch>`__\ , \ `Martin Morgan <https://github.com/mtmorgan>`__\ , \ `Dan Tenenbaum <https://github.com/dtenenba>`__\ 
+* revdepcheck: HW, \ `Gábor Csárdi <https://github.com/gaborcsardi>`__\  (maintainer)
+* sessioninfo: HW, \ `Gábor Csárdi <https://github.com/gaborcsardi>`__\  (maintainer), \ `Winston Chang <https://github.com/wch>`__\ , \ `Robert Flight <https://github.com/rmflight>`__\ , \ `Kirill Müller <https://github.com/krlmlr>`__\ , \ `Jim Hester <https://github.com/jimhester>`__\ 
+
+\ *待办事项：第二版即将完成时，请重新阅读本节的其余部分。当前适用于并使用第1版的用词表示。*\ 
+
+通常，我学习正确方法的唯一办法就是首先以错误的方法进行操作。由于遇到了许多程序包开发错误，\
+我要感谢所有CRAN维护人员，尤其是 Brian Ripley, Uwe Ligges 和 Kurt Hornik。
+
+本书是\ `公开编写和修订的 <https://github.com/hadley/r-pkgs/>`__\ ，它的确是社区的工作成果：\
+许多人阅读原稿，修正错字，提出改进建议并提供内容。没有这些贡献者，这本书的质量将像现在看到的那样好，\
+我们非常感谢他们的帮助。
+
+特别感谢 Peter Li，他从头到尾阅读了本书，并提供了许多解决方案。我也非常感谢审稿人\
+（\ `Duncan Murdoch <http://www.stats.uwo.ca/faculty/murdoch/>`__\ , \
+\ `Karthik Ram <http://karthik.io/>`__\ , \ `Vitalie Spinu <http://vitalie.spinu.info/>`__\  \
+and \ `Ramnath Vaidyanathan <https://ramnathv.github.io/>`__\ ）花费时间阅读本书并给予我详尽的反馈意见。
+
+感谢所有通过 GitHub（按字母顺序）提交改进的贡献者：``@aaronwolen``, ``@adessy``, Adrien Todeschini, Andrea Cantieni, \
+Andy Visser, ``@apomatix``, Ben Bond-Lamberty, Ben Marwick, Brett K, Brett Klamer, ``@contravariant``, Craig Citro, \
+David Robinson, David Smith, ``@davidkane9``, Dean Attali, Eduardo Ariño de la Rubia, Federico Marini, \
+Gerhard Nachtmann, Gerrit-Jan Schutten, Hadley Wickham, Henrik Bengtsson, ``@heogden``, Ian Gow, ``@jacobbien``, \
+Jennifer (Jenny) Bryan, Jim Hester, ``@jmarshallnz``, Jo-Anne Tan, Joanna Zhao, Joe Cainey, \
+John Blischak, ``@jowalski``, Justin Alford, Karl Broman, Karthik Ram, Kevin Ushey, Kun Ren, ``@kwenzig``, \
+``@kylelundstedt``, ``@lancelote``, Lech Madeyski, ``@lindbrook``, ``@maiermarco``, Manuel Reif, \
+Michael Buckley, ``@MikeLeonard``, Nick Carchedi, Oliver Keyes, Patrick Kimes, Paul Blischak, Peter Meissner, \
+``@PeterDee``, Po Su, R. Mark Sharp, Richard M. Smith, ``@rmar073``, ``@rmsharp``, Robert Krzyzanowski, \
+``@ryanatanner``, Sascha Holzhauer, ``@scharne``, Sean Wilkinson, ``@SimonPBiggs``, Stefan Widgren, Stephen Frank, \
+Stephen Rushe, Tony Breyal, Tony Fischetti, ``@urmils``, Vlad Petyuk, Winston Chang, ``@winterschlaefer``, \
+``@wrathematics``, ``@zhaoy``.
+
+用于提示工作流程的灯泡图像来自 \ `www.vecteezy.com <https://www.vecteezy.com/vector-art/139644-ampoule-icons-vector>`__\ 。
+
+
+
+1.4 约定
+----------
+
+在整本书中，我们用 ``foo()`` 来表示函数，用 ``bar`` 来表示变量和函数参数，以及使用 ``baz/`` 来表示路径。
+
+较大的代码块将输入和输出混合在一起。输出带有注释，因此，如果您有本书的电子版本，例如，\
+访问 \ `https://r-pkgs.org <https://r-pkgs.org/>`__\ ，则可以轻松地将示例复制并粘贴到 R 中。\
+输出注释看起来像`#>`，这将它们与常规注释区分开。
+
+
+1.5 Colophon
+------------
+
+\ **版权页标记**\ 
+
+这本书是在 \ `RStudio <https://www.rstudio.com/products/rstudio/>`__\  中\
+使用 \ `R Markdown <https://rmarkdown.rstudio.com/>`__\ 和 \ `bookdown <https://bookdown.org/>`__\  编写的。\
+该\ `网站 <https://r-pkgs.org/>`__\ 由 \ `Netlify <https://www.netlify.com/>`__\  托管，\
+并在 \ `Travis-CI <https://travis-ci.org/>`__\ 每次提交后自动更新。\
+完整的资源可从 \ `GitHub <https://github.com/hadley/r-pkgs>`__\  获得。
+
+该书的该版本使用以下内容构建：
+
+.. code-block:: R
+
+    library(devtools)
+    #> Loading required package: usethis
+    library(roxygen2)
+    library(testthat)
+    #>
+    #> Attaching package: 'testthat'
+    #> The following object is masked from 'package:devtools':
+    #> 
+    #>     test_file
+    devtools::session_info()
+    #> ─ Session info ──────────────────────────────────────────────────────────
+    #>  setting  value                       
+    #>  version  R version 3.6.1 (2017-01-27)
+    #>  os       Ubuntu 16.04.6 LTS          
+    #>  system   x86_64, linux-gnu           
+    #>  ui       X11                         
+    #>  language en_US.UTF-8                 
+    #>  collate  en_US.UTF-8                 
+    #>  ctype    en_US.UTF-8                 
+    #>  tz       UTC                         
+    #>  date     2019-09-23                  
+    #> 
+    #> ─ Packages ──────────────────────────────────────────────────────────────
+    #>  package     * version    date       lib source                         
+    #>  assertthat    0.2.1      2019-03-21 [1] CRAN (R 3.6.1)                 
+    #>  backports     1.1.4      2019-04-10 [1] CRAN (R 3.6.1)                 
+    #>  bookdown      0.13       2019-08-21 [1] CRAN (R 3.6.1)                 
+    #>  callr         3.3.2      2019-09-22 [1] CRAN (R 3.6.1)                 
+    #>  cli           1.1.0      2019-03-19 [1] CRAN (R 3.6.1)                 
+    #>  commonmark    1.7        2018-12-01 [1] CRAN (R 3.6.1)                 
+    #>  crayon        1.3.4      2017-09-16 [1] CRAN (R 3.6.1)                 
+    #>  desc          1.2.0      2018-05-01 [1] CRAN (R 3.6.1)                 
+    #>  devtools    * 2.2.0.9000 2019-09-23 [1] Github (r-lib/devtools@cef0726)
+    #>  digest        0.6.21     2019-09-20 [1] CRAN (R 3.6.1)                 
+    #>  ellipsis      0.3.0      2019-09-20 [1] CRAN (R 3.6.1)                 
+    #>  evaluate      0.14       2019-05-28 [1] CRAN (R 3.6.1)                 
+    #>  fs            1.3.1      2019-05-06 [1] CRAN (R 3.6.1)                 
+    #>  glue          1.3.1      2019-03-12 [1] CRAN (R 3.6.1)                 
+    #>  htmltools     0.3.6      2017-04-28 [1] CRAN (R 3.6.1)                 
+    #>  knitr         1.25       2019-09-18 [1] CRAN (R 3.6.1)                 
+    #>  magrittr      1.5        2014-11-22 [1] CRAN (R 3.6.1)                 
+    #>  memoise       1.1.0      2017-04-21 [1] CRAN (R 3.6.1)                 
+    #>  pkgbuild      1.0.5      2019-08-26 [1] CRAN (R 3.6.1)                 
+    #>  pkgload       1.0.2      2018-10-29 [1] CRAN (R 3.6.1)                 
+    #>  prettyunits   1.0.2      2015-07-13 [1] CRAN (R 3.6.1)                 
+    #>  processx      3.4.1      2019-07-18 [1] CRAN (R 3.6.1)                 
+    #>  ps            1.3.0      2018-12-21 [1] CRAN (R 3.6.1)                 
+    #>  purrr         0.3.2      2019-03-15 [1] CRAN (R 3.6.1)                 
+    #>  R6            2.4.0      2019-02-14 [1] CRAN (R 3.6.1)                 
+    #>  Rcpp          1.0.2      2019-07-25 [1] CRAN (R 3.6.1)                 
+    #>  remotes       2.1.0      2019-06-24 [1] CRAN (R 3.6.1)                 
+    #>  rlang         0.4.0      2019-06-25 [1] CRAN (R 3.6.1)                 
+    #>  rmarkdown     1.15       2019-08-21 [1] CRAN (R 3.6.1)                 
+    #>  roxygen2    * 6.1.1      2018-11-07 [1] CRAN (R 3.6.1)                 
+    #>  rprojroot     1.3-2      2018-01-03 [1] CRAN (R 3.6.1)                 
+    #>  sessioninfo   1.1.1      2018-11-05 [1] CRAN (R 3.6.1)                 
+    #>  stringi       1.4.3      2019-03-12 [1] CRAN (R 3.6.1)                 
+    #>  stringr       1.4.0      2019-02-10 [1] CRAN (R 3.6.1)                 
+    #>  testthat    * 2.2.1      2019-07-25 [1] CRAN (R 3.6.1)                 
+    #>  usethis     * 1.5.1      2019-07-04 [1] CRAN (R 3.6.1)                 
+    #>  withr         2.1.2      2018-03-15 [1] CRAN (R 3.6.1)                 
+    #>  xfun          0.9        2019-08-21 [1] CRAN (R 3.6.1)                 
+    #>  xml2          1.2.2      2019-08-09 [1] CRAN (R 3.6.1)                 
+    #>  yaml          2.2.0      2018-07-25 [1] CRAN (R 3.6.1)                 
+    #> 
+    #> [1] /home/travis/R/Library
+    #> [2] /usr/local/lib/R/site-library
+    #> [3] /home/travis/R-bin/lib/R/library
+
+
+
+参考文献
+----------
+
+Marwick, Ben, Carl Boettiger, and Lincoln Mullen. 2018a. “Packaging Data Analytical Work Reproducibly Using R (and Friends).” \ *The American Statistician*\  72 (1). Taylor & Francis:80–88. https://doi.org/10.1080/00031305.2017.1375986.
+
+Marwick, Ben, Carl Boettiger, and Lincoln Mullen. 2018b. “Packaging Data Analytical Work Reproducibly Using R (and Friends).” \ *PeerJ Preprints*\  6 (March):e3192v2. https://doi.org/10.7287/peerj.preprints.3192v2\ .
