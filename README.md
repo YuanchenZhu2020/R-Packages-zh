@@ -6,9 +6,11 @@ Try to translate *R Packages* (the second edition) into Simplified Chinese.
 
 **Original Book**: [R Packages](https://github.com/hadley/r-pkgs)
 
-**Translation**: [R Packages zh-CN]()
+**Translation**: [R Packages zh-CN](https://r-packages-zh-cn.readthedocs.io/zh_CN/latest/)
 
 GitHub Repo: https://github.com/YuanchenZhu2020/R_Packages_zh_CN
+
+
 
 
 
