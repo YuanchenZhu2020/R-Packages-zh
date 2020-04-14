@@ -1,0 +1,82 @@
+第二章 整个流程
+================
+
+\ *剧透警告！*\ 
+
+本章介绍了一个小型玩具程序包\ :sub:`存疑`\ 的开发。这是为了在我们深入研究 R 包的关键组件之前，\
+描绘开发的大图景并提出对一个工作流程的建议。
+
+为了保持快节奏，我们利用了 devtools 程序包和 RStudio IDE 中的现代化的便利功能在之后的章节中，\
+我们将更详细地介绍它们能帮助我们做些什么。
+
+
+2.1 加载 devtools 和 friends
+----------------------------
+
+加载 devtools 程序包，在支持程序包开发的各个方面的程序包中，它是个中翘楚。
+
+.. code-block:: R
+
+    library(devtools)
+    #> Loading required package: usethis
+
+仅仅出于演示目的，我们使用 \ `fs <https://fs.r-lib.org/>`__\  帮助我们在文件系统上工作，\
+使用 \ `tidyverse <https://tidyverse.tidyverse.org/>`__\  进行轻量数据的整理。
+
+.. code-block:: R
+
+    library(tidyverse)
+    library(fs)
+
+
+2.2 示例程序包：foofactors
+-------------------------
+
+我们使用 devtools 中的各种功能从头开始构建一个小型的、作为示例的程序包，它具有在已发布的包中\
+十分常见的功能：\ :sub:`存疑`\ 
+
+- 满足特定需求的函数，例如与因子（ factors ）打交道的“助手”。\ :sub:`存疑`\ 
+- 可以访问已完成的工作流程以进行安装、获得帮助以及检查包的基本质量。\ :sub:`优化表达`\ 
+- 版本控制和开放的开发过程。
+  - 在您的工作中，这是完全可选的，但我们建议这样做。您将看到 Git 和 GitHub 如何帮助我们展示程序包开发的所有中间阶段。
+- 通过 \ `roxygen2 <https://cran.r-project.org/package=roxygen2>`__\  建立各个函数的文档 。
+- 使用 \ `testthat <http://testthat.r-lib.org/>`__\  进行单元测试。
+- 通过可执行文件整体了解软件包的文件`README.Rmd`。
+
+我们称这个程序包包为 \ **foofactors**\ ，它将有几个处理因子（ factors ）的函数。请注意，\
+这些功能非常简单，并且绝对不是本章的重点！有关正确处理因子（ factors ）的软件包，\
+请参阅 \ `forcats <https://forcats.tidyverse.org/>`__\ 。
+
+构建 foofactors 包本身不是我们的目标。它只是一个示例，用于演示使用 devtools 进行程序包开发的典型工作流程。
+
+
+2.3 看看成品
+------------
+
+我们使用了 Git 版本控制系统追踪 foofactors 包的开发过程。这存粹是可选的，您当然可以不执行这个步骤。\
+但是它有一个附加的好处：我们将其连接到 GitHub 上的远程储存库，这意味着您能够通过访问 GitHub 上的 foofactors 库\
+来观看我们努力取得的光荣成果：https://github.com/jennybc/foofactors。通过\
+检查 \ `commit history <https://github.com/jennybc/foofactors/commits/master>`__\ （尤其是\
+版本差异），您能够清楚地看到其下列出的过程中每个步骤更改了什么。
+
+\ *待办事项：我认为这些差异非常有用，并且希望在这里更好地加以说明。*\ 
+
+
+
+2.4 ``create_package()``
+---------------------------
+
+调用 ``create_package()``，在计算机的目录上初始化新的程序包（如果有必要，还需要新建目录）。\
+关于更多的信息，请参见 \ `5.1.3 <https://r-pkgs.org/workflows101.html#creating>`__\ 节。
+
+仔细选择创建新程序包的目录。它可能应该与其他 R 项目共同位于主目录下。它不应该被嵌套在\
+另一个 RStudio 项目、R 包或者是 Git 存储库中。它也不应该在 R 的程序包库中，因为这个库目录下\
+包含有已经被构建和安装的程序包。将这里创建的源程序包转换为已安装程序包的过程，是 devtools 包可以\
+促进完成的一部分工作。不要尝试为此做 devtools 的工作！==存疑==关于更多的信息，\
+请参见 \ `5.1.4 <https://r-pkgs.org/workflows101.html#where-source-package>`__\  节。
+
+将您选择的路径传入 ``create_package()`` 的参数中，如下所示：
+
+.. code-block:: R
+
+    create_package("~/path/to/foofactors")
