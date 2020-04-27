@@ -47,8 +47,13 @@ Hadley Wickham 这些年来作为一名多产的独立开发者的最佳实践�
 幸运的是，它还让我们有机会与专家和友善的同事一起反思成功与失败。我们尝试找到一些能够使包的维护者\
 和使用者更快乐地工作生活的做法，而正是在 devtools 程序包里，您将看到这些方法是如何具体实现的。
 
-    .. image:: ./Image/Chapter_1/rstudio.png
-        :scale: 5%
+    .. |Logo| image:: ./Image/Chapter_1/rstudio.png
+        :width: 220.6
+        :height: 255.7
+        :scale: 50
+
+    |Logo| 
+    
     在本书中，我们将在这种特殊格式的部分重点介绍：如何使用`Rstudio`的特殊方法加快包的开发工作流程。
 
 ``devtools`` 与 ``RStudio`` 联系紧密、携手共进，而后者正是我们认为对大多数R用户最佳的开发环境。\

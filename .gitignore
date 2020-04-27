@@ -2,3 +2,4 @@ build/
 /make.bat
 .vscode/
 source/_build/
+.Rproj.user

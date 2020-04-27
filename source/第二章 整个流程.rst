@@ -30,7 +30,7 @@
 
 
 2.2 示例程序包：foofactors
--------------------------
+-----------------------------
 
 我们使用 devtools 中的各种功能从头开始构建一个小型的、作为示例的程序包，它具有在已发布的包中\
 十分常见的功能：\ :sub:`存疑`\ 
@@ -66,17 +66,162 @@
 2.4 ``create_package()``
 ---------------------------
 
-调用 ``create_package()``，在计算机的目录上初始化新的程序包（如果有必要，还需要新建目录）。\
-关于更多的信息，请参见 \ `5.1.3 <https://r-pkgs.org/workflows101.html#creating>`__\ 节。
+调用 ``create_package()``，选择计算机一个目录，初始化新的程序包（如果有需要，还可以新建一个目录）。\
+关于更多的信息，请参见 \ `5.1.3 <https://r-pkgs.org/workflows101.html#creating>`__\  节。
 
-仔细选择创建新程序包的目录。它可能应该与其他 R 项目共同位于主目录下。它不应该被嵌套在\
+仔细选择创建新程序包的目录。它可以与其他 R 项目共同位于主目录下。但是，它不应该被嵌套在\
 另一个 RStudio 项目、R 包或者是 Git 存储库中。它也不应该在 R 的程序包库中，因为这个库目录下\
 包含有已经被构建和安装的程序包。将这里创建的源程序包转换为已安装程序包的过程，是 devtools 包可以\
-促进完成的一部分工作。不要尝试为此做 devtools 的工作！==存疑==关于更多的信息，\
+促进完成的一部分工作。不要尝试为此做 devtools 的工作！\ :sub:`存疑`\ 关于更多的信息，\
 请参见 \ `5.1.4 <https://r-pkgs.org/workflows101.html#where-source-package>`__\  节。
 
-将您选择的路径传入 ``create_package()`` 的参数中，如下所示：
+将您选择的路径作为参数传入 ``create_package()`` 中，如下所示：
 
 .. code-block:: R
 
     create_package("~/path/to/foofactors")
+
+我们必须在临时目录中工作，因为这本书是在云中非交互式构建的。\
+在幕后，我们执行自己的 ``create_package()`` 命令，但如果我们的输出与你的输出略有不同，请不要感到惊讶。
+
+.. code-block:: R
+
+    #> ✔ Creating '/tmp/RtmpsJ87ir/foofactors/'
+    #> ✔ Setting active project to '/tmp/RtmpsJ87ir/foofactors'
+    #> ✔ Creating 'R/'
+    #> ✔ Writing 'DESCRIPTION'
+    #> Package: foofactors
+    #> Title: What the Package Does (One Line, Title Case)
+    #> Version: 0.0.0.9000
+    #> Authors@R (parsed):
+    #>     * First Last <first.last@example.com> [aut, cre] (<https://orcid.org/YOUR-ORCID-ID>)
+    #> Description: What the package does (one paragraph).
+    #> License: What license it uses
+    #> Encoding: UTF-8
+    #> LazyData: true
+    #> ✔ Writing 'NAMESPACE'
+    #> ✔ Writing 'foofactors.Rproj'
+    #> ✔ Adding '.Rproj.user' to '.gitignore'
+    #> ✔ Adding '^foofactors\\.Rproj$', '^\\.Rproj\\.user$' to '.Rbuildignore'
+    #> ✔ Setting active project to '<no active project>'
+    #> ✔ Setting active project to '/tmp/RtmpsJ87ir/foofactors'
+
+
+如果您在 RStudio 中工作，您会发现自己进入了一个新的 RStudio 程序界面，\
+它已经打开了新的 foofactors 包（或项目）目录。如果您处于某种原因需要手动执行这个操作，\
+请进入该目录并双击 ``foofactors.Rproj``。RStudio 对于软件包做了特殊处理，您现在应该可以\
+在 \ *Evironment*\ 和 \ *History*\ 所在的窗格中看到 \ *Build*\ 选项卡。
+
+\ *TODO: good place for a screenshot.*\
+
+在这个新目录里的内容是一个 R 包，也许还是个 RStudio Project？\
+以下是文件清单（在本地，您可以查看 \ *Files*\  选项卡）：
+
+.. code-block:: R
+
+    #> # A tibble: 6 x 2
+    #>   path             type     
+    #>   <fs::path>       <fct>    
+    #> 1 .Rbuildignore    file     
+    #> 2 .gitignore       file     
+    #> 3 DESCRIPTION      file     
+    #> 4 NAMESPACE        file     
+    #> 5 R                directory
+    #> 6 foofactors.Rproj file
+
+\
+
+    .. |Logo| image:: ./Image/Chapter_1/rstudio.png
+            :width: 220.6
+            :height: 255.7
+            :scale: 50
+
+    |Logo| 
+        
+    在文件浏览器中，转到 \ *More > Show Hidden Files*\  来切换隐藏文件\
+    （也称为 \ `dotfiles <https://en.wikipedia.org/wiki/Hidden_file_and_hidden_directory#Unix_and_Unix-like_environments>`__\ ）的可见性。\
+    一些文件是始终可见的，但有时您可能会希望看到全部的文件。
+
+- ``.Rbuildignore`` 列出了我们编写 R 包时需要的，但是从源代码构建 R 包时并不需要的文件。详情请见 \ `4.3.1 <https://r-pkgs.org/package-structure-state.html#rbuildignore>`__\ 。
+- ``.Rproj.user``，如果有的话，它是 RStudio 内部使用的目录。
+- ``.gitignore`` 为 Git 的使用做好准备。它将忽略一些由 R 或 RStudio 创建的标准的幕后文件。即使您不打算使用 Git，它也是没有妨害的。
+- ``DESCRIPTION`` 提供了\ `有关您的程序包的元数据 <https://r-pkgs.org/description.html#description>`__\ 。我们很快将开始编写它。
+- ``NAMESPACE`` 声明了程序包导出供外部使用的函数以及从其他程序包导入的外部函数。目前，它包含暂未起作用的用于占位的内容。（具体可见本书 \ `NAMESPACE <https://r-pkgs.org/namespace.html#namespace>`__\  一章）
+- ``R/`` 目录是\ `程序包的“业务端” <https://r-pkgs.org/r.html#r>`__\ 。它很快将包含带有函数声明的 ``.R`` 文件。
+- ``foofactors.Rproj`` 是使得该目录成为 RStudio 项目的文件。即使你不使用 RStudio，这个文件也是没有妨害的。如果您不想创建它，可以使用 ``create_package(..., rstudio = FALSE)``。详情请见 \ `5.2 <https://r-pkgs.org/workflows101.html#projects>`__\ 。
+
+
+
+2.5 ``use_git()``
+-----------------
+
+
+    .. |bulb| image:: ./Image/Chapter_2/lightbulb.png
+        :width: 94.4
+        :height: 118.1
+        :scale: 50
+    
+    |bulb|
+
+    Git 或其他版本控制系统的使用是可选项，但是长期来看我们建议您使用。\
+    我们将在 \ `16 <https://r-pkgs.org/git.html#git>`__\ 中解释其重要性。
+
+``foofactors`` 目录是 R 源码包和 RStudio 项目。现在，我们使用 ``use_git()`` 让它也变成一个 Git 存储库。
+
+.. code-block:: R
+
+    use_git()  
+    #> ✔ Initialising Git repo
+    #> ✔ Adding '.Rhistory', '.RData' to '.gitignore'
+
+
+在交互式会话中，系统将询问您是否要在此处提交这些文件，您应该接受这个提议。\
+在 R 中，您不会看到这些，但是在幕后，我们会进行同样的操作。
+
+.. code-block:: R
+
+    #> [bdb30c7] 2019-09-10: Initial commit
+
+
+
+有什么新内容吗？仅仅是创建了目录，该目录在大多数环境中都是隐藏的，包括 RStudio 文件浏览器。\
+但是它的存在证明我们确实在这里初始化了 Git 存储库 ``.git``。
+
+.. code-block:: R
+
+    #> # A tibble: 1 x 2
+    #>   path       type     
+    #>   <fs::path> <fct>    
+    #> 1 .git       directory
+
+如果您使用的是 RStudio，它可能会请求在此项目中重新启动。您可以通过退出然后\
+双击 ``foofactors.Rproj`` 重新启动来手动执行此操作。\
+现在，除了程序包的开发支持外，您还可以在 \ *Git*\  选项卡中访问一个基础的 Git 客户端。\
+\ *Git*\  选项卡与 \ *Environment/History/Build*\  在同一个窗格中。
+
+\ *TODO: good place for a screenshot.*\ 
+
+单击 \ *History*\  （时钟图标），如果您愿意，您将看到通过 ``use_git()`` 进行的初始提交：
+
+.. code-block:: R
+
+    #> [bdb30c7] 2019-09-10: Initial commit
+
+
+\
+
+    .. |Logo| image:: ./Image/Chapter_1/rstudio.png
+        :width: 220.6
+        :height: 255.7
+        :scale: 50
+    
+    |Logo|
+
+    只要您设置了 RStudio + Git 集成，RStudio 可以在任何项目中初始化 Git 存储库，\
+    即使它不是 R 包项目。依次点击 \ *Tools > Version Control > Project Setup*\ ，\
+    然后选择 \ *Version control system: Git*\ ，然后选择 \ *initialize a new git repository for this project*\ 。
+
+
+
+2.6 编写第一个函数
+---------------------
