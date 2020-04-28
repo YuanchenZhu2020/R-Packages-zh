@@ -59,7 +59,7 @@
 检查 \ `commit history <https://github.com/jennybc/foofactors/commits/master>`__\ （尤其是\
 版本差异），您能够清楚地看到其下列出的过程中每个步骤更改了什么。
 
-\ *待办事项：我认为这些差异非常有用，并且希望在这里更好地加以说明。*\ 
+\ *TODO: I think these diffs are extremely useful and would like to surface them better here.*\ 
 
 
 
@@ -225,3 +225,190 @@
 
 2.6 编写第一个函数
 ---------------------
+
+因子（ factors ）的很多操作都令人费解\ :sub:`意译`\ 。让我们看看当我们把两个因子（ factors ）连接起来的时候会发生什么。
+
+.. code-block:: R
+
+    (a <- factor(c("character", "hits", "your", "eyeballs")))
+    #> [1] character hits      your      eyeballs 
+    #> Levels: character eyeballs hits your
+    (b <- factor(c("but", "integer", "where it", "counts")))
+    #> [1] but      integer  where it counts  
+    #> Levels: but counts integer where it
+    c(a, b)
+    #> [1] 1 3 4 2 1 3 4 2
+
+嗯？许多人并没有预料到，将两个因子（factors）连接起来的结果是一个包含数字 1，2，3，4 的整数向量。\
+如果我们将每个因子（ factors ）强制转换为字符，进行分类，然后重新转换为因子（ factors ）呢？
+
+.. code-block:: R
+
+    factor(c(as.character(a), as.character(b)))
+    #> [1] character hits      your      eyeballs  but       integer   where it 
+    #> [8] counts   
+    #> Levels: but character counts eyeballs hits integer where it your
+
+这似乎产生了更有意义的结果。让我们将这个操作放在名为 ``fbind()`` 的函数体中：
+
+.. code-block:: R
+
+    fbind <- function(a, b) {
+        factor(c(as.character(a), as.character(b)))
+    }
+
+这本书不会教您如何在 R 中编写函数。要了解更多有关该知识的信息，请查阅 \ *R for Data Science*\  和 \ *Advanced R*\  的 \ `FUnctions Chapter <https://r4ds.had.co.nz/functions.html>`__\ 。
+
+
+2.7 ``use_r()``
+---------------
+
+我们该在哪里定义 ``fbind()`` 函数？应该将它保存在程序包的 ``/R`` 子目录中的 ``.R`` 文件内。\
+一个合理的开始是为程序包中的每个函数创建一个新的 ``.R`` 文件，并以功能的名字为它命名。\
+当您添加更多的函数后，您可能会希望放宽这个要求，把相关的函数放在一起。我们将 ``fbind()`` 的函数定义放在 ``R/fbind.R`` 中。
+
+函数 ``use_r()`` 将帮助我们在 ``R/`` 目录下创建和（或）打开脚本文件。当您在 ``.R`` 文件和关联测试的文件之间互相切换时，\
+它确实在成熟的程序包中十分有用。但是，即使在这里，在 ``Untitled4`` 中工作时，它也可以避免您因为太投入而忘记了当前工作的目录。 \ :sub:`存疑`\ 
+
+.. code-block:: R
+
+    use_r("fbind")
+    #> ● Edit 'R/fbind.R'
+
+将函数 ``fbind()`` 的定义并且\ **仅仅是 ``fbind()`` 的定义**\ 放在 ``R/fbind.R`` 中并保存。\
+文件 ``R/fbind.R`` 不应包含我们最近执行的其他任何顶级代码，例如因子 ``a`` 和 ``b``，``library(devtools)`` 或 ``use_git()`` 的定义。\
+这预示了在从编写 R 脚本过渡到 R 包时需要进行的调整。程序包和脚本使用不同的机制来声明它们对其他包的依赖，\
+不同之处还有存储示例或测试代码的方式。我们在第 \ `6 <https://r-pkgs.org/r.html#r>`__\  章中进一步探讨这一点。
+
+
+2.8 ``load_all()``
+------------------
+
+我们应该怎样来测试 ``fbind()`` 函数 \ :sub:`drive一词何解`\  ？如果这是常规的 R 脚本，则可以使用 RStudio 将函数定义发送到 R 控制台，\
+并且在全局工作空间中定义 ``fbind()``。或者，我们可以使用 ``source("R/fbind.R")`` 来调用该脚本。但是，在程序包开发中，\
+devtools 提供了更为可靠的方法。有关更多信息，请参见 \ `5.4 <https://r-pkgs.org/workflows101.html#load-all>`__\  节。
+
+调用 ``load_all()`` 使得函数 ``fbind()`` 可用于测试。
+
+.. code-block:: R
+
+    load_all()
+    #> Loading foofactors
+
+现在，调用 ``fbind(a, b)`` 看看它是怎样工作的。
+
+.. code-block:: R
+
+    fbind(a, b)
+    #> [1] character hits      your      eyeballs  but       integer   where it 
+    #> [8] counts   
+    #> Levels: but character counts eyeballs hits integer where it your
+
+我们可以注意到，虽然 ``fbind()`` 函数并不在全局工作空间中，但是 ``load_all()`` 使得我们可以使用该函数。
+
+.. code-block:: R
+
+    exists("fbind", where = ".GlobalEnv", inherits = FALSE)
+    #> [1] FALSE
+
+``load_all()`` 模拟了构建、安装和添加 foofactors 程序包的过程。当您的程序包积累了更多的函数时，有的导出了而有的没有，\
+有的互相调用而有的从依赖的其他程序包中调用，``load_all()`` 相比于在全局工作空间中测试 \ :sub:`drive何解？`\ 函数定义，\
+能够使您对于程序包的开发方式有更为准确的了解。同样的，``load_all()`` 允许比实际中构建、安装和添加程序包快得多的迭代。
+
+到目前为止的内容：
+
+- 我们已经编写了第一个函数 ``fbind()``，它能够将两个因子（ factors ）连接起来。
+- 我们使用 ``load_all()`` 快捷地使得该函数可以用于交互使用，就好像我们已经构建并安装了 foofactors，并通过 ``library(foofactors)`` 添加到了工作环境中一样。
+
+
+    .. |Logo| image:: ./Image/Chapter_1/rstudio.png
+        :width: 220.6
+        :height: 255.7
+        :scale: 50
+    
+    |Logo|
+
+    RStudio 提供了 ``load_all()`` 的快速调用。它位于 \ *Build*\  菜单和 \ *Build*\  窗格中，通过 \ *More > Load All*\  或者\
+    键盘快捷键 Ctrl + Shift + L (WIndows & Linux) 或者 Cmd + Shift + L (MacOS)。
+
+
+2.8.1 提交 ``fbind()`` 的更改
+...............................
+
+如果您使用了 Git，可以使用您喜欢的方法来提交新的 ``R/fbind.R`` 文件。我们在幕后也是这样做的。以下是提交前后相关的差异。
+
+.. code-block:: R
+
+    #> [b3fc569] 2019-09-10: Add fbind()
+    #> diff --git a/R/fbind.R b/R/fbind.R
+    #> new file mode 100644
+    #> index 0000000..7b03d75
+    #> --- /dev/null
+    #> +++ b/R/fbind.R
+    #> @@ -0,0 +1,3 @@
+    #> +fbind <- function(a, b) {
+    #> +  factor(c(as.character(a), as.character(b)))
+    #> +}
+
+从这一小节之后，我们每一步之后都会进行提交。\ `这些提交 <https://github.com/jennybc/foofactors/commits/master>`__\ 在公共储存库中都是可用的。
+
+
+
+2.9 ``check()``
+----------------
+
+我们有经验可以证明 ``fbind()`` 是有效的。但是，我们如何确保 foofactors 包的其他所有可用的功能 \ :sub:`moving parts如何翻译`\  仍然有效呢？\
+在添加很少的代码之后，仍然进行检查似乎很愚蠢，但养成经常检查的习惯是很好的。
+
+``R CMD check`` 会在 shell 中执行，它是检查 R 包是否处于完整工作状态的黄金标准。在不离开 R 会话的情况下，``check()`` 是运行这个命令的便捷方法。
+
+请注意，``check()`` 将生成相当多的输出，并针对交互式使用进行了优化。我们在这里截取了一部分，并仅仅展示摘要。本地运行 ``check()`` 的输出将有所不同。
+
+.. code-block:: R
+
+    check()
+
+.. code-block:: R
+
+    #> ── R CMD check results ───────────────────────── foofactors 0.0.0.9000 ────
+    #> Duration: 6.6s
+    #> 
+    #> ❯ checking DESCRIPTION meta-information ... WARNING
+    #>   Non-standard license specification:
+    #>     What license it uses
+    #>   Standardizable: FALSE
+    #> 
+    #> ❯ checking for missing documentation entries ... WARNING
+    #>   Undocumented code objects:
+    #>     ‘fbind’
+    #>   All user-level objects in a package should have documentation entries.
+    #>   See chapter ‘Writing R documentation files’ in the ‘Writing R
+    #>   Extensions’ manual.
+    #> 
+    #> 0 errors ✔ | 2 warnings ✖ | 0 notes ✔
+
+\ **请阅读 check 的输出内容！**\ 尽可能早并经常性的解决出现的问题。就像在 ``.R`` 和 ``.Rmd`` 文件上的增量开发一样,\
+您进行全面检查以确保一切正常的间隔时间越长，查明并解决问题的难度也越大。
+
+在这一步中，我们收到了 2 个警告（0 个错误，0 个注释）：
+
+- ``Non-standard license specification``
+- ``Undocumented code objects: 'fbind'``
+
+我们将尽快解决这两个问题。
+
+
+    .. |Logo| image:: ./Image/Chapter_1/rstudio.png
+        :width: 220.6
+        :height: 255.7
+        :scale: 50
+    
+    |Logo|
+
+    RStudio 提供了 ``check()`` 的快速调用。它位于 \ *Build*\  菜单和 \ *Build*\  窗格中，通过 \ *Check*\  或者\
+    键盘快捷键 Ctrl + Shift + E (WIndows & Linux) 或者 Cmd + Shift + E (MacOS)。
+
+
+2.10 编辑 ``DESCRIPTION``
+----------------------------
+
