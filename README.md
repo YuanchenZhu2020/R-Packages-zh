@@ -8,6 +8,8 @@ Try to translate *R Packages* (the second edition) into Simplified Chinese.
 
 **Translation**: [R Packages zh-CN](https://r-packages-zh-cn.readthedocs.io/zh_CN/latest/)
 
+**个人译本**: [R Packages zh-CN](https://r-packages-zh-cn.readthedocs.io/zh_CN/latest/)
+
 GitHub Repo: https://github.com/YuanchenZhu2020/R_Packages_zh_CN
 
 
@@ -28,4 +30,31 @@ GitHub Repo: https://github.com/YuanchenZhu2020/R_Packages_zh_CN
 ## Reference
 
 《R 包开发》（第一版），杨学辉译本，https://www.ituring.com.cn/book/1688
+
+
+
+## 翻译进度
+
+- [x] Cover
+- [x] Preface
+- [x] Introduction
+- [ ] The whole game
+  - [x] 2.1~2.9
+  - [ ] 2.10~2.19
+- [ ] System setup
+- [ ] Package structure and state
+- [ ] Fundamental development workflows
+- [ ] R code
+- [ ] Package metadata
+- [ ] Object documentation
+- [ ] Vignettes: long-form documentation
+- [ ] Testing
+- [ ] Namespace
+- [ ] External data
+- [ ] Compiled code
+- [ ] Installed files
+- [ ] Other components
+- [ ] Git and GitHub
+- [ ] Automated checking
+- [ ] Releasing a package
 
