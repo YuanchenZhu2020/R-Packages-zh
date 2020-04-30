@@ -329,7 +329,7 @@ devtools 提供了更为可靠的方法。有关更多信息，请参见 \ `5.4 
     |Logo|
 
     RStudio 提供了 ``load_all()`` 的快速调用。它位于 \ *Build*\  菜单和 \ *Build*\  窗格中，通过 \ *More > Load All*\  或者\
-    键盘快捷键 Ctrl + Shift + L (WIndows & Linux) 或者 Cmd + Shift + L (MacOS)。
+    键盘快捷键 Ctrl + Shift + L (WIndows & Linux) 或者 Cmd + Shift + L (MacOS)调用。
 
 
 2.8.1 提交 ``fbind()`` 的更改
@@ -406,9 +406,257 @@ devtools 提供了更为可靠的方法。有关更多信息，请参见 \ `5.4 
     |Logo|
 
     RStudio 提供了 ``check()`` 的快速调用。它位于 \ *Build*\  菜单和 \ *Build*\  窗格中，通过 \ *Check*\  或者\
-    键盘快捷键 Ctrl + Shift + E (WIndows & Linux) 或者 Cmd + Shift + E (MacOS)。
+    键盘快捷键 Ctrl + Shift + E (WIndows & Linux) 或者 Cmd + Shift + E (MacOS)调用。
 
 
 2.10 编辑 ``DESCRIPTION``
 ----------------------------
+
+在解决有关许可证和文档的警告之前，让我们先处理 ``DESCRIPTION`` 中的模板内容。``DESCRIPTION`` 文件提供了有关您的程序包的元数据，\
+我们将在第 \ `7 <https://r-pkgs.org/description.html#description>`__\  章中全面介绍它。
+
+在该文件中进行如下编辑;
+- 在 Author 字段中填上您的名字。
+- 在 Title 和 Description 字段中填上一些描述性的内容。
+
+
+    .. |Logo| image:: ./Image/Chapter_1/rstudio.png
+        :width: 220.6
+        :height: 255.7
+        :scale: 50
+
+    |Logo|
+
+    在 RStudio 中可以使用 Ctrl + ``.`` 并键入 DESCRIPTION 来激活一个帮助程序，这样您可以轻松地打开该文件并编辑。\
+    除了可以键入文件名外，还可以是函数名。一旦程序包在 ``R/`` 目录下有许多函数文件时，这将十分方便。
+
+
+当您完成后，``DESCRIPTION`` 文件应该看起来像这样：
+
+.. code-block:: R
+
+    Package: foofactors
+    Title: Make Factors Less Aggravating
+    Version: 0.0.0.9000
+    Authors@R:
+        person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"))
+    Description: Factors have driven people to extreme measures, like ordering
+        custom conference ribbons and laptop stickers to express how HELLNO we
+        feel about stringsAsFactors. And yet, sometimes you need them. Can they
+        be made less maddening? Let's find out.
+    License: What license it uses
+    Encoding: UTF-8
+    LazyData: true
+
+.. code-block:: R
+
+    [342ccd7] 2019-09-10: Edit DESCRIPTION
+
+
+
+2.11 ``use_mit_license()``
+---------------------------
+
+
+    \ `Pick a License, Any License. – Jeff Atwood <http://blog.codinghorror.com/pick-a-license-any-license/>`__\ 
+
+对于 foofactors，我们将使用 MIT 许可证。这需要在 ``DESCRIPTION`` 文件中进行规范的描述，\
+并要求一个叫做 ``LICENSE`` 的附加文件来声明版权所有者和年份。我们将使用帮助程序 ``use_mit_license()``，参数替换成您的名字。
+
+.. code-block:: R
+
+    use_mit_license("Jane Doe")
+    #> ✔ Setting License field in DESCRIPTION to 'MIT + file LICENSE'
+    #> ✔ Writing 'LICENSE.md'
+    #> ✔ Adding '^LICENSE\\.md$' to '.Rbuildignore'
+    #> ✔ Writing 'LICENSE'
+
+打开新创建的 ``LICENSE`` 文件，确保它具有正确的年份和您的名字。
+
+.. code-block:: R
+
+    YEAR: 2019
+    COPYRIGHT HOLDER: Jane Doe
+
+和其他创建许可证的函数一样，``use_mit_license()`` 还将完整的许可证副本放入 ``LICENSE.md`` 文件，\
+并将该文件添加进 ``.Rbuildignore`` 中。最好的做法是使程序包的源代码中包含完整的许可证，就像在 GitHub 中一样，\
+但是 CRAN 禁止在程序包源代码中包含此文件。
+
+.. code-block:: R
+
+    [02463d3] 2019-09-10: Add LICENSE
+
+
+2.12 ``document()``
+---------------------
+
+就像其他 R 函数那样，在使用 ``fbind()`` 时能够获得帮助文档，这不是很好吗？这要求程序包具有特殊的 R 文档文件，``man/fbind.Rd``，\
+一个以类似于 LaTeX的 R 的特殊标记语言编写的文档。幸运的是，我们不一定需要直接编辑它。
+
+我们在源代码文件中的 ``fbind()`` 函数体上直接编写一个特别格式的注释，然后让一个名为 \ `roxygen2 <https://cran.r-project.org/package=roxygen2>`__\  的包来完成 ``man/fbind.Rd`` 的创建。\
+roxygen2 的使用和机制将在第 \ `8 <https://r-pkgs.org/man.html#man>`__\  章中介绍。
+
+如果您使用 RStudio，则在源代码编辑器中打开 ``R/fbind.R``，并将光标放在 ``fbind()`` 函数定义中的某处。现在点击 \ *Code > Insert roxygen skeleton*\ 。\
+函数上方应该会出现一个非常特殊的注释模板，每行以 ``#`` 开头。RStudio 只插入模板框架，因此您需要对其进行编辑，如下所示。
+
+如果您不使用 RStudio，请自己创建注释。无论如何，您应该修改它，让它看起来像下面那样：
+
+.. code-block:: R
+
+    #' Bind two factors
+    #'
+    #' Create a new factor from two existing factors, where the new factor's levels
+    #' are the union of the levels of the input factors.
+    #'
+    #' @param a factor
+    #' @param b factor
+    #'
+    #' @return factor
+    #' @export
+    #' @examples
+    #' fbind(iris$Species[c(1, 51, 101)], PlantGrowth$group[c(1, 11, 21)])
+
+\ *TODO: mention how RStudio helps you execute examples here?*\ 
+
+.. code-block:: R
+
+    [c48b0dd] 2019-09-10: Add roxygen header to document fbind()
+
+但是我们还没有完成！我们还需要用 ``document()`` 将这个新的 roxygen 注释转变为 ``man/fbind.Rd``。
+
+.. code-block:: R
+
+    document()
+    #> Updating foofactors documentation
+    #> Updating roxygen version in /tmp/RtmpsJ87ir/foofactors/DESCRIPTION
+    #> Writing NAMESPACE
+    #> Loading foofactors
+    #> Writing NAMESPACE
+    #> Writing fbind.Rd
+
+
+    .. |Logo| image:: ./Image/Chapter_1/rstudio.png
+        :width: 220.6
+        :height: 255.7
+        :scale: 50
+    
+    |Logo|
+
+    RStudio 提供了 ``document()`` 的快速调用。它位于 \ *Build*\  菜单和 \ *Build*\  窗格中，通过 \ *More > Document*\  或者\
+    键盘快捷键 Ctrl + Shift + D (WIndows & Linux) 或者 Cmd + Shift + D (MacOS)调用。
+
+您现在应该已经可以预览帮助文档，如下所示：
+
+.. code-block:: R
+
+    ?fbind
+
+您将看到一条消息，如 "Rendering development documentation for ‘fbind’"，它提醒您，您基本上是在预览文档草稿。\
+也就是说，该文档存在于程序包的源代码中，但尚未存在于已安装的包中。事实上，我们还没有安装 foofactors，但我们很快就会安装它。
+
+另请注意，在正式构建和安装包之前，您的程序包的文档不会被正确连接。这样可以改善一些细微之处，例如帮助文档之间的链接和程序包索引的创建。 \ :sub:`暂时不能理解`\ 
+
+2.12.1 ``NAMESPACE`` 的更改
+-------------------------------
+
+除了将 ``fbind()`` 函数的特殊注释转变为 ``man/fbind.Rd`` 文档，调用 ``document()`` 还能基于 roxygen 注释中的 ``@export`` 指令更新 ``NAMESPACE``。
+您可以检查 ``NAMESPACE`` 文件，里面的内容应为：
+
+.. code-block:: R
+
+    # Generated by roxygen2: do not edit by hand
+
+    export(fbind)
+
+里面不再有显示 "export everything" 的用于占位的内容。相反，现在有一个显式指令用于导出 ``fbind()`` 函数。
+
+``NAMESPACE`` 中的 export 指令是通过 ``library(foofactors)`` 添加 foofactors 库后，``fbind()`` 函数对于用户可见的原因。\
+就像可以“亲手”编写 ``.Rd`` 文件一样，您可以自己显式地管理 ``NAMESPACE`` 文件。但是我们选择将其委托给 devtools（以及 roxygen2）。
+
+.. code-block:: R
+
+    [7101d2f] 2019-09-10: Run document()
+
+
+2.13 再次 ``check()``
+---------------------------
+
+foofactors 现在应该可以立刻并永远通过 ``R CMD check``了：0 个错误，0 个警告，0 个注释。
+
+.. code-block:: R
+
+    check()
+
+.. code-block:: R
+
+    #> ── R CMD check results ───────────────────────── foofactors 0.0.0.9000 ────
+    #> Duration: 8.8s
+    #> 
+    #> 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
+
+
+2.14 ``install()``
+--------------------
+
+由于我们现在已经有了一个最小的完整可行的产品，因此可以通过 ``install()`` 将 foofactors 包安装到您的库中：
+
+.. code-block:: R
+
+    install()
+
+.. code-block:: R
+
+    checking for file ‘/tmp/RtmpsJ87ir/foofactors/DESCRIPTION’ ...
+    ✔  checking for file ‘/tmp/RtmpsJ87ir/foofactors/DESCRIPTION’
+    ─  preparing ‘foofactors’:
+    checking DESCRIPTION meta-information ...
+    ✔  checking DESCRIPTION meta-information
+    ─  checking for LF line-endings in source and make files and shell scripts
+    ─  checking for empty or unneeded directories
+    ─  building ‘foofactors_0.0.0.9000.tar.gz’
+    Running /home/travis/R-bin/lib/R/bin/R CMD INSTALL \
+    /tmp/RtmpsJ87ir/foofactors_0.0.0.9000.tar.gz --install-tests 
+    * installing to library ‘/home/travis/R/Library’
+    * installing *source* package ‘foofactors’ ...
+    ** using staged installation
+    ** R
+    ** byte-compile and prepare package for lazy loading
+    ** help
+    *** installing help indices
+    ** building package indices
+    ** testing if installed package can be loaded from temporary location
+    ** testing if installed package can be loaded from final location
+    ** testing if installed package keeps a record of temporary installation path
+    * DONE (foofactors)
+
+
+    .. |Logo| image:: ./Image/Chapter_1/rstudio.png
+        :width: 220.6
+        :height: 255.7
+        :scale: 50
+    
+    |Logo|
+
+    RStudio 在 \ *Build*\ 菜单和 \ *Build*\ 窗格提供了类似的功能，通过 \ *Install and Restart*\ 调用。
+
+现在，我们可以像其他任何程序包一样添加并使用 foofactors 了。让我们从头回顾一下我们的小例子。这是重新启动 R 会话（R Session）并清理工作区的好时机。
+
+.. code-block:: R
+
+    library(foofactors)
+
+    a <- factor(c("character", "hits", "your", "eyeballs"))
+    b <- factor(c("but", "integer", "where it", "counts"))
+
+    fbind(a, b)
+    #> [1] character hits      your      eyeballs  but       integer   where it 
+    #> [8] counts   
+    #> Levels: but character counts eyeballs hits integer where it your
+
+我们成功了！
+
+
+2.15 ``use_testthat()``
+------------------------
+
 
