@@ -40,7 +40,8 @@ GitHub Repo: https://github.com/YuanchenZhu2020/R_Packages_zh_CN
 - [x] Introduction
 - [ ] The whole game
   - [x] 2.1~2.9
-  - [ ] 2.10~2.19
+  - [x] 2.10~2.14
+  - [ ] 2.15~2.19
 - [ ] System setup
 - [ ] Package structure and state
 - [ ] Fundamental development workflows
