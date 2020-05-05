@@ -581,7 +581,7 @@ roxygen2 的使用和机制将在第 \ `8 <https://r-pkgs.org/man.html#man>`__\ 
 2.13 再次 ``check()``
 ---------------------------
 
-foofactors 现在应该可以立刻并永远通过 ``R CMD check``了：0 个错误，0 个警告，0 个注释。
+foofactors 现在应该可以立刻并永远通过 ``R CMD check`` 了：0 个错误，0 个警告，0 个注释。
 
 .. code-block:: R
 
@@ -657,6 +657,393 @@ foofactors 现在应该可以立刻并永远通过 ``R CMD check``了：0 个错
 
 
 2.15 ``use_testthat()``
-------------------------
+----------------------------
+
+在一个示例中，我们已经对 ``fbind()`` 进行了简单测试，我们可以通过一些单元测试（unit test）来形式化和扩展它。这意味着我们对于\
+``fbind()`` 在各种输入数据下的正确结果得有一些具体的期望。
+
+首先，我们声明我们将使用 testthat 包中的 ``use_testthat()`` 来编写单元测试：
+
+.. code-block:: R
+    
+    use_testthat()
+    #> ✔ Adding 'testthat' to Suggests field in DESCRIPTION
+    #> ✔ Creating 'tests/testthat/'
+    #> ✔ Writing 'tests/testthat.R'
+    #> ● Call `use_test()` to initialize a basic test file and open it for editing.
+
+这将为您的程序包初始化单元测试机器。它在 ``DESCRIPTION`` 中添加了 ``Suggests: testthat`` ，创建了目录 ``test/testthat`` 斌添加了脚本 ``test/testthat.R`` 。
+
+.. code-block:: R
+
+    [c38f85d] 2019-09-10: Add testing infrastructure
+
+然而，实际的测试仍然是由您来编写！
+
+函数 ``use_test()`` 打开并/或创建测试文件。您可以提供文件名，或者，如果您在RStudio中编辑相关的源文件，文件名将自动生成。\
+由于本书是非交互构建的，我们必须显式地提供文件名：
+
+.. code-block:: R
+
+    use_test("fbind")
+    #> ✔ Increasing 'testthat' version to '>= 2.1.0' in DESCRIPTION
+    #> ✔ Writing 'tests/testthat/test-fbind.R'
+
+它将会生成文件 ``tests/testthat/test-fbind.R`` 。将以下内容编写入该文件：
+
+.. code-block:: R
+
+    test_that("fbind() binds factor (or character)", {
+        x <- c("a", "b")
+        x_fact <- factor(x)
+        y <- c("c", "d")
+        z <- factor(c("a", "b", "c", "d"))
+
+        expect_identical(fbind(x, y), z)
+        expect_identical(fbind(x_fact, y), z)
+    })
 
 
+这将测试 ``fbind()`` 在组合两个因子（factors）、一个字符向量（character vector）和一个因子（factor）时是否会给出预期结果。
+
+以交互方式运行此测试，就像编写自己的测试一样。注意，您必须首先在 R 会话（R Session）中通过 ``lirary(testthat)`` 添加 testthat，并且您可能需要 ``load(all)``。
+
+接下来，您的测试将\ *主要（en masse）*\ 通过 ``test()`` 以臂长 \ :sub:`意义不明`\ （arms’s length） 的方式运行：
+
+\ *TODO: work on the aesthetics of this output.*\ 
+
+.. code-block:: R
+
+    test()
+    #> ✔ |  OK F W S | Context
+    #> 
+    ⠏ |   0       | fbind
+    ✔ |   2       | fbind
+    #> 
+    #> ══ Results ════════════════════════════════════════════════════════════════
+    #> OK:       2
+    #> Failed:   0
+    #> Warnings: 0
+    #> Skipped:  0
+
+\
+
+    .. |Logo| image:: ./Image/Chapter_1/rstudio.png
+        :width: 220.6
+        :height: 255.7
+        :scale: 50
+    
+    |Logo|
+
+    RStudio 提供了 ``test()`` 的快速调用。它位于在 \ *Build*\ 菜单和 \ *Build*\ 窗格中，通过 \ *More > Test package,*\  或者\
+    键盘快捷键 Ctrl + Shift + T (WIndows & Linux) 或者 Cmd + Shift + T (MacOS)调用。
+
+
+每当您使用 ``check()`` 检查程序包时，您的测试也会运行。这样，您基本上就可以使用自己的一些特定于您的包的检查代码来增强标准检查。\
+使用 \ `cove package <https://covr.r-lib.org/>`__\  跟踪该测试所执行的源代码的比例也是一个好主意。更多细节见第 \ `10 <https://r-pkgs.org/tests.html#tests>`__\  章。
+
+
+2.16 ``use_package()``
+-----------------------
+
+您将不可避免地在自己的程序包中使用其他程序包中的函数。就像我们需要\ **导出**\ 函数 ``fbind()`` 一样，我们需要从其他程序包的命名空间内\ **导入**\ 函数。\
+如果您打算将您的程序包提交到 CRAN，请注意，这甚至适用于那些您认为“始终可用”的程序包，例如 ``stats::median()`` 或者是 ``utils::head()``。
+
+我们将向 foofactors 包中添加另一个函数，该函数将会为因子（factors）生成一个排序的频率表。我们将从 forcats 包中借用一些技巧，特别是函数 ``forcats::fct_count()``。
+
+首先，使用 ``use_package()`` 声明我们将使用 forcats 命名空间中的某些函数：
+
+.. code-block:: R
+
+    use_package("forcats")
+    #> ✔ Adding 'forcats' to Imports field in DESCRIPTION
+    #> ● Refer to functions with `forcats::fun()`
+
+这会将 forcats 包添加进 ``DESCRIPTION`` 中的 "Imports" 部分，仅此而已。
+
+.. code-block:: R
+
+    [8ee4040] 2019-09-10: Import forcats
+
+现在，我们向 foofactors 中添加第二个函数：假设我们想要一个因子（ factors ）的频率表，它的形式是一个具有漂亮变量名的常规数据框（data frame），\
+而不是作为 ``table`` 类的一个对象或者是有奇怪名字的一些东西。我们还对它进行排序，使得最受欢迎的层级位于顶部。
+
+使用 ``use_r()`` 在 ``R/` 下初始化一个新的 ``.R`` 文件：
+
+.. code-block:: R
+
+    use_r("fcount")
+    #> ● Edit 'R/fcount.R'
+
+将以下内容放入 ``R/fcount.R``：
+
+.. code-block:: R
+
+    #' Make a sorted frequency table for a factor
+    #'
+    #' @param x factor
+    #'
+    #' @return A tibble
+    #' @export
+    #' @examples
+    #' fcount(iris$Species)
+    fcount <- function(x) {
+        forcats::fct_count(x, sort = TRUE)
+    }
+
+请注意我们是如何使用 ``forcats::`` 作为对 forcats 中函数的调用。这样我们指定了要从 forcats 命名空间内调用 ``fct_count()`` 函数。\
+从其他程序包中调用函数的方法不止一种，我们在这里使用的方法在第 \ `11 <https://r-pkgs.org/namespace.html#namespace>`__\  章中有详细的说明。
+
+.. code-block:: R
+
+    [172bd35] 2019-09-10: Add fcount()
+
+通过使用 ``load_all()`` 模拟程序包的安装来尝试新的 ``fcount()`` 函数。
+
+.. code-block:: R
+
+    load_all()
+    #> Loading foofactors
+    fcount(iris$Species)
+    #> # A tibble: 3 x 2
+    #>   f              n
+    #>   <fct>      <int>
+    #> 1 setosa        50
+    #> 2 versicolor    50
+    #> 3 virginica     50
+
+通过 ``document()`` 来生成相关联的帮助文档。
+
+.. code-block:: R
+
+    document()
+    #> Updating foofactors documentation
+    #> Writing NAMESPACE
+    #> Loading foofactors
+    #> Writing NAMESPACE
+    #> Writing fcount.Rd
+
+.. code-block:: R
+
+    [c87f571] 2019-09-10: Document fcount()
+
+
+
+2.17 ``use_github()``
+---------------------
+
+您已经看到我们在 foofactors 的开发过程中进行了许多提交。您可以在 https://github.com/jennybc/foofacts 上看到指示性的历史记录。\
+我们使用版本控制系统并公开开发过程的决定意味着您可以在每个开发阶段检查 foofactors 源代码的状态。通过查看所谓的 diff，\
+您可以确切地看到每个 devtools 帮助函数是如何修改构成 foofactors 程序包的源文件。
+
+如何将本地 foofactors 程序包和 Git 存储库连接到 GitHub 上的配套存储库呢？
+
+- ``use_github()`` 是我们一直以来推荐的帮助函数。我们不会在这里演示，因为它需要在您的主机端进行一些特殊的设置。我们也不想在每次建立这本书的时候都删除和重建公共 foofactors 程序包。
+- 先设置 GitHub repo！这听起来有悖常理，但让您的工作进入 GitHub 的最简单方法是在那里启动，然后使用 RStudio 在同步的本地副本中开始工作。这种方法在 Happy Git的工作流 \ `New project，GitHub first <https://happygitwithr.com/new-github-first.html>`__\  和 \ `Existing project，GitHub first <https://happygitwithr.com/existing-github-first.html>`__\  中描述。
+- 命令行 Git（Command line Git）始终可以用于添加远程存储库 \ *post hoc*\ 。这在 Happy Git 的工作流 \ ` Existing project, GitHub last <https://happygitwithr.com/existing-github-last.html>`__\  中进行了描述。
+
+这些方法中的任何一种都会将本地 foofactors 项目连接到 GitHub repo（公共或私有），您可以使用 RStudio 中内置的 Git 客户端来推送或拉取它。
+
+
+2.18 ``use_readme_rmd()``
+---------------------------
+
+既然您的程序包位于 GitHub 上，那么 ``README.md`` 文件就很重要。它是程序包的主页和欢迎界面，至少在你决定为它建立一个网站（见 \ `pkgdown <https://pkgdown.r-lib.org/>`__\ ）、\
+添加一个 vignette（见第 \ `9 <https://r-pkgs.org/vignettes.html#vignettes>`__\  章）或提交给 CRAN 之前（见第 \ `18 <https://r-pkgs.org/release.html#release>`__\  章）。
+
+``use_readme_rmd()`` 函数的作用是初始化一个基本的、可执行的 ``README.Rmd``，以便您编辑：
+
+.. code-block:: R
+
+    use_readme_rmd()
+    #> ✔ Writing 'README.Rmd'
+    #> ✔ Adding '^README\\.Rmd$' to '.Rbuildignore'
+    #> ✔ Writing '.git/hooks/pre-commit'
+
+
+除了创建 ``README.Rmd`` 之外，它还会在 ``.Rbuildignore`` 中添加一些行，并创建一个 Git 预提交 Hook，以帮助您保持 ``README.Rmd`` 和 ``README.md`` 的同步。
+
+``README.Rmd`` 已经有了如下部分:
+
+- 提示您描述程序包的用途。
+- 提供安装程序包的代码。
+- 提示您展示一些用法。
+
+如何填充这个模板骨架？从 ``DESCRIPTION`` 和任何正式或非正式的测试或例子中大量地复制内容。有内容总比什么都没有好。\
+否则……您希望人们自己安装您的程序包，仔细检查各个帮助文件，并找出如何使用它吗？他们可能并不会这样做。
+
+我们喜欢用 R Markdown 来编写 README，因此它可以展示实际的用法。它将加载当前安装的版本的程序包，因此现在是在 RStudio 中执行“安装并重新启动”的好时机。或者在 R 控制台（R Console）中执行此操作：
+
+.. code-block:: R
+
+    install()
+
+.. code-block:: R
+
+       checking for file ‘/tmp/RtmpsJ87ir/foofactors/DESCRIPTION’ ...
+    ✔  checking for file ‘/tmp/RtmpsJ87ir/foofactors/DESCRIPTION’
+    ─  preparing ‘foofactors’:
+    checking DESCRIPTION meta-information ...
+    ✔  checking DESCRIPTION meta-information
+    ─  checking for LF line-endings in source and make files and shell scripts
+    ─  checking for empty or unneeded directories
+    ─  building ‘foofactors_0.0.0.9000.tar.gz’
+    Running /home/travis/R-bin/lib/R/bin/R CMD INSTALL \
+    /tmp/RtmpsJ87ir/foofactors_0.0.0.9000.tar.gz --install-tests 
+    * installing to library ‘/home/travis/R/Library’
+    * installing *source* package ‘foofactors’ ...
+    ** using staged installation
+    ** R
+    ** tests
+    ** byte-compile and prepare package for lazy loading
+    ** help
+    *** installing help indices
+    ** building package indices
+    ** testing if installed package can be loaded from temporary location
+    ** testing if installed package can be loaded from final location
+    ** testing if installed package keeps a record of temporary installation path
+    * DONE (foofactors)
+
+如果 RStudio 还没有这样做，请打开 ``README.Rmd`` 进行编辑。例如，确保它显示了 ``fbind()`` 和/或 ``fcount()`` 的一些用法。
+
+.. code-block:: R
+
+    [857b562] 2019-09-10: Set up README.Rmd
+
+
+我们使用的 ``README.Rmd`` 在这里： \ `README.Rmd <https://raw.githubusercontent.com/jennybc/foofactors/master/README.Rmd>`__\  ，以下是内容：
+
+\ *TODO: update this link after merge into r-pkgs.*\ 
+
+.. code-block:: R
+
+    ---
+    output:
+    md_document:
+        variant: markdown_github
+    ---
+
+    <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+    ```{r, echo = FALSE}
+    knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>",
+    fig.path = "README-"
+    )
+    ```
+
+    **NOTE: This is a toy package created for expository purposes, for the second edition of [R Packages](https://r-pkgs.org). It is not meant to actually be useful. If you want a package for factor handling, please see [forcats](https://forcats.tidyverse.org).**
+
+    ### foofactors
+
+    Factors are a very useful type of variable in R, but they can also be very aggravating. This package provides some helper functions for the care and feeding of factors.
+
+    ### Installation
+
+    ```{r installation, eval = FALSE}
+    devtools::install_github("jennybc/foofactors")
+    ```
+    
+    ### Quick demo
+
+    Binding two factors via `fbind()`:
+
+    ```{r}
+    library(foofactors)
+    a <- factor(c("character", "hits", "your", "eyeballs"))
+    b <- factor(c("but", "integer", "where it", "counts"))
+    ```
+
+    Simply catenating two factors leads to a result that most don't expect.
+
+    ```{r}
+    c(a, b)
+    ```
+
+    The `fbind()` function glues two factors together and returns factor.
+
+    ```{r}
+    fbind(a, b)
+    ```
+
+    Often we want a table of frequencies for the levels of a factor. The base `table()` function returns an object of class `table`, which can be inconvenient for downstream work.
+
+    ```{r}
+    set.seed(1234)
+    x <- factor(sample(letters[1:5], size = 100, replace = TRUE))
+    table(x)
+    ```
+
+    The `fcount()` function returns a frequency table as a tibble with a column of factor levels and another of frequencies:
+
+    ```{r}
+    fcount(x)
+    ```
+
+别忘了渲染它并产生 ``README.md``！如果您尝试提交 ``README.Rmd`` 而不是``README.md``，并且 ``README.md`` 似乎已过期，那么预提交 Hook 应该会提醒您。
+
+.. code-block:: R
+
+    rmarkdown::render("README.Rmd") ## or use "Knit HTML" in RStudio
+
+您只需要\ `访问 GitHub 上的 foofactors <https://github.com/jennybc/foofactors#readme>`__\  就可以看到已经渲染的 ``README.md``。
+
+最后，别忘了做最后一次提交。如果您用的是 GitHub，还需要推送至远程仓库。
+
+.. code-block:: R
+
+    [ef40f82] 2019-09-10: Write README.Rmd and render
+
+
+2.19 最后一步: ``check()`` 以及 ``install()``
+------------------------------------------------
+
+让我们再次运行 ``check()`` 以确保程序包一切正常。
+
+.. code-block:: R
+
+    check()
+
+.. code-block:: R
+
+    #> ── R CMD check results ───────────────────────── foofactors 0.0.0.9000 ────
+    #> Duration: 9.6s
+    #> 
+    #> 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
+
+foofactors 应该没有错误、警告或注释信息。如果正确的话，这将是重新构建和安装程序包的好时机。庆祝一下！
+
+.. code-block:: R
+
+    install()
+
+.. code-block:: R
+
+        checking for file ‘/tmp/RtmpsJ87ir/foofactors/DESCRIPTION’ ...
+    ✔  checking for file ‘/tmp/RtmpsJ87ir/foofactors/DESCRIPTION’
+    ─  preparing ‘foofactors’:
+    checking DESCRIPTION meta-information ...
+    ✔  checking DESCRIPTION meta-information
+    ─  checking for LF line-endings in source and make files and shell scripts
+    ─  checking for empty or unneeded directories
+    ─  building ‘foofactors_0.0.0.9000.tar.gz’
+    Running /home/travis/R-bin/lib/R/bin/R CMD INSTALL \
+    /tmp/RtmpsJ87ir/foofactors_0.0.0.9000.tar.gz --install-tests 
+    * installing to library ‘/home/travis/R/Library’
+    * installing *source* package ‘foofactors’ ...
+    ** using staged installation
+    ** R
+    ** tests
+    ** byte-compile and prepare package for lazy loading
+    ** help
+    *** installing help indices
+    ** building package indices
+    ** testing if installed package can be loaded from temporary location
+    ** testing if installed package can be loaded from final location
+    ** testing if installed package keeps a record of temporary installation path
+    * DONE (foofactors)
+
+请随意访问 GitHub 上的 \ `foofactors package <https://github.com/jennybc/foofactors>`__\ ，它正是在这里开发的。\
+提交历史记录反映了每个单独的步骤，因此可以使用 diff 来查看随着包的发展，哪些文件被添加和修改。\
+本书的其余部分将更详细地介绍您在这里看到的每一个步骤以及更多内容。
