@@ -39,7 +39,7 @@ GitHub Repo: https://github.com/YuanchenZhu2020/R_Packages_zh_CN
 - [x] Preface
 - [x] Introduction
 - [X] The whole game
-- [ ] System setup
+- [X] System setup
 - [ ] Package structure and state
 - [ ] Fundamental development workflows
 - [ ] R code

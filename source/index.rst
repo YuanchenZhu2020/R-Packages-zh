@@ -31,6 +31,7 @@ R Packages zh_CN
    序言
    第一章 简介
    第二章 整个流程
+   第三章 系统设置
 
 
 * :ref:`genindex`
