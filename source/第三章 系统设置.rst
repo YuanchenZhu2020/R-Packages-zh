@@ -1,0 +1,169 @@
+第三章 系统设置
+===================
+
+3.1 准备你的系统
+-----------------------
+
+在开始之前，请确保您已经安装了最新版本的 R（至少需要 3.6.1版本，本书也是使用该版本渲染生成的），然后再运行以下代码来获取您将使用到的程序包：
+
+.. code-block:: R
+
+    install.packages(c("devtools", "roxygen2", "testthat", "knitr"))
+
+请确保您已经安装了最新版本的 RStudio 集成开发环境（IDE）。事实上，您可以考虑使用预览版本并定期升级。与正式发布的版本相比，\
+预览版能够让您体验到最新、最强大的功能，并且仅会稍微增加遇见 Bug 的机会。它不同于更不稳定的每日构建的版本。
+
+- 预览版本（Preview version）: https://www.rstudio.com/products/rstudio/download/preview/
+- 正式版本（Released version）: https://www.rstudio.com/products/rstudio/download/
+  
+  + 大部分读者可以使用 RStudio Desktop 的免费、开源版本。
+
+
+3.2 devtools, usethis, 还有您
+--------------------------------
+
+    “I am large, I contain multitudes.”
+
+    — Walt Whitman, Song of Myself
+
+经过 7 年的发展，devtools 已经成长为一个相当笨拙的程序包，这让它的维护变得很困难。2.0.0 版本在 2018 年年末发布，\
+它标志着 devtools 的 \ `有意识地解耦 <https://www.tidyverse.org/articles/2018/10/devtools-2-0-0/>`__\  。\
+devtools 的大多数功能都转移到 7 个较小的程序中。尽管 devtools 主要在其他地方维护，但是通过各种方法，devtools 将继续提供它的所有常用功能。\
+例如，devtools 可能会提供一个 wrapper function \ :sub:`暂时未知`\  ，以便设置用户友好的默认值、引入有用的交互行为或者组合多个子程序包中的功能。
+
+我们推荐的关于使用 devtools 及组成其的程序包的方法会有所不同，这具体取决于您是在 useR 还是 developR 模式下工作：
+
+- 对于交互式使用，useRs 应引入 devtools 程序包，并将其视为您最喜欢的程序包开发功能的提供者。
+- 对于编程使用，例如在另一个包内，developRs  \ **不应该**\ 依赖于 devtools，而应通过作为函数主目录的程序包来访问函数。
+
+  + devtools 应该尽量避免以 ``foo::fcn()`` 的形式出现在 ``foo`` 程序包的合法调用中。相反，应该是在 ``foo`` 中定义 ``fcn()`` 函数。
+  + 上述的一个例外情况是，即使 ``install_github()`` 函数实际上位于远程的 \ :sub:`即作为在线资源`\  程序包中，我们仍将以 ``devtools::install_github()`` 作为在 README 中描述的安装程序包开发版本的方式。这是因为这一条建议与交互式使用有关，我们更喜欢强调 devtools。
+
+- 尝试报告作为函数所在主目录的程序包中的 Bug。
+
+以下示例展示了在交互式开发过程中如何模拟安装和加载程序包：
+
+.. code-block:: R
+
+    library(devtools)
+    load_all()
+
+如果在 R 程序包中使用相同的功能，则以下是首选的调用方式：
+
+.. code-block:: R
+
+    pkgload::load_all()
+
+usethis 程序包是一个更多人可能知道并且能够直接使用的组成程序包。现在，它包含对 R 项目中的文件和文件夹执行操作的函数，\
+尤其是对于同时也是 R 程序包的任何项目而言。devtools 提供了所有 usethis 中的功能。因此，一旦添加了 devtools，就可以无限制地使用 usethis 中的任何函数，\
+即只需调用 ``use_testthat()``。如果您指定了命名空间（例如，在以更具编程风格的方式工作时），则直接访问 usethis 中的函数：\
+使用 ``usethis::use_testthat()`` 而不是 ``devtools::use_testthat()``。
+
+
+3.2.1 个人启动配置
+..........................
+
+您可以通过以下方式添加 devtools 程序包：
+
+.. code-block:: R
+
+  library(devtools)
+
+但是随着在每个 R 会话（R Session）中反复添加 devtools，它就变得令人烦恼了。因此，我们强烈建议将 devtools 附加到您的 ``.Rprofile`` 启动文件中，如下所示：
+
+.. code-block:: R
+
+  if (interactive()) {
+    suppressMessages(require(devtools))
+  }
+
+为了方便起见，``use_devtools()`` 函数会在您需要时创建 ``.Rprofile`` 文件，将其打开并进行编辑，然后再剪切板和屏幕上放置必要的代码行。\
+您可能想要用这种方式处理的另一个程序包是 testthat。
+
+    .. |bulb| image:: ./Image/Chapter_2/lightbulb.png
+        :width: 94.4
+        :height: 118.1
+        :scale: 50
+    
+    |bulb|
+
+    通常来说，在 ``.Rprofile`` 中添加程序包是一个坏主意，因为它邀请您通过显式调用 ``library(foo)`` 创建不反映所有依赖关系的 R 脚本。\
+    但是 devtools 是一个工作流程包，它简化了程序包的开发流程，因此不太可能融入到任何分析脚本中。请注意，我们仍然注意只在交互式会话中添加。
+
+例如，在\ *从头*\ 创建R包时，usethis 参考了某些选项。这允许您指定程序包维护者或首选许可证等个人默认设置。下面是 ``.Rprofile`` 中可能包含的代码片段的示例：
+
+.. code-block:: R
+
+  options(
+    usethis.full_name = "Jane Doe",
+    usethis.description = list(
+      `Authors@R` = 'person("Jane", "Doe", email = "jane@example.com", role = c("aut", "cre"), 
+      comment = c(ORCID = "YOUR-ORCID-ID"))',
+      License = "MIT + file LICENSE",
+      Version = "0.0.0.9000"
+    ),
+    usethis.protocol  = "ssh"  
+  )
+
+以下代码安装了 devtools 和 usethis 的开发版本，这在本书的修订过程中可能很重要。
+
+.. code-block:: R
+
+  devtools::install_github("r-lib/devtools")
+  devtools::install_github("r-lib/usethis")
+
+
+3.3 R 构建工具链
+-----------------------
+
+要能够完全从源代码构建 R 程序包，还需要一个编译器和其他一些命令行工具。这可能不是必须的，除非您想构建包含 C 或 C++ 代码的程序包（第 \ `13 <https://r-pkgs.org/src.html#src>`__\  章的主题）。\
+特别是如果您正在使用 RStudio，您可以暂时把它放在一边。一旦您尝试执行需要您设置开发环境的操作，IDE 将向您发出警报并提供支持。请继续阅读以获取有关自己操作的建议。
+
+
+3.3.1 Windows
+.............
+
+在 Windows 上，从源代码构建程序包所需要的工具集叫做 RTools。
+
+RTools \ **不是**\  R 程序包，它不能通过 ``instaaa.packages()`` 安装，而是通过从 https://cran.r-project.org/bin/windows/Rtools/ 下载并运行安装程序来安装。
+
+在 RTools 的安装过程中，您可能会看到一个窗口，它询问您“Select Additional Tasks”。
+
+- \ **不要**\ 选中“Edit the system PATH”。devtools 和 Rstudio 应该在需要时自动将 RTools 放入 ``PATH``。
+- 选中“Save version information to registry”。它应该是默认选中的。
+
+
+3.3.2 macOS
+.............
+
+您需要安装 Xcode 命令行工具，这需要您注册成为 Apple 开发人员（不要担心，它是免费的）。
+
+然后，在 shell 中执行如下操作：
+
+.. code-block:: R
+
+  xcode-select --install
+
+或者，您可以从 \ `Mac App Store <https://itunes.apple.com/ca/app/xcode/id497799835?mt=12>`__\  安装最新版本的完整的 Xcode。\
+这会包含许多您不需要的东西，但是它有 App Store 便利性的优势。
+
+
+3.3.3 Linux
+.............
+
+请确保您不仅已经安装了 R，还安装了 R 开发工具。例如，在 Ubuntu（以及 Debian）上，您需要安装 ``r-base-dev`` 程序包。
+
+
+3.4 验证系统准备工作
+--------------------------
+
+通过运行以下代码，您可以检查是否已安装所有组件并正常工作：
+
+.. code-block:: R
+
+  # TODO: replace with whatever results from https://github.com/r-lib/devtools/issues/1970
+  library(devtools)
+  has_devel()
+  #> [1] TRUE
+
+如果一切正常，它将返回 ``TRUE``。否则，它将显示有关该问题的一切诊断信息。
