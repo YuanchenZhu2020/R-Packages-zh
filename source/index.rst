@@ -32,6 +32,7 @@ R Packages zh_CN
    第一章 简介
    第二章 整个流程
    第三章 系统设置
+   第四章 程序包结构与状态
 
 
 * :ref:`genindex`
