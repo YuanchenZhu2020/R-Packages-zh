@@ -12,7 +12,7 @@
 当然，这并\ **不是**\ 你日常使用中最熟悉的程序包的形式。如果您了解 R 程序包可能处于的五种状态，那么程序包开发的工作流将变得更有意义：
 
 - 源代码（source）
-- 已绑定的（bundled）
+- 压缩的（bundled）
 - 二进制文件（binary）
 - 已安装的（installed）
 - 载入内存中的（in-memory）
@@ -21,7 +21,7 @@
 ``library()`` 函数的作用是：将已安装的程序包加载到内存中，以便立即直接使用。
 
 
-4.2 源代码程序包（Source Package）
+4.2 源码包（Source Package）
 ---------------------------------------
 
 一个\ **源代码**\ 程序包就是一个有着特定结构的文件目录。它包含特定的组件，例如一个 ``DESCRIPTION`` 文件、包含 ``.R`` 文件的 ``R/`` 目录等。本书余下的大部分章节都致力于详细说明这些组成部分。
@@ -40,14 +40,113 @@
 
 即使程序包是在公共存储库中开发的，一些维护人员还是忘记了列出这个网页链接（URL），但是您仍然可以通过搜索来发现它。
 
-即使包不是在公共平台上开发的，也可以在 \ `METACRAN <https://r-pkg.org/about>`__\  维护的非官方只读镜像中访问其源代码。示例：
+即使程序包不是在公共平台上开发的，也可以在 \ `METACRAN <https://r-pkg.org/about>`__\  维护的非官方只读镜像中访问其源代码。示例：
 
 - MASS: https://github.com/cran/MASS
 - car: https://github.com/cran/car
 
 请注意，这与探索程序包真正的开发环境不同，因为这个源代码及其演变过程只是对程序包的 CRAN 发行版本进行逆向工程的结果。\
-这提供了对程序包及其开发历史的审查视图，但根据定义，源代码及其历史包含了所有程序包开发的必需的内容。\\ :sub:`意译，有待审查`\ 
+这提供了对程序包及其开发历史的审查视图，但根据定义，源代码及其历史包含了所有程序包开发的必需的内容。\ :sub:`意译，有待审查`\ 
 
 
-4.3 已绑定的程序包（bundled package）
---------------------------------------------
+4.3 捆绑包（bundled package）
+---------------------------------------
+
+捆绑的程序包是被压缩成单个文件的程序包。按照惯例（该惯例来自 Linux），R 中的捆绑程序包使用 ``.tar.gz`` 扩展名，并且有时被称为“源码压缩包”。\
+这意味着多个文件已经被打包为一个文件（``.tar``）并使用 gzip（``.gz``）进行压缩。虽然捆绑程序包本身并不那么有用，但它是源码包和已安装包之间平台无关的、便于传输的中间媒介。
+
+在从本地开发的程序包中生成捆绑程序包这种罕见的情况下，请使用 ``devtools::build()``。在幕后，它会调用 ``pkgbuild::build()`` 并最终调用 ``R CMD build``，\
+这些会在 \ `Writing R Extensions <https://cran.r-project.org/doc/manuals/R-exts.html>`__\  的 \ `Building package tarballs <https://cran.r-project.org/doc/manuals/R-exts.html#Building-package-tarballs>`__\  部分中进一步阐述。
+
+这应该会提醒您，捆绑程序包或“源码压缩包”不仅仅是对源文件进行 tar 打包存档，然后使用 gzip 压缩的结果。按照惯例，在 R 世界中，在制作 ``.tar.gz`` 文件时还要执行一些操作。\ **这就是我们选择将其称为捆绑程序包的原因**\ 。\ :sub:`理解“捆绑”一词的重要语段`\ 
+
+每一个 CRAN 程序包都以捆绑程序包的形式提供，可以通过个人登录界面（individual landing pages）的"Packages Source"字段内容获取。继续我们上面的示例，您可以下载 ``forcats_0.4.0.tar.gz`` 和 ``readxl_1.3.1.tar.gz`` 的捆绑包。（或者任何当前的版本）。\
+您可以在 shell（而不是 R 控制台）中进行解压缩：
+
+.. code-block:: Shell
+
+    tar xvf forcats_0.4.0.tar.gz
+
+如果您解压缩一个捆绑包，您将看到它看起来几乎与源码包相同。下图总结了 devtools 的源码版本、捆绑版本和二进制版本的顶级目录中出现的文件。
+
+\ *TODO: Remake this figure https://github.com/hadley/r-pkgs/issues/587.*\ 
+
+
+.. image:: ./Image/Chapter_4/package-files.png
+    :scale: 100
+
+.. raw:: html
+
+    <center>FIGURE 4.1 Side-by-side comparison of source, bundled, and binary package.</center>
+    <center>图片 4.1 源码包、捆绑包和二进制包的并排比较</center>
+
+
+源码包和未压缩的捆绑包之间的主要区别为：
+
+- 已经生成了 Vignettes，因此以已渲染的输出（如 HTML）出现在 ``inst/doc/`` 目录下，并且 Vignette 索引出现在 ``build/`` 目录中，通常还有一个 PDF 的程序包手册。
+- 本地源码包可能包含用于在开发期间节省时间的临时文件，如 ``src/`` 中的编译文件。这些文件从来没有在捆绑包中找到过。
+- ``.Rbuildignore`` 中列出的任何文件都不包含在捆绑包中。这些文件通常有助于您的开发过程，但应该从分发式\ :sub:`原意“分布式”`\ 的产品中排除。
+
+
+4.3.1 ``.Rbuildignore``
+..........................
+
+您不需要非常频繁地考虑 ``.tar.gz`` 文件形式的程序包的确切结构，但您确实需要了解 ``.Rbuildignore`` 文件。它决定了源码包中的哪些文件可以进入后面的工作流。
+
+``.Rbuildignore`` 的每一行都是与 Perl 兼容的正则表达式，它与源码包中每个文件的路径匹配，而不考虑大小写。[#]_ 如果与正则表达式匹配，则排除该文件或目录。注意，有一些默认排除项由 R 本身执行，主要与经典的版本控制系统和编辑器（如 SVN、Git 和 Emacs）有关。
+
+要排除特定的文件或目录（最常见的使用示例），您\ **必须**\ 锚定（anchor）正则表达式。例如，要排除名为"notes"的目录，请使用 ``^notes$``。正则表达式 ``notes`` 将匹配任何包含 ``notes`` 的文件名，例如 ``R/notes.R``、``man/important-notes.R``、``data/endnotes.Rdata`` 等。\
+排除特定文件或目录的最安全方法是使用 ``usethis::use_build_ignore("notes")``，它将为您执行转义。
+
+``.Rbuildignore`` 是解决让您更便利地开发的操作\ :sub:`意译`\ 与 CRAN 提交和分发的要求之间一些紧张关系的一种方法。即使您不打算在 CRAN 上发布，遵循这些约定能让您最好地使用 R 的内置工具来检查和安装程序包。受影响的文件分为两个半重叠的类别：
+
+- 帮助您以编程方式生成程序包内容的文件。例如：
+
+    * 使用 ``README.Rmd`` 生成信息和当前的 ``README.md``。
+    * 存储 ``.R`` 脚本以创建和更新内部的或导出的数据。
+
+- 驱动程序包开发、检查和产生文档的文件，不在 CRAN 的范围内。例如：
+
+    * 与 RStudio IDE 相关的文件
+    * 使用 \ `pkddown package <https://pkgdown.r-lib.org/>`__\  生成的网站。
+    * 与持续集成/部署和监视测试覆盖范围相关的配置文件。
+
+以下是 tidyverse 中程序包的 ``.Rbuildignore`` 文件中典型条目的非完整列表：
+
+.. code-block:: R
+
+    ^.*\.Rproj$         # Designates the directory as an RStudio Project
+    ^\.Rproj\.user$     # Used by RStudio for temporary files
+    ^README\.Rmd$       # An Rmd file used to generate README.md
+    ^LICENSE\.md$       # Full text of the license
+    ^cran-comments\.md$ # Comments for CRAN submission
+    ^\.travis\.yml$     # Used by Travis-CI for continuous integration testing
+    ^data-raw$          # Code used to create data included in the package
+    ^pkgdown$           # Resources used for the package website
+    ^_pkgdown\.yml$     # Configuration info for the package website
+    ^\.github$          # Contributing guidelines, CoC, issue templates, etc.
+
+请注意，上面的注释不能出现在实际的 ``.Rbuildignore`` 文件中。此处包含这些注释只是为了演示。
+
+当需要向 ``.Rbuildignore`` 中添加文件时，我们会提到这一点。请记住，``usethis::use_build_ignore()`` 是管理此文件的一种有吸引力的方法。
+
+
+4.4 二进制包（binary package）
+---------------------------------------
+
+
+4.5 已安装的包（installed package）
+---------------------------------------
+
+
+4.6 内存中的包（in-memory package）
+---------------------------------------
+
+
+4.7 程序包的库（package library）
+---------------------------------------
+
+.. rubric:: Footnotes
+
+.. [#] 要查看应该在您的雷达上的文件路径集，请在程序包的顶级目录下执行 ``dir(full.names = TRUE, recursive = TRUE, include.dirs = TRUE, all.files = TRUE)``。↩
+
