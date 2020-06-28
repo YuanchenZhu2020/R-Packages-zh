@@ -23,7 +23,7 @@ R Packages zh_CN
 全书目录
 --------
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
 
    翻译说明
    排版约定

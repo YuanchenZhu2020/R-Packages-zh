@@ -42,6 +42,7 @@ GitHub Repo: https://github.com/YuanchenZhu2020/R_Packages_zh_CN
 - [X] System setup
 - [ ] Package structure and state
     - [X] 4.1~4.2
+    - [X] 4.3~4.6
 - [ ] Fundamental development workflows
 - [ ] R code
 - [ ] Package metadata

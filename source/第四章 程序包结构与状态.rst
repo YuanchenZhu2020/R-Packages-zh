@@ -1,24 +1,24 @@
 第四章 程序包结构与状态
 ==============================
 
-本章将通过把使用 R 程序包获得的隐式知识转换为创建和修改它们所需的显式知识，来开始您的程序包开发之路。\
+本章将会把您使用 R 程序包获得的隐式知识转换为创建和修改它们所需的显式知识，从而开始您的程序包开发之路。\
 您将了解一个程序包可能处于的各种状态，以及程序包和库（library）之间的区别（还有您应该这些关心的原因）。
 
 
 4.1 程序包状态
 -----------------------
 
-创建或修改程序包时，需要在它的“源代码”或“源文件”上进行。您可以以\ **源代码**\ 的形式与正在开发的程序包进行交互。\
-当然，这并\ **不是**\ 你日常使用中最熟悉的程序包的形式。如果您了解 R 程序包可能处于的五种状态，那么程序包开发的工作流将变得更有意义：
+创建或修改程序包时，需要在它的“源代码”或“源文件”上进行。您能够以\ **源代码**\ 的形式与正在开发的程序包进行交互。\
+当然，这\ **并不是**\ 你日常使用中最熟悉的程序包的形式。如果您了解 R 程序包可能处于的五种状态，那么程序包开发的工作流将变得更有意义：
 
 - 源代码（source）
-- 压缩的（bundled）
+- 捆绑的（bundled）
 - 二进制文件（binary）
 - 已安装的（installed）
 - 载入内存中的（in-memory）
 
 您已经知道一些将程序包转入这些状态的函数。例如，``install.packages()`` 和 ``devtools::install_github()`` 将程序包从源代码（source）、已绑定的（bundled）或二进制文件（binary）状态转移到已安装（installed）状态。\
-``library()`` 函数的作用是：将已安装的程序包加载到内存中，以便立即直接使用。
+``library()`` 函数的作用是：将已安装的程序包加载到内存中，以便可以马上直接使用。
 
 
 4.2 源码包（Source Package）
@@ -45,8 +45,8 @@
 - MASS: https://github.com/cran/MASS
 - car: https://github.com/cran/car
 
-请注意，这与探索程序包真正的开发环境不同，因为这个源代码及其演变过程只是对程序包的 CRAN 发行版本进行逆向工程的结果。\
-这提供了对程序包及其开发历史的审查视图，但根据定义，源代码及其历史包含了所有程序包开发的必需的内容。\ :sub:`意译，有待审查`\ 
+请注意，这与探索程序包真正的开发环境不同，因为这里的源代码及其演变过程只是对程序包的 CRAN 发行版本进行逆向工程的结果。\
+它提供了对程序包及其开发历史的审查视图，但根据定义，源代码及其历史包含了所有程序包开发的必需的内容。\ :sub:`意译，有待审查`\ 
 
 
 4.3 捆绑包（bundled package）
@@ -58,7 +58,7 @@
 在从本地开发的程序包中生成捆绑程序包这种罕见的情况下，请使用 ``devtools::build()``。在幕后，它会调用 ``pkgbuild::build()`` 并最终调用 ``R CMD build``，\
 这些会在 \ `Writing R Extensions <https://cran.r-project.org/doc/manuals/R-exts.html>`__\  的 \ `Building package tarballs <https://cran.r-project.org/doc/manuals/R-exts.html#Building-package-tarballs>`__\  部分中进一步阐述。
 
-这应该会提醒您，捆绑程序包或“源码压缩包”不仅仅是对源文件进行 tar 打包存档，然后使用 gzip 压缩的结果。按照惯例，在 R 世界中，在制作 ``.tar.gz`` 文件时还要执行一些操作。\ **这就是我们选择将其称为捆绑程序包的原因**\ 。\ :sub:`理解“捆绑”一词的重要语段`\ 
+这应该会提醒您，捆绑程序包或“源码压缩包”（source tarball）不仅仅是对源文件进行 tar 打包存档，然后使用 gzip 压缩的结果。按照惯例，在 R 世界中，在制作 ``.tar.gz`` 文件时还要执行一些操作。\ **这就是我们选择将其称为捆绑程序包的原因**\ 。\ :sub:`理解“捆绑”一词的重要语段`\ 
 
 每一个 CRAN 程序包都以捆绑程序包的形式提供，可以通过个人登录界面（individual landing pages）的"Packages Source"字段内容获取。继续我们上面的示例，您可以下载 ``forcats_0.4.0.tar.gz`` 和 ``readxl_1.3.1.tar.gz`` 的捆绑包。（或者任何当前的版本）。\
 您可以在 shell（而不是 R 控制台）中进行解压缩：
@@ -77,8 +77,8 @@
 
 .. raw:: html
 
-    <center>FIGURE 4.1 Side-by-side comparison of source, bundled, and binary package.</center>
-    <center>图片 4.1 源码包、捆绑包和二进制包的并排比较</center>
+    <center>FIGURE 4.1: Side-by-side comparison of source, bundled, and binary package.</center>
+    <center>图片 4.1：源码包、捆绑包和二进制包的并排比较</center>
 
 
 源码包和未压缩的捆绑包之间的主要区别为：
@@ -128,22 +128,106 @@
 
 请注意，上面的注释不能出现在实际的 ``.Rbuildignore`` 文件中。此处包含这些注释只是为了演示。
 
-当需要向 ``.Rbuildignore`` 中添加文件时，我们会提到这一点。请记住，``usethis::use_build_ignore()`` 是管理此文件的一种有吸引力的方法。
+我们会在需要的时候提到何时需要向 ``.Rbuildignore`` 中添加排除项\ :sub:`意译`\ 。请记住，``usethis::use_build_ignore()`` 是管理此文件的一种有吸引力的方法。
 
 
 4.4 二进制包（binary package）
 ---------------------------------------
 
+如果要将程序包分发给没有程序包开发工具的 R 用户，则需要提供二进制包。与捆绑包一样\ :sub:`意译`\ ，二进制包是单个文件。\
+但是与捆绑包不同，二进制包是平台相关的，有两种基本类型：Windows 和 macOS。（Linux 用户通常需要具备从 ``.tar.gz`` 文件安装程序包所需要的工具。）
+
+macOS 平台上的二进制包储存为以 ``.tgz`` 为后缀的文件，而 Windows 平台的二进制包则以 ``.zip`` 为文件后缀。如果你需要制作一个二进制包，则需要在相关的平台上使用 ``devtools::build(binary = TRUE``。\
+在幕后，该函数调用 ``pkgbuild::build(binary= TRUE)`` 并且最终调用 ``R CMD INSTALL --build``。这些会在 \ `Writing R Extensions <https://cran.r-project.org/doc/manuals/R-exts.html>`__\  的 \ `Building binary packages <https://cran.r-project.org/doc/manuals/R-exts.html#Building-binary-packages>`__\  部分作进一步阐述。
+
+需要明确的是，二进制包的主要制作者和分发者是 CRAN，而不是个人维护者。如果您的程序包是供公众使用的，那么使其广泛可用的最高效的方法是在 CRAN 上发布它。您提交捆绑包，然后 CRAN 将制作并分发二进制包。
+
+不论是 macOS 或 Windows，还是 R 的当前、先前和（可能的）开发版本，CRAN 通常都能以二进制包形式提供。继续我们上面的例子，您能够下载二进制包，例如：
+
+- forcats for macOS: ``forcats_0.4.0.tgz``
+- readxl for Windows: ``readxl_1.3.1.zip``
+
+事实上，这是您在调用 ``isntall.packages()`` 时通常进行的部分幕后操作。
+
+如果解压缩二进制包，您将看到它的内部结构与源码包或捆绑包有很大不同。图 4.1 包含了二者的比较。以下是一些最显著的区别：
+
+- 在 ``R/`` 目录中没有 ``.R`` 文件，而是有三个文件以有效的文件格式存储着解析的函数。这基本上是加载所有 R 代码，然后用 ``save()`` 保存函数的结果。（在这个过程中，这会添加一些额外的元数据，使得过程尽可能地快）。
+- ``Meta/`` 目录中包含许多 ``.rds`` 文件。这些文件包含有关包的缓存元数据，如帮助文件所涵盖的主题和 ``DESCRIPTION`` 文件的解析版本。（您可以使用 ``readRDS()`` 查看这些文件中的内容）。这些文件通过缓存代价高昂的计算使程序包更快地加载。
+- 实际的帮助内容出现在 ``help/`` 和 ``html/``（不再出现在 ``man/``）中。
+- 如果 ``src/`` 目录中有任何代码，那么现在将有一个 ``libs/`` 目录，其中包含经过编译的代码。在 Windows 上，有 32 位（i386/）和 64 位（x64/）环境的子目录。
+- 如果 ``data/`` 中有任何对象，则它们现在已转换为更具效率的形式。
+- ``inst/`` 的内容被移动到顶层目录。例如，vignette 文件现在位于 ``doc/`` 中。
+- 一些文件和文件夹已被删除，如 ``README``、``build/``、``tests/`` 和 ``vignettes/``。
+
 
 4.5 已安装的包（installed package）
 ---------------------------------------
+
+已安装的包是已解压缩到程序包库中的二进制包（如 \ `4.7 <https://r-pkgs.org/package-structure-state.html#library>`__\  所述）。\
+下图说明了安装程序包的多种方法。这个图表很复杂！在理想情况下，安装包需要将一组简单的步骤串在一起：source -> bundle，bundle -> binary，binary -> installed。\
+在现实世界中，这个过程并不是这么简单，因为通常有（更快的）快捷方式可用。
+
+    .. image:: ./Image/Chapter_4/installation.png
+        :scale: 100
+    
+    .. raw:: html
+    
+        <center>FIGURE 4.2: Many methods for converting between package states.</center>
+        <center>图片 4.2：在程序包状态之间转换的许多方法。</center>
+
+内置命令行工具 R CMD INSTALL 支持所有程序包的安装。它可以从源文件、捆绑包（也称为源码压缩包（source tarball））或二进制包安装程序包。\
+有关详细信息，请参阅 \ `R Installation and Administration <https://cran.r-project.org/doc/manuals/R-admin.html>`__\  的 \ `Installing packages <https://cran.r-project.org/doc/manuals/R-admin.html#Installing-packages>`__\  部分。\
+与 ``devtools::build()`` 一样，devtools 提供了一个包装函数 ``devtools::install()``，使该工具在 R 会话（R Session）中可用。
+
+可以理解，大多数用户喜欢 R 会话（R Session）的舒适性，因此直接从 CRAN 安装软件包。内置函数 ``install.packages()`` 满足了这一需要。\
+它可以以各种形式下载程序包并安装它，还可以选择程序包依赖项的安装。
+
+devtools 公开了一系列 ``install_*()`` 函数，以满足某些超出 ``install.packages()`` 范围的需求，或者使现有功能更容易使用。\
+这些功能实际上在 \ `remotes packages <https://remotes.r-lib.org/>`__\  中维护，并由 devtools 重新导出。
+
+    .. code-block:: R
+    
+        library(remotes)
+
+        funs <- as.character(lsf.str("package:remotes"))
+        grep("^install_.+", funs, value = TRUE)
+        #>  [1] "install_bioc"      "install_bitbucket" "install_cran"     
+        #>  [4] "install_deps"      "install_dev"       "install_git"      
+        #>  [7] "install_github"    "install_gitlab"    "install_local"    
+        #> [10] "install_svn"       "install_url"       "install_version"
+
+``install_github()`` 是这个子系列函数的最佳示例，这些函数可以从非 CRAN 的远程位置下载程序包，并执行安装包所需的任何操作。\
+其余的 devtools/remotes ``install()`` 函数旨在使基本工具在技术上更简单或更明确一些，例如 ``install_version()``，它能够安装特定版本的 CRAN 包。
+
+与 ``.Rbuildignore`` 类似，如第 \ `4.3.1 <https://r-pkgs.org/package-structure-state.html#rbuildignore>`__\  节所述，\
+``.Rinstignore`` 允许您将捆绑包中的文件保留在已安装包之外。然而，与 ``.Rbuildignore`` 相反，这个功能相当模糊，而且很少需要这样做。
+
+\ *TODO: Revisit this section later with respect to pak https://pak.r-lib.org.*\ 
 
 
 4.6 内存中的包（in-memory package）
 ---------------------------------------
 
+我们终于讲述到了一个每个使用 R 的人都熟悉的命令。
+    
+    .. code-block:: R
 
-4.7 程序包的库（package library）
+        library(usethis)
+    
+假设已经安装了 usethis，这个语句将使得里面的所有函数可用，即现在我们可以执行以下操作：
+
+    .. code-block:: R
+    
+        create_package("/path/to/my/coolpackage")
+    
+这样， usethis 包已加载到内存中，并且实际上也已附加到搜索路径。在编写脚本时，加载和附加程序包之间的区别并不重要，但在编写程序包时非常重要。\
+在 \ `search path <https://r-pkgs.org/namespace.html#search-path>`__\  中您将了解更多关于两者差异的信息，以及为什么它在搜索路径中很重要。
+
+``library()`` 并不是迭代调整和测试正在开发的程序包的好方法，因为它只适用于已安装的包。在第 \ `5.4 <https://r-pkgs.org/workflows101.html#load-all>`__\  节中，\
+您将了解 ``devtools::load_all()`` 如何通过允许您将源码包直接加载到内存中来加速开发过程。
+
+
+4.7 程序包的库（package libraries）
 ---------------------------------------
 
 .. rubric:: Footnotes

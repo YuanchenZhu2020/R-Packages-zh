@@ -132,9 +132,9 @@
 \
 
     .. |Logo| image:: ./Image/Chapter_1/rstudio.png
-            :width: 220.6
-            :height: 255.7
-            :scale: 50
+        :width: 220.6
+        :height: 255.7
+        :scale: 50
 
     |Logo| 
         
