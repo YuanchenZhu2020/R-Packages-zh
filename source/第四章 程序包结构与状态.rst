@@ -73,7 +73,9 @@
 
 
 .. image:: ./Image/Chapter_4/package-files.png
-    :scale: 100
+    :width: 970
+    :height: 890
+    :scale: 95
 
 .. raw:: html
 
@@ -168,7 +170,9 @@ macOS 平台上的二进制包储存为以 ``.tgz`` 为后缀的文件，而 Win
 在现实世界中，这个过程并不是这么简单，因为通常有（更快的）快捷方式可用。
 
     .. image:: ./Image/Chapter_4/installation.png
-        :scale: 100
+        :width: 804
+        :height: 362
+        :scale: 90
     
     .. raw:: html
     
