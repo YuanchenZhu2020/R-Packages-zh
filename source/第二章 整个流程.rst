@@ -3,7 +3,7 @@
 
 \ *剧透警告！*\ 
 
-本章介绍了一个小型玩具程序包\ :sub:`存疑`\ 的开发。这是为了在我们深入研究 R 包的关键组件之前，\
+本章介绍了一个小型示例程序包的开发。这是为了在我们深入研究 R 包的关键组件之前，\
 描绘开发的大图景并提出对一个工作流程的建议。
 
 为了保持快节奏，我们利用了 devtools 程序包和 RStudio IDE 中的现代化的便利功能在之后的章节中，\
@@ -275,7 +275,7 @@
     use_r("fbind")
     #> ● Edit 'R/fbind.R'
 
-将函数 ``fbind()`` 的定义并且\ **仅仅是 ``fbind()`` 的定义**\ 放在 ``R/fbind.R`` 中并保存。\
+将函数 ``fbind()`` 的定义并且\ **仅仅是 fbind() 的定义**\ 放在 ``R/fbind.R`` 中并保存。\
 文件 ``R/fbind.R`` 不应包含我们最近执行的其他任何顶级代码，例如因子 ``a`` 和 ``b``，``library(devtools)`` 或 ``use_git()`` 的定义。\
 这预示了在从编写 R 脚本过渡到 R 包时需要进行的调整。程序包和脚本使用不同的机制来声明它们对其他包的依赖，\
 不同之处还有存储示例或测试代码的方式。我们在第 \ `6 <https://r-pkgs.org/r.html#r>`__\  章中进一步探讨这一点。
@@ -534,6 +534,7 @@ roxygen2 的使用和机制将在第 \ `8 <https://r-pkgs.org/man.html#man>`__\ 
     #> Writing NAMESPACE
     #> Writing fbind.Rd
 
+\
 
     .. |Logo| image:: ./Image/Chapter_1/rstudio.png
         :width: 220.6
