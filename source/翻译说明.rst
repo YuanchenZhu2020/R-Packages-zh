@@ -33,6 +33,8 @@ venue                    环境，原意为聚会场所         上下文语意
 complication artefacts   编译文件（已编译的文件）     上下文语意
 distributed product      分发式的产品                上下文语意
 downstream forms         后面的工作流                “下游”、“形式”
+vignettes                （程序包）简介              文意及网络词典
+old convention(ch_14)    旧式的                      上下文语意
 ======================== ========================== ================
 
 

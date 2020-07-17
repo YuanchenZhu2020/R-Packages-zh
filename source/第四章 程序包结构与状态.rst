@@ -234,7 +234,106 @@ devtools 公开了一系列 ``install_*()`` 函数，以满足某些超出 ``ins
 4.7 程序包的库（package libraries）
 ---------------------------------------
 
-.. rubric:: Footnotes
+我们刚刚讨论了 ``library()`` 函数，它的名字源于它的作用。当你调用 ``library(foo)`` 时，\
+R 会在当前 \ **库**\ 中查找一个叫做“foo”的已安装包，如果成功了，R 将让 foo 变得可以使用。
 
-.. [#] 要查看应该在您的雷达上的文件路径集，请在程序包的顶级目录下执行 ``dir(full.names = TRUE, recursive = TRUE, include.dirs = TRUE, all.files = TRUE)``。↩
+在 R 中，一个 \ **库**\ 就是一个包含了已安装程序包的目录，有点像图书库。不幸的是，在 R 的世界，您将会经常遇到“库”和“包”的混淆用法。\
+例如，delyr 是一个程序包，但是通常有人将其称为一个库。造成这种混乱的原因有几个。首先，R 的术语可以说是与更广泛的编程约定背道而驰的，\
+“库”的通常含义更接近于我们所说的“包”。``library()`` 函数本身的名称可能会强化这一错误的关联。最后，这种词汇错误通常是无害的，\
+因此 R 用户很容易养成错误的习惯，而指出这个错误的人看起来像是令人无法忍受的学究。但底线是：
 
+    我们使用 ``library()`` 函数加载\ [#]_ 一个程序包。
+
+当您参与包开发时，两者之间的区别是重要且有用的。
+
+您的计算机上可以有多个库。事实上，你们中的很多人已经这样做了，尤其是在 Windows 上。可以使用 ``.libPaths()`` 查看当前处于活动状态的库。以下是在 Windows上 的外观：
+
+.. code-block:: R
+
+    # on Windows
+    .libPaths()
+    #> [1] "C:/Users/jenny/Documents/R/win-library/3.6"
+    #> [2] "C:/Program Files/R/R-3.6.0/library"
+
+    lapply(.libPaths(), list.dirs, recursive = FALSE, full.names = FALSE)
+    #> [[1]]
+    #>   [1] "abc"           "anytime"       "askpass"       "assertthat"   
+    #>  ...
+    #> [145] "zeallot"      
+    #> 
+    #> [[2]]
+    #>  [1] "base"         "boot"         "class"        "cluster"     
+    #>  [5] "codetools"    "compiler"     "datasets"     "foreign"     
+    #>  [9] "graphics"     "grDevices"    "grid"         "KernSmooth"  
+    #> [13] "lattice"      "MASS"         "Matrix"       "methods"     
+    #> [17] "mgcv"         "nlme"         "nnet"         "parallel"    
+    #> [21] "rpart"        "spatial"      "splines"      "stats"       
+    #> [25] "stats4"       "survival"     "tcltk"        "tools"       
+    #> [29] "translations" "utils"
+
+以下是在 macOS 上类似的表现（但您的结果可能会有所不同）:
+
+.. code-block:: R
+
+    # on macOS
+    .libPaths()
+    #> [1] "/Users/jenny/Library/R/3.6/library"
+    #> [2] "/Library/Frameworks/R.framework/Versions/3.6/Resources/library"
+
+    lapply(.libPaths(), list.dirs, recursive = FALSE, full.names = FALSE)
+    #> [[1]]
+    #>    [1] "abc"                  "abc.data"             "abind"                
+    #>  ...
+    #> [1033] "Zelig"                "zip"                  "zoo"                 
+    #> 
+    #> [[2]]
+    #>  [1] "base"         "boot"         "class"        "cluster"     
+    #>  [5] "codetools"    "compiler"     "datasets"     "foreign"     
+    #>  [9] "graphics"     "grDevices"    "grid"         "KernSmooth"  
+    #> [13] "lattice"      "MASS"         "Matrix"       "methods"     
+    #> [17] "mgcv"         "nlme"         "nnet"         "parallel"    
+    #> [21] "rpart"        "spatial"      "splines"      "stats"       
+    #> [25] "stats4"       "survival"     "tcltk"        "tools"       
+    #> [29] "translations" "utils"
+
+
+在这两种情况下，我们可以看到两个活动库，它们的查询顺序如下：
+
+1. 用户库
+2. 系统级或全局库
+
+这样的设置是 Windows 上的经典设置，但通常是 macOS 上需要选择的设置。[#]_ 在这样的设置之下，\
+从 CRAN（或其他地方）安装的或本地开发的附加程序包保存在用户库中。和上面一样，macOS 系统被用作主要的开发机器，这里有很多软件包（大约 1000 个），\
+而 Windows 系统只是偶尔使用，而且要简朴得多。R 附带的基本和推荐程序包的核心集位于系统级库中，这一点在 macOS 和 Windows 上是相同的。\
+这种分离对许多开发人员很有吸引力，例如，在不干扰 base R 的安装的情况下使得清理附加包变得很容易。
+
+如果您在 macOS 上只看到一个库，并不需要紧急更改任何内容。但下次升级 R 时，请考虑创建一个用户级库。默认情况下，\
+R 查找存储在环境变量 ``R_LIBS_USER`` 中的路径下的用户库，默认为 ``~/Library/R/x.y/library``。当您安装 R ``x.y.z`` 时，\
+并且在安装任何附加程序包之前，请使用 ``dir.create("~/Library/R/x.y/library")`` 设置用户库。现在您将看到像上面一样的库设置。\
+或者，您也可以在其他地方设置一个用户库，并通过在 ``.Renviron`` 中设置 ``R_LIBS_user`` 环境变量来告诉 R。
+
+这些库的文件路径也清楚地表明它们与特定版本的 R（在编写本文时是 3.6.x）相关联，这也是经典的。这反映并强化了这样一个事实：\
+当您将 R 从 3.5 更新到 3.6，即一个在 \**次要（minor）**\ 版本上的更改时，您需要重新安装附加程序包。\
+对于在 \**补丁（patch）**\ 版本上的更改，例如从 R 3.6.0 到 3.6.1，通常不需要重新安装附加程序包。
+
+随着 R 的使用变得越来越复杂，开始更加有意地管理程序包库是十分平常的。\
+例如，像 \ `renv <https://rstudio.github.io/renv/>`__\ （及其前身 \ `packrat <https://rstudio.github.io/packrat/>`__\ ）\
+这样的工具可以使管理项目特定库的过程自动化。这对于使数据产品具有可复制性、可移植性和相互隔离性非常重要。\
+程序包开发人员可能会在库的搜索路径前添加一个临时库，其中包含一组特定版本的程序包，以便在不影响其他日常工作的情况下探索前后兼容性问题。\
+反向依赖性检查（Reverse dependency checks）是另一个显式管理库的搜索路径的例子。
+
+以下是按范围和持久性顺序控制哪些库处于活动状态的主要杠杆：
+
+- 环境变量，如 ``R_LIBS`` 和 ``R_LIBS_USER``，它们在启动时被查询。
+- 使用一个或多个文件路径调用 ``.libPaths()``。
+- 通过 ``withr::with_libpaths()`` 使用临时更改的库搜索路径执行小型的代码段。
+- 单个函数的参数，比如 ``install.packages(lib =)`` 和 ``library(lib.loc =)``。
+
+最后，需要注意的是，``library()`` \**永远**\ 不应该在 \*程序包中*\ 使用。程序包和脚本依赖于不同的机制来声明它们的依赖性，\
+这是您需要在您的心理模型（mental model）和习惯中做出的最大调整之一。我们将在第 \ `11 <https://r-pkgs.org/namespace.html#namespace>`__\  章全面探讨这个话题。
+
+.. rubric:: 脚注
+
+.. [#] 要查看应该出现在您的雷达上的文件路径，请在程序包的顶级目录下执行 ``dir(full.names = TRUE, recursive = TRUE, include.dirs = TRUE, all.files = TRUE)``。↩
+.. [#] 实际上，``library()`` 加载并附加一个程序包到环境中，但这是另一节（\ `11.2 <https://r-pkgs.org/namespace.html#search-path>`__\ ）的主题。↩
+.. [#] 有关更多详细信息，请参阅 \ *What They Forgot To Teach You About R*\  中的 \ `Maintaining R Section <https://whattheyforgot.org/maintaining-r.html#how-to-transfer-your-library-when-updating-r>`__\ ↩

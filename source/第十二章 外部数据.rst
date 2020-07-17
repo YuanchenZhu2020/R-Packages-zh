@@ -1,0 +1,164 @@
+第十二章 外部数据
+======================
+
+在程序包中包含数据通常很有用。如果您要向广大的用户发布程序包，那么这就是一种为程序包的功能提供引人注目的使用示例的方法。\
+如果您要将软件包发布给更加特定的受众，他们对数据（例如新西兰人口普查数据）或主题（例如人口统计学）感兴趣，\
+那么这将是一种将数据连同文档一起分发的方法（只要您的受众是 R 用户）。
+
+在程序包中包含数据的主要方法有三种，这取决于您希望如何处理数据以及谁能够使用它：
+
+- 如果要存储二进制数据并使其对用户可用，请将其放在 ``data/`` 中。这是放置示例数据集的最佳位置。
+- 如果您想存储已解析的数据，但不想让用户使用它，请将其放在 ``R/sysdata.rda`` 中。这是放置函数所需数据的最佳位置。
+- 如果要存储原始数据，请将其放在 ``inst/extdata`` 中。
+
+这三个方法的一个简单替代方法是将其包含在程序包的源代码中，要么手动创建，要么使用 ``dput()`` 将现有数据集序列化为 R 代码。
+
+下面将更详细地描述每个可能存放数据的位置。
+
+
+12.1 导出的数据
+----------------------
+
+程序包数据最常见的存放位置是（震惊！）``data/``。此目录中的每个文件都应该是由 ``save()`` 创建的 ``.RData``文件，\
+其中包含一个对象（与文件同名）。遵守这些规则的最简单方法是使用 ``usethis::use_data()``：
+
+.. code-block:: R
+
+    x <- sample(1000)
+    usethis::use_data(x, mtcars)
+
+当然也可以使用其他类型的文件，但我不建议这样做，因为 ``.RData`` 文件已经很快、很小而且很明确。其他可选的类型在 ``data()`` 中描述。\
+对于较大的数据集，您可能需要尝试使用压缩设置。默认值是 ``bzip2``，但有时 ``gzip`` 或 ``xz`` 可以创建更小的文件。
+
+如果 ``DESCRIPTION`` 包含 ``LazyData:true``，则数据集将被延迟加载。这意味着在你使用它们之前它们不会占用任何内存。\
+下面的示例显示加载 nycflights13 程序包前后的内存使用情况。您可以看到，在检查存储在包中的 flights 数据集之前，内存使用情况不会发生变化。
+
+.. code-block:: R
+
+    pryr::mem_used()
+    #> Registered S3 method overwritten by 'pryr':
+    #>   method      from
+    #>   print.bytes Rcpp
+    #> 41.1 MB
+    library(nycflights13)
+    pryr::mem_used()
+    #> 44.3 MB
+
+    invisible(flights)
+    pryr::mem_used()
+    #> 85 MB
+
+我建议您在 ``DESCRIPTION`` 中始终包含 ``LazyData:true``。``usethis::create_package()`` 可以为您执行此操作。
+
+通常，您在 ``data/`` 中包含的数据是从其他地方收集的原始数据的已处理版本。我强烈建议您花时间在程序包的源代码中包含用于处理数据的代码。\
+这将使您更容易更新或再生产您的数据版本。我建议您将此代码放在 ``data-raw/`` 中。在程序包的捆绑版本中不需要它，\
+所以也要将其添加到 ``.Rbuildignore``。使用以下代码一步完成所有这些操作：
+
+.. code-block:: R
+
+    usethis::use_data_raw()
+
+您可以在我最近的一些数据包中看到这种方法的实际应用。我将这些作为程序包创建，因为数据很少会更改，\
+而且多个车呢光绪包可以使用它们作为示例：
+
+- \ `babynames <https://github.com/hadley/babynames>`__\ 
+- \ `fueleconomy <https://github.com/hadley/fueleconomy>`__\ 
+- \ `nasaweather <https://github.com/hadley/nasaweather>`__\ 
+- \ `nycflights13 <https://github.com/hadley/nycflights13>`__\ 
+- \ `usdanutrients <https://github.com/hadley/usdanutrients>`__\ 
+
+12.1.1 添加数据集说明
+............................
+
+``data/`` 中的对象总是有效地被导出（它们使用与 ``NAMEDPACE`` 稍有不同的机制，但细节并不重要）。\
+这意味着它们必须拥有文档。为数据撰写文档就像给函数撰写文档一样，只是有一些细微的差别。\
+与直接在数据中撰写相关文档不同，您为数据集的名称撰写文档并将其保存在 ``R/`` 中。\
+例如，用于记录 ggplot2 中钻石数据集的 roxygen2 代码块保存为 ``R/data.R``，如下所示：
+
+.. code-block:: R
+
+    #' Prices of 50,000 round cut diamonds.
+    #'
+    #' A dataset containing the prices and other attributes of almost 54,000
+    #' diamonds.
+    #'
+    #' @format A data frame with 53940 rows and 10 variables:
+    #' \describe{
+    #'   \item{price}{price, in US dollars}
+    #'   \item{carat}{weight of the diamond, in carats}
+    #'   ...
+    #' }
+    #' @source \url{http://www.diamondse.info/}
+    "diamonds"
+
+对于数据集文档，还有两个重要的附加标记：
+
+- ``@format`` 提供了数据集的概述。对于数据框，您应该包括一个定义列表来描述每个变量。在这里描述变量的单位通常是个好主意。
+- ``@source`` 提供了数据的来源详细信息，通常放在 ``\url{}``。
+
+从不使用 ``@export`` 导出数据集。
+
+
+12.2 内部数据
+-----------------------
+
+有时函数需要预先计算好的数据表。如果你把它们放在 ``data/`` 中，它们也可以被程序包用户使用，这是不合适的。\
+相反，您可以将它们保存在 ``R/sysdata.rda``. 例如，两个与颜色相关的程序包，\ `munsell <https://github.com/cwickham/munsell>`__\  和 \ `dichromat <http://cran.r-project.org/web/packages/dichromat/index.html>`__\  ，\
+使用 ``R/sysdata.rda`` 存储大量的彩色数据表。
+
+您可以使用带有参数 ``internal = TRUE`` 的 ``usethis::use_data()`` 创建文件：
+
+.. code-block:: R
+
+    x <- sample(1000)
+    usethis::use_data(x, mtcars, internal = TRUE)
+
+同样，为了使这些数据具有可复制性，最好在程序包中包含用于生成它的代码。并把它放到 ``data-raw/`` 中。
+
+位于 ``R/sysdata.rda`` 中的对象不会被导出（它们不应该被导出），因此不需要文档。它们只在你的程序里提供。
+
+
+12.3 原始数据
+---------------------
+
+如果要显示加载/解析原始数据的示例，请将原始文件放在 ``inst/extdata`` 中。\
+安装包后，``inst/`` 中的所有文件（和文件夹）都会上移一级到顶级目录（因此它们不能有 ``R/`` 或 ``DESCRIPTION`` 之类的名称）。\
+要引用 ``inst/extdata`` 中的文件（无论是否已安装），请使用 ``system.file()``。例如，\ `readr <https://readr.tidyverse.org/>`__\  包使用 ``inst/extdata`` 来存储分隔文件，以便在示例中使用：
+
+.. code-block:: R
+
+    system.file("extdata", "mtcars.csv", package = "readr")
+    #> [1] "/home/travis/R/Library/readr/extdata/mtcars.csv"
+
+注意：默认情况下，如果文件不存在，``system.file()`` 不返回错——它只返回空字符串：
+
+.. code-block:: R
+
+    system.file("extdata", "iris.csv", package = "readr")
+    #> [1] ""
+
+如果要在文件不存在时显示错误消息，请添加参数 ``mustWork = TRUE``：
+
+.. code-block:: R
+
+    system.file("extdata", "iris.csv", package = "readr", mustWork = TRUE)
+    #> Error in system.file("extdata", "iris.csv", package = "readr", mustWork =
+    #> TRUE): no file found
+
+
+12.4 其他数据
+-----------------
+
+- 测试数据：可以直接将小文件放在测试目录中。但是请记住，单元测试是为了测试正确性，而不是性能，所以要保持小的规模。
+
+- 简介（vignettes）数据。如果您想展示如何使用已经加载的数据，那么就将数据放入 ``data/`` 中。如果要演示如何加载原始数据，请将该数据放入 ``inst/extdata`` 中。
+
+
+12.5 CRAN 笔记
+-----------------
+
+一般来说，程序包中的数据集应该小于 1 MB —— 如果更大则需要申请豁免。如果数据在它自己的程序包中 \ :sub:`翻译存疑`\ ，\
+并且不会经常更新，那么这样做通常会更容易。您还应该确保已经对数据进行了最佳压缩：
+
+1. 运行 ``tools::checkRdaFiles()`` 确定每个文件的最佳压缩率。
+2. 重新运行 ``usethis::use_data()``，并将参数 ``compress`` 设置为该最佳值。如果丢失了重新创建文件的代码，您可以使用 ``tools::resaveRdaFiles`` 将其保存到位。

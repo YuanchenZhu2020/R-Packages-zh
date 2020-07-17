@@ -1,0 +1,124 @@
+第十四章 安装后的文件
+==============================
+
+当程序包被安装后，``inst/`` 中的所有内容都将被复制到程序包的顶级目录中。从某种意义上说，\
+``inst/`` 是 反面的 ``.Rbuildignore`` —— ``.Rbuildignore`` 允许您从顶层删除任意文件和目录，\
+而 ``inst/`` 则允许您添加它们。您可以随意在 ``inst/`` 中放入任何内容，但要注意：因为 ``inst/`` 会被复制到顶级目录中，\
+所以您决不能使用与现有目录同名的子目录。这意味着您应该避免 ``inst/build``、``inst/data``、\
+``inst/demo``、``inst/exec``、``inst/help``、``inst/html``、``inst/inst``、``inst/libs``、\
+``inst/Meta``、``inst/man``、``inst/po``、``inst/R``、``inst/src``、``inst/tests``、``inst/tools`` 和 ``inst/vignettes``。
+
+本章讨论 ``inst/`` 中最常见的文件：
+
+- ``inst/AUTHOR`` 和 ``inst/COPYRIGHT``。如果程序包的版权和作者身份特别复杂，可以使用纯文本文件 ``inst/COPYRIGHTS`` 和 ``inst/AUTHORS`` 来提供更多信息。
+- ``inst/CITATION``：如何引用程序包，详情请参阅 \ `package citation <https://r-pkgs.org/inst.html#inst-citation>`__\ 。
+- ``inst/docs``：这是旧式的简介（vignette），在现代软件包中应该避免使用。
+- ``inst/extdata``：示例和简介（vignette）的附加外部数据。有关详细信息，请参见 \ `external data <https://r-pkgs.org/data.html#data-extdata>`__\ 。
+- ``inst/java``，``inst/python`` 等，参见 \ `other languages <https://r-pkgs.org/inst.html#inst-other-langs>`__\ 。
+
+要通过代码从 ``inst/`` 中查找文件，请使用 ``system.file()`` 。例如，要查找 ``inst/extdata/mydata.csv``，\
+您应该调用 ``system.file("extdata", "mydata.csv", package = "mypackage")。请注意，您在路径中省略了 ``inst/`` 目录。\
+如果程序包已被安装，或者已使用 ``devtools::load_all()`` 加载，那么此方法是有效的。
+
+
+14.1 程序包的引用
+---------------------
+
+``CITATION`` 文件位于 ``inst`` 目录中，并与 ``citation()`` 函数紧密相连，该函数告诉您如何引用 R 和 R 程序包。\
+不带任何参数调用 ``citation()`` 将告诉您如何引用 base R：
+
+.. code-block:: R
+
+    citation()
+    #> 
+    #> To cite R in publications use:
+    #> 
+    #>   R Core Team (2020). R: A language and environment for statistical
+    #>   computing. R Foundation for Statistical Computing, Vienna, Austria.
+    #>   URL https://www.R-project.org/.
+    #> 
+    #> A BibTeX entry for LaTeX users is
+    #> 
+    #>   @Manual{,
+    #>     title = {R: A Language and Environment for Statistical Computing},
+    #>     author = {{R Core Team}},
+    #>     organization = {R Foundation for Statistical Computing},
+    #>     address = {Vienna, Austria},
+    #>     year = {2020},
+    #>     url = {https://www.R-project.org/},
+    #>   }
+    #> 
+    #> We have invested a lot of time and effort in creating R, please cite it
+    #> when using it for data analysis. See also 'citation("pkgname")' for
+    #> citing R packages.
+
+使用程序包名称调用该函数将告诉您如何引用该程序包：
+
+.. code-block:: R
+
+    citation("lubridate")
+    #> 
+    #> To cite lubridate in publications use:
+    #> 
+    #>   Garrett Grolemund, Hadley Wickham (2011). Dates and Times Made Easy
+    #>   with lubridate. Journal of Statistical Software, 40(3), 1-25. URL
+    #>   http://www.jstatsoft.org/v40/i03/.
+    #> 
+    #> A BibTeX entry for LaTeX users is
+    #> 
+    #>   @Article{,
+    #>     title = {Dates and Times Made Easy with {lubridate}},
+    #>     author = {Garrett Grolemund and Hadley Wickham},
+    #>     journal = {Journal of Statistical Software},
+    #>     year = {2011},
+    #>     volume = {40},
+    #>     number = {3},
+    #>     pages = {1--25},
+    #>     url = {http://www.jstatsoft.org/v40/i03/},
+    #>   }
+
+要自定义您的程序包的引文，请添加如下所示的 ``inst/CITATION``：
+
+.. code-block:: R
+
+    citHeader("To cite lubridate in publications use:")
+
+    citEntry(entry = "Article",
+    title        = "Dates and Times Made Easy with {lubridate}",
+    author       = personList(as.person("Garrett Grolemund"),
+                    as.person("Hadley Wickham")),
+    journal      = "Journal of Statistical Software",
+    year         = "2011",
+    volume       = "40",
+    number       = "3",
+    pages        = "1--25",
+    url          = "http://www.jstatsoft.org/v40/i03/",
+
+    textVersion  =
+    paste("Garrett Grolemund, Hadley Wickham (2011).",
+            "Dates and Times Made Easy with lubridate.",
+            "Journal of Statistical Software, 40(3), 1-25.",
+            "URL http://www.jstatsoft.org/v40/i03/.")
+    )
+
+您需要创建 ``isnt/CITATION``。如您所见，它非常简单：您只需要学习一个新函数 ``citEntry()``。最重要的参数是：
+
+- ``entry``：引文类型、"Artical"、"Book"、"PhDThesis" 等。
+- 标准书目信息，如 ``title``、``author``（应该是 ``personList()``）、``year``、``journal``、``volume``、``issue``、``pages``、……
+
+完整的参数列表可以在 ``?bibentry`` 中找到。
+
+使用 ``citHeader()`` 和 ``citFooter()`` 添加其他建议。
+
+
+14.2 其他语言
+------------------
+
+有时一个程序包包含其他编程语言编写的有用的补充脚本。一般来说，您应该避免这样做，因为它增加了额外的依赖关系，\
+但是当打包来自另一种语言的大量代码时，它可能会很有用。例如，\ `gdata <http://cran.r-project.org/web/packages/gdata/index.html>`__\  \
+打包了 Perl 模块 \ `Spreadsheet::ParseExcel <http://search.cpan.org/~dougw/Spreadsheet-ParseExcel-0.65/>`__\  以将 excel 文件读入 R。
+
+通常的惯例是将这种性质的脚本放入 ``inst/``、``inst/python``、``inst/perl``、``inst/ruby`` 等的子目录中。\
+如果这些脚本对您的程序包很重要，请确保在 ``DESCRIPTION`` 的 ``SystemRequirements`` 字段中也添加了适当的编程语言。\（此字段供人类阅读，因此不必担心如何指定它。）
+
+Java 是一种特殊情况，因为您需要同时包含源代码（应该在 ``Java/`` 中，并在 ``.Rinstignore`` 中列出）和已编译的 jar 文件（应该放在 ``inst/Java`` 中）。确保将 ``rJava`` 添加到 ``Imports`` 中。
