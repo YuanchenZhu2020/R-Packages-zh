@@ -41,7 +41,7 @@
   - 在您的工作中，这是完全可选的，但我们建议这样做。您将看到 Git 和 GitHub 如何帮助我们展示程序包开发的所有中间阶段。
 - 通过 \ `roxygen2 <https://cran.r-project.org/package=roxygen2>`__\  建立各个函数的文档 。
 - 使用 \ `testthat <http://testthat.r-lib.org/>`__\  进行单元测试。
-- 通过可执行文件整体了解软件包的文件`README.Rmd`。
+- 通过可执行文件整体了解软件包的文件 ``README.Rmd``。
 
 我们称这个程序包包为 \ **foofactors**\ ，它将有几个处理因子（ factors ）的函数。请注意，\
 这些功能非常简单，并且绝对不是本章的重点！有关正确处理因子（ factors ）的软件包，\
@@ -81,7 +81,7 @@
 
     create_package("~/path/to/foofactors")
 
-我们必须在临时目录中工作，因为这本书是在云中非交互式构建的。\
+我们必须在临时目录中工作，因为这本书是在云上以非交互形式构建的。\
 在幕后，我们执行自己的 ``create_package()`` 命令，但如果我们的输出与你的输出略有不同，请不要感到惊讶。
 
 .. code-block:: R
@@ -130,7 +130,6 @@
     #> 6 foofactors.Rproj file
 
 \
-
     .. |Logo| image:: ./Image/Chapter_1/rstudio.png
         :width: 220.6
         :height: 255.7
@@ -164,7 +163,7 @@
     |bulb|
 
     Git 或其他版本控制系统的使用是可选项，但是长期来看我们建议您使用。\
-    我们将在 \ `16 <https://r-pkgs.org/git.html#git>`__\ 中解释其重要性。
+    我们将在 \ `16 <https://r-pkgs.org/git.html#git>`__\  中解释其重要性。
 
 ``foofactors`` 目录是 R 源码包和 RStudio 项目。现在，我们使用 ``use_git()`` 让它也变成一个 Git 存储库。
 
@@ -226,7 +225,7 @@
 2.6 编写第一个函数
 ---------------------
 
-因子（ factors ）的很多操作都令人费解\ :sub:`意译`\ 。让我们看看当我们把两个因子（ factors ）连接起来的时候会发生什么。
+因子（ factors ）的很多操作都令人费解。让我们看看当我们把两个因子（ factors ）连接起来的时候会发生什么。
 
 .. code-block:: R
 
@@ -257,7 +256,7 @@
         factor(c(as.character(a), as.character(b)))
     }
 
-这本书不会教您如何在 R 中编写函数。要了解更多有关该知识的信息，请查阅 \ *R for Data Science*\  和 \ *Advanced R*\  的 \ `FUnctions Chapter <https://r4ds.had.co.nz/functions.html>`__\ 。
+这本书不会教您如何在 R 中编写函数。要了解更多有关该知识的信息，请查阅 \ *R for Data Science*\  和 \ *Advanced R*\  的 \ `Functions Chapter <https://r4ds.had.co.nz/functions.html>`__\ 。
 
 
 2.7 ``use_r()``
@@ -630,7 +629,7 @@ foofactors 现在应该可以立刻并永远通过 ``R CMD check`` 了：0 个�
     ** testing if installed package keeps a record of temporary installation path
     * DONE (foofactors)
 
-
+\
     .. |Logo| image:: ./Image/Chapter_1/rstudio.png
         :width: 220.6
         :height: 255.7

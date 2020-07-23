@@ -42,7 +42,7 @@ GitHub Repo: https://github.com/YuanchenZhu2020/R_Packages_zh_CN
 - [X] System setup
 - [X] Package structure and state
 - [ ] Fundamental development workflows
-    - [ ] 5.1
+    - [X] 5.1
     - [ ] 5.2
     - [ ] 5.3
     - [ ] 5.4

@@ -35,6 +35,8 @@ distributed product      分发式的产品                上下文语意
 downstream forms         后面的工作流                “下游”、“形式”
 vignettes                （程序包）简介              文意及网络词典
 old convention(ch_14)    旧式的                      上下文语意
+unergonomic              舒适正确的使用方式           上下文语意
+test drive               测试函数（原意为试车）       上下文语意
 ======================== ========================== ================
 
 

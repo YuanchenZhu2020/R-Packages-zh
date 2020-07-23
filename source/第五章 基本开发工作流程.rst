@@ -2,10 +2,258 @@
 ==================================
 
 在第 \ `4 <https://r-pkgs.org/package-structure-state.html#package-structure-state>`__\  章中\
-窥探了 R 程序包和库后，在这里，我们提供了创建程序包以及将其移动到开发过程中出现的不同状态的基本工作流。
+略微了解了 R 程序包和库后，在这里，我们提供了创建程序包以及使其转变为开发过程中出现的不同状态的基本工作流。
 
 
 5.1 创建程序包
 --------------------
 
+5.1.1 调查现有情况
+.....................
 
+许多程序包都是由于一个人对一些本应更容易完成的普通任务感到沮丧而产生的。您应该如何判断某些东西是否值得制作为程序包？\
+虽然这个问题没有明确的答案，但了解至少两种类型的回报是有帮助的：
+
+- 结果（Product）：当这个功能正式实现时，您的工作生活会变得更好。
+- 过程（Progress）：更好地掌握 R 会使您的工作更有效率。
+
+如果您只关心结果带来的好处的存在，那么您的主要目标就是在现有的程序包中探索。Silge，Nash 和 Graves 在 useR! 2017 组织了一次调查和会议。\
+他们为 R Journal（Silge、Nash 和 Graves \ `2018 <https://r-pkgs.org/workflows101.html#ref-silge-nash-graves>`__\ ）撰写的文章提供了全面的资源综述。
+
+如果您正在寻找方法来提高对 R 的掌握，那么您仍然应该对现有程序包的情况多加了解。但是，即使有相关的前期工作，也有很多充分的理由来制作自己的程序包。\
+专家们的方式是通过实践来为许多功能构建程序包，通常是非常基本的功能，并且您应该有同样的机会通过修补来学习。如果您只被允许做一些从未接触过的事情，那么您可能会遇到一些非常模糊或非常困难的问题。 \ :sub:`茫然不知所云`\ 
+
+最后，根据用户界面、默认值和在极端情况下的表现来评估现有工具的适用性也是有效的。如果一个程序包在技术上可以满足您的需要，\
+但是对于您的用例来说非常不符合舒适正确的使用方式，那么仍然可以说它不能满足您的需求。在这种情况下，开发自己的实现方法或编写隐藏了 sharp edges \ :sub:`疑问？`\  的封装函数仍然是有意义的。
+
+
+5.1.2 为您的程序包取名
+..............................
+
+    “在计算机科学中只有两件困难的事：缓存失效和命名。” — Phil Karlton
+
+在创建程序包之前，您需要为它取一个明自。这可能是创建程序包的过程中最困难的部分！（尤其是因为没有人可以为您实现取名的自动化。）
+
+
+5.1.2.1 正式的要求
+'''''''''''''''''''''''''
+
+有三个正式的要求：
+
+1. 名称只能由字母、数字和句点组成，即 ``.``。
+2. 它必须以字母开头。
+3. 它不能以句点结尾。
+
+不幸的是，这意味着您不能在您的包名中使用连字符或下划线，即 ``-`` 或 ``\``。我们建议不要在包名中使用句点，因为这会混淆句点与文件扩展名和 S3 方法的关联。
+
+
+5.1.2.2 实用的建议
+'''''''''''''''''''''''''
+
+如果您打算和别人分享您的程序包，那么花几分钟想一个好名字是值得的。以下是一些需要考虑的事项：
+
+- 选择一个便于 Google 搜索的独特名称。这使得潜在的用户能够很容易地找到您的程序包（以及相关的资源），并能让您看到是谁在使用它。
+- 不要选择一个已经在 CRAN 或 Bioconductor 上使用的包名。您可能还需要考虑一些其他类型的命名冲突：
+
+    * 是否有在 GitHub 上成熟的且正在开发中的程序包，该程序包已经有了一定的历史，并且似乎即将发布？
+    * 这个名称是否已经用于另一个软件，例如是 Python 或 JavaScript 生态系统中的库或框架？
+
+- 避免同时使用大写和小写字母：这样做会使包名称难以键入，甚至难以记住。例如，很难记住一个程序包叫做 Rgtk2 还是 RGTK2 或 RGtk2。
+- 优先选择可发音的名字，这样人们在谈论你的程序包时会很舒服，并且能够在他们的脑海里听到它。
+- 找到一个能唤起对问题的联想的单词，并对其进行修改，使其具有唯一性：
+
+    * lubridate 使日期和时间更容易。
+    * rvest 从网页中“收获”内容。
+    * r2d3 提供了使用 D3 可视化的实用程序。
+    * forcats 是因子（factors）的变位词，我们用它来表示分类数据( \ **for cat**\ egorical data )。
+
+- 使用缩写：
+
+    * RCpp = R + C++ (Plus Plus)
+    * brms = 使用 Stan 的贝叶斯回归模型（Bayesian Regression Models using Stan）
+- 名字后添加额外的字符 R：
+
+    * stringr 提供字符串工具。
+    * beepr 播放通知声音。
+    *callr 从 R 调用 R。
+
+- 别被起诉。
+
+    * 如果您要创建一个与商业服务交互的包，请查看商标使用指南。例如，rDrop 不被称为 rDropbox，因为 Dropbox 禁止任何应用程序使用完整的商标名。
+
+Nick Tierney 在他的 \ `Naming Things <https://www.njtierney.com/post/2018/06/20/naming-things/>`__\  博客文章中展示了一个有趣的程序包名称类型学；\
+请参阅该文章以获取更多鼓舞人心的示例。他也有一些重命名包的经验，因此，如果您第一次取名没有做对，他的博客文章 \ `So, you’ve decided to change your r package name <https://www.njtierney.com/post/2017/10/27/change-pkg-name/>`__\  将是一个很好的资源。
+
+
+5.1.2.3 使用 available 程序包
+'''''''''''''''''''''''''''''''''''
+
+同时遵守上述所有建议是十分困难的，因此您显然需要做出一些权衡。 \ `available 程序包 <https://cran.r-project.org/package=available>`__\ 中有一个名为 ``available()`` 的函数，可以帮助您从多个角度评估可能的程序包名称：
+
+.. code-block:: R
+
+    library(available)
+
+    available("doofus")
+    #> Urban Dictionary can contain potentially offensive results,
+    #>   should they be included? [Y]es / [N]o:
+    #> 1: 1
+    #> ── doofus ──────────────────────────────────────────────────────────────────
+    #> Name valid: ✔
+    #> Available on CRAN: ✔ 
+    #> Available on Bioconductor: ✔
+    #> Available on GitHub:  ✔ 
+    #> Abbreviations: http://www.abbreviations.com/doofus
+    #> Wikipedia: https://en.wikipedia.org/wiki/doofus
+    #> Wiktionary: https://en.wiktionary.org/wiki/doofus
+    #> Sentiment:???
+
+··available::available()`` 执行以下操作：
+
+- 检查有效性。
+- 检查在 CRAN、Bioconductor 和其他产品上的可用性。
+- 搜索各种网站，帮助您发现任何意料之外的含义。在交互式会话中，您在上面看到的 URLs 将在浏览器选项卡中打开。
+- 试图报告该名称是否有积极情绪或消极情绪。
+
+
+5.1.3 程序包的创建
+...........................
+
+为程序包命名后，有两种创建程序包的方法：
+
+- 调用 ``usethis::create_package()``。
+- 在 RStudio 中，依次点击 \ *File > New Project > New Dictionary > R Package*\ ，它最终会调用 ``usethis::create_package()``，所以实际上只有一种创建程序包的方法。
+
+\ *TODO: revisit when I tackle usethis + RStudio project templates https://github.com/r-lib/usethis/issues/770. In particular, contemplate whether to reinstate any screenshot-y coverage of RStudio workflows here.*\ 
+
+这将产生最小的 \ *可工作的*\  程序包，它包含三个组件：
+
+1. 一个 ``R/`` 目录，您将在 \ `R Code <https://r-pkgs.org/r.html#r>`__\  中了解到具体内容。
+2. 一个基础的 ``DESCRIPTION`` 文件，您将在 \ `package metadata <https://r-pkgs.org/description.html#description>`__\  中了解到具体内容。
+3. 一个基础的 ``NAMESPACE`` 文件，您将在 \ `the namespace <https://r-pkgs.org/namespace.html#namespace>`__\  中了解到具体内容。
+
+它也可能包含一个 RStudio 项目文件，``pkgname.Rproj``，这使您的程序包易于与 RStudio 一起使用，如下所述。基础的 ``.Rbuildignore`` 和 ``.gitignore`` 文件也被包含在目录中。
+
+不要使用 ``package.skeleton()`` 创建程序包。因为这个函数与 R 一起提供，您可能会想使用它，但是它会创建一个在调用 R CMD build 时立刻抛出错误的程序包。\
+它期望的开发过程与我们在这里使用的不同，所以修复这个损坏的初始状态只会让使用 devtools（尤其是 roxygen2）的人做不必要的工作。请使用 ``create_package()``。
+
+
+5.1.4 您应该在哪里执行 ``create_package()`` ?
+...........................................................
+
+``create_package()``的主要且唯一必需的参数是新程序包存在的 ``path``：
+
+.. code-block:: R
+
+    create_package("path/to/package/pkgname")
+
+请记住，这是您的程序包在\ **源代码**\ 形式（第 \ `4.2 <https://r-pkgs.org/package-structure-state.html#source-package>`__\  节）时所处的位置，\
+而不是\ **已安装**\ 形式（第 \ `4.5 <https://r-pkgs.org/package-structure-state.html#installed-package>`__\  节）。\
+已安装的包位于\ **库**\ 中，我们在第 \ `4.7 <https://r-pkgs.org/package-structure-state.html#library>`__\  节中讨论了库的常规设置。
+
+源码包应该放在哪里？主要原则是该位置应该与已安装包所在的位置不同。在没有其他外部考虑的情况下，典型的用户应该在其主目录中为 R（源代码）包指定一个目录。\
+我们与同事讨论过这一点，您最喜欢的一些 R 包的源代码位于 ``~/rrr/``、``~/documents/tidyverse/``、``~/R/packages/`` 或 ``~/pkg/`` 等目录中。\
+我们中的一些人使用一个目录来实现这一点，其他人则根据他们的开发角色（contributor vs. not）、GitHub 组织（tidyverse vs r-lib）、开发阶段（active vs. not）等将源码包划分为几个目录。
+
+以上内容可能反映出我们主要是工具构建者。学术研究人员可能会围绕单个出版物组织他们的文件，而数据科学家可能会围绕数据产品和报告来组织。\
+对于每一种特定的方法，没有特定的技术或传统原因来说明为何要选择它。只要在源码包和已安装的包之间保持清晰的区别，仅仅需要选择一种在整个系统中有效的文件组织策略，并始终如一地使用它即可。
+
+
+5.2 RStudio 项目
+---------------------------
+
+devtools 与 RStudio，一个我们相信是大多数 R 用户的最佳开发环境携手合作。明确地说，您可以使用 devtools 而不使用 RStudio，也可以在 RStudio 中开发程序包而不使用 devtools。但是这种特殊的、双向的关系使得将 devtools 和 RStudio 一起使用变得非常有意义。
+
+    .. |Logo| image:: ./Image/Chapter_1/rstudio.png
+        :width: 220.6
+        :height: 255.7
+        :scale: 50
+    
+    |Logo|
+
+    一个 RStudio 项目（Project，包含一个大写字母“P”），是您计算机上的一个常规目录，其中包含一些（大部分是隐藏的）RStudio 基础文件，\
+    以便您在一个或多个项目（project，带有小写的“P”）上工作。一个项目（project）可以是一个 R 包、一个数据分析报告、一个 Shiny app、一本书、一个博客等等。
+
+
+5.2.1 RStudio 项目的好处
+...............................
+
+从第 \ `4.2 <https://r-pkgs.org/package-structure-state.html#source-package>`__\  节中，您已经知道源码包位于您计算机上的目录中。我们强烈建议将每个源码包作为一个 RStudio 项目。以下是这样做的好处：
+
+- 项目是非常“可启动的”。很容易在一个项目中启动一个新的 RStudio 实例，文件浏览器和工作目录完全按照您需要的方式设置，准备工作。
+- 每个项目都是独立的；在一个项目中运行的代码不会影响任何其他项目。
+
+    * 您可以同时打开多个 RStudio 项目，并且在项目 A 中执行的代码不会对项目 B 的 R session 和工作区（workspace）产生任何影响。
+
+- 您可以使用方便的代码导航工具，如 ``F2`` 跳转到函数定义，``Ctrl + .`` 来按名称查找函数或文件。
+- 您可以使用很有帮助的键盘快捷键和可点击的界面，以执行常见的程序包开发任务，如生成文档、运行测试或检查整个程序包。
+
+.. image:: ./Image/Chapter_5/keyboard-shortcuts.png
+
+\
+    .. |Logo| image:: ./Image/Chapter_1/rstudio.png
+        :width: 220.6
+        :height: 255.7
+        :scale: 50
+    
+    |Logo|
+
+    查看最有用的键盘快捷键，请按 ``Alt + Shift + K``，或者使用 \ *Help > Keyboard Shortcuts Help*\ 。
+
+    .. |Logo| image:: ./Image/Chapter_1/rstudio.png
+        :width: 220.6
+        :height: 255.7
+        :scale: 50
+    
+    |Logo|
+
+    在 Twitter 上关注 @\ `rstudiotips <https://twitter.com/rstudiotips>`__\  以获取 RStudio 的常规提示和使用技巧。
+
+
+5.2.2 怎样获取 RStudio 项目
+................................
+
+如果您按照我们的建议使用 ``create_package()`` 创建新的程序包，那么这会自行解决。如果你在 RStudio 工作，每个新程序包也将是一个 RStudio 项目。
+
+有多种方法可以将预先存在源码包的目录指定为 RStudio 项目：
+
+- 在 RStudio 中，执行 \ *File > newproject > Existing Directory*\ 。
+- 使用预先存在的 R 源包的路径调用 ``create_package()``。
+- 调用 ``usethis::use_rstudio()``，将活动的 usethis 项目设置为现有的 R 包。实际上，这可能意味着您只需要确保工作目录在预先存在的程序包中。
+
+
+5.2.3 什么使得目录成为一个 RStudio 项目？
+..........................................
+
+.. image:: ./Image/Chapter_5/project-options-1.png
+
+.. image:: ./Image/Chapter_5/project-options-2.png
+
+
+5.2.4 怎样启动一个 RStudio 项目
+....................................
+
+5.2.5 RStudio Project vs. active usethis project
+.............................................................
+
+5.3 工作目录和文件路径规范
+-----------------------------------
+
+5.4 使用 ``load_all()`` 测试函数
+-------------------------------------
+
+5.4.1 ``load_all()`` 的好处
+..................................
+
+5.4.2 其它调用 ``load_all()`` 的方法
+..........................................
+
+.. image:: ./Image/Chapter_5/loading.png
+
+
+参考文献
+------------
+
+Silge, Julia, John C. Nash, and Spencer Graves. 2018. “Navigating the R Package Universe.” The R Journal 10 (2):558–63. https://doi.org/10.32614/RJ-2018-058.
+
+.. rubric:: 脚注
