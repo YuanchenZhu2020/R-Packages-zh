@@ -55,4 +55,3 @@ GitHub Repo: https://github.com/YuanchenZhu2020/R_Packages_zh_CN
 - [ ] Git and GitHub
 - [ ] Automated checking
 - [ ] Releasing a package
-
