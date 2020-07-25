@@ -95,7 +95,7 @@
 
 您不需要非常频繁地考虑 ``.tar.gz`` 文件形式的程序包的确切结构，但您确实需要了解 ``.Rbuildignore`` 文件。它决定了源码包中的哪些文件可以进入后面的工作流。
 
-``.Rbuildignore`` 的每一行都是与 Perl 兼容的正则表达式，它与源码包中每个文件的路径匹配，而不考虑大小写。[#]_ 如果与正则表达式匹配，则排除该文件或目录。注意，有一些默认排除项由 R 本身执行，主要与经典的版本控制系统和编辑器（如 SVN、Git 和 Emacs）有关。
+``.Rbuildignore`` 的每一行都是与 Perl 兼容的正则表达式，它与源码包中每个文件的路径匹配，而不考虑大小写。[1]_ 如果与正则表达式匹配，则排除该文件或目录。注意，有一些默认排除项由 R 本身执行，主要与经典的版本控制系统和编辑器（如 SVN、Git 和 Emacs）有关。
 
 要排除特定的文件或目录（最常见的使用示例），您\ **必须**\ 锚定（anchor）正则表达式。例如，要排除名为"notes"的目录，请使用 ``^notes$``。正则表达式 ``notes`` 将匹配任何包含 ``notes`` 的文件名，例如 ``R/notes.R``、``man/important-notes.R``、``data/endnotes.Rdata`` 等。\
 排除特定文件或目录的最安全方法是使用 ``usethis::use_build_ignore("notes")``，它将为您执行转义。
@@ -242,7 +242,7 @@ R 会在当前 \ **库**\ 中查找一个叫做“foo”的已安装包，如果
 “库”的通常含义更接近于我们所说的“包”。``library()`` 函数本身的名称可能会强化这一错误的关联。最后，这种词汇错误通常是无害的，\
 因此 R 用户很容易养成错误的习惯，而指出这个错误的人看起来像是令人无法忍受的学究。但底线是：
 
-    我们使用 ``library()`` 函数加载\ [#]_ 一个程序包。
+    我们使用 ``library()`` 函数加载\ [2]_ 一个程序包。
 
 当您参与包开发时，两者之间的区别是重要且有用的。
 
@@ -302,7 +302,7 @@ R 会在当前 \ **库**\ 中查找一个叫做“foo”的已安装包，如果
 1. 用户库
 2. 系统级或全局库
 
-这样的设置是 Windows 上的经典设置，但通常是 macOS 上需要选择的设置。[#]_ 在这样的设置之下，\
+这样的设置是 Windows 上的经典设置，但通常是 macOS 上需要选择的设置。[3]_ 在这样的设置之下，\
 从 CRAN（或其他地方）安装的或本地开发的附加程序包保存在用户库中。和上面一样，macOS 系统被用作主要的开发机器，这里有很多软件包（大约 1000 个），\
 而 Windows 系统只是偶尔使用，而且要简朴得多。R 附带的基本和推荐程序包的核心集位于系统级库中，这一点在 macOS 和 Windows 上是相同的。\
 这种分离对许多开发人员很有吸引力，例如，在不干扰 base R 的安装的情况下使得清理附加包变得很容易。
@@ -334,6 +334,6 @@ R 查找存储在环境变量 ``R_LIBS_USER`` 中的路径下的用户库，默�
 
 .. rubric:: 脚注
 
-.. [#] 要查看应该出现在您的雷达上的文件路径，请在程序包的顶级目录下执行 ``dir(full.names = TRUE, recursive = TRUE, include.dirs = TRUE, all.files = TRUE)``。↩
-.. [#] 实际上，``library()`` 加载并附加一个程序包到环境中，但这是另一节（\ `11.2 <https://r-pkgs.org/namespace.html#search-path>`__\ ）的主题。↩
-.. [#] 有关更多详细信息，请参阅 \ *What They Forgot To Teach You About R*\  中的 \ `Maintaining R Section <https://whattheyforgot.org/maintaining-r.html#how-to-transfer-your-library-when-updating-r>`__\ ↩
+.. [1] 要查看应该出现在您的雷达上的文件路径，请在程序包的顶级目录下执行 ``dir(full.names = TRUE, recursive = TRUE, include.dirs = TRUE, all.files = TRUE)``。↩
+.. [2] 实际上，``library()`` 加载并附加一个程序包到环境中，但这是另一节（\ `11.2 <https://r-pkgs.org/namespace.html#search-path>`__\ ）的主题。↩
+.. [3] 有关更多详细信息，请参阅 \ *What They Forgot To Teach You About R*\  中的 \ `Maintaining R Section <https://whattheyforgot.org/maintaining-r.html#how-to-transfer-your-library-when-updating-r>`__\ ↩

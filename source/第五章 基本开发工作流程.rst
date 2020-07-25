@@ -270,7 +270,7 @@ RStudio 项目的目录将包含一个 ``.Rproj`` 文件。通常，如果目录
 您也可以通过 \ *File > Open Project (in New Session)*\  或右上角的 Project 菜单从 RStudio 中启动 Projects。
 
 如果您使用的是一个生产力应用程序或启动器应用程序，您可能可以将其配置为对 ``.Rproj`` 文件执行一些令人愉快的操作。\
-我们都使用 Alfred 来实现这一点，[#]_ 只有 macOS 有该工具，但是 Windows 也有类似的工具。事实上，这是一个非常好的理由首选使用生产力应用程序。
+我们都使用 Alfred 来实现这一点，[4]_ 只有 macOS 有该工具，但是 Windows 也有类似的工具。事实上，这是一个非常好的理由首选使用生产力应用程序。
 
 一次性打开多个项目是非常正常的——而且富有成效！
 
@@ -347,10 +347,10 @@ RStudio 项目的目录将包含一个 ``.Rproj`` 文件。通常，如果目录
 ..................................
 
 当您第一次开始使用开发环境，如 RStudio 或 Emacs + ESS 时，最大的便利之处是能够从 ``.R`` 脚本中发送代码到 R 控制台（R console）中执行。\
-这种流动性使得遵循将源代码视为真实存在[#]_ （而不是工作区中的对象）和保存 ``.R`` 文件（而不是保存和重新加载 ``.Rdata``）的最佳做法是可以接受的。 \ :sub:`疑惑`\ 
+这种流动性使得遵循将源代码视为真实存在\ [5]_ （而不是工作区中的对象）和保存 ``.R`` 文件（而不是保存和重新加载 ``.Rdata``）的最佳做法是可以接受的。 \ :sub:`疑惑`\ 
 
 ``load_all()`` 对于程序包开发来说有着同样的意义，相反的是，它要求您\ **不要**\ 像脚本代码那样测试程序包代码。\
-``load_all()`` \ *模拟*\ 查看源代码更改效果的完整过程，这是一个非常笨重的[#]_ 过程，您不会希望经常这样做。``load_all()`` 的主要优点有：
+``load_all()`` \ *模拟*\ 查看源代码更改效果的完整过程，这是一个非常笨重的\ [6]_ 过程，您不会希望经常这样做。``load_all()`` 的主要优点有：
 
 - 您可以快速迭代，这将鼓励探索和渐进式开发过程。
 
@@ -388,6 +388,6 @@ Silge, Julia, John C. Nash, and Spencer Graves. 2018. “Navigating the R Packag
 
 .. rubric:: 脚注
 
-.. [#] 具体来说，当建议打开应用程序或文件时，我们配置 Alfred 在其搜索结果中优先打开 ``.Rproj`` 文件。要向 Alfred 注册 ``.Rproj`` 文件类型，请转到 \ *Preferences > Features > Default Results > Advanced*\ 。将任意 ``.Rproj`` 文件拖到此位置，然后关闭即可。↩
-.. [#] 引用 \ `Emacs Speaks Statistics <https://ess.r-project.org/Manual/ess.html#Philosophies-for-using-ESS_0028R_0029>`__\  (ESS) 所支持的使用哲学。↩
-.. [#] 使用命令行的方法是退出 R，转到 shell，在程序包的父目录中执行 ``R CMD build foo``，然后执行 ``R CMD INSTALL foo_x.y.x.tar.gz``，重新启动 R，并调用 ``library(foo)``。在 R 中，一个近似的做法是 ``detach("package:foo", unload = TRUE); install.packages(".", repos = NULL, type = "source"); library(foo)``。↩
+.. [4] 具体来说，当建议打开应用程序或文件时，我们配置 Alfred 在其搜索结果中优先打开 ``.Rproj`` 文件。要向 Alfred 注册 ``.Rproj`` 文件类型，请转到 \ *Preferences > Features > Default Results > Advanced*\ 。将任意 ``.Rproj`` 文件拖到此位置，然后关闭即可。↩
+.. [5] 引用 \ `Emacs Speaks Statistics <https://ess.r-project.org/Manual/ess.html#Philosophies-for-using-ESS_0028R_0029>`__\  (ESS) 所支持的使用哲学。↩
+.. [6] 使用命令行的方法是退出 R，转到 shell，在程序包的父目录中执行 ``R CMD build foo``，然后执行 ``R CMD INSTALL foo_x.y.x.tar.gz``，重新启动 R，并调用 ``library(foo)``。在 R 中，一个近似的做法是 ``detach("package:foo", unload = TRUE); install.packages(".", repos = NULL, type = "source"); library(foo)``。↩
