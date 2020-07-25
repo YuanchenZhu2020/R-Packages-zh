@@ -41,11 +41,7 @@ GitHub Repo: https://github.com/YuanchenZhu2020/R_Packages_zh_CN
 - [X] The whole game
 - [X] System setup
 - [X] Package structure and state
-- [ ] Fundamental development workflows
-    - [X] 5.1
-    - [ ] 5.2
-    - [ ] 5.3
-    - [ ] 5.4
+- [X] Fundamental development workflows
 - [ ] R code
 - [ ] Package metadata
 - [ ] Object documentation
@@ -55,7 +51,7 @@ GitHub Repo: https://github.com/YuanchenZhu2020/R_Packages_zh_CN
 - [X] External data
 - [ ] Compiled code
 - [X] Installed files
-- [ ] Other components
+- [X] Other components
 - [ ] Git and GitHub
 - [ ] Automated checking
 - [ ] Releasing a package

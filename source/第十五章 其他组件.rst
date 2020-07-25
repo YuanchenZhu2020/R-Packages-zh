@@ -1,0 +1,34 @@
+第十五章 其他组件
+=================================
+
+还有四个其他目录是有效的顶级目录。它们很少使用：
+
+- ``demo/``：用于程序包演示。在引入 vignettes 之前它还是有用的，但现如今已不再推荐使用。请见下文。
+- ``exec/``：用于存放可执行脚本。与其他目录中的文件不同，``exec/`` 中的文件会自动标记为可执行文件。
+- ``po/``：消息的翻译。该目录是有用的，但超出了本书的范围。有关更多详细信息，请参阅“R extension”的 \ `Internationalization <http://cran.rstudio.com/doc/manuals/r-devel/R-exts.html#Internationalization>`__\  章节。
+- ``tools/``：配置期间需要的辅助文件，或者用于需要生成脚本的源文件。 \ :sub:`意义不明`\ 
+
+
+15.1 Demos
+-------------
+
+demo 是位于 ``demo/`` 中的 ``.R`` 文件。Demos 就像示例，但往往会更长。它们展示了如何将多个函数组织在一起来解决问题，而不是专注于单个函数。
+
+使用 ``demo()`` 列出并访问 demos：
+
+- 显示所有可用的 demos：``demo()``。
+- 显示程序包中的所有 demos：``demo(package = "httr")``。
+- 运行一个特定的 demo：``demo("oauth1-twitter", package = "httr")``。
+- 查找 demo：``system.file("demo", "oauth1-twitter.R", package = "httr")``。
+
+每个 demo 必须按以下格式在 ``demo/00Index`` 中列出：``demo-name Demo description``。\
+``demo-name`` 是不带扩展名的文件名，例如，``demo/my-demo.R`` 显示为 ``my-demo``。
+
+默认情况下，demo 要求对于每个展示都需要有人工输入：“Hit to see next plot:”。可以通过向 demo 文件中添加 ``devAskNewPage(ask = FALSE)`` 来覆盖此行为。您可以通过添加 ``readline("press any key to continue")`` 来添加暂停点。
+
+一般来说，我不建议使用 demos。相反，考虑写一个 vignette：
+
+- Demo 不是由 ``R CMD check`` 自动测试的。这意味着它们很容易在你不知情的情况下出问题。
+- vignette 有输入和输出，因此读者可以看到结果，而不必自己运行代码。
+- 较大的 demos 需要将代码与解释混合在一起，而 RMarkdown 比 R comments 更适合这项任务。
+- vignettes 展示在 CRAN 程序包页面上。这使得新用户更容易发现它们。
