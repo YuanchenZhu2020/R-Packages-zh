@@ -399,7 +399,7 @@ devtools 提供了更为可靠的方法。有关更多信息，请参见 \ `5.4 
 
 当您完成后，``DESCRIPTION`` 文件应该看起来像这样：
 
-.. code-block:: 
+.. code-block:: text
 
     Package: foofactors
     Title: Make Factors Less Aggravating
@@ -868,7 +868,7 @@ foofactors 现在应该可以立刻并永远通过 ``R CMD check`` 了：0 个�
 
 \ *TODO: update this link after merge into r-pkgs.*\ 
 
-.. code-block::
+.. code-block:: text
 
     ---
     output:
