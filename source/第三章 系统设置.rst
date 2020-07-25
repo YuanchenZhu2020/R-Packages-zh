@@ -79,11 +79,6 @@ usethis 程序包是一个更多人可能知道并且能够直接使用的组成
 
 为了方便起见，``use_devtools()`` 函数会在您需要时创建 ``.Rprofile`` 文件，将其打开并进行编辑，然后再剪切板和屏幕上放置必要的代码行。\
 您可能想要用这种方式处理的另一个程序包是 testthat。
-
-    .. |bulb| image:: ./Image/Chapter_2/lightbulb.png
-        :width: 94.4
-        :height: 118.1
-        :scale: 50
     
     |bulb|
 
@@ -167,3 +162,9 @@ RTools \ **不是**\  R 程序包，它不能通过 ``instaaa.packages()`` 安�
   #> [1] TRUE
 
 如果一切正常，它将返回 ``TRUE``。否则，它将显示有关该问题的一切诊断信息。
+
+
+.. |bulb| image:: ./Image/Chapter_2/lightbulb.png
+        :width: 94.4
+        :height: 118.1
+        :scale: 50

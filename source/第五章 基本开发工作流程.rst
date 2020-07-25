@@ -8,8 +8,8 @@
 5.1 创建程序包
 --------------------
 
-5.1.1 调查现有情况
-.....................
+5.1.1 调查现有运行环境
+..........................
 
 许多程序包都是由于一个人对一些本应更容易完成的普通任务感到沮丧而产生的。您应该如何判断某些东西是否值得制作为程序包呢？\
 虽然这个问题没有明确的答案，但了解至少两种类型的回报对您是有帮助的：
@@ -20,7 +20,7 @@
 如果您只关心结果带来的好处，那么您的主要目标就是在现有的程序包中探索。Silge，Nash 和 Graves 在 useR! 2017 组织了一次调查和会议。\
 他们为 R Journal（Silge、Nash 和 Graves \ `2018 <https://r-pkgs.org/workflows101.html#ref-silge-nash-graves>`__\ ）撰写的文章提供了全面的资源综述。
 
-如果您正在寻找方法来提高对 R 的掌握，那么您仍然应该对现有程序包的情况多加了解。但是，即使有相关的前期工作，也有很多充分的理由来制作自己的程序包。\
+如果您正在寻找方法来提高对 R 的掌握，那么您仍然应该对 R 的运行环境多加了解。但是，即使有相关的前期工作，也有很多充分的理由来制作自己的程序包。\
 专家们的方式是通过实践来为许多功能构建程序包，通常是非常基本的功能，并且您应该有同样的机会通过修补来学习。如果您只被允许做一些从未接触过的事情，那么您可能会遇到一些非常模糊或非常困难的问题。 \ :sub:`茫然不知所云`\ 
 
 最后，根据用户界面、默认值和在极端情况下的表现来评估现有工具的适用性也是有效的。如果一个程序包在技术上可以满足您的需要，\
@@ -75,7 +75,7 @@
 
     * stringr 提供字符串工具。
     * beepr 播放通知声音。
-    *callr 从 R 调用 R。
+    * callr 从 R 调用 R。
 
 - 别被起诉。
 
@@ -164,11 +164,6 @@ Nick Tierney 在他的 \ `Naming Things <https://www.njtierney.com/post/2018/06/
 
 devtools 与 RStudio，一个我们相信是大多数 R 用户的最佳开发环境联系紧密、携手合作。明确地说，您可以使用 devtools 而不使用 RStudio，\
 也可以在 RStudio 中开发程序包而不使用 devtools。但是这种特殊的、双向的关系使得一起使用 devtools 和 RStudio 变得非常有意义。
-
-    .. |Logo| image:: ./Image/Chapter_1/rstudio.png
-        :width: 220.6
-        :height: 255.7
-        :scale: 50
     
     |Logo|
 
@@ -191,20 +186,13 @@ devtools 与 RStudio，一个我们相信是大多数 R 用户的最佳开发环
 
 .. image:: ./Image/Chapter_5/keyboard-shortcuts.png
 
-\
-    .. |Logo| image:: ./Image/Chapter_1/rstudio.png
-        :width: 220.6
-        :height: 255.7
-        :scale: 50
-    
+..
+
     |Logo|
 
     查看最有用的键盘快捷键，请按 ``Alt + Shift + K``，或者使用 \ *Help > Keyboard Shortcuts Help*\ 。
 
-    .. |Logo| image:: ./Image/Chapter_1/rstudio.png
-        :width: 220.6
-        :height: 255.7
-        :scale: 50
+..
     
     |Logo|
 
@@ -391,3 +379,9 @@ Silge, Julia, John C. Nash, and Spencer Graves. 2018. “Navigating the R Packag
 .. [4] 具体来说，当建议打开应用程序或文件时，我们配置 Alfred 在其搜索结果中优先打开 ``.Rproj`` 文件。要向 Alfred 注册 ``.Rproj`` 文件类型，请转到 \ *Preferences > Features > Default Results > Advanced*\ 。将任意 ``.Rproj`` 文件拖到此位置，然后关闭即可。↩
 .. [5] 引用 \ `Emacs Speaks Statistics <https://ess.r-project.org/Manual/ess.html#Philosophies-for-using-ESS_0028R_0029>`__\  (ESS) 所支持的使用哲学。↩
 .. [6] 使用命令行的方法是退出 R，转到 shell，在程序包的父目录中执行 ``R CMD build foo``，然后执行 ``R CMD INSTALL foo_x.y.x.tar.gz``，重新启动 R，并调用 ``library(foo)``。在 R 中，一个近似的做法是 ``detach("package:foo", unload = TRUE); install.packages(".", repos = NULL, type = "source"); library(foo)``。↩
+
+
+.. |Logo| image:: ./Image/Chapter_1/rstudio.png
+        :width: 220.6
+        :height: 255.7
+        :scale: 50

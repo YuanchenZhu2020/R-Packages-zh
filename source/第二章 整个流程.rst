@@ -129,11 +129,7 @@
     #> 5 R                directory
     #> 6 foofactors.Rproj file
 
-\
-    .. |Logo| image:: ./Image/Chapter_1/rstudio.png
-        :width: 220.6
-        :height: 255.7
-        :scale: 50
+..
 
     |Logo| 
         
@@ -153,13 +149,7 @@
 
 2.5 ``use_git()``
 -----------------
-
-
-    .. |bulb| image:: ./Image/Chapter_2/lightbulb.png
-        :width: 94.4
-        :height: 118.1
-        :scale: 50
-    
+  
     |bulb|
 
     Git 或其他版本控制系统的使用是可选项，但是长期来看我们建议您使用。\
@@ -206,14 +196,8 @@
 
     #> [bdb30c7] 2019-09-10: Initial commit
 
+..
 
-\
-
-    .. |Logo| image:: ./Image/Chapter_1/rstudio.png
-        :width: 220.6
-        :height: 255.7
-        :scale: 50
-    
     |Logo|
 
     只要您设置了 RStudio + Git 集成，RStudio 可以在任何项目中初始化 Git 存储库，\
@@ -320,11 +304,6 @@ devtools 提供了更为可靠的方法。有关更多信息，请参见 \ `5.4 
 - 我们使用 ``load_all()`` 快捷地使得该函数可以用于交互使用，就好像我们已经构建并安装了 foofactors，并通过 ``library(foofactors)`` 添加到了工作环境中一样。
 
 
-    .. |Logo| image:: ./Image/Chapter_1/rstudio.png
-        :width: 220.6
-        :height: 255.7
-        :scale: 50
-    
     |Logo|
 
     RStudio 提供了 ``load_all()`` 的快速调用。它位于 \ *Build*\  菜单和 \ *Build*\  窗格中，通过 \ *More > Load All*\  或者\
@@ -395,12 +374,6 @@ devtools 提供了更为可靠的方法。有关更多信息，请参见 \ `5.4 
 - ``Undocumented code objects: 'fbind'``
 
 我们将尽快解决这两个问题。
-
-
-    .. |Logo| image:: ./Image/Chapter_1/rstudio.png
-        :width: 220.6
-        :height: 255.7
-        :scale: 50
     
     |Logo|
 
@@ -418,12 +391,6 @@ devtools 提供了更为可靠的方法。有关更多信息，请参见 \ `5.4 
 - 在 Author 字段中填上您的名字。
 - 在 Title 和 Description 字段中填上一些描述性的内容。
 
-
-    .. |Logo| image:: ./Image/Chapter_1/rstudio.png
-        :width: 220.6
-        :height: 255.7
-        :scale: 50
-
     |Logo|
 
     在 RStudio 中可以使用 Ctrl + ``.`` 并键入 DESCRIPTION 来激活一个帮助程序，这样您可以轻松地打开该文件并编辑。\
@@ -432,7 +399,7 @@ devtools 提供了更为可靠的方法。有关更多信息，请参见 \ `5.4 
 
 当您完成后，``DESCRIPTION`` 文件应该看起来像这样：
 
-.. code-block:: R
+.. code-block:: 
 
     Package: foofactors
     Title: Make Factors Less Aggravating
@@ -533,13 +500,8 @@ roxygen2 的使用和机制将在第 \ `8 <https://r-pkgs.org/man.html#man>`__\ 
     #> Writing NAMESPACE
     #> Writing fbind.Rd
 
-\
+..
 
-    .. |Logo| image:: ./Image/Chapter_1/rstudio.png
-        :width: 220.6
-        :height: 255.7
-        :scale: 50
-    
     |Logo|
 
     RStudio 提供了 ``document()`` 的快速调用。它位于 \ *Build*\  菜单和 \ *Build*\  窗格中，通过 \ *More > Document*\  或者\
@@ -629,12 +591,8 @@ foofactors 现在应该可以立刻并永远通过 ``R CMD check`` 了：0 个�
     ** testing if installed package keeps a record of temporary installation path
     * DONE (foofactors)
 
-\
-    .. |Logo| image:: ./Image/Chapter_1/rstudio.png
-        :width: 220.6
-        :height: 255.7
-        :scale: 50
-    
+..
+
     |Logo|
 
     RStudio 在 \ *Build*\ 菜单和 \ *Build*\ 窗格提供了类似的功能，通过 \ *Install and Restart*\ 调用。
@@ -726,13 +684,8 @@ foofactors 现在应该可以立刻并永远通过 ``R CMD check`` 了：0 个�
     #> Warnings: 0
     #> Skipped:  0
 
-\
+..
 
-    .. |Logo| image:: ./Image/Chapter_1/rstudio.png
-        :width: 220.6
-        :height: 255.7
-        :scale: 50
-    
     |Logo|
 
     RStudio 提供了 ``test()`` 的快速调用。它位于在 \ *Build*\ 菜单和 \ *Build*\ 窗格中，通过 \ *More > Test package,*\  或者\
@@ -915,7 +868,7 @@ foofactors 现在应该可以立刻并永远通过 ``R CMD check`` 了：0 个�
 
 \ *TODO: update this link after merge into r-pkgs.*\ 
 
-.. code-block:: R
+.. code-block::
 
     ---
     output:
@@ -1047,3 +1000,13 @@ foofactors 应该没有错误、警告或注释信息。如果正确的话，这
 请随意访问 GitHub 上的 \ `foofactors package <https://github.com/jennybc/foofactors>`__\ ，它正是在这里开发的。\
 提交历史记录反映了每个单独的步骤，因此可以使用 diff 来查看随着包的发展，哪些文件被添加和修改。\
 本书的其余部分将更详细地介绍您在这里看到的每一个步骤以及更多内容。
+
+
+.. |Logo| image:: ./Image/Chapter_1/rstudio.png
+        :width: 220.6
+        :height: 255.7
+        :scale: 50
+.. |bulb| image:: ./Image/Chapter_2/lightbulb.png
+        :width: 94.4
+        :height: 118.1
+        :scale: 50
