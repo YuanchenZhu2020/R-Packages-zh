@@ -11,6 +11,33 @@ R Packages zh_CN
 本项目是 \ *R Packages*\ （第二版）中文翻译，旨在为学习 R 包开发的人们提供一些微小的帮助。
 
 
+翻译进度
+-------------
+
+✅：翻译完成
+❌：还未翻译
+
+- ✅ Cover
+- ✅ Preface
+- ✅ Introduction
+- ✅ The whole game
+- ✅ System setup
+- ✅ Package structure and state
+- ✅ Fundamental development workflows
+- ✅ R code
+- ✅ Package metadata
+- ❌ Object documentation
+- ✅ Vignettes: long-form documentation
+- ❌ Testing
+- ❌ Namespace
+- ✅ External data
+- ❌ Compiled code
+- ✅ Installed files
+- ✅ Other components
+- ❌ Git and GitHub
+- ❌ Automated checking
+- ❌ Releasing a package
+
 相关链接
 --------
 
@@ -35,6 +62,8 @@ R Packages zh_CN
    第四章 程序包结构与状态
    第五章 基本开发工作流程
    第六章 R 代码
+   第七章 程序包元数据
+   第九章 Vignette：长篇文档
    第十二章 外部数据
    第十四章 安装后的文件
    第十五章 其他组件

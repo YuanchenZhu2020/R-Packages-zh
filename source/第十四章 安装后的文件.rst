@@ -115,8 +115,8 @@
 ------------------
 
 有时一个程序包包含其他编程语言编写的有用的补充脚本。一般来说，您应该避免这样做，因为它增加了额外的依赖关系，\
-但是当打包来自另一种语言的大量代码时，它可能会很有用。例如，\ `gdata <http://cran.r-project.org/web/packages/gdata/index.html>`__\  \
-打包了 Perl 模块 \ `Spreadsheet::ParseExcel <http://search.cpan.org/~dougw/Spreadsheet-ParseExcel-0.65/>`__\  以将 excel 文件读入 R。
+但是当打包来自另一种语言的大量代码时，它可能会很有用。例如，\ `gdata <https://cran.r-project.org/web/packages/gdata/index.html>`__\  \
+打包了 Perl 模块 \ `Spreadsheet::ParseExcel <https://search.cpan.org/~dougw/Spreadsheet-ParseExcel-0.65/>`__\  以将 excel 文件读入 R。
 
 通常的惯例是将这种性质的脚本放入 ``inst/``、``inst/python``、``inst/perl``、``inst/ruby`` 等的子目录中。\
 如果这些脚本对您的程序包很重要，请确保在 ``DESCRIPTION`` 的 ``SystemRequirements`` 字段中也添加了适当的编程语言。\（此字段供人类阅读，因此不必担心如何指定它。）

@@ -10,8 +10,10 @@
 我们将更详细地介绍它们能帮助我们做些什么。
 
 
-2.1 加载 devtools 和 friends
+2.1 加载 devtools 和 相关程序包
 ----------------------------
+
+无论您是否进入了 R 项目，您都可以从任何开放的 R 控制台（R Console）完成以下步骤。
 
 加载 devtools 程序包，在支持程序包开发的各个方面的程序包中，它是个中翘楚。
 
@@ -40,7 +42,7 @@
 - 版本控制和开放的开发过程。
   - 在您的工作中，这是完全可选的，但我们建议这样做。您将看到 Git 和 GitHub 如何帮助我们展示程序包开发的所有中间阶段。
 - 通过 \ `roxygen2 <https://cran.r-project.org/package=roxygen2>`__\  建立各个函数的文档 。
-- 使用 \ `testthat <http://testthat.r-lib.org/>`__\  进行单元测试。
+- 使用 \ `testthat <https://testthat.r-lib.org/>`__\  进行单元测试。
 - 通过可执行文件整体了解软件包的文件 ``README.Rmd``。
 
 我们称这个程序包包为 \ **foofactors**\ ，它将有几个处理因子（ factors ）的函数。请注意，\
@@ -107,15 +109,13 @@
     #> ✔ Setting active project to '/tmp/RtmpsJ87ir/foofactors'
 
 
-如果您在 RStudio 中工作，您会发现自己进入了一个新的 RStudio 程序界面，\
-它已经打开了新的 foofactors 包（或项目）目录。如果您处于某种原因需要手动执行这个操作，\
-请进入该目录并双击 ``foofactors.Rproj``。RStudio 对于软件包做了特殊处理，您现在应该可以\
-在 \ *Evironment*\ 和 \ *History*\ 所在的窗格中看到 \ *Build*\ 选项卡。
+如果您在 RStudio 中工作，您会发现自己进入了一个新的 RStudio 程序界面，它已经打开了新的 foofactors 包（或项目）目录。\
+如果您处于某种原因需要手动执行这个操作，请进入该目录并双击 ``foofactors.Rproj``。RStudio 对于软件包做了特殊处理，\
+您现在应该可以在 \ *Evironment*\ 和 \ *History*\ 所在的窗格中看到 \ *Build*\ 选项卡。
 
 \ *TODO: good place for a screenshot.*\
 
-在这个新目录里的内容是一个 R 包，也许还是个 RStudio Project？\
-以下是文件清单（在本地，您可以查看 \ *Files*\  选项卡）：
+在这个新目录里的内容是一个 R 包，也许还是个 RStudio Project？以下是文件清单（在本地，您可以查看 \ *Files*\  选项卡）：
 
 .. code-block:: R
 
@@ -137,11 +137,11 @@
     （也称为 \ `dotfiles <https://en.wikipedia.org/wiki/Hidden_file_and_hidden_directory#Unix_and_Unix-like_environments>`__\ ）的可见性。\
     一些文件是始终可见的，但有时您可能会希望看到全部的文件。
 
-- ``.Rbuildignore`` 列出了我们编写 R 包时需要的，但是从源代码构建 R 包时并不需要的文件。详情请见 \ `4.3.1 <https://r-pkgs.org/package-structure-state.html#rbuildignore>`__\ 。
+- ``.Rbuildignore`` 列出了我们编写 R 包时需要的，但是从源代码构建 R 包时并不应该包含进来的文件。详情请见 \ `?? <https://r-pkgs.org/whole-game.html#rbuildignore>`__\ 。
 - ``.Rproj.user``，如果有的话，它是 RStudio 内部使用的目录。
 - ``.gitignore`` 为 Git 的使用做好准备。它将忽略一些由 R 或 RStudio 创建的标准的幕后文件。即使您不打算使用 Git，它也是没有妨害的。
 - ``DESCRIPTION`` 提供了\ `有关您的程序包的元数据 <https://r-pkgs.org/description.html#description>`__\ 。我们很快将开始编写它。
-- ``NAMESPACE`` 声明了程序包导出供外部使用的函数以及从其他程序包导入的外部函数。目前，它包含暂未起作用的用于占位的内容。（具体可见本书 \ `NAMESPACE <https://r-pkgs.org/namespace.html#namespace>`__\  一章）
+- ``NAMESPACE`` 声明了程序包导出以供外部使用的函数以及程序包从其他包导入的外部函数。现在，除了一个注释声明这是一个我们不会手工编辑的文件外，它是空的。
 - ``R/`` 目录是\ `程序包的“业务端” <https://r-pkgs.org/r.html#r>`__\ 。它很快将包含带有函数声明的 ``.R`` 文件。
 - ``foofactors.Rproj`` 是使得该目录成为 RStudio 项目的文件。即使你不使用 RStudio，这个文件也是没有妨害的。如果您不想创建它，可以使用 ``create_package(..., rstudio = FALSE)``。详情请见 \ `5.2 <https://r-pkgs.org/workflows101.html#projects>`__\ 。
 
@@ -164,20 +164,15 @@
     #> ✔ Adding '.Rhistory', '.RData' to '.gitignore'
 
 
-在交互式会话中，系统将询问您是否要在此处提交这些文件，您应该接受这个提议。\
-在 R 中，您不会看到这些，但是在幕后，我们会进行同样的操作。
+在交互式会话中，系统将询问您是否要在此处提交这些文件，您应该接受这个提议。在 R 中，您不会看到这些，但是在幕后，我们会进行同样的操作。
+
+有什么新内容吗？仅仅是创建了 ``.git`` 目录，该目录在大多数环境中都是隐藏的，包括 RStudio 文件浏览器。\
+但是它的存在证明我们确实在这里初始化了 Git 存储库。
 
 .. code-block:: R
 
-    #> [bdb30c7] 2019-09-10: Initial commit
-
-
-
-有什么新内容吗？仅仅是创建了目录，该目录在大多数环境中都是隐藏的，包括 RStudio 文件浏览器。\
-但是它的存在证明我们确实在这里初始化了 Git 存储库 ``.git``。
-
-.. code-block:: R
-
+    dir_info(all = TRUE, regexp = "^[.]git$") %>% 
+        select(path, type)
     #> # A tibble: 1 x 2
     #>   path       type     
     #>   <fs::path> <fct>    
@@ -194,7 +189,10 @@
 
 .. code-block:: R
 
-    #> [bdb30c7] 2019-09-10: Initial commit
+    #> # A tibble: 1 x 3
+    #>   commit                            author                       message        
+    #>   <chr>                             <chr>                        <chr>          
+    #> 1 4bdca5b6c90d21b1a25e5ef73fd0a5fa… Whole Game <whole_game@exam… "Initial commi…
 
 ..
 
@@ -257,6 +255,7 @@
 
     use_r("fbind")
     #> ● Edit 'R/fbind.R'
+    #> ● Call `use_test()` to create a matching test file
 
 将函数 ``fbind()`` 的定义并且\ **仅仅是**\  ``fbind()`` \ **的定义**\ 放在 ``R/fbind.R`` 中并保存。\
 文件 ``R/fbind.R`` 不应包含我们最近执行的其他任何顶级代码，例如因子 ``a`` 和 ``b``，``library(devtools)`` 或 ``use_git()`` 的定义。\
@@ -267,7 +266,7 @@
 2.8 ``load_all()``
 ------------------
 
-我们应该怎样来测试 ``fbind()`` 函数 \ :sub:`drive一词何解`\  ？如果这是常规的 R 脚本，则可以使用 RStudio 将函数定义发送到 R 控制台，\
+我们应该怎样来测试 ``fbind()`` 函数？如果这是常规的 R 脚本，则可以使用 RStudio 将函数定义发送到 R 控制台，\
 并且在全局工作空间中定义 ``fbind()``。或者，我们可以使用 ``source("R/fbind.R")`` 来调用该脚本。但是，在程序包开发中，\
 devtools 提供了更为可靠的方法。有关更多信息，请参见 \ `5.4 <https://r-pkgs.org/workflows101.html#load-all>`__\  节。
 
@@ -291,7 +290,7 @@ devtools 提供了更为可靠的方法。有关更多信息，请参见 \ `5.4 
 
 .. code-block:: R
 
-    exists("fbind", where = ".GlobalEnv", inherits = FALSE)
+    exists("fbind", where = globalenv(), inherits = FALSE)
     #> [1] FALSE
 
 ``load_all()`` 模拟了构建、安装和添加 foofactors 程序包的过程。当您的程序包积累了更多的函数时，有的导出了而有的没有，\
@@ -317,7 +316,6 @@ devtools 提供了更为可靠的方法。有关更多信息，请参见 \ `5.4 
 
 .. code-block:: R
 
-    #> [b3fc569] 2019-09-10: Add fbind()
     #> diff --git a/R/fbind.R b/R/fbind.R
     #> new file mode 100644
     #> index 0000000..7b03d75
@@ -348,32 +346,25 @@ devtools 提供了更为可靠的方法。有关更多信息，请参见 \ `5.4 
 
 .. code-block:: R
 
-    #> ── R CMD check results ───────────────────────── foofactors 0.0.0.9000 ────
-    #> Duration: 6.6s
+    #> ── R CMD check results ────────────────────────────── foofactors 0.0.0.9000 ────
+    #> Duration: 9.1s
     #> 
     #> ❯ checking DESCRIPTION meta-information ... WARNING
     #>   Non-standard license specification:
-    #>     What license it uses
+    #>     `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    #>     license
     #>   Standardizable: FALSE
     #> 
-    #> ❯ checking for missing documentation entries ... WARNING
-    #>   Undocumented code objects:
-    #>     ‘fbind’
-    #>   All user-level objects in a package should have documentation entries.
-    #>   See chapter ‘Writing R documentation files’ in the ‘Writing R
-    #>   Extensions’ manual.
-    #> 
-    #> 0 errors ✔ | 2 warnings ✖ | 0 notes ✔
+    #> 0 errors ✔ | 1 warning ✖ | 0 notes ✔
 
 \ **请阅读 check 的输出内容！**\ 尽可能早并经常性的解决出现的问题。就像在 ``.R`` 和 ``.Rmd`` 文件上的增量开发一样,\
 您进行全面检查以确保一切正常的间隔时间越长，查明并解决问题的难度也越大。
 
-在这一步中，我们收到了 2 个警告（0 个错误，0 个注释）：
+在这一步中，我们收到了 1 个警告（0 个错误，0 个注释）：
 
 - ``Non-standard license specification``
-- ``Undocumented code objects: 'fbind'``
 
-我们将尽快解决这两个问题。
+我们将尽快解决它们。
     
     |Logo|
 
@@ -384,7 +375,7 @@ devtools 提供了更为可靠的方法。有关更多信息，请参见 \ `5.4 
 2.10 编辑 ``DESCRIPTION``
 ----------------------------
 
-在解决有关许可证和文档的警告之前，让我们先处理 ``DESCRIPTION`` 中的模板内容。``DESCRIPTION`` 文件提供了有关您的程序包的元数据，\
+在解决有关许可证的警告之前，让我们先处理 ``DESCRIPTION`` 中的模板内容。``DESCRIPTION`` 文件提供了有关您的程序包的元数据，\
 我们将在第 \ `7 <https://r-pkgs.org/description.html#description>`__\  章中全面介绍它。
 
 在该文件中进行如下编辑;
@@ -399,7 +390,7 @@ devtools 提供了更为可靠的方法。有关更多信息，请参见 \ `5.4 
 
 当您完成后，``DESCRIPTION`` 文件应该看起来像这样：
 
-.. code-block:: text
+.. code-block:: yaml
 
     Package: foofactors
     Title: Make Factors Less Aggravating
@@ -414,17 +405,12 @@ devtools 提供了更为可靠的方法。有关更多信息，请参见 \ `5.4 
     Encoding: UTF-8
     LazyData: true
 
-.. code-block:: R
-
-    [342ccd7] 2019-09-10: Edit DESCRIPTION
-
-
 
 2.11 ``use_mit_license()``
 ---------------------------
 
 
-    \ `Pick a License, Any License. – Jeff Atwood <http://blog.codinghorror.com/pick-a-license-any-license/>`__\ 
+    \ `Pick a License, Any License. – Jeff Atwood <https://blog.codinghorror.com/pick-a-license-any-license/>`__\ 
 
 对于 foofactors，我们将使用 MIT 许可证。这需要在 ``DESCRIPTION`` 文件中进行规范的描述，\
 并要求一个叫做 ``LICENSE`` 的附加文件来声明版权所有者和年份。我们将使用帮助程序 ``use_mit_license()``，参数替换成您的名字。
@@ -448,10 +434,6 @@ devtools 提供了更为可靠的方法。有关更多信息，请参见 \ `5.4 
 并将该文件添加进 ``.Rbuildignore`` 中。最好的做法是使程序包的源代码中包含完整的许可证，就像在 GitHub 中一样，\
 但是 CRAN 禁止在程序包源代码中包含此文件。
 
-.. code-block:: R
-
-    [02463d3] 2019-09-10: Add LICENSE
-
 
 2.12 ``document()``
 ---------------------
@@ -459,11 +441,11 @@ devtools 提供了更为可靠的方法。有关更多信息，请参见 \ `5.4 
 就像其他 R 函数那样，在使用 ``fbind()`` 时能够获得帮助文档，这不是很好吗？这要求程序包具有特殊的 R 文档文件，``man/fbind.Rd``，\
 一个以类似于 LaTeX的 R 的特殊标记语言编写的文档。幸运的是，我们不一定需要直接编辑它。
 
-我们在源代码文件中的 ``fbind()`` 函数体上直接编写一个特别格式的注释，然后让一个名为 \ `roxygen2 <https://cran.r-project.org/package=roxygen2>`__\  的包来完成 ``man/fbind.Rd`` 的创建。\
+我们在源代码文件中的 ``fbind()`` 函数体上直接编写一个特别格式的注释，然后让一个名为 \ `roxygen2 <https://roxygen2.r-lib.org>`__\  的包来完成 ``man/fbind.Rd`` 的创建。\
 roxygen2 的使用和机制将在第 \ `8 <https://r-pkgs.org/man.html#man>`__\  章中介绍。
 
 如果您使用 RStudio，则在源代码编辑器中打开 ``R/fbind.R``，并将光标放在 ``fbind()`` 函数定义中的某处。现在点击 \ *Code > Insert roxygen skeleton*\ 。\
-函数上方应该会出现一个非常特殊的注释模板，每行以 ``#`` 开头。RStudio 只插入模板框架，因此您需要对其进行编辑，如下所示。
+函数上方应该会出现一个非常特殊的注释模板，每行以 ``#'`` 开头。RStudio 只插入模板框架，因此您需要对其进行编辑，如下所示。
 
 如果您不使用 RStudio，请自己创建注释。无论如何，您应该修改它，让它看起来像下面那样：
 
@@ -484,18 +466,13 @@ roxygen2 的使用和机制将在第 \ `8 <https://r-pkgs.org/man.html#man>`__\ 
 
 \ *TODO: mention how RStudio helps you execute examples here?*\ 
 
-.. code-block:: R
-
-    [c48b0dd] 2019-09-10: Add roxygen header to document fbind()
-
-但是我们还没有完成！我们还需要用 ``document()`` 将这个新的 roxygen 注释转变为 ``man/fbind.Rd``。
+但是我们还没有完成！我们还需要用 ``document()`` 将这个新的 roxygen 注释转变为 ``man/fbind.Rd``：
 
 .. code-block:: R
 
     document()
     #> Updating foofactors documentation
-    #> Updating roxygen version in /tmp/RtmpsJ87ir/foofactors/DESCRIPTION
-    #> Writing NAMESPACE
+    #> Updating roxygen version in /private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpKNHtqz/foofactors/DESCRIPTION
     #> Loading foofactors
     #> Writing NAMESPACE
     #> Writing fbind.Rd
@@ -518,6 +495,7 @@ roxygen2 的使用和机制将在第 \ `8 <https://r-pkgs.org/man.html#man>`__\ 
 
 另请注意，在正式构建和安装包之前，您的程序包的文档不会被正确连接。这样可以改善一些细微之处，例如帮助文档之间的链接和程序包索引的创建。 \ :sub:`暂时不能理解`\ 
 
+
 2.12.1 ``NAMESPACE`` 的更改
 .................................
 
@@ -530,14 +508,8 @@ roxygen2 的使用和机制将在第 \ `8 <https://r-pkgs.org/man.html#man>`__\ 
 
     export(fbind)
 
-里面不再有显示 "export everything" 的用于占位的内容。相反，现在有一个显式指令用于导出 ``fbind()`` 函数。
-
-``NAMESPACE`` 中的 export 指令是通过 ``library(foofactors)`` 添加 foofactors 库后，``fbind()`` 函数对于用户可见的原因。\
+``NAMESPACE`` 中的 export 指令是通过 ``library(foofactors)`` 添加 foofactors 库后，``fbind()`` 函数对于用户可用的原因。\
 就像可以“亲手”编写 ``.Rd`` 文件一样，您可以自己显式地管理 ``NAMESPACE`` 文件。但是我们选择将其委托给 devtools（以及 roxygen2）。
-
-.. code-block:: R
-
-    [7101d2f] 2019-09-10: Run document()
 
 
 2.13 再次 ``check()``
@@ -551,8 +523,8 @@ foofactors 现在应该可以立刻并永远通过 ``R CMD check`` 了：0 个�
 
 .. code-block:: R
 
-    #> ── R CMD check results ───────────────────────── foofactors 0.0.0.9000 ────
-    #> Duration: 8.8s
+    #> ── R CMD check results ────────────────────────────── foofactors 0.0.0.9000 ────
+    #> Duration: 12.8s
     #> 
     #> 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
@@ -568,17 +540,18 @@ foofactors 现在应该可以立刻并永远通过 ``R CMD check`` 了：0 个�
 
 .. code-block:: R
 
-    checking for file ‘/tmp/RtmpsJ87ir/foofactors/DESCRIPTION’ ...
-    ✔  checking for file ‘/tmp/RtmpsJ87ir/foofactors/DESCRIPTION’
+       checking for file ‘/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpKNHtqz/foofactors/DESCRIPTION’ ...
+    ✔  checking for file ‘/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpKNHtqz/foofactors/DESCRIPTION’
     ─  preparing ‘foofactors’:
     checking DESCRIPTION meta-information ...
     ✔  checking DESCRIPTION meta-information
     ─  checking for LF line-endings in source and make files and shell scripts
     ─  checking for empty or unneeded directories
     ─  building ‘foofactors_0.0.0.9000.tar.gz’
-    Running /home/travis/R-bin/lib/R/bin/R CMD INSTALL \
-    /tmp/RtmpsJ87ir/foofactors_0.0.0.9000.tar.gz --install-tests 
-    * installing to library ‘/home/travis/R/Library’
+    Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
+    /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpKNHtqz/foofactors_0.0.0.9000.tar.gz \
+    --install-tests 
+    * installing to library ‘/Users/runner/work/_temp/Library’
     * installing *source* package ‘foofactors’ ...
     ** using staged installation
     ** R
@@ -632,11 +605,7 @@ foofactors 现在应该可以立刻并永远通过 ``R CMD check`` 了：0 个�
 
 这将为您的程序包初始化单元测试机器。它在 ``DESCRIPTION`` 中添加了 ``Suggests: testthat`` ，创建了目录 ``test/testthat`` 斌添加了脚本 ``test/testthat.R`` 。
 
-.. code-block:: R
-
-    [c38f85d] 2019-09-10: Add testing infrastructure
-
-然而，实际的测试仍然是由您来编写！
+然而，实际的测试仍然是由\ **您**\ 来编写！
 
 函数 ``use_test()`` 打开并/或创建测试文件。您可以提供文件名，或者，如果您在RStudio中编辑相关的源文件，文件名将自动生成。\
 由于本书是非交互构建的，我们必须显式地提供文件名：
@@ -666,23 +635,20 @@ foofactors 现在应该可以立刻并永远通过 ``R CMD check`` 了：0 个�
 
 以交互方式运行此测试，就像编写自己的测试一样。注意，您必须首先在 R 会话（R Session）中通过 ``lirary(testthat)`` 添加 testthat，并且您可能需要 ``load(all)``。
 
-接下来，您的测试将\ *主要（en masse）*\ 通过 ``test()`` 以臂长 \ :sub:`意义不明`\ （arms’s length） 的方式运行：
+接下来，您的测试将\ *主要（en masse）*\ 通过 ``test()`` 集中（arms’s length）运行：
 
-\ *TODO: work on the aesthetics of this output.*\ 
+\ *TODO: work on the aesthetics of this output. Or maybe testthat 3e will save me the trouble.*\ 
 
 .. code-block:: R
 
     test()
     #> ✔ |  OK F W S | Context
     #> 
-    ⠏ |   0       | fbind
+    ⠏ |   0       | fbind                                                           
     ✔ |   2       | fbind
     #> 
-    #> ══ Results ════════════════════════════════════════════════════════════════
-    #> OK:       2
-    #> Failed:   0
-    #> Warnings: 0
-    #> Skipped:  0
+    #> ══ Results ═════════════════════════════════════════════════════════════════════
+    #> [ PASS x2 FAIL x0 WARN x0 SKIP x0 ]
 
 ..
 
@@ -714,10 +680,6 @@ foofactors 现在应该可以立刻并永远通过 ``R CMD check`` 了：0 个�
 
 这会将 forcats 包添加进 ``DESCRIPTION`` 中的 "Imports" 部分，仅此而已。
 
-.. code-block:: R
-
-    [8ee4040] 2019-09-10: Import forcats
-
 现在，我们向 foofactors 中添加第二个函数：假设我们想要一个因子（ factors ）的频率表，它的形式是一个具有漂亮变量名的常规数据框（data frame），\
 而不是作为 ``table`` 类的一个对象或者是有奇怪名字的一些东西。我们还对它进行排序，使得最受欢迎的层级位于顶部。
 
@@ -727,6 +689,7 @@ foofactors 现在应该可以立刻并永远通过 ``R CMD check`` 了：0 个�
 
     use_r("fcount")
     #> ● Edit 'R/fcount.R'
+    #> ● Call `use_test()` to create a matching test file
 
 将以下内容放入 ``R/fcount.R``：
 
@@ -747,10 +710,6 @@ foofactors 现在应该可以立刻并永远通过 ``R CMD check`` 了：0 个�
 请注意我们是如何使用 ``forcats::`` 作为对 forcats 中函数的调用。这样我们指定了要从 forcats 命名空间内调用 ``fct_count()`` 函数。\
 从其他程序包中调用函数的方法不止一种，我们在这里使用的方法在第 \ `11 <https://r-pkgs.org/namespace.html#namespace>`__\  章中有详细的说明。
 
-.. code-block:: R
-
-    [172bd35] 2019-09-10: Add fcount()
-
 通过使用 ``load_all()`` 模拟程序包的安装来尝试新的 ``fcount()`` 函数。
 
 .. code-block:: R
@@ -765,7 +724,7 @@ foofactors 现在应该可以立刻并永远通过 ``R CMD check`` 了：0 个�
     #> 2 versicolor    50
     #> 3 virginica     50
 
-通过 ``document()`` 来生成相关联的帮助文档。
+通过 ``document()`` 来生成相关联的帮助文档。这一过程也会将 ``fcount()`` 作为一个导出以供使用的函数添加进 ``NAMESPACE``。
 
 .. code-block:: R
 
@@ -775,10 +734,6 @@ foofactors 现在应该可以立刻并永远通过 ``R CMD check`` 了：0 个�
     #> Loading foofactors
     #> Writing NAMESPACE
     #> Writing fcount.Rd
-
-.. code-block:: R
-
-    [c87f571] 2019-09-10: Document fcount()
 
 
 
@@ -825,44 +780,9 @@ foofactors 现在应该可以立刻并永远通过 ``R CMD check`` 了：0 个�
 如何填充这个模板骨架？从 ``DESCRIPTION`` 和任何正式或非正式的测试或例子中大量地复制内容。有内容总比什么都没有好。\
 否则……您希望人们自己安装您的程序包，仔细检查各个帮助文件，并找出如何使用它吗？他们可能并不会这样做。
 
-我们喜欢用 R Markdown 来编写 README，因此它可以展示实际的用法。它将加载当前安装的版本的程序包，因此现在是在 RStudio 中执行“安装并重新启动”的好时机。或者在 R 控制台（R Console）中执行此操作：
-
-.. code-block:: R
-
-    install()
-
-.. code-block:: R
-
-       checking for file ‘/tmp/RtmpsJ87ir/foofactors/DESCRIPTION’ ...
-    ✔  checking for file ‘/tmp/RtmpsJ87ir/foofactors/DESCRIPTION’
-    ─  preparing ‘foofactors’:
-    checking DESCRIPTION meta-information ...
-    ✔  checking DESCRIPTION meta-information
-    ─  checking for LF line-endings in source and make files and shell scripts
-    ─  checking for empty or unneeded directories
-    ─  building ‘foofactors_0.0.0.9000.tar.gz’
-    Running /home/travis/R-bin/lib/R/bin/R CMD INSTALL \
-    /tmp/RtmpsJ87ir/foofactors_0.0.0.9000.tar.gz --install-tests 
-    * installing to library ‘/home/travis/R/Library’
-    * installing *source* package ‘foofactors’ ...
-    ** using staged installation
-    ** R
-    ** tests
-    ** byte-compile and prepare package for lazy loading
-    ** help
-    *** installing help indices
-    ** building package indices
-    ** testing if installed package can be loaded from temporary location
-    ** testing if installed package can be loaded from final location
-    ** testing if installed package keeps a record of temporary installation path
-    * DONE (foofactors)
+我们喜欢用 R Markdown 来编写 ``README``，因此它可以展示实际的用法。包含实时代码还可以减少 ``README`` 变得过时和与实际的程序包不同步的可能性。
 
 如果 RStudio 还没有这样做，请打开 ``README.Rmd`` 进行编辑。例如，确保它显示了 ``fbind()`` 和/或 ``fcount()`` 的一些用法。
-
-.. code-block:: R
-
-    [857b562] 2019-09-10: Set up README.Rmd
-
 
 我们使用的 ``README.Rmd`` 在这里： \ `README.Rmd <https://raw.githubusercontent.com/jennybc/foofactors/master/README.Rmd>`__\  ，以下是内容：
 
@@ -871,34 +791,38 @@ foofactors 现在应该可以立刻并永远通过 ``R CMD check`` 了：0 个�
 .. code-block:: text
 
     ---
-    output:
-    md_document:
-        variant: markdown_github
+    output: github_document
     ---
 
     <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-    ```{r, echo = FALSE}
+    ```{r, include = FALSE}
     knitr::opts_chunk$set(
     collapse = TRUE,
     comment = "#>",
-    fig.path = "README-"
+    fig.path = "man/figures/README-",
+    out.width = "100%"
     )
     ```
 
     **NOTE: This is a toy package created for expository purposes, for the second edition of [R Packages](https://r-pkgs.org). It is not meant to actually be useful. If you want a package for factor handling, please see [forcats](https://forcats.tidyverse.org).**
 
-    ### foofactors
+    # foofactors    
+
+    <!-- badges: start -->
+    <!-- badges: end -->
 
     Factors are a very useful type of variable in R, but they can also be very aggravating. This package provides some helper functions for the care and feeding of factors.
 
-    ### Installation
+    ## Installation
 
-    ```{r installation, eval = FALSE}
+    You can install foofactors like so:
+
+    ``` r
     devtools::install_github("jennybc/foofactors")
     ```
     
-    ### Quick demo
+    ## Quick demo
 
     Binding two factors via `fbind()`:
 
@@ -936,17 +860,17 @@ foofactors 现在应该可以立刻并永远通过 ``R CMD check`` 了：0 个�
 
 别忘了渲染它并产生 ``README.md``！如果您尝试提交 ``README.Rmd`` 而不是``README.md``，并且 ``README.md`` 似乎已过期，那么预提交 Hook 应该会提醒您。
 
+渲染 ``README.Rmd`` 的最好方式是和 ``build_readme()`` 一起使用，因为它会注意使用程序包的最新版本进行渲染，即从当前源安装一个临时副本。
+
 .. code-block:: R
 
-    rmarkdown::render("README.Rmd") ## or use "Knit HTML" in RStudio
+    build_readme()
+    #> Installing foofactors in temporary library
+    #> Building /private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpKNHtqz/foofactors/README.Rmd
 
 您只需要\ `访问 GitHub 上的 foofactors <https://github.com/jennybc/foofactors#readme>`__\  就可以看到已经渲染的 ``README.md``。
 
 最后，别忘了做最后一次提交。如果您用的是 GitHub，还需要推送至远程仓库。
-
-.. code-block:: R
-
-    [ef40f82] 2019-09-10: Write README.Rmd and render
 
 
 2.19 最后一步: ``check()`` 以及 ``install()``
@@ -960,12 +884,12 @@ foofactors 现在应该可以立刻并永远通过 ``R CMD check`` 了：0 个�
 
 .. code-block:: R
 
-    #> ── R CMD check results ───────────────────────── foofactors 0.0.0.9000 ────
-    #> Duration: 9.6s
+    #> ── R CMD check results ────────────────────────────── foofactors 0.0.0.9000 ────
+    #> Duration: 13.4s
     #> 
     #> 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
-foofactors 应该没有错误、警告或注释信息。如果正确的话，这将是重新构建和安装程序包的好时机。庆祝一下！
+foofactors 应该没有错误、警告或注释信息。现在是重新构建和安装它的最好时机。庆祝一下！
 
 .. code-block:: R
 
@@ -973,17 +897,19 @@ foofactors 应该没有错误、警告或注释信息。如果正确的话，这
 
 .. code-block:: R
 
-        checking for file ‘/tmp/RtmpsJ87ir/foofactors/DESCRIPTION’ ...
-    ✔  checking for file ‘/tmp/RtmpsJ87ir/foofactors/DESCRIPTION’
+       checking for file ‘/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpKNHtqz/foofactors/DESCRIPTION’ ...
+    ✔  checking for file ‘/private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpKNHtqz/foofactors/DESCRIPTION’
     ─  preparing ‘foofactors’:
     checking DESCRIPTION meta-information ...
     ✔  checking DESCRIPTION meta-information
     ─  checking for LF line-endings in source and make files and shell scripts
     ─  checking for empty or unneeded directories
+    Removed empty directory ‘foofactors/tests/testthat/_snaps’
     ─  building ‘foofactors_0.0.0.9000.tar.gz’
-    Running /home/travis/R-bin/lib/R/bin/R CMD INSTALL \
-    /tmp/RtmpsJ87ir/foofactors_0.0.0.9000.tar.gz --install-tests 
-    * installing to library ‘/home/travis/R/Library’
+    Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
+    /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpKNHtqz/foofactors_0.0.0.9000.tar.gz \
+    --install-tests 
+    * installing to library ‘/Users/runner/work/_temp/Library’
     * installing *source* package ‘foofactors’ ...
     ** using staged installation
     ** R
@@ -1003,10 +929,11 @@ foofactors 应该没有错误、警告或注释信息。如果正确的话，这
 
 
 .. |Logo| image:: ./Image/Chapter_1/rstudio.png
-        :width: 220.6
-        :height: 255.7
-        :scale: 50
+    :width: 220.6
+    :height: 255.7
+    :scale: 50
+
 .. |bulb| image:: ./Image/Chapter_2/lightbulb.png
-        :width: 94.4
-        :height: 118.1
-        :scale: 50
+    :width: 94.4
+    :height: 118.1
+    :scale: 50

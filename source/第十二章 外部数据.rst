@@ -103,7 +103,7 @@
 -----------------------
 
 有时函数需要预先计算好的数据表。如果你把它们放在 ``data/`` 中，它们也可以被程序包用户使用，这是不合适的。\
-相反，您可以将它们保存在 ``R/sysdata.rda``. 例如，两个与颜色相关的程序包，\ `munsell <https://github.com/cwickham/munsell>`__\  和 \ `dichromat <http://cran.r-project.org/web/packages/dichromat/index.html>`__\  ，\
+相反，您可以将它们保存在 ``R/sysdata.rda``. 例如，两个与颜色相关的程序包，\ `munsell <https://github.com/cwickham/munsell>`__\  和 \ `dichromat <https://cran.r-project.org/web/packages/dichromat/index.html>`__\  ，\
 使用 ``R/sysdata.rda`` 存储大量的彩色数据表。
 
 您可以使用带有参数 ``internal = TRUE`` 的 ``usethis::use_data()`` 创建文件：

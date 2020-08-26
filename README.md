@@ -28,10 +28,10 @@ GitHub Repo: https://github.com/YuanchenZhu2020/R_Packages_zh_CN
 - [X] System setup
 - [X] Package structure and state
 - [X] Fundamental development workflows
-- [ ] R code
-- [ ] Package metadata
+- [X] R code
+- [X] Package metadata
 - [ ] Object documentation
-- [ ] Vignettes: long-form documentation
+- [X] Vignettes: long-form documentation
 - [ ] Testing
 - [ ] Namespace
 - [X] External data

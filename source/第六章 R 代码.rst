@@ -32,7 +32,7 @@
 
 \ *removed in deference to material in https://style.tidyverse.org; see tidyverse/style/#122*\ 
 
-TL;DR = "Use the \ `styler package <http://styler.r-lib.org/>`__\ ".
+TL;DR = "Use the \ `styler package <https://styler.r-lib.org/>`__\ ".
 
 
 6.4 顶层代码
@@ -212,3 +212,12 @@ TL;DR = "Use the \ `styler package <http://styler.r-lib.org/>`__\ ".
 
     cat(stringi::stri_escape_unicode(x))
     #> This is a bullet \u2022
+
+您可以将 ``.R`` 文件传入 ``tools::ShowNonASCIIfile()`` 以检测包含非 ASCII 字符的所有行：
+
+.. code-block:: R
+
+    library(purrr)
+
+    walk(list.files("R", full.names = TRUE),
+        tools::showNonASCIIfile)

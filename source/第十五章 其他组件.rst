@@ -5,7 +5,7 @@
 
 - ``demo/``：用于程序包演示。在引入 vignettes 之前它还是有用的，但现如今已不再推荐使用。请见下文。
 - ``exec/``：用于存放可执行脚本。与其他目录中的文件不同，``exec/`` 中的文件会自动标记为可执行文件。
-- ``po/``：消息的翻译。该目录是有用的，但超出了本书的范围。有关更多详细信息，请参阅“R extension”的 \ `Internationalization <http://cran.rstudio.com/doc/manuals/r-devel/R-exts.html#Internationalization>`__\  章节。
+- ``po/``：消息的翻译。该目录是有用的，但超出了本书的范围。有关更多详细信息，请参阅“R extension”的 \ `Internationalization <https://cran.rstudio.com/doc/manuals/r-devel/R-exts.html#Internationalization>`__\  章节。
 - ``tools/``：配置期间需要的辅助文件，或者用于需要生成脚本的源文件。 \ :sub:`意义不明`\ 
 
 
