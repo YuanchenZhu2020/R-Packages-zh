@@ -1,0 +1,29 @@
+/*-- scss:defaults --*/
+
+$primary: #982a31 !default;
+$fg: #2b2121 !default;
+$bg: #ffffff !default;
+
+/*-- scss:rules --*/
+
+img.quarto-cover-image {
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+}
+
+pre {
+  background-color: rgba(233, 236, 239, 0.65);
+}
+
+code {
+  color: inherit;
+}
+
+/*-- for indent in the head of each paragraph --*/
+p {
+  text-indent: 2em;
+}
+
+ul > li > p,
+ol > li > p {
+  text-indent: 0;
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://r-pkgs.org/book-asciidoc/R-Packages--2e-.adoc</loc>
+    <lastmod>2023-05-07T12:07:34.087Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r-pkgs.org/index.html</loc>
+    <lastmod>2023-05-07T12:22:13.391Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r-pkgs.org/book-asciidoc/translator-preface.adoc</loc>
+    <lastmod>2023-05-07T12:07:37.840Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r-pkgs.org/translator-preface.html</loc>
+    <lastmod>2023-05-07T12:21:52.104Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r-pkgs.org/book-asciidoc/preface.adoc</loc>
+    <lastmod>2023-05-07T12:07:43.913Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r-pkgs.org/preface.html</loc>
+    <lastmod>2023-05-07T12:09:04.285Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r-pkgs.org/introduction.html</loc>
+    <lastmod>2023-05-07T12:23:00.223Z</lastmod>
+  </url>
+</urlset>

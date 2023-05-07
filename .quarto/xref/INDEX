@@ -1,0 +1,18 @@
+{
+  "index.Rmd": {
+    "index.html": "63f0a4f9",
+    "R-Packages--2e-.adoc": "9c523ad4"
+  },
+  "translator-preface.Rmd": {
+    "translator-preface.html": "dc0166bd",
+    "translator-preface.adoc": "2b561979"
+  },
+  "preface.Rmd": {
+    "preface.html": "06509810",
+    "preface.adoc": "cb390c98"
+  },
+  "introduction.Rmd": {
+    "introduction.html": "42a563ee",
+    "introduction.adoc": "15cefe62"
+  }
+}

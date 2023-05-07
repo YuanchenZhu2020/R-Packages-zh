@@ -1,0 +1,38 @@
+Package: rpkgs
+Title: R Packages
+Version: 0.1
+Authors@R: 
+    person("Hadley", "Wickham", , "hadley@posit.co", role = c("aut", "cre"))
+Description: This is not a package, but we just use this file to declare
+    the dependencies of the site.
+URL: https://r-pkgs.org/
+Imports:
+    devtools (>= 2.4.2),
+    fs,
+    gert (>= 1.4.1),
+    lobstr,
+    lubridate,
+    nycflights13,
+    pak,
+    pkgsearch,
+    rlang,
+    roxygen2,
+    stringi,
+    stringr (>= 1.4.0.9000),
+    testthat,
+    tidyverse,
+    usethis,
+    withr
+Suggests:
+    bslib,
+    digest,
+    downlit (>= 0.4.1.9000),
+    jsonlite,
+    knitr,
+    parsermd,
+    pkgload,
+    xml2
+Remotes: 
+    r-lib/downlit,
+    tidyverse/stringr
+Encoding: UTF-8

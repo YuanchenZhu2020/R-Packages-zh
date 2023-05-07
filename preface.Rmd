@@ -1,0 +1,133 @@
+# 前言 {#sec-preface .unnumbered}
+
+```{r, echo = FALSE}
+source("common.R")
+```
+
+欢迎阅读 *R packages* 第二版！
+如果你熟悉第一版的内容，这篇序言介绍了第二版中主要的内容变化，这样你就可以把阅读重点放在新的部分。
+
+这一版有一些主要的变化：
+
+-   更新了反映 devtools 软件包变化的内容，特别是关于它被 ["有意识地解耦 (conscious uncoupling)"](https://www.tidyverse.org/articles/2018/10/devtools-2-0-0/#conscious-uncoupling) 为一系列更小，但功能更集中的软件包。
+
+-   在介绍构成 R 包的所有重要可变组件的同时，扩大了对工作流 (workflow) 和流程 (process) 的内容覆盖范围。
+
+-   涵盖全新的主题，如构建软件包网站和 GitHub Actions。
+
+所有的内容已经被完全修改和更新。
+许多章节都是新加入的，或是被重新组织，也有一些章节被移除了：
+
+-   新的章节 @sec-whole-game “整体流程”。本章概述了整个软件包的开发过程。
+
+-   新的章节 @sec-setup “系统设置”。本章已经从之前版本的“简介 (Introduction)”一章分离出来，并增加了更多细节内容。
+
+-   原先名为“软件包结构 (Package structure)”的章节已经扩展了内容并分为两章，一章涵盖了软件包结构和状态 (@sec-package-structure-state) ，另一章涉及工作流和工具 (@sec-workflow101)。
+
+-   新的章节 @sec-package-within “软件包中的奥秘”。本章演示了如何从数据分析脚本中提取可复用的逻辑并将其放入包中。
+
+-   @sec-r “R 代码”中“组织你的函数 (Organising your functions)”和“代码风格 (Code style)”部分已被删除，转而采用一篇在线的代码风格指南 <https://style.tidyverse.org/>。
+    这篇代码风格指南与新的 styler 软件包[@styler] 搭配使用，可以自动应用许多编码规则。
+
+-   有关软件包测试的内容以及扩展成三个章节： @sec-testing-basics 是软件包测试基础， @sec-testing-design 是测试套件的设计，而 @sec-testing-advanced 则包含了各种高级的内容主题。
+
+-   围绕 `NAMESPACE` 文件和依赖关系的内容被重新组织成两章：@sec-dependencies-mindset-background 提供了让我们深入思考如何处理软件包依赖关系的技术知识，@sec-dependencies-in-practice 给出了在不同情况下使用不同类型依赖关系的操作细节。
+
+-   新的章节 @sec-license “添加开源许可证”。本章将之前关于添加开源许可证的内容扩展为单独的一章。
+
+-   删除了关于 C/C++ 的章节。
+    因为它没有提供足够有用的信息，并且自本书第一版以来，出现了其他更好的学习资源。
+
+-   删除了“其他组件 (Other components)”一章。
+
+-   关于 Git/GitHub 的章节以及围绕软件开发实践 (@sec-sw-dev-practices) 这一更普遍的主题进行了重构。
+    这章将不一步步说明使用 Git/GitHub 的基本步骤。
+    自本书第一版依赖，Git/GitHub 的使用呈现爆炸式增长，同时和 R 相关的通用和特定主题学习资源也同样飞速增长（例如 [Happy Git and GitHub for the useR](https://happygitwithr.com/index.html) 网站）。
+    Git/GitHub 在本书中仍然占据重要地位，特别是在 @sec-sw-dev-practices。
+
+-   非常简短的 "inst" 一章已经被合并到 @sec-misc 中，内容包括对所有其它的目录的介绍，这些目录在特定情况下可能很重要，但对所有软件包来说并不是必要的。
+
+## 致谢
+
+```{r eval = FALSE, include = FALSE}
+# code generates fodder for the prose below
+library(desc)
+
+get_contributors <- function(pkg = "devtools") {
+  desc_get_authors(system.file("DESCRIPTION", package = pkg))
+}
+# using packages represented by hex stickers in 2019 usethis useR! talk
+# team agreed that was the "right" set of packages
+get_contributors("devtools")
+get_contributors("usethis")
+get_contributors("roxygen2")
+get_contributors("testthat")
+get_contributors("desc")
+get_contributors("pkgbuild")
+get_contributors("pkgload")
+get_contributors("rcmdcheck")
+get_contributors("remotes")
+get_contributors("revdepcheck")
+get_contributors("sessioninfo")
+```
+
+自从 R Packages 第一版发布以来，支持本书描述的工作流的软件包已经有了广泛的发展。
+最初的三个软件包 devtools, roxygen2 和 testthat 已经扩展到由 devtools “有意识地解耦”所创建的许多软件包，就如 @sec-setup-usage 所描述的那样。
+由于它们具有共同的根源 devtools，因此这些软件包多数源自 Hadley Wickham (HW)。
+还有许多其他重要的贡献者，其中许多人现在是软件包的维护者：
+
+-   devtools: HW, [Winston Chang](https://github.com/wch), [Jim Hester](https://github.com/jimhester) (maintainer, \>= v1.13.5), [Jennifer Bryan](https://github.com/jennybc) (maintainer \>= v2.4.3)
+-   usethis: HW, [Jennifer Bryan](https://github.com/jennybc) (maintainer \>= v1.5.0), Malcolm Barrett
+-   roxygen2: HW (maintainer), [Peter Danenburg](https://github.com/klutometis), [Manuel Eugster](https://github.com/mjaeugster)
+-   testthat: HW (maintainer)
+-   desc: [Gábor Csárdi](https://github.com/gaborcsardi) (maintainer), [Kirill Müller](https://github.com/krlmlr), [Jim Hester](https://github.com/jimhester)
+-   pkgbuild: HW, [Jim Hester](https://github.com/jimhester), [Gábor Csárdi](https://github.com/gaborcsardi) (maintainer \>= v1.2.1)
+-   pkgload: HW, [Jim Hester](https://github.com/jimhester), [Winston Chang](https://github.com/wch), [Lionel Henry](https://github.com/lionel-) (maintainer \>= v1.2.4)
+-   rcmdcheck: [Gábor Csárdi](https://github.com/gaborcsardi) (maintainer)
+-   remotes: HW, [Jim Hester](https://github.com/jimhester), [Gábor Csárdi](https://github.com/gaborcsardi) (maintainer), [Winston Chang](https://github.com/wch), [Martin Morgan](https://github.com/mtmorgan), [Dan Tenenbaum](https://github.com/dtenenba)
+-   revdepcheck: HW, [Gábor Csárdi](https://github.com/gaborcsardi) (maintainer)
+-   sessioninfo: HW, [Gábor Csárdi](https://github.com/gaborcsardi) (maintainer), [Winston Chang](https://github.com/wch), [Robert Flight](https://github.com/rmflight), [Kirill Müller](https://github.com/krlmlr), [Jim Hester](https://github.com/jimhester)
+
+这本书是[公开编写和修订的](https://github.com/hadley/r-pkgs/)，它是社区努力的成果：许多人阅读草稿、修正错别字
+、提出改进意见以及贡献内容。
+没有这些贡献者，这本书不会像现在这样好，我们对他们的帮助深表感谢。
+我们要感谢我们在 Posit 的同事，特别是 tidyverse 团队，他们一直很乐意讨论软件包的开发实践。
+另外，我们出色的技术审查员团队提出的建议也极大地改进了本书：Malcolm Barrett, Laura DeCicco, Zhian Kamvar, Tom Mock and Maëlle Salmon。
+
+```{r, results = "asis", echo = FALSE, eval = TRUE}
+# git --no-pager shortlog -ns > contribs.txt
+contribs <- read.delim("data/contribs.txt", header = FALSE, 
+  stringsAsFactors = FALSE)[-1, ]
+names(contribs) <- c("n", "name")
+
+contribs <- contribs[order(contribs$name), ]
+contribs$uname <- ifelse(!grepl(" ", contribs$name), 
+  paste0("`@", contribs$name,"`"), contribs$name)
+
+cat("Thanks go to all contributors who submitted improvements via github (in alphabetical order): ")
+cat(paste0(contribs$uname, collapse = ", "))
+cat(".\n")
+```
+
+## Conventions
+
+在本书中，我们用 `fun()` 来指代函数，用 `var` 来指代变量和函数参数，用 `path/` 来指代路径。
+
+较大的代码块同时包含输入和输出。
+代码输出的内容都被注释了，因此如果你有本书的电子版本，例如 <https://r-pkgs.org>，就可以轻松地将示例代码复制和粘贴到 R 中。
+输出内容的注释看起来像 `#>`，这样可以和普通注释区别开来。
+
+## Colophon
+
+本书是在 [RStudio](https://www.rstudio.com/products/rstudio/) 中使用 [Quarto](https://quarto.org) 编写的。
+本书 [官方网站](https://r-pkgs.org) 由 [Netlify](https://www.netlify.com) 托管，并使用 GitHub actions 在每次提交后自动更新。
+完整的源代码可以在 [GitHub](https://github.com/hadley/r-pkgs) 上找到
+
+本书的当前版本是在如下环境下构建的：
+
+```{r}
+library(devtools)
+library(roxygen2)
+library(testthat)
+devtools::session_info()
+```
