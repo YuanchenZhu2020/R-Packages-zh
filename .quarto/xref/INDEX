@@ -14,5 +14,9 @@
   "introduction.Rmd": {
     "introduction.html": "42a563ee",
     "introduction.adoc": "15cefe62"
+  },
+  "whole-game.Rmd": {
+    "whole-game.html": "644d2db7",
+    "whole-game.adoc": "a82b74c4"
   }
 }

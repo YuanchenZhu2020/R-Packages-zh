@@ -5,7 +5,7 @@
 <meta name="generator" content="quarto-1.3.340">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="description" content="学习如何创建软件包（package），它是可分享、可复用和可重复的 R 代码。">
-<title>R Packages (2e) - 1&nbsp; 简介</title>
+<title>R Packages (2e) - 简介</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -46,6 +46,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./whole-game.html" rel="next">
 <link href="./preface.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -82,7 +83,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./introduction.html">入门</a></li><li class="breadcrumb-item"><a href="./introduction.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">简介</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./introduction.html">简介</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -129,6 +130,12 @@ div.csl-indent {
  <span class="menu-text">前言</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./introduction.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">简介</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
@@ -140,8 +147,8 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./introduction.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">简介</span></span></a>
+  <a href="./whole-game.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">整体流程</span></span></a>
   </div>
 </li>
       </ul>
@@ -154,14 +161,14 @@ div.csl-indent {
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#sec-intro-phil" id="toc-sec-intro-phil" class="nav-link active" data-scroll-target="#sec-intro-phil"><span class="header-section-number">1.1</span> Philosophy</a></li>
-  <li><a href="#intro-outline" id="toc-intro-outline" class="nav-link" data-scroll-target="#intro-outline"><span class="header-section-number">1.2</span> In this book</a></li>
-  <li><a href="#whats-not-here" id="toc-whats-not-here" class="nav-link" data-scroll-target="#whats-not-here"><span class="header-section-number">1.3</span> What’s not here</a></li>
+<li><a href="#sec-intro-phil" id="toc-sec-intro-phil" class="nav-link active" data-scroll-target="#sec-intro-phil">开发理念</a></li>
+  <li><a href="#intro-outline" id="toc-intro-outline" class="nav-link" data-scroll-target="#intro-outline">本书包含的内容</a></li>
+  <li><a href="#%E6%9C%AC%E4%B9%A6%E6%B2%A1%E6%9C%89%E5%8C%85%E5%90%AB%E7%9A%84%E5%86%85%E5%AE%B9" id="toc-本书没有包含的内容" class="nav-link" data-scroll-target="#%E6%9C%AC%E4%B9%A6%E6%B2%A1%E6%9C%89%E5%8C%85%E5%90%AB%E7%9A%84%E5%86%85%E5%AE%B9">本书没有包含的内容</a></li>
   </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/hadley/r-pkgs/edit/main/introduction.Rmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/hadley/r-pkgs/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title"><span id="intro" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">简介</span></span></h1>
+<h1 class="title"><span id="intro" class="quarto-section-identifier">简介</span></h1>
 </div>
 
 
@@ -174,26 +181,25 @@ div.csl-indent {
   </div>
   
 
-</header><p>In R, the fundamental unit of shareable code is the package. A package bundles together code, data, documentation, and tests, and is easy to share with others. As of March 2023, there were over 19,000 packages available on the <strong>C</strong>omprehensive <strong>R</strong> <strong>A</strong>rchive <strong>N</strong>etwork, or CRAN, the public clearing house for R packages. This huge variety of packages is one of the reasons that R is so successful: the chances are that someone has already solved a problem that you’re working on, and you can benefit from their work by downloading their package.</p>
-<p>If you’re reading this book, you already know how to work with packages in the following ways:</p>
+</header><p>在 R 中，可共享代码的基本单位是软件包 (package)。 软件包将代码、数据、文档和测试整合到一起，使其很容易与他人分享。 截止到 2023 年 3 月，在综合性 R 档案网络 (<strong>C</strong>omprehensive <strong>R</strong> <strong>A</strong>rchive <strong>N</strong>etwork)，或者说 R 包的公共信息交换平台 CRAN 上已经有超过 19,000 个软件包。 这些种类繁多的软件包是 R 语言如此成功的原因之一：很可能已经有人已经解决了你正在研究的问题，因此你可以下载他们的软件包，从他们的工作中获益。</p>
+<p>如果你正在读这本书，那么就应该已经知道如何通过以下方式来使用软件包了：</p>
 <ul>
-<li>You install them from CRAN with <code>install.packages("x")</code>.</li>
-<li>You use them in R with <code><a href="https://rdrr.io/r/base/library.html">library("x")</a></code> or <code><a href="https://rdrr.io/r/base/library.html">library(x)</a></code>.</li>
-<li>You get help on them with <code>package?x</code> and <code><a href="https://rdrr.io/pkg/x/man">help(package = "x")</a></code>.</li>
+<li>从 CRAN 安装包：<code>install.packages("x")</code>。</li>
+<li>在 R 中使用包：<code><a href="https://rdrr.io/r/base/library.html">library("x")</a></code> 或 <code><a href="https://rdrr.io/r/base/library.html">library(x)</a></code>。</li>
+<li>获取包的帮助信息：<code>package?x</code> 或 <code><a href="https://rdrr.io/pkg/x/man">help(package = "x")</a></code>。</li>
 </ul>
-<p>The goal of this book is to teach you how to develop packages so that you can write your own, not just use other people’s. Why write a package? One compelling reason is that you have code that you want to share with others. Bundling your code into a package makes it easy for other people to use it, because like you, they already know how to use packages. If your code is in a package, any R user can easily download it, install it and learn how to use it.</p>
-<p>But packages are useful even if you never share your code. As Hilary Parker says in her <a href="https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/">introduction to packages</a>: “Seriously, it doesn’t have to be about sharing your code (although that is an added benefit!). It is about saving yourself time.” Organising code in a package makes your life easier because packages come with conventions. For example, you put R code in <code>R/</code>, you put tests in <code>tests/</code> and you put data in <code>data/</code>. These conventions are helpful because:</p>
+<p>本书的目标是教你如何开发软件包，这样你就可以编写自己的包，而不仅仅是使用别人的包。 那么为什么要编写一个软件包呢？ 一个令人信服的理由是，你有想与他人分享的代码。<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> 将代码整合进一个包里可以让其他人很容易地使用它，因为和你一样，他们也知道如何使用包。 因此，如果你的代码整合进了一个包中，任何 R 语言的用户都可以很轻松地下载、安装并学习如何使用它。</p>
+<p>即使你不分享自己的代码，软件包依然很有用。 正如 Hilary Parker 在她的 <a href="https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/">introduction to packages</a> 所提到的：“严格说来，它不一定和代码分享有关（尽管这是一个额外的好处），它主要是能节省你的时间。”<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>将代码组织在一个包中会让你工作起来更容易，因为软件包遵循一些通用的约定。 例如，你需要将 R 代码文件放在 <code>R/</code> 目录下，将测试文件放在 <code>tests/</code> 目录下，还有将数据文件放在 <code>data/</code> 目录下。 这些约定很有用，因为：</p>
 <ul>
-<li><p>They save time — you don’t need to think about the best way to organise a project, you can just follow a template.</p></li>
-<li><p>Standardised conventions lead to standardised tools — if you buy into R’s package conventions, you get many tools for free.</p></li>
+<li><p>它们能节省时间——你不需要考虑如何组织软件包才是最佳的，只需要按照模板操作。</p></li>
+<li><p>标准化的规范带来标准化的工具——如果你遵循 R 包的规范，就能免费获得许多工具。</p></li>
 </ul>
-<p>It’s even possible to use packages to structure your data analyses (e.g., <span class="citation" data-cites="marwick2018-tas">Marwick, Boettiger, and Mullen (<a href="#ref-marwick2018-tas" role="doc-biblioref">2018a</a>)</span> or <span class="citation" data-cites="marwick2018-peerj">Marwick, Boettiger, and Mullen (<a href="#ref-marwick2018-peerj" role="doc-biblioref">2018b</a>)</span>), although we won’t delve deeply into that use case here.</p>
-<section id="sec-intro-phil" class="level2" data-number="1.1"><h2 data-number="1.1" class="anchored" data-anchor-id="sec-intro-phil">
-<span class="header-section-number">1.1</span> Philosophy</h2>
-<p>This book espouses our philosophy of package development: anything that can be automated, should be automated. Do as little as possible by hand. Do as much as possible with functions. The goal is to spend your time thinking about what you want your package to do rather than thinking about the minutiae of package structure.</p>
-<p>This philosophy is realized primarily through the devtools package, which is the public face for a suite of R functions that automate common development tasks. The release of version 2.0.0 in October 2018 marked its internal restructuring into a set of more focused packages, with devtools becoming more of a meta-package. The usethis package is the sub-package you are most likely to interact with directly; we explain the devtools-usethis relationship in <span class="quarto-unresolved-ref">?sec-setup-usage</span>.</p>
-<p>As always, the goal of devtools is to make package development as painless as possible. It encapsulates the best practices developed by Hadley Wickham, initially from his years as a prolific solo developer. More recently, he has assembled a team of developers at Posit (formerly known as RStudio), who collectively look after hundreds of open source R packages, including those known as <a href="https://www.tidyverse.org">the tidyverse</a>. The reach of this team allows us to explore the space of all possible mistakes at an extraordinary scale. Fortunately, it also affords us the opportunity to reflect on both the successes and failures, in the company of expert and sympathetic colleagues. We try to develop practices that make life more enjoyable for both the maintainer and users of a package. The devtools meta-package is where these lessons are made concrete.</p>
-<p>devtools works hand-in-hand with RStudio, which we believe is the best development environment for most R users. The most popular alternative to RStudio is currently <a href="https://code.visualstudio.com/">Visual Studio Code</a> (VS Code) with the <a href="https://marketplace.visualstudio.com/items?itemName=REditorSupport.r">R extension</a> enabled. This can be a rewarding and powerful environment, however it does require a bit more work to set up and customize<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p>你的数据分析流程甚至也可以用软件包来构建（例如 <span class="citation" data-cites="marwick2018-tas">Marwick, Boettiger, and Mullen (<a href="#ref-marwick2018-tas" role="doc-biblioref">2018a</a>)</span> 或 <span class="citation" data-cites="marwick2018-peerj">Marwick, Boettiger, and Mullen (<a href="#ref-marwick2018-peerj" role="doc-biblioref">2018b</a>)</span>），不过我们不会在这里深入研究这个用例。</p>
+<section id="sec-intro-phil" class="level2"><h2 class="anchored" data-anchor-id="sec-intro-phil">开发理念</h2>
+<p>本书宣扬了我们的软件包开发理念：凡是能够自动化的，都应该自动化。 尽量减少手动操作。 用函数完成尽可能多的事情。 这样是希望你将时间用于思考你想要让包做什么，而不是包结构的各种细节。</p>
+<p>这一理念主要是 devtools 包来实现的，这个软件包是让通用开发任务自动化的 R 函数套件中的代表。 devtools 在 2018 年 10 月发布了 2.0.0 版本，标志着其内部重组为一系列功能更具针对性的软件包，而它则更像是一个元软件包 (meta-package)。 usethis 包是其中你最有可能与之交互的子软件包，我们将在 <a href="#sec-setup-usage"><span class="quarto-unresolved-ref">sec-setup-usage</span></a> 中解释 devtools 和 usethis 之间的关系。</p>
+<p>像往常一样，devtools 包的目的是让软件包的开发尽可能的轻松便利。 它囊括了 Hadley Wickham 自从作为一名多产的独立开发者以来积累的最佳实践经验。 最近，他在 Posit（以前称为 RStudio）组建了一个开发团队，共同维护数百个开源 R 包，包括那些被称为 <a href="https://www.tidyverse.org">the tidyverse</a> 的包。 这个团队的能力让我们能够以惊人的规模探索所有可能出现的错误。 幸运的是，它还让我们有机会在专家和富有同情心的同事的陪伴下反思成功和失败。 我们试图开发出一些实践方法，让包的维护者和用户的工作更加轻松便利， 而 devtools 元软件包正是把这些经验教训具体化的地方。</p>
+<p>devtools 与 RStudio 协同工作，我们相信这是对大多数 R 用户来说是最好的开发环境。 目前最流行的 RStudio 替代品是启用了 <a href="https://marketplace.visualstudio.com/items?itemName=REditorSupport.r">R extension</a> 的 <a href="https://code.visualstudio.com/">Visual Studio Code</a> (VS Code)。 这可能是一个有价值并且功能强大的环境，然而它确实需要更多的工作来设置和定制<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -204,23 +210,21 @@ RStudio
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Throughout the book, we highlight specific ways that RStudio can expedite your package development workflow, in specially formatted sections like this.</p>
+<p>在整本书中，我们在像这样特殊格式的段落中强调了使用 RStudio 加速软件包开发工作流程的具体方法。</p>
 </div>
 </div>
-<p>Together, devtools and RStudio insulate you from the low-level details of how packages are built. As you start to develop more packages, we highly recommend that you learn more about those details. The best resource for the official details of package development is always the official <a href="https://cran.r-project.org/doc/manuals/R-exts.html#Creating-R-packages">writing R extensions</a> manual<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. However, this manual can be hard to understand if you’re not already familiar with the basics of packages. It’s also exhaustive, covering every possible package component, rather than focusing on the most common and useful components, as this book does. Writing R extensions is a useful resource once you’ve mastered the basics and want to learn what’s going on under the hood.</p>
-</section><section id="intro-outline" class="level2" data-number="1.2"><h2 data-number="1.2" class="anchored" data-anchor-id="intro-outline">
-<span class="header-section-number">1.2</span> In this book</h2>
-<p>The first part of the book is all about giving you all the tools you need to start your package development journey and we highly recommend that you read it in order. We begin in <span class="quarto-unresolved-ref">?sec-whole-game</span> with a run through the complete development of a small package. It’s meant to paint the big picture and suggest a workflow, before we descend into the detailed treatment of the key components of an R package. Then in <span class="quarto-unresolved-ref">?sec-setup</span> you’ll learn how to prepare your system for package development, and in <span class="quarto-unresolved-ref">?sec-package-structure-state</span> you’ll learn the basic structure of a package and how that varies across different states. Next, in <span class="quarto-unresolved-ref">?sec-workflow101</span>, we’ll cover the core workflows that come up repeatedly for package developers. The first part of the book ends with another case study (<span class="quarto-unresolved-ref">?sec-package-within</span>), this time focusing on how you might convert a script to a package and discussing the challenges you’ll face along the way.</p>
-<p>The remainder of the book is designed to be read as needed. Pick and choose between the chapters as the various topics come up in your development process.</p>
-<p>First we cover key package components: <span class="quarto-unresolved-ref">?sec-r</span> discusses where your code lives and how to organize it, <span class="quarto-unresolved-ref">?sec-data</span> shows you how to include data in your package, and <span class="quarto-unresolved-ref">?sec-misc</span> covers a few less important files and directories that need to be discussed somewhere.</p>
-<p>Next we’ll dive into to the package metadata, starting with <code>DESCRIPTION</code> in <span class="quarto-unresolved-ref">?sec-description</span>. We’ll then go deep into dependencies. In <span class="quarto-unresolved-ref">?sec-dependencies-mindset-background</span>, we’ll cover the costs and benefits of taking on dependencies and provide some technical background on package namespaces and the search path. In <span class="quarto-unresolved-ref">?sec-dependencies-in-practice</span>, we focus on practical matters, such as how to use different types of dependencies in different parts of your package. This is also where we discuss exporting functions, which is what makes it possible for other packages and projects to depend on your package. We’ll finish off this part with a look at licensing in <span class="quarto-unresolved-ref">?sec-license</span>.</p>
-<p>To ensure your package works as designed (and continues to work as you make changes), it’s essential to test your code, so the next three chapters cover the art and science of testing. <span class="quarto-unresolved-ref">?sec-testing-basics</span> gets you started with the basics of testing with the testthat package. <span class="quarto-unresolved-ref">?sec-testing-design</span> teaches you how to design and organise tests in the most effective way. Then we finish off our coverage of testing in <span class="quarto-unresolved-ref">?sec-testing-advanced</span> which teaches you advanced skills to tackle challenging situations.</p>
-<p>If you want other people (including future-you!) to understand how to use the functions in your package, you’ll need to document them. <span class="quarto-unresolved-ref">?sec-man</span> gets you started using roxygen2 to document the functions in your package. Function documentation is only helpful if you know what function to look up, so next in <span class="quarto-unresolved-ref">?sec-vignettes</span> we’ll discuss vignettes, which help you document the package as a whole. We’ll finish up documentation with a discussion of other important markdown files like <code>README.md</code> and <code>NEWS.md</code> in <span class="quarto-unresolved-ref">?sec-other-markdown</span>, and creating a package website with pkgdown in <span class="quarto-unresolved-ref">?sec-website</span>.</p>
-<p>The book concludes by zooming back out to consider development practices, such as the benefit of using version control and continuous integration (<span class="quarto-unresolved-ref">?sec-sw-dev-practices</span>). We wrap things up by discussing the lifecycle (<span class="quarto-unresolved-ref">?sec-lifecycle</span>) of a package, including releasing it on CRAN (<span class="quarto-unresolved-ref">?sec-release</span>).</p>
-<p>This is a lot to learn, but don’t feel overwhelmed. Start with a minimal subset of useful features (e.g.&nbsp;just an <code>R/</code> directory!) and build up over time. To paraphrase the Zen monk Shunryu Suzuki: “Each package is perfect the way it is — and it can use a little improvement”.</p>
-</section><section id="whats-not-here" class="level2" data-number="1.3"><h2 data-number="1.3" class="anchored" data-anchor-id="whats-not-here">
-<span class="header-section-number">1.3</span> What’s not here</h2>
-<p>There are also specific practices that have little to no treatment here simply because we do not use them enough to have any special insight. Does this mean that we actively discourage those practices? Probably not, as we try to be explicit about practices we think you should avoid. So if something is not covered here, it just means that a couple hundred heavily-used R packages are built without meaningful reliance on that technique. That observation should motivate you to evaluate how likely it is that your development requirements truly don’t overlap with ours. But sometimes the answer is a clear “yes”, in which case you’ll simply need to consult another resource.</p>
+<p>devtools 和 RStudio 一起，让你无需关注软件包是怎样构建的这种低级细节。 但是当你开始开发更多的软件包时，我们强烈建议你去了解这些细节。 有关软件包开发官方细节的最佳资源，始终是官方的 <a href="https://cran.r-project.org/doc/manuals/R-exts.html#Creating-R-packages">writing R extensions</a> 手册<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. 然而，如果你还不熟悉软件包的基础知识，这本使用手册可能难以理解。 它也十分详尽，涵盖了所有可能的软件包组件，而不是像本书那样只关注最常见和最有用的组件。 一旦你掌握了 R 包的基础知识，并且想深入了解其背后发生了什么，那么这本手册就是十分有用的资料。</p>
+</section><section id="intro-outline" class="level2"><h2 class="anchored" data-anchor-id="intro-outline">本书包含的内容</h2>
+<p>本书的第一部分将为你提供软件包开发之旅所需的所有工具，强烈建议你按顺序阅读。 我们将在 <a href="#sec-whole-game"><span class="quarto-unresolved-ref">sec-whole-game</span></a> 中介绍一个小软件包的完整开发过程。 在我们深入研究 R 包的关键组件之前，它旨在描绘出整体的图景并提出一个工作流程。 然后在 <a href="#sec-setup"><span class="quarto-unresolved-ref">sec-setup</span></a> 你将学习如何为软件包开发准备好系统环境；在 <a href="#sec-package-structure-state"><span class="quarto-unresolved-ref">sec-package-structure-state</span></a> 中，你将学习软件 包的基本结构以及它不同状态下的差异。 接下来，在 <a href="#sec-workflow101"><span class="quarto-unresolved-ref">sec-workflow101</span></a> 中，我们将介绍软件包开发人员经常遇到的核心工作流。 本书第一部分以另一个案例 (<a href="#sec-package-within"><span class="quarto-unresolved-ref">sec-package-within</span></a>) 作为结尾，这次重点介绍如何将脚本转换为包，并讨论在这个过程中可能面临的挑战。</p>
+<p>本书的其余部分可以根据需要进行阅读。 在你开发过程中面临各种问题时，可以在各章中进行选择阅读。</p>
+<p>我们首先介绍软件包中的关键组件：<a href="#sec-r"><span class="quarto-unresolved-ref">sec-r</span></a> 讨论代码的位置和组织方式，<a href="#sec-data"><span class="quarto-unresolved-ref">sec-data</span></a> 介绍如何在包中包含数据，<a href="#sec-misc"><span class="quarto-unresolved-ref">sec-misc</span></a> 介绍几个需要在一些地方讨论，但不太重要的文件和目录。</p>
+<p>接下来，我们将从 <a href="#sec-description"><span class="quarto-unresolved-ref">sec-description</span></a> 的 <code>DESCRIPTION</code> 文件开始，深入了解包的元数据。 在 <a href="#sec-dependencies-mindset-background"><span class="quarto-unresolved-ref">sec-dependencies-mindset-background</span></a> 中，我们将介绍使用依赖项的成本和收益，并提供一些关于包命名空间和搜索路径的技术背景知识。 在 <a href="#sec-dependencies-in-practice"><span class="quarto-unresolved-ref">sec-dependencies-in-practice</span></a> 中，我们关注一些实际问题，比如如何在包的不同部分使用不同类型的依赖。 这也是我们讨论导出函数 (exporting functions) 的地方，这使得其他包和项目可以将你的包作为依赖项。 我们将在 <a href="#sec-license"><span class="quarto-unresolved-ref">sec-license</span></a> 中以有关添加开源软件许可证的内容结束这一部分。</p>
+<p>为了确保软件包能按照设计正常工作（并在你修改代码后继续正常工作），测试你的代码是必不可少的工作，所以接下来的三章将介绍测试的艺术和科学。 <a href="#sec-testing-basics"><span class="quarto-unresolved-ref">sec-testing-basics</span></a> 通过 testthat 包介绍测试的基础知识。 <a href="#sec-testing-design"><span class="quarto-unresolved-ref">sec-testing-design</span></a> 教你如何以最有效的方式设计和组织测试。 <a href="#sec-testing-advanced"><span class="quarto-unresolved-ref">sec-testing-advanced</span></a> 将结束对测试的介绍，这一章将教你处理具有挑战性的情况的高级技能。</p>
+<p>如果你想让其他人（包括未来的你！）理解如何使用包中的函数，就需要为它编写文档。 <a href="#sec-man"><span class="quarto-unresolved-ref">sec-man</span></a> 开始教你使用 roxygen2 为包中的函数编写文档。 只有在你知道要查找哪个函数的时候，函数文档才有帮助。所以在 <a href="#sec-vignettes"><span class="quarto-unresolved-ref">sec-vignettes</span></a> 中，我们将讨论主题文档 (vignettes)，它可以帮助你为整个包提供文档。 我们将在 <a href="#sec-other-markdown"><span class="quarto-unresolved-ref">sec-other-markdown</span></a> 结束对文档编写的介绍，这一章介绍其他重要的 markdown 文件，如 <code>README.md</code> 和 <code>NEWS.md</code>。<a href="#sec-website"><span class="quarto-unresolved-ref">sec-website</span></a> 则是介绍如何用 pkgdown 创建软件包网站。</p>
+<p>本书最后回顾了开发实践方法，例如使用版本控制和持续集成的好处 (<a href="#sec-sw-dev-practices"><span class="quarto-unresolved-ref">sec-sw-dev-practices</span></a>)。 最后，我们会讨论软件包的生命周期 (<a href="#sec-lifecycle"><span class="quarto-unresolved-ref">sec-lifecycle</span></a>)，包括在CRAN上发布软件包 (<a href="#sec-release"><span class="quarto-unresolved-ref">sec-release</span></a>)。</p>
+<p>本书中有很多东西要学，但不要感到不知所措。 从一个最小的有用的功能子集（例如一个 <code>R/</code> 目录！）开始，随着时间的推移逐步构建你的包。 套用禅僧铃木俊隆 (Shunryu Suzuki) 的话:“每个包都是完美的，就像它本来的模样——但是也许可以稍作改进。”<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+</section><section id="本书没有包含的内容" class="level2"><h2 class="anchored" data-anchor-id="本书没有包含的内容">本书没有包含的内容</h2>
+<p>还有一些实践方法在本书中几乎没有讨论，这只是因为我们没有足够多地使用它们，因此没有任何独特的见解。 这是否意味着我们应该积极避免使用这些方法呢？ 可能并不是这样，因为我们在书中试图明确地说明我们认为你应该避免的做法。 因此，如果有什么东西没有在本书中介绍，这只是意味着数百个被广泛使用的 R 包并没有依赖于这项技术。 这一结果应该能鼓励你去评估自己的开发需求与我们不重叠的可能性有多大。 但有时这个问题的答案是明确的“是”，在这种情况下，你只需要去查阅其他的资料。</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
@@ -233,8 +237,11 @@ Marwick, Ben, Carl Boettiger, and Lincoln Mullen. 2018a. <span>“Packaging Data
 </div>
 </section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><hr>
 <ol>
-<li id="fn1"><p>Users of <a href="https://ess.r-project.org/">Emacs Speaks Statistics</a> (ESS) will find that many of the workflows described in this book are also available there. For those loyal to vim, we recommend the <a href="https://github.com/jalvesaq/Nvim-R">Nvim-R plugin</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>You might also enjoy the “quarto-ized” version at <a href="https://rstudio.github.io/r-manuals/r-exts/Function-and-variable-index.html">https://rstudio.github.io/r-manuals/r-exts/</a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>译者注：译者认为这里想要表达开发 R 包能带来一个明显的优势，即方便分享自己的代码，这一优势具有强烈的推动力和说服力，让你想要开发 R 包。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>“Seriously, it doesn’t have to be about sharing your code (although that is an added benefit!). It is about saving yourself time.”<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p><a href="https://ess.r-project.org/">Emacs Speaks Statistics</a> (ESS) 的用户将会发现本书中描述的许多工作流也可以在上面找到。 对于那些忠于 vim 的用户，我们推荐使用 <a href="https://github.com/jalvesaq/Nvim-R">Nvim-R plugin</a>。<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>你也可以在 <a href="https://rstudio.github.io/r-manuals/r-exts/Function-and-variable-index.html">https://rstudio.github.io/r-manuals/r-exts/</a> 上找到这本手册的 Quarto 版本。<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>译者注：原话来自铃木俊隆的书籍《禅之初心》(Zen Mind, Beginner’s Mind)<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -473,6 +480,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./whole-game.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">整体流程</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

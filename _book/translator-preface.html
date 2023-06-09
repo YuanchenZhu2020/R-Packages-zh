@@ -111,6 +111,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">前言</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">简介</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
@@ -122,8 +128,8 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./introduction.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  <a href="./whole-game.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">整体流程</span></span></a>
   </div>
 </li>
       </ul>
@@ -169,8 +175,8 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">package</td>
-<td style="text-align: left;">软件包，程序包</td>
-<td style="text-align: left;">r packages 是一组用来完成特定任务的程序，作为 R 的补充，符合 Software Package 的定义。</td>
+<td style="text-align: left;">软件包，程序包，包</td>
+<td style="text-align: left;">r packages 是一组用来完成特定任务的程序，作为 R 的补充，符合 Software Package 的定义。“包”作为“软件包”的简称使用，在翻译中可能同时使用“软件包”和“包”两种称呼。</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">conscious uncoupling</td>
@@ -184,13 +190,51 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;"><em>The package within</em></td>
-<td style="text-align: left;">软件包中的奥秘；包中奥秘</td>
+<td style="text-align: left;">软件包中的奥秘，包中奥秘</td>
 <td style="text-align: left;">直译过来是“软件包的内部”，感觉过于平淡，使用更吸引人的翻译。</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;">compelling</td>
+<td style="text-align: left;">令人信服的</td>
+<td style="text-align: left;">
+<span class="citation" data-cites="intro">(<a href="#ref-intro" role="doc-biblioref"><strong>intro?</strong></a>)</span> 中 “One compelling reason …” 应该想要表达开发 R 包能带来一个明显的优势，即方便分享自己的代码，这一优势具有强烈的推动力和说服力，让你想要开发 R 包。<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>
+</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">section</td>
+<td style="text-align: left;">章节，段落</td>
+<td style="text-align: left;">本书中的 section 多用于指代层级低于 “chapter” 的文段，有的是小节，也有的是一个段落。</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">espouse</td>
+<td style="text-align: left;">宣扬，倡导</td>
+<td style="text-align: left;">直译为“支持”，从语句通顺的角度翻译为“宣扬”。</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Vignette</td>
+<td style="text-align: left;">主题文档</td>
+<td style="text-align: left;">原意是“小插曲”、“短文”、“小品文”等，在 R 中 Vignette 是对整个包或包的某个功能主题进行概括性的介绍，这里突出其内容特性，强调其内容为贡功能“主题”，不强调其独立性和概括性。</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Shunryu Suzuki</td>
+<td style="text-align: left;">铃木俊隆</td>
+<td style="text-align: left;">人名的中文翻译依据是 <a href="https://en.wikipedia.org/wiki/Shunry%C5%AB_Suzuki">Wikipedia</a>
+</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">toy package</td>
+<td style="text-align: left;">示例软件包</td>
+<td style="text-align: left;">直译过来是“玩具一般的软件包”，表示其各部分相比于真实软件包来说都较为简单，但包含了真实软件包的必要的部分，用于作为一个实例展示开发流程。</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">commit history</td>
+<td style="text-align: left;">提交历史</td>
+<td style="text-align: left;">GitHub 或 Git 中列出的 commit 历史。</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pane, tab</td>
+<td style="text-align: left;">窗格，选项卡</td>
+<td style="text-align: left;">窗格是对应用程序窗口的一个分割，而选项卡是在窗格中展示的，可以切换不同的选项卡，窗格中将会展示对应的内容。</td>
 </tr>
 </tbody>
 </table></section><section id="排版说明" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="排版说明">排版说明</h2>
@@ -231,8 +275,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: center;">Introduction</td>
+<td style="text-align: center;">✅</td>
 <td style="text-align: center;">⚙️</td>
-<td style="text-align: center;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">The Whole Game</td>
@@ -361,6 +405,7 @@ ul.task-list li input[type="checkbox"] {
 </section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><hr>
 <ol>
 <li id="fn1"><p>见 <a href="https://en.wikipedia.org/wiki/Conscious_uncoupling" class="uri">https://en.wikipedia.org/wiki/Conscious_uncoupling</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>译者注：需要再想清楚作者想表达的意思，然后润色<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

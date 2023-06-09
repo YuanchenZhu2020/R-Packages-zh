@@ -1,51 +1,35 @@
-# R Packages
+# R Packages zh-CN
 
-<!-- badges: start -->
+本书是 [*R Packages (2e)*](https://r-pkgs.org/) 一书的个人中文翻译版，**仍然在翻译中**。欢迎大家提出修改意见。
 
-[![render](https://github.com/hadley/r-pkgs/actions/workflows/render.yaml/badge.svg)](https://github.com/hadley/r-pkgs/actions/workflows/render.yaml) [![Netlify Status](https://api.netlify.com/api/v1/badges/a5dbbee9-7396-4e7f-8ce7-6abd362d9752/deploy-status)](https://app.netlify.com/sites/r-pkgs/deploys)
+个人翻译版可以通过[**我的个人网站**]()或 [GitHub Page]() 进行阅读。
 
-<!-- badges: end -->
+## 翻译进度
 
-This repo holds the code and text behind the **R Packages** book.
-The site is built with [Quarto](https://quarto.org).
-
--   The first edition is no longer available online.
--   A second edition is under development and available at <https://r-pkgs.org>.
-
-## Notes on mechanics
-
-[Quarto callouts](https://quarto.org/docs/authoring/callouts.html) look like this:
-
-```         
-::: callout-tip
-Here's a super handy nifty thing!
-:::
-```
-
-At the time of writing (2022-08-31), we use `callout-tip`, `callout-warning`, `callout-note`, and `callout-important`.
-The `XXX` of `callout-XXX` is its type and controls the icon and color:
-
--   `-tip` green
--   `-warning` orange
--   `-note` blue
--   `-important` red
-
-Use a `##`-level header to caption the callout.
-
-Do this for tips specific to RStudio:
-
-```         
-::: callout-tip
-## RStudio
-Here's a super handy nifty thing about RStudio specifically.
-:::
-```
-
-The other callout that appears multiple times is:
-
-```         
-::: callout-warning
-## Submitting to CRAN
-Here's something to super careful about.
-:::
-```
+-   [x] welcome
+-   [x] Preface
+-   [x] Introduction
+-   [ ] The Whole Game
+-   [ ] System setup
+-   [ ] Package structure and state
+-   [ ] Fundamental development workflows
+-   [ ] The package within
+-   [ ] R Code
+-   [ ] Data
+-   [ ] Other components
+-   [ ] `DESCRIPTION`
+-   [ ] Dependencies: Mindset and Background
+-   [ ] Dependencies: In Practice
+-   [ ] Licensing
+-   [ ] Testing basics
+-   [ ] Designing your test suite
+-   [ ] Advanced testing techniques
+-   [ ] Function documentation
+-   [ ] Vignettes
+-   [ ] Other markdown files
+-   [ ] Website
+-   [ ] Software development practices
+-   [ ] Lifecycle
+-   [ ] Releasing to CRAN
+-   [ ] References
+-   [ ] Appendix A `R CND` check

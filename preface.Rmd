@@ -92,24 +92,23 @@ get_contributors("sessioninfo")
 、提出改进意见以及贡献内容。
 没有这些贡献者，这本书不会像现在这样好，我们对他们的帮助深表感谢。
 我们要感谢我们在 Posit 的同事，特别是 tidyverse 团队，他们一直很乐意讨论软件包的开发实践。
-另外，我们出色的技术审查员团队提出的建议也极大地改进了本书：Malcolm Barrett, Laura DeCicco, Zhian Kamvar, Tom Mock and Maëlle Salmon。
+另外，我们出色的技术审查员团队提出的建议也极大地改进了本书：Malcolm Barrett, Laura DeCicco, Zhian Kamvar, Tom Mock 和 Maëlle Salmon。
 
 ```{r, results = "asis", echo = FALSE, eval = TRUE}
-# git --no-pager shortlog -ns > contribs.txt
-contribs <- read.delim("data/contribs.txt", header = FALSE, 
-  stringsAsFactors = FALSE)[-1, ]
-names(contribs) <- c("n", "name")
-
-contribs <- contribs[order(contribs$name), ]
-contribs$uname <- ifelse(!grepl(" ", contribs$name), 
-  paste0("`@", contribs$name,"`"), contribs$name)
-
-cat("Thanks go to all contributors who submitted improvements via github (in alphabetical order): ")
-cat(paste0(contribs$uname, collapse = ", "))
-cat(".\n")
+library(tidyverse)  
+dat <- read_csv("data/contribs.csv", na = "NA", trim_ws = FALSE) |> 
+  mutate(link = str_glue("[&#x0040;{user}](https://github.com/{user}){maybe_name}"))
+contrib_string <- dat |> 
+  pull(link) |> 
+  str_flatten_comma()
+str_glue('
+  Thanks to all contributors the the first and second editions (in \\
+  alphabetical order by GitHub username): 
+  
+  {contrib_string}.')
 ```
 
-## Conventions
+## 内容约定
 
 在本书中，我们用 `fun()` 来指代函数，用 `var` 来指代变量和函数参数，用 `path/` 来指代路径。
 
@@ -117,7 +116,7 @@ cat(".\n")
 代码输出的内容都被注释了，因此如果你有本书的电子版本，例如 <https://r-pkgs.org>，就可以轻松地将示例代码复制和粘贴到 R 中。
 输出内容的注释看起来像 `#>`，这样可以和普通注释区别开来。
 
-## Colophon
+## Colophon^[译者注：版权页]
 
 本书是在 [RStudio](https://www.rstudio.com/products/rstudio/) 中使用 [Quarto](https://quarto.org) 编写的。
 本书 [官方网站](https://r-pkgs.org) 由 [Netlify](https://www.netlify.com) 托管，并使用 GitHub actions 在每次提交后自动更新。

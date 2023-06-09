@@ -25,11 +25,11 @@ book:
   - index.Rmd
   - translator-preface.Rmd
   - preface.Rmd
-  
+  - introduction.Rmd
+
   - part: 入门
     chapters:
-    - introduction.Rmd
-  #   - whole-game.Rmd
+    - whole-game.Rmd
   #   - setup.Rmd
   #   - structure.Rmd
   #   - workflow101.Rmd
@@ -53,7 +53,7 @@ book:
   #   - testing-basics.Rmd
   #   - testing-design.Rmd
   #   - testing-advanced.Rmd
-  #   
+  # 
   # - part: Documentation
   #   chapters:
   #   - man.Rmd
@@ -65,7 +65,7 @@ book:
   #   chapters:
   #   - software-development-practices.Rmd
   #   - lifecycle.Rmd
-  #   - release.Rmd    
+  #   - release.Rmd
   # 
   # - references.qmd
   # 
@@ -77,6 +77,5 @@ format:
     theme: [cosmo, custom.scss]
     code-link: true
     include-in-header: "plausible.html"
-  asciidoc: default
   
 editor: source

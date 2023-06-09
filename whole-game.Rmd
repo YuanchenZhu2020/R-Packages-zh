@@ -1,4 +1,4 @@
-# The Whole Game {#sec-whole-game}
+# 整体流程 {#sec-whole-game}
 
 ```{r, include = FALSE, R.options = list(tidyverse.quiet = TRUE)}
 source("common.R")
@@ -33,88 +33,88 @@ debug <- FALSE
 where <- "tmp_session"
 ```
 
-*Spoiler alert!*
+*剧透警告！*
 
-This chapter runs through the development of a small toy package.
-It's meant to paint the Big Picture and suggest a workflow, before we descend into the detailed treatment of the key components of an R package.
+本章介绍了一个小型示例软件包的开发过程。
+这是为了在我们深入研究 R 包的关键组件之前，描绘 R 包开发的整体图景并提出一个工作流程。
 
-To keep the pace brisk, we exploit the modern conveniences in the devtools package and the RStudio IDE. In later chapters, we are more explicit about what those helpers are doing for us.
+为了保持轻快的节奏，我们利用了 devtools 包和 RStudio IDE 中提供的现代化的便利功能。在之后的章节中，我们会更明确地说明这些帮助函数的作用。
 
-This chapter is self-contained, in that completing the exercise is not a strict requirement to continue with the rest of the book, however we strongly suggest you follow along and create this toy package with us.
+这一章是自成一体的，即完成本章的练习并不是继续学习本书其他内容的严格要求，然而我们强烈建议你跟随我们一起创建这个示例软件包
 
-## Load devtools and friends
+## 加载 devtools 和相关软件包
 
-You can initiate your new package from any active R session.
-You don't need to worry about whether you're in an existing or new project or not.
-The functions we use ensure that we create a new clean project for the package.
+你能够在任何一个活动的 R session 中初始化你的新软件包。
+你不需要担心你是在一个已有或新的项目中。
+我们使用的函数能够确保我们为软件包创建一个新的干净的项目。
 
-Load the devtools package, which is the public face of a set of packages that support various aspects of package development.
-The most obvious of these is the usethis package, which you'll see is also being loaded.
+加载 devtools 包，它是一组支持许多软件包开发任务的软件包中的代表。
+其中最明显^[译者注：这里的“obvious”我并没有理解其确切含义，也许指的是只有 usethis 会显示加载信息，所以最为显眼。]的是 usethis 包，你会看到它也会被加载。
 
 ```{r}
 library(devtools)
 ```
 
-Do you have an old version of devtools?
-Compare your version against ours and upgrade if necessary.
+你安装的还是旧版本的 devtools 吗？
+请和我们使用的版本比较，如果必要的话请升级 devtools。
 
 ```{r}
 packageVersion("devtools")
 ```
 
-## Toy package: regexcite
+## 示例软件包：regexcite
 
-To help walk you through the process, we use various functions from devtools to build a small toy package from scratch, with features commonly seen in released packages:
+为了帮助你完成整个过程，我们使用 devtools 中的各种函数从头开始构建一个小的示例软件包，其中包含在已发布软件包中常见的一些功能：
 
--   Functions to address a specific need, in this case helpers for work with regular expressions.
--   Version control and an open development process.
-    -   This is completely optional in your work, but highly recommended. You'll see how Git and GitHub help us expose all the intermediate stages of our toy package.
--   Access to established workflows for installation, getting help, and checking quality.
-    -   Documentation for individual functions via [roxygen2](https://roxygen2.r-lib.org).
-    -   Unit testing with [testthat](https://testthat.r-lib.org).
-    -   Documentation for the package as a whole via an executable `README.Rmd`.
+-   满足特定需求的函数。在这个示例中是辅助使用正则表达式的函数。
+-   版本控制和开放的开发过程。
+    -   这在你的工作流程中是完全可选的，但我们强烈建议这样做。你将看到 Git 和 GitHub 如何帮助我们展现示例软件包开发的所有中间阶段。
+-   进入既定的工作流程进行安装、获取帮助和检查质量。
+    -   使用 [roxygen2](https://roxygen2.r-lib.org) 为每个函数建立文档。
+    -   使用 [testthat](https://testthat.r-lib.org) 进行单元测试。
+    -   通过一个可执行的 `README.Rmd` 为软件包建立整体说明文档。
 
-We call the package **regexcite** and it contains a couple of functions that make common tasks with regular expressions easier.
-Please note that these functions are very simple and we're only using them here as a means to guide you through the package development process.
-If you're looking for actual helpers for work with regular expressions, there are several proper R packages that address this problem space:
+我们称这个软件包为 **regexcite**，它包含了几个函数，可以对使用正则表达式的常见任务进行简化。 
+请注意，这些函数十分简单，我们在这里只使用它们来引导你完成软件包的开发过程。
+如果你正在寻找能够实际帮助你使用正则表达式的函数，这里有几个适合的 R 包可能可以解决问题：
 
--   [stringr](https://stringr.tidyverse.org) (which uses stringi)
+-   [stringr](https://stringr.tidyverse.org)（使用了 stringi）
 -   [stringi](https://stringi.gagolewski.com/)
 -   [rex](https://cran.r-project.org/package=rex)
 -   [rematch2](https://cran.r-project.org/package=rematch2)
 
-Again, the regexcite package itself is just a device for demonstrating a typical workflow for package development with devtools.
+再次强调，regexcite 包本身只是一个用于演示使用 devtools 开发包的典型工作流的工具。
 
-## Preview the finished product
+## 预览成品
 
-The regexcite package is tracked during its development with the Git version control system.
-This is purely optional and you can certainly follow along without implementing this.
-A nice side benefit is that we eventually connect it to a remote repository on GitHub, which means you can see the glorious result we are working towards by visiting regexcite on GitHub: <https://github.com/jennybc/regexcite>.
-By inspecting the [commit history](https://github.com/jennybc/regexcite/commits/main) and especially the diffs, you can see exactly what changes at each step of the process laid out below.
+我们使用了 Git 版本控制系统来追踪 regexcite 包的整个开发过程。
+这一设置是完全可选的，你当然可以不使用。
+不过它有一个很好的附加好处，我们最终会将它连接到 GitHub 的一个远程储存库，这意味着你可以通过访问 GitHub 上的 <https://github.com/jennybc/regexcite> 来看到我们努力取得的辉煌成果。
+通过检查[提交历史 (commit history)](https://github.com/jennybc/regexcite/commits/main) ，特别是其中的文件差异（diff），你可以清楚地看到下面列出的过程中的每一步变化。
 
 <!-- TODO: I think these diffs are extremely useful and would like to surface them better here. -->
 
 ## `create_package()`
 
-Call `create_package()` to initialize a new package in a directory on your computer.
-`create_package()` will automatically create that directory if it doesn't exist yet (and that is usually the case).
-See @sec-workflow101-create-package for more on creating packages.
+调用 `create_package()`，在你的计算机的一个目录下初始化一个新的软件包。
+如果该目录不存在（通常都是这样），`create_package()` 将会自动创建该目录。
+有关创建包的更多信息，请参见 @sec-workflow101-create-package。
 
-Make a deliberate choice about where to create this package on your computer.
-It should probably be somewhere within your home directory, alongside your other R projects.
-It should not be nested inside another RStudio Project, R package, or Git repo.
-Nor should it be in an R package library, which holds packages that have already been built and installed.
-The conversion of the source package we create here into an installed package is part of what devtools facilitates.
-Don't try to do devtools' job for it!
+仔细选择创建新软件包的目录。
+它可以与其他 R 项目共同位于你的主目录下。
+但是，它不应该被嵌套在另一个 RStudio 项目、R 包或者是 Git 存储库中。
+它也不应该在 R 的软件包库目录中，因为这个库目录下包含有已经被构建和安装的软件包。
+将我们在这里创建的源码包转换为已安装的包是 devtools 工作的一部分。
+不要为 devtools 完成它的工作！
 
-Once you've selected where to create this package, substitute your chosen path into a `create_package()` call like this:
+一旦你选择了创建这个软件包的位置，像这样将你选择的路径传入 `create_package()` 的调用中：
 
 ```{r create-package-fake, eval = FALSE}
 create_package("~/path/to/regexcite")
 ```
 
-For the creation of this book we have to work in a temporary directory, because the book is built non-interactively in the cloud.
-Behind the scenes, we're executing our own `create_package()` command, but don't be surprised if our output differs a bit from yours.
+在本书的创作中，我们必须在临时目录中工作，因为这本书是在云上以非交互形式构建的。
+在幕后，我们会执行自己的 `create_package()` 命令，如果我们的输出与你的略有不清，请不要惊讶。
 
 ```{r configure, include = FALSE}
 where <- match.arg(
@@ -165,18 +165,18 @@ knitr::opts_knit$set(root.dir = pkgpath)
 proj_sitrep()
 ```
 
-If you're working in RStudio, you should find yourself in a new instance of RStudio, opened into your new regexcite package (and Project).
-If you somehow need to do this manually, navigate to the directory and double click on `regexcite.Rproj`.
-RStudio has special handling for packages and you should now see a *Build* tab in the same pane as *Environment* and *History*.
+如果你正在使用 RStudio，你会发现自己进入了一个新的 RStudio 实例，它已经在新的 regexcite 包（或项目）目录中打开了。
+如果你因为某种原因需要手动执行这个操作，请进入该目录并双击 `regexcite.Rproj`。
+RStudio 对源码包项目有特殊的处理，你现在应该可以在 *Environment* 和 *History* 所在的窗格中看见 *Build* 选项卡。
 
-You probably need to call `library(devtools)` again, because `create_package()` has probably dropped you into a fresh R session, in your new package.
+你可能需要再次调用 `library(devtools)`，因为 `create_package()` 可能将你放入了新软件包目录的一个新的 R session 中。
 
 ```{r eval = FALSE}
 library(devtools)
 ```
 
-What's in this new directory that is also an R package and, probably, an RStudio Project?
-Here's a listing (locally, you can consult your *Files* pane):
+这个新的目录也是一个 R 包，而且可能也是一个 RStudio 项目，里面有什么呢？
+这里有一个列表（在本地，你可以查看 *Files* 窗格）：
 
 ```{r init-show-files, echo = FALSE, eval = create}
 dir_info(all = TRUE) %>% 
@@ -187,16 +187,16 @@ dir_info(all = TRUE) %>%
 ::: callout-tip
 ## RStudio
 
-In the *Files* pane, go to *More (gear symbol) \> Show Hidden Files* to toggle the visibility of hidden files (a.k.a. ["dotfiles"](https://en.wikipedia.org/wiki/Hidden_file_and_hidden_directory#Unix_and_Unix-like_environments)).
-A select few are visible all the time, but sometimes you want to see them all.
+在 *Files* 窗格中，转到 *More（齿轮符号）\> Show Hidden Files* 来使隐藏文件（也被称为 ["dotfiles"](https://en.wikipedia.org/wiki/Hidden_file_and_hidden_directory#Unix_and_Unix-like_environments)）可见。
+可选中的部分文件是始终可见的，但有时你希望看到全部文件。
 :::
 
--   `.Rbuildignore` lists files that we need to have around but that should not be included when building the R package from source. If you aren't using RStudio, `create_package()` may not create this file (nor `.gitignore`) at first, since there's no RStudio-related machinery that needs to be ignored. However, you will likely develop the need for `.Rbuildignore` at some point, regardless of what editor you are using. It is discussed in more detail in @sec-rbuildignore.
--   `.Rproj.user`, if you have it, is a directory used internally by RStudio.
+-   `.Rbuildignore` 列出了我们需要使用的，但从源代码构建 R 包时不应该包含的文件。如果你不使用 RStudio, `create_package()` 可能不会在一开始创建这个文件（同样也不会创建 `.gitignore`），因为没有需要忽略的 RStudio 相关机制。然而，不管你是用的是什么编辑器，在某些时候你可能仍然会需要 `.Rbuildignore` 文件。@sec-rbuildignore 会进行更加详细的讨论。
+-   `.Rproj.user`（如果有的话）是 RStudio 内部使用的目录。
 -   `.gitignore` anticipates Git usage and tells Git to ignore some standard, behind-the-scenes files created by R and RStudio. Even if you do not plan to use Git, this is harmless.
 -   `DESCRIPTION` provides metadata about your package. We edit this shortly and @sec-description covers the general topic of the `DESCRIPTION` file.
 -   `NAMESPACE` declares the functions your package exports for external use and the external functions your package imports from other packages. At this point, it is empty, except for a comment declaring that this is a file you should not edit by hand.
--   The `R/` directory is the "business end" of your package. It will soon contain `.R` files with function definitions.
+-   `R/` 目录是你的软件包的“业务端”。它很快就会包含带有函数定义的 `.R` 文件。
 -   `regexcite.Rproj` is the file that makes this directory an RStudio Project. Even if you don't use RStudio, this file is harmless. Or you can suppress its creation with `create_package(..., rstudio = FALSE)`. More in @sec-workflow101-rstudio-projects.
 
 ## `use_git()`
@@ -580,7 +580,7 @@ You should now be able to preview your help file like so:
 You'll see a message like "Rendering development documentation for 'strsplit1'", which reminds that you are basically previewing draft documentation.
 That is, this documentation is present in your package's source, but is not yet present in an installed package.
 In fact, we haven't installed regexcite yet, but we will soon.
-If `?strplit` doesn't work for you, you may need to call `load_all()` first, then try again.
+If `?strsplit1` doesn't work for you, you may need to call `load_all()` first, then try again.
 
 Note also that your package's documentation won't be properly wired up until it has been formally built and installed.
 This polishes off niceties like the links between help files and the creation of a package index.
@@ -606,9 +606,9 @@ git_add(c("NAMESPACE", path("man", "strsplit1.Rd")))
 git_commit("Run document()")
 ```
 
-## `check()` again
+## 再次 `check()`
 
-regexcite should pass `R CMD check` cleanly now and forever more: 0 errors, 0 warnings, 0 notes.
+现在，regexcite 应该可以立刻并将永远干净地通过 `R CMD check`：0 错误，0 警告，0 注释。
 
 ```{r first-clean-check-fake, eval = FALSE}
 check()
@@ -878,52 +878,52 @@ git_commit("Switch to str_split_one()")
 
 ## `use_github()`
 
-You've seen us making commits during the development process for regexcite.
-You can see an indicative history at <https://github.com/jennybc/regexcite>.
-Our use of version control and the decision to expose the development process means you can inspect the state of the regexcite source at each developmental stage.
-By looking at so-called diffs, you can see exactly how each devtools helper function modifies the source files that constitute the regexcite package.
+在 regexcite 包开发过程中，你已经看见我们提交了许多次代码。
+你可以在 <https://github.com/jennybc/regexcite> 上查看这个仓库的提交历史。
+我们使用版本控制并公开开发过程，这意味着你能够检查 regexcite 在每个开发阶段的源码状态。
+通过查看所谓的文件差异，你可以清楚地看到每个 devtools 帮助函数是如何修改构成 regexcite 包的源文件。
 
-How would you connect your local regexcite package and Git repository to a companion repository on GitHub?
-Here are three approaches:
+如何将本地的 regexcite 包和 Git 存储库连接到 GitHub 上的配套存储库？
+这里有三种方法：
 
-1.  [`use_github()`](https://usethis.r-lib.org/reference/use_github.html) is a helper that we recommend for the long-term. We won't demonstrate it here because it requires some credential setup on your end. We also don't want to tear down and rebuild the public regexcite package every time we build this book.
-2.  Set up the GitHub repo first! It sounds counter-intuitive, but the easiest way to get your work onto GitHub is to initiate there, then use RStudio to start working in a synced local copy. This approach is described in Happy Git's workflows [New project, GitHub first](https://happygitwithr.com/new-github-first.html) and [Existing project, GitHub first](https://happygitwithr.com/existing-github-first.html).
-3.  Command line Git can always be used to add a remote repository *post hoc*. This is described in the Happy Git workflow [Existing project, GitHub last](https://happygitwithr.com/existing-github-last.html).
+1.  [`use_github()`](https://usethis.r-lib.org/reference/use_github.html) 是我们推荐长期使用的一个帮助函数。我们不会在这里进行演示，因为它需要在你的终端上进行一些凭据设置。我们也不想每次构建本书时都要推倒并重建放在公开储存库中的 regexcite 包。
+2.  首先设置 GitHub 远程仓库！这听起来违反直觉，但把你的工作放在 GitHub 上的最简单的方法就是在 GitHub 初始化，然后使用 RStudio 开始在一个同步的本地副本中工作。这种方法在 Happy Git's workflows [New project, GitHub first](https://happygitwithr.com/new-github-first.html) 和 [Existing project, GitHub first](https://happygitwithr.com/existing-github-first.html) 中都有描述
+3.  命令行 Git (Command Line Git) 总是可以用来在*事后*添加远程存储库。这在  Happy Git workflow [Existing project, GitHub last](https://happygitwithr.com/existing-github-last.html) 中进行了描述。
 
-Any of these approaches will connect your local regexcite project to a GitHub repo, public or private, which you can push to or pull from using the Git client built into RStudio.
-In @sec-sw-dev-practices, we elaborate on why version control (e.g., Git) and, specifically, hosted version control (e.g. GitHub) is worth incorporating into your package development process.
+这些方法中的任何一种都会将你本地的 regexcite 项目连接到公共或私有的 GitHub 仓库，你可以使用 RStudio 内置的 Git 客户端来推送 (push) 或拉取 (pull) 它。
+在 @sec-sw-dev-practices 中，我们会详细说明为什版本控制（例如 Git），特别是托管版本控制（例如 GitHub）值得合并到软件包开发过程中。
 
 ## `use_readme_rmd()`
 
-Now that your package is on GitHub, the `README.md` file matters.
-It is the package's home page and welcome mat, at least until you decide to give it a website (see @sec-website), add a vignette (see @sec-vignettes), or submit it to CRAN (see @sec-release).
+现在你的软件包已经在 GitHub 上了，那么 `README.md` 文件就变得很重要。
+它是程序包的主页和欢迎界面，至少在你决定为它添加网站（详见 @sec-website）、添加主题文档（详见 @sec-vignettes）或将其提交到 CRAN（详见 @sec-release）前是这样的。
 
-The `use_readme_rmd()` function initializes a basic, executable `README.Rmd` ready for you to edit:
+`use_readme_rmd()` 函数的作用是初始化一个基础且可执行的 `README.Rmd` 以便你编辑：
 
 ```{r use-readme-rmd, eval = create}
 use_readme_rmd()
 ```
 
-In addition to creating `README.Rmd`, this adds some lines to `.Rbuildignore`, and creates a Git pre-commit hook to help you keep `README.Rmd` and `README.md` in sync.
+除了创建 `README.Rmd`之外，它还会在 `.Rbuildignore` 中添加一些行，并创建一个 Git pre-commit hook 来帮助你在 `README.Rmd` 和 `README.md` 之间保持同步。
 
-`README.Rmd` already has sections that prompt you to:
+`README.Rmd` 已经包含了以下几个部分，提示你完成以下几个部分的内容：
 
--   Describe the purpose of the package.
--   Provide installation instructions. If a GitHub remote is detected when `use_readme_rmd()` is called, this section is pre-filled with instructions on how to install from GitHub.
--   Show a bit of usage.
+-   描述软件包的用途。
+-   提供安装说明。如果在调用 `use_readme_rmd()` 时检测到了 GitHub 远程仓库，该部分将预先填写有关如何从 GitHub 安装的说明。
+-   展示一些使用示例。
 
-How to populate this skeleton?
-Copy stuff liberally from `DESCRIPTION` and any formal and informal tests or examples you have.
-Anything is better than nothing.
-This is helpful because people probably won't install your package and comb through individual help files to figure out how to use it.
+如何填充这个内容框架？
+可以自由地从 `DESCRIPTION` 文件和任何正式或非正式的测试或示例中复制内容。
+任何东西都比没有好。
+这很有帮助，因为人们可能不会安装你的软件包并逐个查看帮助文件来学习如何使用它。
 
-We like to write the `README` in R Markdown, so it can feature actual usage.
-The inclusion of live code also makes it less likely that your `README` grows stale and out-of-sync with your actual package.
+我们喜欢用 R Markdown 写 `README` 文件，这样它可以体现实际的用法。
+包含实时代码还可以降低 `README` 文件过时和与实际软件包不同步的可能性。
 
-To make your own edits, if RStudio has not already done so, open `README.Rmd` for editing.
-Make sure it shows some usage of `str_split_one()`.
+要进行你自己的编辑，如果 RStudio 还没有这样做，请打开 `README.Rmd` 进行编辑。^[To make your own edits, if RStudio has not already done so, open README.Rmd for editing.]
+确保它显示了 `str_split_one()` 的一些用法。
 
-The `README.Rmd` we use is here: [README.Rmd](https://github.com/jennybc/regexcite/blob/main/README.Rmd) and here's what it contains:
+我们使用的 `README.Rmd` 在这里：[README.Rmd](https://github.com/jennybc/regexcite/blob/main/README.Rmd) 以下是该文件的内容：
 
 ```{r copy-readme-rmd, include = debug, eval = create}
 file_copy(
@@ -937,19 +937,19 @@ file_copy(
 writeLines(readLines("README.Rmd"))
 ```
 
-Don't forget to render it to make `README.md`!
-The pre-commit hook should remind you if you try to commit `README.Rmd`, but not `README.md`, and also when `README.md` appears to be out-of-date.
+别忘了渲染生成 `README.md`！
+如果你尝试提交 `README.Rmd` 而不是 `README.md`，或者 `README.md` 似乎已经过期时，pre-commit hook 应该会提醒你。
 
-The very best way to render `README.Rmd` is with `build_readme()`, because it takes care to render with the most current version of your package, i.e. it installs a temporary copy from the current source.
+使用 `build_readme()` 渲染生成 `README.Rmd` 文件是最好的方法，因为它会确保使用你的软件包的最新版本进行渲染，即它会从当前源代码安装一个临时副本来进行渲染。
 
 ```{r readme-render, eval = create}
 build_readme()
 ```
 
-You can see the rendered `README.md` simply by [visiting regexcite on GitHub](https://github.com/jennybc/regexcite#readme).
+你可以简单地通过访问 [visiting regexcite on GitHub](https://github.com/jennybc/regexcite#readme) 来查看渲染好的 `README.md`。
 
-Finally, don't forget to do one last commit.
-And push, if you're using GitHub.
+最后，别忘了做最后一次提交。
+如果你使用 GitHub，还需要推送到远程仓库。
 
 ```{r commit-rendered-readme, eval = create, include = debug}
 git_add(c(".Rbuildignore", "README.Rmd", "README.md"))
@@ -965,9 +965,9 @@ git_remote_add("https://github.com/jennybc/regexcite.git")
 git_push(force = TRUE)
 ```
 
-## The end: `check()` and `install()`
+## 最后一步：`check()` 以及 `install()`
 
-Let's run `check()` again to make sure all is still well.
+让我们再次运行 `check()` 以确保软件包一切正常。
 
 ```{r final-check-fake, eval = FALSE}
 check()
@@ -977,9 +977,9 @@ check()
 shhh_check(error_on = "never")
 ```
 
-regexcite should have no errors, warnings or notes.
-This would be a good time to re-build and install it properly.
-And celebrate!
+regexcite 应该没有错误、警告或注释信息。
+现在是重新构建和正确安装它的最好时机。
+庆祝一下！
 
 ```{r final-install-fake, eval = FALSE}
 install()
@@ -989,9 +989,9 @@ install()
 cat(pretty_install(reload = FALSE, upgrade = FALSE), sep = "\n")
 ```
 
-Feel free to visit the [regexcite package](https://github.com/jennybc/regexcite) on GitHub, which appears exactly as developed here.
-The commit history reflects each individual step, so use the diffs to see the addition and modification of files, as the package evolved.
-The rest of this book goes in greater detail for each step you've seen here and much more.
+请随意访问 GitHub 上的 [regexcite 包](https://github.com/jennybc/regexcite)，它正是在这里开发的。
+提交历史反映了每个单独的步骤，因此可以使用文件差异来查看随着包的发展，哪些文件被添加和修改。
+本书的其余部分将更详细地介绍你在这里看到的每一个步骤以及更多内容。
 
 ```{r cleanup, include = debug, eval = create}
 pkgload::unload("regexcite")
@@ -1009,10 +1009,10 @@ knitr::opts_knit$set(root.dir = owd)
 getwd()
 ```
 
-## Review
+## 回顾
 
-This chapter is meant to give you a sense of the typical package development workflow, summarized as a diagram in @fig-package-dev-workflow.
-Everything you see here has been touched on in this chapter, with the exception of GitHub Actions, which you will learn more about in @sec-sw-dev-practices-gha.
+本章旨在让你了解典型的软件包卡覅工作流程，可以总结为 @fig-package-dev-workflow 的流程图。
+除了 GitHub Actions 之外，你在图中看到的所有内容都在本章的内容中进行了介绍，而 GitHub Actions 将在 @sec-sw-dev-practices-gha 详细介绍。
 
 ```{r}
 #| label: fig-package-dev-workflow
@@ -1031,9 +1031,9 @@ Everything you see here has been touched on in this chapter, with the exception 
 knitr::include_graphics("diagrams/workflow.png")
 ```
 
-Here is a review of the key functions you've seen in this chapter, organized roughly by their role in the development process.
+下面将回顾本章介绍的关键函数，并按照它们在开发过程中所扮演的角色进行大致的组织。
 
-These functions setup parts of the package and are typically called once per package:
+这些函数可以对软件包的各个部分进行设置，通常在每个包中只调用一次：
 
 -   `create_package()`
 -   `use_git()`
@@ -1042,13 +1042,13 @@ These functions setup parts of the package and are typically called once per pac
 -   `use_github()`
 -   `use_readme_rmd()`
 
-You will call these functions on a regular basis, as you add functions and tests or take on dependencies:
+当你添加函数和测试或获取依赖时，你会定期调用这些函数：
 
 -   `use_r()`
 -   `use_test()`
 -   `use_package()`
 
-You will call these functions multiple times per day or per hour, during development:
+在开发过程中，你会时常调用这些函数：
 
 -   `load_all()`
 -   `document()`

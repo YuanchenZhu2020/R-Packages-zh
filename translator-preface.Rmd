@@ -10,11 +10,19 @@
 
 | 英文词汇 | 中文翻译 | 原因 |
 | :--- | :------- | :------- |
-| package | 软件包，程序包 | r packages 是一组用来完成特定任务的程序，作为 R 的补充，符合 Software Package 的定义。 |
+| package | 软件包，程序包，包 | r packages 是一组用来完成特定任务的程序，作为 R 的补充，符合 Software Package 的定义。“包”作为“软件包”的简称使用，在翻译中可能同时使用“软件包”和“包”两种称呼。 |
 | conscious uncoupling | 有意识地解耦 | 这个词最初用于描述相对友好的离婚^[见 <https://en.wikipedia.org/wiki/Conscious_uncoupling>]，这里使用“有意识地”而非“相对友好的”以突出该决定是经过慎重考虑和精心设计的。 |
 | *The Whole Game* | 整体流程 | 软件包构建的一个 toy example，这里采用意译。 |
-| *The package within* | 软件包中的奥秘；包中奥秘 | 直译过来是“软件包的内部”，感觉过于平淡，使用更吸引人的翻译。 |
-||||
+| *The package within* | 软件包中的奥秘，包中奥秘 | 直译过来是“软件包的内部”，感觉过于平淡，使用更吸引人的翻译。 |
+| compelling | 令人信服的 | @intro 中 "One compelling reason ..." 应该想要表达开发 R 包能带来一个明显的优势，即方便分享自己的代码，这一优势具有强烈的推动力和说服力，让你想要开发 R 包。^[译者注：需要再想清楚作者想表达的意思，然后润色] |
+| section | 章节，段落 | 本书中的 section 多用于指代层级低于 "chapter" 的文段，有的是小节，也有的是一个段落。 |
+| espouse | 宣扬，倡导 | 直译为“支持”，从语句通顺的角度翻译为“宣扬”。 |
+| Vignette | 主题文档 | 原意是“小插曲”、“短文”、“小品文”等，在 R 中 Vignette 是对整个包或包的某个功能主题进行概括性的介绍，这里突出其内容特性，强调其内容为贡功能“主题”，不强调其独立性和概括性。 |
+| Shunryu Suzuki | 铃木俊隆 | 人名的中文翻译依据是 [Wikipedia](https://en.wikipedia.org/wiki/Shunry%C5%AB_Suzuki) |
+| toy package | 示例软件包 | 直译过来是“玩具一般的软件包”，表示其各部分相比于真实软件包来说都较为简单，但包含了真实软件包的必要的部分，用于作为一个实例展示开发流程。 |
+| commit history | 提交历史 | GitHub 或 Git 中列出的 commit 历史。 |
+| pane, tab | 窗格，选项卡 | 窗格是对应用程序窗口的一个分割，而选项卡是在窗格中展示的，可以切换不同的选项卡，窗格中将会展示对应的内容。 |
+| pull, push | 拉取，推送| Git 远程仓库操作的常用翻译。 |
 
 ## 排版说明 {.unnumbered}
 
@@ -40,7 +48,7 @@
 | :--: | :------: | :------: |
 | welcome | ✅ | ✅|
 | Preface | ✅  |  ✅ |
-| Introduction | ⚙️ |  |
+| Introduction | ✅  |  ⚙️|
 | The Whole Game | ⚙️ | |
 | System setup | | |
 | Package structure and state |  |  |

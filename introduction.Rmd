@@ -1,4 +1,4 @@
-# 简介 {#intro}
+# 简介 {#intro .unnumbered}
 
 ```{r, echo = FALSE}
 source("common.R")
@@ -10,118 +10,117 @@ x <- tools::CRAN_package_db()
 nrow(x)
 ```
 
-In R, the fundamental unit of shareable code is the package.
-A package bundles together code, data, documentation, and tests, and is easy to share with others.
-As of March 2023, there were over 19,000 packages available on the **C**omprehensive **R** **A**rchive **N**etwork, or CRAN, the public clearing house for R packages.
-This huge variety of packages is one of the reasons that R is so successful: the chances are that someone has already solved a problem that you're working on, and you can benefit from their work by downloading their package.
+在 R 中，可共享代码的基本单位是软件包 (package)。
+软件包将代码、数据、文档和测试整合到一起，使其很容易与他人分享。
+截止到 2023 年 3 月，在综合性 R 档案网络 (**C**omprehensive **R** **A**rchive **N**etwork)，或者说 R 包的公共信息交换平台 CRAN 上已经有超过 19,000 个软件包。
+这些种类繁多的软件包是 R 语言如此成功的原因之一：很可能已经有人已经解决了你正在研究的问题，因此你可以下载他们的软件包，从他们的工作中获益。
 
-If you're reading this book, you already know how to work with packages in the following ways:
+如果你正在读这本书，那么就应该已经知道如何通过以下方式来使用软件包了：
 
--   You install them from CRAN with `install.packages("x")`.
--   You use them in R with `library("x")` or `library(x)`.
--   You get help on them with `package?x` and `help(package = "x")`.
+-   从 CRAN 安装包：`install.packages("x")`。
+-   在 R 中使用包：`library("x")` 或 `library(x)`。
+-   获取包的帮助信息：`package?x` 或 `help(package = "x")`。
 
-The goal of this book is to teach you how to develop packages so that you can write your own, not just use other people's.
-Why write a package?
-One compelling reason is that you have code that you want to share with others.
-Bundling your code into a package makes it easy for other people to use it, because like you, they already know how to use packages.
-If your code is in a package, any R user can easily download it, install it and learn how to use it.
+本书的目标是教你如何开发软件包，这样你就可以编写自己的包，而不仅仅是使用别人的包。
+那么为什么要编写一个软件包呢？
+一个令人信服的理由是，你有想与他人分享的代码。^[译者注：译者认为这里想要表达开发 R 包能带来一个明显的优势，即方便分享自己的代码，这一优势具有强烈的推动力和说服力，让你想要开发 R 包。]
+将代码整合进一个包里可以让其他人很容易地使用它，因为和你一样，他们也知道如何使用包。
+因此，如果你的代码整合进了一个包中，任何 R 语言的用户都可以很轻松地下载、安装并学习如何使用它。
 
-But packages are useful even if you never share your code.
-As Hilary Parker says in her [introduction to packages](https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/): "Seriously, it doesn't have to be about sharing your code (although that is an added benefit!). It is about saving yourself time." Organising code in a package makes your life easier because packages come with conventions.
-For example, you put R code in `R/`, you put tests in `tests/` and you put data in `data/`.
-These conventions are helpful because:
+即使你不分享自己的代码，软件包依然很有用。
+正如 Hilary Parker 在她的 [introduction to packages](https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/) 所提到的：“严格说来，它不一定和代码分享有关（尽管这是一个额外的好处），它主要是能节省你的时间。”^["Seriously, it doesn't have to be about sharing your code (although that is an added benefit!). It is about saving yourself time."]将代码组织在一个包中会让你工作起来更容易，因为软件包遵循一些通用的约定。
+例如，你需要将 R 代码文件放在 `R/` 目录下，将测试文件放在 `tests/` 目录下，还有将数据文件放在 `data/` 目录下。
+这些约定很有用，因为：
 
--   They save time --- you don't need to think about the best way to organise a project, you can just follow a template.
+-   它们能节省时间——你不需要考虑如何组织软件包才是最佳的，只需要按照模板操作。
 
--   Standardised conventions lead to standardised tools --- if you buy into R's package conventions, you get many tools for free.
+-   标准化的规范带来标准化的工具——如果你遵循 R 包的规范，就能免费获得许多工具。
 
-It's even possible to use packages to structure your data analyses (e.g., @marwick2018-tas or @marwick2018-peerj), although we won't delve deeply into that use case here.
+你的数据分析流程甚至也可以用软件包来构建（例如 @marwick2018-tas 或 @marwick2018-peerj），不过我们不会在这里深入研究这个用例。
 
-## Philosophy {#sec-intro-phil}
+## 开发理念 {#sec-intro-phil}
 
-This book espouses our philosophy of package development: anything that can be automated, should be automated.
-Do as little as possible by hand.
-Do as much as possible with functions.
-The goal is to spend your time thinking about what you want your package to do rather than thinking about the minutiae of package structure.
+本书宣扬了我们的软件包开发理念：凡是能够自动化的，都应该自动化。
+尽量减少手动操作。
+用函数完成尽可能多的事情。
+这样是希望你将时间用于思考你想要让包做什么，而不是包结构的各种细节。
 
-This philosophy is realized primarily through the devtools package, which is the public face for a suite of R functions that automate common development tasks.
-The release of version 2.0.0 in October 2018 marked its internal restructuring into a set of more focused packages, with devtools becoming more of a meta-package.
-The usethis package is the sub-package you are most likely to interact with directly; we explain the devtools-usethis relationship in @sec-setup-usage.
+这一理念主要是 devtools 包来实现的，这个软件包是让通用开发任务自动化的 R 函数套件中的代表。
+devtools 在 2018 年 10 月发布了 2.0.0 版本，标志着其内部重组为一系列功能更具针对性的软件包，而它则更像是一个元软件包 (meta-package)。
+usethis 包是其中你最有可能与之交互的子软件包，我们将在 @sec-setup-usage 中解释 devtools 和 usethis 之间的关系。
 
-As always, the goal of devtools is to make package development as painless as possible.
-It encapsulates the best practices developed by Hadley Wickham, initially from his years as a prolific solo developer.
-More recently, he has assembled a team of developers at Posit (formerly known as RStudio), who collectively look after hundreds of open source R packages, including those known as [the tidyverse](https://www.tidyverse.org).
-The reach of this team allows us to explore the space of all possible mistakes at an extraordinary scale.
-Fortunately, it also affords us the opportunity to reflect on both the successes and failures, in the company of expert and sympathetic colleagues.
-We try to develop practices that make life more enjoyable for both the maintainer and users of a package.
-The devtools meta-package is where these lessons are made concrete.
+像往常一样，devtools 包的目的是让软件包的开发尽可能的轻松便利。
+它囊括了 Hadley Wickham 自从作为一名多产的独立开发者以来积累的最佳实践经验。
+最近，他在 Posit（以前称为 RStudio）组建了一个开发团队，共同维护数百个开源 R 包，包括那些被称为 [the tidyverse](https://www.tidyverse.org) 的包。
+这个团队的能力让我们能够以惊人的规模探索所有可能出现的错误。
+幸运的是，它还让我们有机会在专家和富有同情心的同事的陪伴下反思成功和失败。
+我们试图开发出一些实践方法，让包的维护者和用户的工作更加轻松便利，
+而 devtools 元软件包正是把这些经验教训具体化的地方。
 
-devtools works hand-in-hand with RStudio, which we believe is the best development environment for most R users.
-The most popular alternative to RStudio is currently [Visual Studio Code](https://code.visualstudio.com/) (VS Code) with the [R extension](https://marketplace.visualstudio.com/items?itemName=REditorSupport.r) enabled.
-This can be a rewarding and powerful environment, however it does require a bit more work to set up and customize[^introduction-1].
+devtools 与 RStudio 协同工作，我们相信这是对大多数 R 用户来说是最好的开发环境。
+目前最流行的 RStudio 替代品是启用了 [R extension](https://marketplace.visualstudio.com/items?itemName=REditorSupport.r) 的 [Visual Studio Code](https://code.visualstudio.com/) (VS Code)。
+这可能是一个有价值并且功能强大的环境，然而它确实需要更多的工作来设置和定制[^introduction-1].
 
-[^introduction-1]: Users of [Emacs Speaks Statistics](https://ess.r-project.org/) (ESS) will find that many of the workflows described in this book are also available there.
-    For those loyal to vim, we recommend the [Nvim-R plugin](https://github.com/jalvesaq/Nvim-R).
+[^introduction-1]: [Emacs Speaks Statistics](https://ess.r-project.org/) (ESS) 的用户将会发现本书中描述的许多工作流也可以在上面找到。
+    对于那些忠于 vim 的用户，我们推荐使用 [Nvim-R plugin](https://github.com/jalvesaq/Nvim-R)。
 
 ::: callout-tip
 ## RStudio
 
-Throughout the book, we highlight specific ways that RStudio can expedite your package development workflow, in specially formatted sections like this.
+在整本书中，我们在像这样特殊格式的段落中强调了使用 RStudio 加速软件包开发工作流程的具体方法。
 :::
 
-Together, devtools and RStudio insulate you from the low-level details of how packages are built.
-As you start to develop more packages, we highly recommend that you learn more about those details.
-The best resource for the official details of package development is always the official [writing R extensions](https://cran.r-project.org/doc/manuals/R-exts.html#Creating-R-packages) manual[^introduction-2].
-However, this manual can be hard to understand if you're not already familiar with the basics of packages.
-It's also exhaustive, covering every possible package component, rather than focusing on the most common and useful components, as this book does.
-Writing R extensions is a useful resource once you've mastered the basics and want to learn what's going on under the hood.
+devtools 和 RStudio 一起，让你无需关注软件包是怎样构建的这种低级细节。
+但是当你开始开发更多的软件包时，我们强烈建议你去了解这些细节。
+有关软件包开发官方细节的最佳资源，始终是官方的 [writing R extensions](https://cran.r-project.org/doc/manuals/R-exts.html#Creating-R-packages) 手册[^introduction-2].
+然而，如果你还不熟悉软件包的基础知识，这本使用手册可能难以理解。
+它也十分详尽，涵盖了所有可能的软件包组件，而不是像本书那样只关注最常见和最有用的组件。
+一旦你掌握了 R 包的基础知识，并且想深入了解其背后发生了什么，那么这本手册就是十分有用的资料。
 
-[^introduction-2]: You might also enjoy the "quarto-ized" version at [https://rstudio.github.io/r-manuals/r-exts/](https://rstudio.github.io/r-manuals/r-exts/Function-and-variable-index.html).
+[^introduction-2]: 你也可以在 [https://rstudio.github.io/r-manuals/r-exts/](https://rstudio.github.io/r-manuals/r-exts/Function-and-variable-index.html) 上找到这本手册的 Quarto 版本。
 
-## In this book {#intro-outline}
+## 本书包含的内容 {#intro-outline}
 
-The first part of the book is all about giving you all the tools you need to start your package development journey and we highly recommend that you read it in order.
-We begin in @sec-whole-game with a run through the complete development of a small package.
-It's meant to paint the big picture and suggest a workflow, before we descend into the detailed treatment of the key components of an R package.
-Then in @sec-setup you'll learn how to prepare your system for package development, and in @sec-package-structure-state you'll learn the basic structure of a package and how that varies across different states.
-Next, in @sec-workflow101, we'll cover the core workflows that come up repeatedly for package developers.
-The first part of the book ends with another case study (@sec-package-within), this time focusing on how you might convert a script to a package and discussing the challenges you'll face along the way.
+本书的第一部分将为你提供软件包开发之旅所需的所有工具，强烈建议你按顺序阅读。
+我们将在 @sec-whole-game 中介绍一个小软件包的完整开发过程。
+在我们深入研究 R 包的关键组件之前，它旨在描绘出整体的图景并提出一个工作流程。
+然后在 @sec-setup 你将学习如何为软件包开发准备好系统环境；在 @sec-package-structure-state 中，你将学习软件 包的基本结构以及它不同状态下的差异。
+接下来，在 @sec-workflow101 中，我们将介绍软件包开发人员经常遇到的核心工作流。
+本书第一部分以另一个案例 (@sec-package-within) 作为结尾，这次重点介绍如何将脚本转换为包，并讨论在这个过程中可能面临的挑战。
 
-The remainder of the book is designed to be read as needed.
-Pick and choose between the chapters as the various topics come up in your development process.
+本书的其余部分可以根据需要进行阅读。
+在你开发过程中面临各种问题时，可以在各章中进行选择阅读。
 
-First we cover key package components: @sec-r discusses where your code lives and how to organize it, @sec-data shows you how to include data in your package, and @sec-misc covers a few less important files and directories that need to be discussed somewhere.
+我们首先介绍软件包中的关键组件：@sec-r 讨论代码的位置和组织方式，@sec-data 介绍如何在包中包含数据，@sec-misc 介绍几个需要在一些地方讨论，但不太重要的文件和目录。
 
-Next we'll dive into to the package metadata, starting with `DESCRIPTION` in @sec-description.
-We'll then go deep into dependencies.
-In @sec-dependencies-mindset-background, we'll cover the costs and benefits of taking on dependencies and provide some technical background on package namespaces and the search path.
-In @sec-dependencies-in-practice, we focus on practical matters, such as how to use different types of dependencies in different parts of your package.
-This is also where we discuss exporting functions, which is what makes it possible for other packages and projects to depend on your package.
-We'll finish off this part with a look at licensing in @sec-license.
+接下来，我们将从 @sec-description 的 `DESCRIPTION` 文件开始，深入了解包的元数据。
+在 @sec-dependencies-mindset-background 中，我们将介绍使用依赖项的成本和收益，并提供一些关于包命名空间和搜索路径的技术背景知识。
+在 @sec-dependencies-in-practice 中，我们关注一些实际问题，比如如何在包的不同部分使用不同类型的依赖。
+这也是我们讨论导出函数 (exporting functions) 的地方，这使得其他包和项目可以将你的包作为依赖项。
+我们将在 @sec-license 中以有关添加开源软件许可证的内容结束这一部分。
 
-To ensure your package works as designed (and continues to work as you make changes), it's essential to test your code, so the next three chapters cover the art and science of testing.
-@sec-testing-basics gets you started with the basics of testing with the testthat package.
-@sec-testing-design teaches you how to design and organise tests in the most effective way.
-Then we finish off our coverage of testing in @sec-testing-advanced which teaches you advanced skills to tackle challenging situations.
+为了确保软件包能按照设计正常工作（并在你修改代码后继续正常工作），测试你的代码是必不可少的工作，所以接下来的三章将介绍测试的艺术和科学。
+@sec-testing-basics 通过 testthat 包介绍测试的基础知识。
+@sec-testing-design 教你如何以最有效的方式设计和组织测试。
+@sec-testing-advanced 将结束对测试的介绍，这一章将教你处理具有挑战性的情况的高级技能。
 
-If you want other people (including future-you!) to understand how to use the functions in your package, you'll need to document them.
-@sec-man gets you started using roxygen2 to document the functions in your package.
-Function documentation is only helpful if you know what function to look up, so next in @sec-vignettes we'll discuss vignettes, which help you document the package as a whole.
-We'll finish up documentation with a discussion of other important markdown files like `README.md` and `NEWS.md` in @sec-other-markdown, and creating a package website with pkgdown in @sec-website.
+如果你想让其他人（包括未来的你！）理解如何使用包中的函数，就需要为它编写文档。
+@sec-man 开始教你使用 roxygen2 为包中的函数编写文档。
+只有在你知道要查找哪个函数的时候，函数文档才有帮助。所以在 @sec-vignettes 中，我们将讨论主题文档 (vignettes)，它可以帮助你为整个包提供文档。
+我们将在 @sec-other-markdown 结束对文档编写的介绍，这一章介绍其他重要的 markdown 文件，如  `README.md` 和 `NEWS.md`。@sec-website 则是介绍如何用 pkgdown 创建软件包网站。
 
-The book concludes by zooming back out to consider development practices, such as the benefit of using version control and continuous integration (@sec-sw-dev-practices).
-We wrap things up by discussing the lifecycle (@sec-lifecycle) of a package, including releasing it on CRAN (@sec-release).
+本书最后回顾了开发实践方法，例如使用版本控制和持续集成的好处 (@sec-sw-dev-practices)。
+最后，我们会讨论软件包的生命周期 (@sec-lifecycle)，包括在CRAN上发布软件包 (@sec-release)。
 
-This is a lot to learn, but don't feel overwhelmed.
-Start with a minimal subset of useful features (e.g. just an `R/` directory!) and build up over time.
-To paraphrase the Zen monk Shunryu Suzuki: "Each package is perfect the way it is --- and it can use a little improvement".
+本书中有很多东西要学，但不要感到不知所措。
+从一个最小的有用的功能子集（例如一个 `R/` 目录！）开始，随着时间的推移逐步构建你的包。
+套用禅僧铃木俊隆 (Shunryu Suzuki) 的话:“每个包都是完美的，就像它本来的模样——但是也许可以稍作改进。”^[译者注：原话来自铃木俊隆的书籍《禅之初心》(Zen Mind, Beginner’s Mind)]
 
-## What's not here
+## 本书没有包含的内容
 
-There are also specific practices that have little to no treatment here simply because we do not use them enough to have any special insight.
-Does this mean that we actively discourage those practices?
-Probably not, as we try to be explicit about practices we think you should avoid.
-So if something is not covered here, it just means that a couple hundred heavily-used R packages are built without meaningful reliance on that technique.
-That observation should motivate you to evaluate how likely it is that your development requirements truly don't overlap with ours.
-But sometimes the answer is a clear "yes", in which case you'll simply need to consult another resource.
+还有一些实践方法在本书中几乎没有讨论，这只是因为我们没有足够多地使用它们，因此没有任何独特的见解。
+这是否意味着我们应该积极避免使用这些方法呢？
+可能并不是这样，因为我们在书中试图明确地说明我们认为你应该避免的做法。
+因此，如果有什么东西没有在本书中介绍，这只是意味着数百个被广泛使用的 R 包并没有依赖于这项技术。
+这一结果应该能鼓励你去评估自己的开发需求与我们不重叠的可能性有多大。
+但有时这个问题的答案是明确的“是”，在这种情况下，你只需要去查阅其他的资料。

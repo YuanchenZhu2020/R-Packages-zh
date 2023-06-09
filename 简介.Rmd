@@ -18,7 +18,7 @@ nrow(x)
 如果你正在读这本书，那么就应该已经知道如何通过以下方式来使用软件包了：
 
 -   从 CRAN 中下载安装：`install.packages("x")`。
--   在 R 中使用： `library("x")` 或 `library(x)。
+-   在 R 中使用： `library("x")` 或 `library(x)`。
 -   获取帮助信息：`package?x` 或 `help(package = "x")`。
 
 本书的目标是教你如何开发软件包，以便你能编写自己的软件包，而不仅仅是使用别人的软件包。
