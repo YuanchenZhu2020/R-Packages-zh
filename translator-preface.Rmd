@@ -23,6 +23,10 @@
 | commit history | 提交历史 | GitHub 或 Git 中列出的 commit 历史。 |
 | pane, tab | 窗格，选项卡 | 窗格是对应用程序窗口的一个分割，而选项卡是在窗格中展示的，可以切换不同的选项卡，窗格中将会展示对应的内容。 |
 | pull, push | 拉取，推送| Git 远程仓库操作的常用翻译。 |
+| behind-the-scenes files | 临时文件 | 直译是“幕后文件”，通常指的是一些程序在运行时自动生成的文件，这些文件通常不需要用户干预或直接操作，而是在程序或工具的运行过程中被使用或调用，并且没有用处后会被程序自动删除，因此翻译为更通俗的“临时文件”。 |
+| helper; helper function | 辅助函数 | 所谓的“helper”是从函数和包的功能上进行描述的，它多指 devtools 包中的函数，可以辅助使用者进行软件包开发等工作。 |
+| expose | 提供 | 我并不是很满意这个翻译。expose 是指 devtools 提供了来自构成它的其他软件包的函数，类似于“暴露接口”，但“暴露”一词有偏向被动、被揭示的意思，此处是主动提供。 |
+| qualified call | 限定调用 | 在 R 中是形如 `pkg::foo()` 的形式，指不附加包而是调用函数时添加限定符 `pkg::`，指查找路径时将查找范围限定在 `pkg` 的命名空间中。 |
 
 ## 排版说明 {.unnumbered}
 
@@ -50,7 +54,7 @@
 | Preface | ✅  |  ✅ |
 | Introduction | ✅  |  ⚙️|
 | The Whole Game | ⚙️ | |
-| System setup | | |
+| System setup | ✅ |  ⚙️|
 | Package structure and state |  |  |
 | Fundamental development workflows | | |
 | The package within | | |

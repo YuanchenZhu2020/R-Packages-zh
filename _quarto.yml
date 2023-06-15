@@ -30,47 +30,47 @@ book:
   - part: 入门
     chapters:
     - whole-game.Rmd
-  #   - setup.Rmd
+    - setup.Rmd
   #   - structure.Rmd
   #   - workflow101.Rmd
   #   - package-within.Rmd
-  # 
+
   # - part: Package components
   #   chapters:
   #   - code.Rmd
   #   - data.Rmd
   #   - misc.Rmd
-  # 
+
   # - part: Package metadata
   #   chapters:
   #   - description.Rmd
   #   - dependencies-mindset-background.Rmd
   #   - dependencies-in-practice.Rmd
   #   - license.Rmd
-  # 
+
   # - part: Testing
   #   chapters:
   #   - testing-basics.Rmd
   #   - testing-design.Rmd
   #   - testing-advanced.Rmd
-  # 
+
   # - part: Documentation
   #   chapters:
   #   - man.Rmd
   #   - vignettes.Rmd
   #   - other-markdown.Rmd
   #   - website.Rmd
-  # 
+
   # - part: Maintenance and distribution
   #   chapters:
   #   - software-development-practices.Rmd
   #   - lifecycle.Rmd
   #   - release.Rmd
-  # 
-  # - references.qmd
-  # 
-  # appendices:
-  #   - R-CMD-check.Rmd
+
+  - references.qmd
+
+  appendices:
+    - R-CMD-check.Rmd
 
 format:
   html:

@@ -1,63 +1,63 @@
-# System setup {#sec-setup}
+# 系统设置 {#sec-setup}
 
 ```{r, echo = FALSE}
 source("common.R")
 ```
 
-## Prepare your system {#setup-prep}
+## 准备好你的系统 {#setup-prep}
 
-To get started, make sure you have the latest version of R (at least `r paste0(version$major, ".", version$minor)`, which is the version being used to render this book), then run the following code to get the packages you'll need:
+在开始之前，请确保您已经安装了最新版本的 R（至少需要 `r paste0(version$major, ".", version$minor)`，本书即是使用该版本渲染生成的），然后再运行以下代码来获取您将使用到的程序包：
 
 ```{r, eval = FALSE}
 install.packages(c("devtools", "roxygen2", "testthat", "knitr"))
 ```
 
-Make sure you have a recent version of the RStudio integrated development environment (IDE).
-New versions are released regularly, so we recommend updating often to get access to the latest and greatest features.
+请确保您已经安装了最新版本的 RStudio 集成开发环境（IDE）。
+新版本会定期发布，所以我们建议经常更新以获得最新和最好的功能。
 
-Download the current version of RStudio Desktop here: <https://posit.co/download/rstudio-desktop/>.
-Most readers can use the free, open source version of RStudio Desktop.
+从这里下载最新版本的 RStudio Desktop：<https://posit.co/download/rstudio-desktop/>。
+大多数读者可以使用 RStudio Desktop 的免费开源版本。
 
-## devtools, usethis, and you {#sec-setup-usage}
+## devtools, usethis, 以及你自己 {#sec-setup-usage}
 
 > "I am large, I contain multitudes."
 >
 > --- Walt Whitman, Song of Myself
 
-As mentioned in @sec-intro-phil, devtools is a 'meta-package', encompassing and exposing functionality maintained in several smaller packages[^setup-1].
-For example, devtools might provide a wrapper function in order to set user-friendly defaults, introduce helpful interactive behaviour, or to combine functionality from multiple sub-packages.
-In some cases it simply re-exports a function from another package to make it easily available when devtools is attached.
+正如在 @sec-intro-phil 中所提到的，devtools 是一个“元软件包 (meta-package)”，包含并提供了在几个较小的包中维护的功能[^setup-1]。
+例如，devtools 可能会提供一个包装器函数 (wrapper function)，以设置用户友好的默认值，引入有用的交互行为，或组合来自多个子软件包的功能。
+在某些情况下，它只是从另一个包中重新导出一个函数，以便在使用 (attach)^[译者注：R 中导入软件包的实质是载入其命名空间并将它添加到搜索列表中。] devtools 时能够方便地使用它。
 
-[^setup-1]: At the time of writing, devtools exposes functionality from [remotes](https://remotes.r-lib.org/), [pkgbuild](https://pkgbuild.r-lib.org/), [pkgload](https://pkgload.r-lib.org/), [rcmdcheck](https://rcmdcheck.r-lib.org/), [revdepcheck](https://revdepcheck.r-lib.org/), [sessioninfo](https://sessioninfo.r-lib.org/), [usethis](https://usethis.r-lib.org/), [testthat](https://testthat.r-lib.org), and [roxygen2](https://roxygen2.r-lib.org)
+[^setup-1]: 在写作本书时，devtools 提供了来自 [remotes](https://remotes.r-lib.org/), [pkgbuild](https://pkgbuild.r-lib.org/), [pkgload](https://pkgload.r-lib.org/), [rcmdcheck](https://rcmdcheck.r-lib.org/), [revdepcheck](https://revdepcheck.r-lib.org/), [sessioninfo](https://sessioninfo.r-lib.org/), [usethis](https://usethis.r-lib.org/), [testthat](https://testthat.r-lib.org), and [roxygen2](https://roxygen2.r-lib.org) 的功能
 
-What's our recommended approach to using devtools and its constituent packages?
-It varies, depending on your intention:
+那么我们推荐使用 devtools 及其组成软件包的方法是什么呢？
+根据你的意图有不同的使用方法：
 
--   If you are using the functions interactively to help you develop your package, you should think of devtools as the provider of your favorite functions for package development. In this case you should attach devtools with `library(devtools)` and call the functions without qualification (e.g., `load_all()`).
--   If you are using functions from devtools and friends within the package code you are writing, you should NOT depend on devtools, but should instead access functions via the package that is their primary home.
-    -   devtools should rarely appear in the role of `pkg` in a qualified call of the form `pkg::fcn()`. Instead, `pkg` should be the package where `fcn()` is defined. For example, if you are creating a function in your package in which you need to query the state of the user's R session, use `sessioninfo::session_info()` in your package instead of `devtools::session_info()`.
--   If you find bugs, try to report them on the package that is a function's primary home. The help for `devtools::fcn()` usually states when devtools is re-exporting a function from another package.
+-   如果你正在交互式地使用这些函数来帮助开发软件包，则应将 devtools 视为首选的用于包开发的函数提供者。在这种情况下，你应该将使用 `library(devtools)` 附加 devtools 并在不加限定符的情况下调用函数（例如 `load_all()`）。
+-   如果你正在编写包代码并使用 devtools 和相关函数，则**不应该**依赖 devtools，而应通过是它们所在的软件包来访问函数。
+    -   devtools 应该尽量避免以形如 `pkg::fcn()` 的限定调用的形式出现在 `pkg` 中。相对地，`pkg` 应该是 `fcn()` 的函数定义所在的包。例如，如果你要在包中创建一个函数，在函数内你需要查询用户 R session 的状态，请在你的包中使用 `sessioninfo::session_info()` 而不是 `devtools::session_info()`。
+-   如果你发现了漏洞，请尝试在作为函数主要宿主的包上报告它们。`devtools::fcn()` 的帮助文档通常说明了 devtools 何时从另一个包中重新导出一个函数。
 
-The usethis package is the one constituent package that more people may be aware of and that they may use directly.
-It holds the functions that act on the files and folders in an R project, most especially for any project that is also an R package.
-devtools makes it easy to access usethis functions interactively, as when you call `library(devtools)`, usethis is also attached.
-Then you can use any function in usethis without qualification, e.g., just call `use_testthat()`.
-If you choose to specify the namespace, such as when working in a more programmatic style, then make sure you qualify the call with usethis, e.g., `usethis::use_testthat()`.
+usethis 软件包是更多人可能知道并直接使用的组成软件包。
+它包含了操作 R 项目中文件和文件夹的函数，特别是对于任何既是 R 项目又是 R 软件包的项目。
+devtools 让你可以轻松地以交互式方法使用 usethis 函数，当你调用 `library(devtools)` 时，usethis 也会被附加。
+然后，你可以在不加限定符的情况下使用 usethis 中的任何函数，例如，可以调用 `use_testthat()`。
+如果你选择指定命名空间，例如在更程序化的风格下工作时，请确保使用 usethis 对调用进行限定，例如，`usethis::use_testthat()`。
 
-### Personal startup configuration
+### 个人启动配置
 
-You can attach devtools like so:
+你可以通过以下方式附加 (attach) devtools 程序包：
 
 ```{r, eval = FALSE}
 library(devtools)
 ```
 
-But it soon grows aggravating to repeatedly attach devtools in every R session.
-Therefore, we strongly recommend attaching[^setup-2] devtools in your `.Rprofile` startup file, like so:
+但是，在每个 R session 中重复附加 devtools 很快就会变得令人恼火。
+因此，我们强烈建议将 devtools 附加[^setup-2]到你的 `.Rprofile` 启动文件中, 如下所示：
 
-[^setup-2]: This is one of the few cases where we recommend using `require()` over `library().` `library()` will fail with an error if it is unable to attach the package, and thus abort the execution of your `.Rprofile`.
-    If `require()` fails to attach the package it will emit a warning but will allow the remainder of your `.Rprofile` to execute.
-    This is discussed further in @sec-dependencies-attach-vs-load.
+[^setup-2]: 这是我们推荐使用 `require()` 而非 `library()` 的少数情况之一。如果 `library()` 无法附加软件包，它将失败报错，从而终止执行你的 `.Rprofile` 文件。
+    如果 `require()` 无法附加软件包，它将会发出警告但仍然允许你的 `.Rprofile` 继续执行。
+    这将在 @sec-dependencies-attach-vs-load 中进一步讨论。
 
 ```{r eval = FALSE}
 if (interactive()) {
@@ -65,17 +65,17 @@ if (interactive()) {
 }
 ```
 
-For convenience, the function `use_devtools()` creates `.Rprofile`, if needed, opens it for editing, and puts the necessary lines of code on the clipboard and the screen.
+为了方便起见， `use_devtools()` 函数会在你需要时创建 `.Rprofile` 文件，将其打开并进行编辑，然后在剪切板和屏幕上放置必要的代码行。
 
 ::: callout-warning
-In general, it's a bad idea to attach packages in `.Rprofile`, as it invites you to create R scripts that don't reflect all of their dependencies via explicit calls to `library(foo)`.
-But devtools is a workflow package that smooths the process of package development and is, therefore, unlikely to get baked into any analysis scripts.
-Note how we still take care to only attach in interactive sessions.
+一般来说，在 `.Rprofile` 中附加软件包是一个坏主意，因为它会让你创建无法通过显式调用 `library(foo)` 来反映所有依赖关系的 R 脚本。
+但是 devtools 是一个工作流包，它用于简化软件包开发过程，因此不太可能被嵌入到任何分析脚本中。
+请注意，我们仍然注意只在交互式会话中附加软件包。
 :::
 
-usethis consults certain options when, for example, creating R packages *de novo*.
-This allows you to specify personal defaults for yourself as a package maintainer or for your preferred license.
-Here's an example of a code snippet that could go in `.Rprofile`:
+usethis 会查找某些选项，例如当你*从头 (de novo)* 开始创建软件包时。
+这允许你为自己（作为软件包维护者）或你的首选许可证指定个人默认值。
+下面是一个可以进入 `.Rprofile` 的代码片段示例：
 
 ```{r, eval = FALSE}
 options(
@@ -89,8 +89,8 @@ options(
 )
 ```
 
-The following code shows how to install the development versions of devtools and usethis.
-At times, this book may describe new features that are in the development version of devtools and related packages, but that haven't been released yet.
+以下代码展示了如何安装 devtools 和 usethis 的开发版本。
+有时，本书可能会介绍 devtools 和相关软件包的开发版本中尚未发布的新功能。
 
 ```{r, eval = FALSE}
 devtools::install_github("r-lib/devtools")
@@ -101,54 +101,54 @@ pak::pak("r-lib/devtools")
 pak::pak("r-lib/usethis")
 ```
 
-## R build toolchain {#setup-tools}
+## R 构建工具链 {#setup-tools}
 
-To be fully capable of building R packages from source, you'll also need a compiler and a few other command line tools.
-This may not be strictly necessary until you want to build packages containing C or C++ code.
-Especially if you are using RStudio, you can set this aside for now.
-The IDE will alert you and provide support once you try to do something that requires you to setup your development environment.
-Read on for advice on doing this yourself.
+要能够完全从源代码构建 R 软件包，还需要一个编译器和其他一些命令行工具。
+这可能不是严格必须的，除非你想构建包含 C 或 C++ 代码的程序包。
+特别是如果你正在使用 RStudio，可以暂时把它放在一边。
+一旦你尝试执行需要设置开发环境的操作，IDE 将发出警报并提供支持。
+请阅读下面的建议，了解如何自己做到这一点。
 
 ### Windows
 
-On Windows the collection of tools needed for building packages from source is called Rtools.
+在 Windows 上，从源代码构建程序包所需要的工具集叫做 RTools。
 
-Rtools is NOT an R package.
-It is NOT installed with `install.packages()`.
-Instead, download it from <https://cran.r-project.org/bin/windows/Rtools/> and run the installer.
+Rtools **不是** R 软件包。
+它**不是**通过 `install.packages()` 进行安装。
+而是通过从 <https://cran.r-project.org/bin/windows/Rtools/> 下载并运行安装程序来安装。
 
-During the Rtools installation you may see a window asking you to "Select Additional Tasks".
+在 RTools 的安装过程中，您可能会看到一个窗口，它询问您是否“Select Additional Tasks”。
 
--   Do *not* select the box for "Edit the system PATH". devtools and RStudio should put Rtools on the `PATH` automatically when it is needed.
--   Do select the box for "Save version information to registry". It should be selected by default.
+-   **不要**选中“Edit the system PATH”。devtools 和 Rstudio 会在需要时自动将 RTools 放入 `PATH`。
+-   选中 "Save version information to registry"。它应该是默认选中的。
 
 ### macOS
 
-You need to install the Xcode command line tools, which requires that you [register as an Apple developer](https://developer.apple.com/programs/register/) (don't worry, it's free).
+你需要安装 Xcode 命令行工具，这需要你[注册成为 Apple 开发人员](https://developer.apple.com/programs/register/) (don't worry, it's free)。
 
-Then, in the shell, do:
+然后，在 shell 中执行如下操作：
 
 ``` shell
 xcode-select --install
 ```
 
-Alternatively, you can install the current release of full [Xcode from the Mac App Store](https://itunes.apple.com/ca/app/xcode/id497799835?mt=12).
-This includes a very great deal that you do not need, but it offers the advantage of App Store convenience.
+或者，你可以从 [Xcode from the Mac App Store](https://itunes.apple.com/ca/app/xcode/id497799835?mt=12) 安装最新版本的完整的 Xcode。
+这会包含许多您不需要的东西，但是它有 App Store 便利性的优势。
 
 ### Linux
 
-Make sure you've installed not only R, but also the R development tools.
-For example, on Ubuntu (and Debian) you need to install the `r-base-dev` package with:
+请确保你不仅已经安装了 R，还安装了 R 开发工具 (R development tools)。
+例如，在 Ubuntu（以及 Debian）上，你需要安装 `r-base-dev` 包：
 
 ```         
 sudo apt install r-base-dev
 ```
 
-On Fedora and RedHat, the development tools (called `R-core-devel`) will be installed automatically when you install with R with `sudo dnf install R`.
+在 Fedora 和 RedHat 上，开发工具（名为 `R-core-devel`）将会在你使用 `sudo dnf install R` 时自动安装。
 
-## Verify system prep
+## 验证系统设置
 
-You can request a "(package) development situation report" with `devtools::dev_sitrep()`:
+你可以使用 `devtools::dev_sitrep()` 生成一个“（软件包）开发环境报告”：
 
 ```{r, eval = FALSE}
 devtools::dev_sitrep()
@@ -170,4 +170,4 @@ devtools::dev_sitrep()
 #>  Update them with `devtools::install_dev_deps()`
 ```
 
-If this reveals that certain tools or packages are missing or out-of-date, you are encouraged to update them.
+如果它揭示了某些工具或软件包丢失或过时的情况，那么我们鼓励你进行相应的更新。

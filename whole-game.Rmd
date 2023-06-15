@@ -24,7 +24,7 @@ assignInNamespace(
 )
 
 # do you want to see how this sausage is made?
-debug <- FALSE
+debug <- TRUE
 
 # do we build the toy package? if so, where?
 # NA            --> no, don't build it
@@ -193,24 +193,24 @@ dir_info(all = TRUE) %>%
 
 -   `.Rbuildignore` 列出了我们需要使用的，但从源代码构建 R 包时不应该包含的文件。如果你不使用 RStudio, `create_package()` 可能不会在一开始创建这个文件（同样也不会创建 `.gitignore`），因为没有需要忽略的 RStudio 相关机制。然而，不管你是用的是什么编辑器，在某些时候你可能仍然会需要 `.Rbuildignore` 文件。@sec-rbuildignore 会进行更加详细的讨论。
 -   `.Rproj.user`（如果有的话）是 RStudio 内部使用的目录。
--   `.gitignore` anticipates Git usage and tells Git to ignore some standard, behind-the-scenes files created by R and RStudio. Even if you do not plan to use Git, this is harmless.
--   `DESCRIPTION` provides metadata about your package. We edit this shortly and @sec-description covers the general topic of the `DESCRIPTION` file.
--   `NAMESPACE` declares the functions your package exports for external use and the external functions your package imports from other packages. At this point, it is empty, except for a comment declaring that this is a file you should not edit by hand.
+-   `.gitignore` 是为了 Git 的使用而准备的，它告诉 Git 忽略由 R 和 RStudio 创建的一些标准的临时文件。即使你不打算使用 Git，它也是无害的。
+-   `DESCRIPTION` 提供了有关你的软件包的元数据。我们将对其进行简短的编辑，并且将在 @sec-description 介绍有关 `DESCRIPTION` 文件的一般性主题。
+-   `NAMESPACE` 声明了软件包导出以供外部使用的函数，以及软件包从其他包导入的外部函数。现在该文件是空的，除了包含一个注释来声明这是一个我们不会手工编辑的文件。
 -   `R/` 目录是你的软件包的“业务端”。它很快就会包含带有函数定义的 `.R` 文件。
--   `regexcite.Rproj` is the file that makes this directory an RStudio Project. Even if you don't use RStudio, this file is harmless. Or you can suppress its creation with `create_package(..., rstudio = FALSE)`. More in @sec-workflow101-rstudio-projects.
+-   `regexcite.Rproj` 是使得该目录成为 RStudio 项目的文件。即使你不使用 RStudio，这个文件也是无害的。如果不想创建它，可以使用 `create_package(..., rstudio = FALSE)`。详情见 @sec-workflow101-rstudio-projects。
 
 ## `use_git()`
 
-The regexcite directory is an R source package and an RStudio Project.
-Now we make it also a Git repository, with `use_git()`.
-(By the way, `use_git()` works in any project, regardless of whether it's an R package.)
+regexcite 目录是一个 R 源码包和一个 RStudio 项目。
+现在我们使用 `use_git()` 将它变成一个 Git 存储库。
+（顺便一提，`use_git()` 适用于任何项目，无论它是否是 R 包。）
 
 ```{r use-git, eval = create}
 use_git()
 ```
 
-In an interactive session, you will be asked if you want to commit some files here and you should accept the offer.
-Behind the scenes, we'll also commit those same files.
+在交互式会话中，系统将询问是否要在这里提交一些文件，你应该接受这个提议。
+在幕后，我们也将提交这些相同的文件。
 
 ```{r gert-begin, eval = create, include = debug}
 suppressPackageStartupMessages(library(gert))
@@ -218,9 +218,9 @@ git_add(".")
 git_commit("Initial commit")
 ```
 
-So what has changed in the package?
-Only the creation of a `.git` directory, which is hidden in most contexts, including the RStudio file browser.
-Its existence is evidence that we have indeed initialized a Git repo here.
+那么软件包中有什么变化吗？
+唯一的变化是 `.git` 目录的创建，它在大多数环境下都是隐藏目录，包括 RStudio 文件浏览器。
+它的存在证明我们确实在该目录下初始化了一个 Git 仓库。
 
 ```{r post-git-file-list, echo = FALSE, eval = create}
 dir_info(all = TRUE, regexp = "^[.]git$") %>% 
@@ -228,13 +228,13 @@ dir_info(all = TRUE, regexp = "^[.]git$") %>%
   knitr::kable()
 ```
 
-If you're using RStudio, it probably requested permission to relaunch itself in this Project, which you should do.
-You can do so manually by quitting, then relaunching RStudio by double clicking on `regexcite.Rproj`.
-Now, in addition to package development support, you have access to a basic Git client in the *Git* tab of the *Environment/History/Build* pane.
+如果你使用的是 RStudio，它可能会想你请求在此项目中进行重新启动，你应该允许这样做。
+你也可以手动完成此操作，方法是退出 RStudio，然后双击 `regexcite.Rproj` 文件重新启动 RStudio。
+现在，除了软件包的开发支持外，你还可以在 *Environment/History/Build* 窗格里的 *Git* 选项卡中访问一个基础的 Git 客户端。
 
 <!-- TODO: good place for a screenshot. -->
 
-Click on History (the clock icon in the Git pane) and, if you consented, you will see an initial commit made via `use_git()`:
+单击 History（Git 窗格中的时钟图标），如果你愿意，你将会看到通过 `use_git()` 进行的初始化提交：
 
 ```{r inspect-first-commit, echo = FALSE, eval = create}
 git_log(max = 1) %>% 
@@ -246,34 +246,33 @@ git_log(max = 1) %>%
 ::: callout-tip
 ## RStudio
 
-RStudio can initialize a Git repository, in any Project, even if it's not an R package, as long you've set up RStudio + Git integration.
-Do *Tools \> Version Control \> Project Setup*.
-Then choose *Version control system: Git* and *initialize a new git repository for this project*.
+RStudio 可以在任何项目中初始化一个 Git 储存库，即使并不是在 R 包项目中，只要你配置好了 RStudio + Git 集成。
+依次点击 *Tools \> Version Control \> Project Setup*.
+然后选择 *Version control system: Git* 和 *initialize a new git repository for this project*。
 :::
 
-## Write the first function
+## 编写第一个函数
 
-A fairly common task when dealing with strings is the need to split a single string into many parts.
-The `strsplit()` function in base R does exactly this.
+处理字符串时，一个相当常见的任务是需要将单个字符串分割为多个部分。
+Base R 中的 `strsplit()` 函数就是执行这个任务的。
 
 ```{r}
 (x <- "alfa,bravo,charlie,delta")
 strsplit(x, split = ",")
 ```
 
-Take a close look at the return value.
+仔细查看返回值。
 
 ```{r}
 str(strsplit(x, split = ","))
 ```
 
-The shape of this return value often surprises people or, at least, inconveniences them.
-The input is a character vector of length one and the output is a list of length one.
-This makes total sense in light of R's fundamental tendency towards vectorization.
-But sometimes it's still a bit of a bummer.
-Often you know that your input is morally a scalar, i.e. it's just a single string, and really want the output to be the character vector of its parts.
+这个返回值的形式经常会让人感到惊讶，或者至少会让人感到不便。
+输入是一个长度为一的字符向量，而输出是一个长度为一的列表。
+考虑到 R 本质上倾向于向量化，这是完全有道理的，但有时这仍然有点让人失望。
+通常情况下，你知道你的输入本质上是一个标量，也就是说它只是一个单独的字符串，而你真正想要的输出是它的各个部分所组成的字符向量。
 
-This leads R users to employ various methods of "unlist"-ing the result:
+这导致 R 用户采用各种“unlist”方法来处理结果：
 
 ```{r}
 unlist(strsplit(x, split = ","))
@@ -281,7 +280,7 @@ unlist(strsplit(x, split = ","))
 strsplit(x, split = ",")[[1]]
 ```
 
-The second, safer solution is the basis for the inaugural function of regexcite: `strsplit1()`.
+第二种更安全的解决方案是 regexcite 的首个函数 `strsplit1()` 的基础。
 
 ```{cat strsplit1-write, eval = create, class.source = "r"}
 #| engine.opts = list(file = path("R", "strsplit1.R"))
@@ -290,38 +289,38 @@ strsplit1 <- function(x, split) {
 }
 ```
 
-This book does not teach you how to write functions in R.
-To learn more about that take a look at the [Functions chapter](https://r4ds.hadley.nz/functions.html) of R for Data Science and the [Functions chapter](https://adv-r.hadley.nz/functions.html) of Advanced R.
+这本书不会教你如何在 R 中编写函数。
+要了解更多相关知识，请查阅 *R for Data Science* 的 [Functions chapter](https://r4ds.hadley.nz/functions.html) 以及 *Advanced R* 的 [Functions chapter](https://adv-r.hadley.nz/functions.html)。
 
 ::: callout-tip
-The name of `strsplit1()` is a nod to the very handy `paste0()`, which first appeared in R 2.15.0 in 2012.
-`paste0()` was created to address the extremely common use case of `paste()`-ing strings together *without* a separator.
-`paste0()` has been lovingly described as ["statistical computing's most influential contribution of the 21st century"](https://simplystatistics.org/posts/2013-01-31-paste0-is-statistical-computings-most-influential-contribution-of-the-21st-century/).
+`strsplit1()` 函数的名称是对十分方便的 `paste0()` 函数的致敬，它在 2012 年的 R 2.15.0 中首次出现。
+`paste0()` 的创建是为了解决函数 `paste()` 的一个十分常见的用例：将字符串*不带分隔符*连接到一起。
+`paste0()` 被亲切的描述为 [“21世纪统计计算最具影响力的贡献 (statistical computing's most influential contribution of the 21st century)”](https://simplystatistics.org/posts/2013-01-31-paste0-is-statistical-computings-most-influential-contribution-of-the-21st-century/).
 
-The `strsplit1()` function was so inspiring that it's now a real function in the stringr package: `stringr::str_split_1()`!
+`strsplit1()` 函数同样鼓舞人心，现在他是 stringr 包中一个真正的函数：`stringr::str_split_1()`！
 :::
 
 ## `use_r()`
 
-Where should you put the definition of `strsplit1()`?
-Save it in a `.R` file, in the `R/` subdirectory of your package.
-A reasonable starting position is to make a new `.R` file for each user-facing function in your package and name the file after the function.
-As you add more functions, you'll want to relax this and begin to group related functions together.
-We'll save the definition of `strsplit1()` in the file `R/strsplit1.R`.
+应该将 `strsplit1()` 的函数定义放在哪里呢？
+它应该被保存在软件包 `R/` 子目录中的 `.R` 文件里。
+一个合理的开始是为包中每个面向用户的函数创建一个新的 `.R` 文件，并以函数的名称命名该文件。
+随着你添加更多的函数，你可能想放松一下，开始将相关的函数分组放在一起。
+我们将会把 `strsplit1()` 的函数定义保存在 `R/strsplit1.R` 文件中。
 
-The helper `use_r()` creates and/or opens a script below `R/`.
-It really shines in a more mature package, when navigating between `.R` files and the associated test file.
-But, even here, it's useful to keep yourself from getting too carried away while working in `Untitled4`.
+辅助函数 `use_r()` 会在 `R/` 目录下创建并（或）打开一个脚本文件。
+在成熟的软件包中，当需要在 `.R` 文件和相应的测试文件中切换时，它表现得非常出色。
+但即使在这种情况下，在 `Untitled4` 中工作时使用它也很有用，可以避免自己过度沉迷^[译者注：这里的 "too carried away" 翻译为“过度沉迷”，译者从自身的开发经验出发，理解为“过度沉迷”于函数细节，失去了对函数细节于包的整体功能结构之间的平衡。]。
 
 ```{r init-strsplit1, eval = create}
 use_r("strsplit1")
 ```
 
-Put the definition of `strsplit1()` **and only the definition of `strsplit1()`** in `R/strsplit1.R` and save it.
-The file `R/strsplit1.R` should NOT contain any of the other top-level code we have recently executed, such as the definition of our practice input `x`, `library(devtools)`, or `use_git()`.
-This foreshadows an adjustment you'll need to make as you transition from writing R scripts to R packages.
-Packages and scripts use different mechanisms to declare their dependency on other packages and to store example or test code.
-We explore this further in @sec-r.
+把 `strsplit1()` 的函数定义，**且只有 `strsplit1()` 的定义**，放在 `R/strsplit1.R` 中并保存。
+`R/strsplit1.R` 文件**不**应该包含任何我们最近执行过的顶层代码，例如我们最近执行的练习输入 `x` 的定义、`library(devtools)` 或 `use_git()`。
+这预示了在从编写 R 脚本转换为编写 R 包时你需要做出的调整。
+包和脚本使用不同的机制来声明它们对其他包的依赖关系以及存储示例或测试代码。
+我们将在 @sec-r 中进一步探讨该问题。
 
 ## `load_all()` {#sec-whole-game-load-all}
 
