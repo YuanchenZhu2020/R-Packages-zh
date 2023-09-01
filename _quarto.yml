@@ -14,7 +14,7 @@ book:
   author: "Hadley Wickham 和 Jennifer Bryan"
   description: |
     学习如何创建软件包（package），它是可分享、可复用和可重复的 R 代码。
-  cover-image: images/cover.png
+  cover-image: images/cover-2e-small.png
 
   reader-mode: true
   site-url: https://r-pkgs.org/
@@ -31,9 +31,9 @@ book:
     chapters:
     - whole-game.Rmd
     - setup.Rmd
-  #   - structure.Rmd
-  #   - workflow101.Rmd
-  #   - package-within.Rmd
+    - structure.Rmd
+    - workflow101.Rmd
+    - package-within.Rmd
 
   # - part: Package components
   #   chapters:

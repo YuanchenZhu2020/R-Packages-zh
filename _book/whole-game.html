@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.340">
+<meta name="generator" content="quarto-1.3.361">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="description" content="学习如何创建软件包（package），它是可分享、可复用和可重复的 R 代码。">
 <title>R Packages (2e) - 1&nbsp; 整体流程</title>
@@ -61,6 +61,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./setup.html" rel="next">
 <link href="./introduction.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -86,7 +87,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script><script defer="" data-domain="r-pkgs.org" src="https://plausible.io/js/plausible.js"></script>
 </head>
@@ -100,7 +102,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./whole-game.html">入门</a></li><li class="breadcrumb-item"><a href="./whole-game.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">整体流程</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -165,6 +167,53 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">整体流程</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">系统设置</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./structure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Package structure and state</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workflow101.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Fundamental development workflows</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./package-within.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The package within</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./R-CMD-check.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title"><code>R CMD check</code></span></span></a>
+  </div>
+</li>
       </ul>
 </li>
     </ul>
@@ -180,7 +229,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#%E9%A2%84%E8%A7%88%E6%88%90%E5%93%81" id="toc-预览成品" class="nav-link" data-scroll-target="#%E9%A2%84%E8%A7%88%E6%88%90%E5%93%81"><span class="header-section-number">1.3</span> 预览成品</a></li>
   <li><a href="#create_package" id="toc-create_package" class="nav-link" data-scroll-target="#create_package"><span class="header-section-number">1.4</span> <code>create_package()</code></a></li>
   <li><a href="#use_git" id="toc-use_git" class="nav-link" data-scroll-target="#use_git"><span class="header-section-number">1.5</span> <code>use_git()</code></a></li>
-  <li><a href="#write-the-first-function" id="toc-write-the-first-function" class="nav-link" data-scroll-target="#write-the-first-function"><span class="header-section-number">1.6</span> Write the first function</a></li>
+  <li><a href="#%E7%BC%96%E5%86%99%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%87%BD%E6%95%B0" id="toc-编写第一个函数" class="nav-link" data-scroll-target="#%E7%BC%96%E5%86%99%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%87%BD%E6%95%B0"><span class="header-section-number">1.6</span> 编写第一个函数</a></li>
   <li><a href="#use_r" id="toc-use_r" class="nav-link" data-scroll-target="#use_r"><span class="header-section-number">1.7</span> <code>use_r()</code></a></li>
   <li>
 <a href="#sec-whole-game-load-all" id="toc-sec-whole-game-load-all" class="nav-link" data-scroll-target="#sec-whole-game-load-all"><span class="header-section-number">1.8</span> <code>load_all()</code></a>
@@ -234,7 +283,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/">devtools</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: package 'devtools' was built under R version 4.2.2</span></span>
 <span><span class="co">#&gt; Loading required package: usethis</span></span>
-<span><span class="co">#&gt; Warning: package 'usethis' was built under R version 4.2.2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; Warning: package 'usethis' was built under R version 4.2.3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>你安装的还是旧版本的 devtools 吗？ 请和我们使用的版本比较，如果必要的话请升级 devtools。</p>
 <div class="cell" data-hash="whole-game_cache/html/unnamed-chunk-3_7975f39b00115b7aef8fe10768d5f603">
@@ -275,7 +324,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="create_package" class="level2" data-number="1.4"><h2 data-number="1.4" class="anchored" data-anchor-id="create_package">
 <span class="header-section-number">1.4</span> <code>create_package()</code>
 </h2>
-<p>调用 <code><a href="https://usethis.r-lib.org/reference/create_package.html">create_package()</a></code>，在你的计算机的一个目录下初始化一个新的软件包。 如果该目录不存在（通常都是这样），<code><a href="https://usethis.r-lib.org/reference/create_package.html">create_package()</a></code> 将会自动创建该目录。 有关创建包的更多信息，请参见 <span class="quarto-unresolved-ref">?sec-workflow101-create-package</span>。</p>
+<p>调用 <code><a href="https://usethis.r-lib.org/reference/create_package.html">create_package()</a></code>，在你的计算机的一个目录下初始化一个新的软件包。 如果该目录不存在（通常都是这样），<code><a href="https://usethis.r-lib.org/reference/create_package.html">create_package()</a></code> 将会自动创建该目录。 有关创建包的更多信息，请参见 <a href="workflow101.html#sec-workflow101-create-package"><span>Section&nbsp;4.1</span></a>。</p>
 <p>仔细选择创建新软件包的目录。 它可以与其他 R 项目共同位于你的主目录下。 但是，它不应该被嵌套在另一个 RStudio 项目、R 包或者是 Git 存储库中。 它也不应该在 R 的软件包库目录中，因为这个库目录下包含有已经被构建和安装的软件包。 将我们在这里创建的源码包转换为已安装的包是 devtools 工作的一部分。 不要为 devtools 完成它的工作！</p>
 <p>一旦你选择了创建这个软件包的位置，像这样将你选择的路径传入 <code><a href="https://usethis.r-lib.org/reference/create_package.html">create_package()</a></code> 的调用中：</p>
 <div class="cell" data-hash="whole-game_cache/html/create-package-fake_ef0ee55b6707eab44ed447fa8eeb99de">
@@ -287,8 +336,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>usethis.description <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="https://usethis.r-lib.org/reference/create_package.html">create_package</a></span><span class="op">(</span><span class="va">pkgpath</span>, open <span class="op">=</span> <span class="cn">FALSE</span>, rstudio <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Creating 'C:/Users/xiaob/AppData/Local/Temp/RtmpAnNRAK/regexcite/'</span></span>
-<span><span class="co">#&gt; ✔ Setting active project to 'C:/Users/xiaob/AppData/Local/Temp/RtmpAnNRAK/regexcite'</span></span>
+<span><span class="co">#&gt; ✔ Creating 'C:/Users/xiaob/AppData/Local/Temp/RtmpYv5eCz/regexcite/'</span></span>
+<span><span class="co">#&gt; ✔ Setting active project to 'C:/Users/xiaob/AppData/Local/Temp/RtmpYv5eCz/regexcite'</span></span>
 <span><span class="co">#&gt; ✔ Creating 'R/'</span></span>
 <span><span class="co">#&gt; ✔ Writing 'DESCRIPTION'</span></span>
 <span><span class="co">#&gt; Package: regexcite</span></span>
@@ -314,9 +363,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="co">#&gt; [1] "F:/Projects/R/Books/R Packages/R-Packages-zh-CN"</span></span>
 <span><span class="fu"><a href="https://usethis.r-lib.org/reference/proj_utils.html">local_project</a></span><span class="op">(</span><span class="va">pkgpath</span>, setwd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ✔ Setting active project to</span></span>
-<span><span class="co">#&gt; 'C:/Users/xiaob/AppData/Local/Temp/RtmpAnNRAK/regexcite'</span></span>
+<span><span class="co">#&gt; 'C:/Users/xiaob/AppData/Local/Temp/RtmpYv5eCz/regexcite'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "C:/Users/xiaob/AppData/Local/Temp/RtmpAnNRAK/regexcite"</span></span>
+<span><span class="co">#&gt; [1] "C:/Users/xiaob/AppData/Local/Temp/RtmpYv5eCz/regexcite"</span></span>
 <span></span>
 <span><span class="co"># I normally am not this masochistic, but there is little choice</span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_knit.html">opts_knit</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>root.dir <span class="op">=</span> <span class="va">pkgpath</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -324,8 +373,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-hash="whole-game_cache/html/sitrep_b0cf229382b08c9a2355ea6a58ed70e4">
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># can't be in chunk above, because knitr</span></span>
 <span><span class="fu"><a href="https://usethis.r-lib.org/reference/proj_sitrep.html">proj_sitrep</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; •   working_directory: 'C:/Users/xiaob/AppData/Local/Temp/RtmpAnNRAK/regexcite'</span></span>
-<span><span class="co">#&gt; • active_usethis_proj: 'C:/Users/xiaob/AppData/Local/Temp/RtmpAnNRAK/regexcite'</span></span>
+<span><span class="co">#&gt; •   working_directory: 'C:/Users/xiaob/AppData/Local/Temp/RtmpYv5eCz/regexcite'</span></span>
+<span><span class="co">#&gt; • active_usethis_proj: 'C:/Users/xiaob/AppData/Local/Temp/RtmpYv5eCz/regexcite'</span></span>
 <span><span class="co">#&gt; • active_rstudio_proj: &lt;unset&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>如果你正在使用 RStudio，你会发现自己进入了一个新的 RStudio 实例，它已经在新的 regexcite 包（或项目）目录中打开了。 如果你因为某种原因需要手动执行这个操作，请进入该目录并双击 <code>regexcite.Rproj</code>。 RStudio 对源码包项目有特殊的处理，你现在应该可以在 <em>Environment</em> 和 <em>History</em> 所在的窗格中看见 <em>Build</em> 选项卡。</p>
@@ -385,32 +434,32 @@ RStudio
 </div>
 <ul>
 <li>
-<code>.Rbuildignore</code> 列出了我们需要使用的，但从源代码构建 R 包时不应该包含的文件。如果你不使用 RStudio, <code><a href="https://usethis.r-lib.org/reference/create_package.html">create_package()</a></code> 可能不会在一开始创建这个文件（同样也不会创建 <code>.gitignore</code>），因为没有需要忽略的 RStudio 相关机制。然而，不管你是用的是什么编辑器，在某些时候你可能仍然会需要 <code>.Rbuildignore</code> 文件。<span class="quarto-unresolved-ref">?sec-rbuildignore</span> 会进行更加详细的讨论。</li>
+<code>.Rbuildignore</code> 列出了我们需要使用的，但从源代码构建 R 包时不应该包含的文件。如果你不使用 RStudio, <code><a href="https://usethis.r-lib.org/reference/create_package.html">create_package()</a></code> 可能不会在一开始创建这个文件（同样也不会创建 <code>.gitignore</code>），因为没有需要忽略的 RStudio 相关机制。然而，不管你是用的是什么编辑器，在某些时候你可能仍然会需要 <code>.Rbuildignore</code> 文件。<a href="structure.html#sec-rbuildignore"><span>Section&nbsp;3.3.1</span></a> 会进行更加详细的讨论。</li>
 <li>
 <code>.Rproj.user</code>（如果有的话）是 RStudio 内部使用的目录。</li>
 <li>
-<code>.gitignore</code> anticipates Git usage and tells Git to ignore some standard, behind-the-scenes files created by R and RStudio. Even if you do not plan to use Git, this is harmless.</li>
+<code>.gitignore</code> 是为了 Git 的使用而准备的，它告诉 Git 忽略由 R 和 RStudio 创建的一些标准的临时文件。即使你不打算使用 Git，它也是无害的。</li>
 <li>
-<code>DESCRIPTION</code> provides metadata about your package. We edit this shortly and <span class="quarto-unresolved-ref">?sec-description</span> covers the general topic of the <code>DESCRIPTION</code> file.</li>
+<code>DESCRIPTION</code> 提供了有关你的软件包的元数据。我们将对其进行简短的编辑，并且将在 <span class="quarto-unresolved-ref">?sec-description</span> 介绍有关 <code>DESCRIPTION</code> 文件的一般性主题。</li>
 <li>
-<code>NAMESPACE</code> declares the functions your package exports for external use and the external functions your package imports from other packages. At this point, it is empty, except for a comment declaring that this is a file you should not edit by hand.</li>
+<code>NAMESPACE</code> 声明了软件包导出以供外部使用的函数，以及软件包从其他包导入的外部函数。现在该文件是空的，除了包含一个注释来声明这是一个我们不会手工编辑的文件。</li>
 <li>
 <code>R/</code> 目录是你的软件包的“业务端”。它很快就会包含带有函数定义的 <code>.R</code> 文件。</li>
 <li>
-<code>regexcite.Rproj</code> is the file that makes this directory an RStudio Project. Even if you don’t use RStudio, this file is harmless. Or you can suppress its creation with <code>create_package(..., rstudio = FALSE)</code>. More in <span class="quarto-unresolved-ref">?sec-workflow101-rstudio-projects</span>.</li>
+<code>regexcite.Rproj</code> 是使得该目录成为 RStudio 项目的文件。即使你不使用 RStudio，这个文件也是无害的。如果不想创建它，可以使用 <code>create_package(..., rstudio = FALSE)</code>。详情见 <a href="workflow101.html#sec-workflow101-rstudio-projects"><span>Section&nbsp;4.2</span></a>。</li>
 </ul></section><section id="use_git" class="level2" data-number="1.5"><h2 data-number="1.5" class="anchored" data-anchor-id="use_git">
 <span class="header-section-number">1.5</span> <code>use_git()</code>
 </h2>
-<p>The regexcite directory is an R source package and an RStudio Project. Now we make it also a Git repository, with <code><a href="https://usethis.r-lib.org/reference/use_git.html">use_git()</a></code>. (By the way, <code><a href="https://usethis.r-lib.org/reference/use_git.html">use_git()</a></code> works in any project, regardless of whether it’s an R package.)</p>
+<p>regexcite 目录是一个 R 源码包和一个 RStudio 项目。 现在我们使用 <code><a href="https://usethis.r-lib.org/reference/use_git.html">use_git()</a></code> 将它变成一个 Git 存储库。 （顺便一提，<code><a href="https://usethis.r-lib.org/reference/use_git.html">use_git()</a></code> 适用于任何项目，无论它是否是 R 包。）</p>
 <div class="cell" data-hash="whole-game_cache/html/use-git_cdeca475175808edb5d57a37e5e4a43a">
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_git.html">use_git</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ✔ Initialising Git repo</span></span>
-<span><span class="co">#&gt; ✔ Adding '.Rhistory', '.Rdata', '.httr-oauth', '.DS_Store' to '.gitignore'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; ✔ Adding '.Rhistory', '.Rdata', '.httr-oauth', '.DS_Store', '.quarto' to '.gitignore'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>In an interactive session, you will be asked if you want to commit some files here and you should accept the offer. Behind the scenes, we’ll also commit those same files.</p>
+<p>在交互式会话中，系统将询问是否要在这里提交一些文件，你应该接受这个提议。 在幕后，我们也将提交这些相同的文件。</p>
 <div class="cell" data-hash="whole-game_cache/html/gert-begin_c5b12e138ff4b9235bae9a9be8f00b52">
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/gert/">gert</a></span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: package 'gert' was built under R version 4.2.2</span></span>
+<span><span class="co">#&gt; Warning: package 'gert' was built under R version 4.2.3</span></span>
 <span><span class="fu"><a href="https://docs.ropensci.org/gert/reference/git_commit.html">git_add</a></span><span class="op">(</span><span class="st">"."</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 5 × 3</span></span>
 <span><span class="co">#&gt;   file            status staged</span></span>
@@ -421,9 +470,9 @@ RStudio
 <span><span class="co">#&gt; 4 NAMESPACE       new    TRUE  </span></span>
 <span><span class="co">#&gt; 5 regexcite.Rproj new    TRUE</span></span>
 <span><span class="fu"><a href="https://docs.ropensci.org/gert/reference/git_commit.html">git_commit</a></span><span class="op">(</span><span class="st">"Initial commit"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "cc153acfe02876dddb039757b62ba6d6f8ec1b98"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; [1] "c0da51d05cf4e2c7965bdfe577217595697d8c06"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>So what has changed in the package? Only the creation of a <code>.git</code> directory, which is hidden in most contexts, including the RStudio file browser. Its existence is evidence that we have indeed initialized a Git repo here.</p>
+<p>那么软件包中有什么变化吗？ 唯一的变化是 <code>.git</code> 目录的创建，它在大多数环境下都是隐藏目录，包括 RStudio 文件浏览器。 它的存在证明我们确实在该目录下初始化了一个 Git 仓库。</p>
 <div class="cell" data-hash="whole-game_cache/html/post-git-file-list_55a4b004260939ec5e2159a07843bb40">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
@@ -438,9 +487,9 @@ RStudio
 </table>
 </div>
 </div>
-<p>If you’re using RStudio, it probably requested permission to relaunch itself in this Project, which you should do. You can do so manually by quitting, then relaunching RStudio by double clicking on <code>regexcite.Rproj</code>. Now, in addition to package development support, you have access to a basic Git client in the <em>Git</em> tab of the <em>Environment/History/Build</em> pane.</p>
+<p>如果你使用的是 RStudio，它可能会想你请求在此项目中进行重新启动，你应该允许这样做。 你也可以手动完成此操作，方法是退出 RStudio，然后双击 <code>regexcite.Rproj</code> 文件重新启动 RStudio。 现在，除了软件包的开发支持外，你还可以在 <em>Environment/History/Build</em> 窗格里的 <em>Git</em> 选项卡中访问一个基础的 Git 客户端。</p>
 <!-- TODO: good place for a screenshot. -->
-<p>Click on History (the clock icon in the Git pane) and, if you consented, you will see an initial commit made via <code><a href="https://usethis.r-lib.org/reference/use_git.html">use_git()</a></code>:</p>
+<p>单击 History（Git 窗格中的时钟图标），如果你愿意，你将会看到通过 <code><a href="https://usethis.r-lib.org/reference/use_git.html">use_git()</a></code> 进行的初始化提交：</p>
 <div class="cell" data-hash="whole-game_cache/html/inspect-first-commit_e9acb7d71ce81d8dd75d2a4f3a9a95c6">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
@@ -450,7 +499,7 @@ RStudio
 <th style="text-align: left;">message</th>
 </tr></thead>
 <tbody><tr class="odd">
-<td style="text-align: left;">cc153acfe0…</td>
+<td style="text-align: left;">c0da51d05c…</td>
 <td style="text-align: left;">YuanchenZhu2020 <a href="mailto:yuanchenzhu@126.com" class="email">yuanchenzhu@126.com</a>
 </td>
 <td style="text-align: left;">Initial commit</td>
@@ -468,12 +517,12 @@ RStudio
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>RStudio can initialize a Git repository, in any Project, even if it’s not an R package, as long you’ve set up RStudio + Git integration. Do <em>Tools &gt; Version Control &gt; Project Setup</em>. Then choose <em>Version control system: Git</em> and <em>initialize a new git repository for this project</em>.</p>
+<p>RStudio 可以在任何项目中初始化一个 Git 储存库，即使并不是在 R 包项目中，只要你配置好了 RStudio + Git 集成。 依次点击 <em>Tools &gt; Version Control &gt; Project Setup</em>. 然后选择 <em>Version control system: Git</em> 和 <em>initialize a new git repository for this project</em>。</p>
 </div>
 </div>
-</section><section id="write-the-first-function" class="level2" data-number="1.6"><h2 data-number="1.6" class="anchored" data-anchor-id="write-the-first-function">
-<span class="header-section-number">1.6</span> Write the first function</h2>
-<p>A fairly common task when dealing with strings is the need to split a single string into many parts. The <code><a href="https://rdrr.io/r/base/strsplit.html">strsplit()</a></code> function in base R does exactly this.</p>
+</section><section id="编写第一个函数" class="level2" data-number="1.6"><h2 data-number="1.6" class="anchored" data-anchor-id="编写第一个函数">
+<span class="header-section-number">1.6</span> 编写第一个函数</h2>
+<p>处理字符串时，一个相当常见的任务是需要将单个字符串分割为多个部分。 Base R 中的 <code><a href="https://rdrr.io/r/base/strsplit.html">strsplit()</a></code> 函数就是执行这个任务的。</p>
 <div class="cell" data-hash="whole-game_cache/html/unnamed-chunk-5_cbe6e06703aeff85684d96be90ef933d">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="op">(</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="st">"alfa,bravo,charlie,delta"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "alfa,bravo,charlie,delta"</span></span>
@@ -481,14 +530,14 @@ RStudio
 <span><span class="co">#&gt; [[1]]</span></span>
 <span><span class="co">#&gt; [1] "alfa"    "bravo"   "charlie" "delta"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Take a close look at the return value.</p>
+<p>仔细查看返回值。</p>
 <div class="cell" data-hash="whole-game_cache/html/unnamed-chunk-6_f0b7fba42c0b8eda9f1728305ed2597d">
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">x</span>, split <span class="op">=</span> <span class="st">","</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 1</span></span>
 <span><span class="co">#&gt;  $ : chr [1:4] "alfa" "bravo" "charlie" "delta"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The shape of this return value often surprises people or, at least, inconveniences them. The input is a character vector of length one and the output is a list of length one. This makes total sense in light of R’s fundamental tendency towards vectorization. But sometimes it’s still a bit of a bummer. Often you know that your input is morally a scalar, i.e.&nbsp;it’s just a single string, and really want the output to be the character vector of its parts.</p>
-<p>This leads R users to employ various methods of “unlist”-ing the result:</p>
+<p>这个返回值的形式经常会让人感到惊讶，或者至少会让人感到不便。 输入是一个长度为一的字符向量，而输出是一个长度为一的列表。 考虑到 R 本质上倾向于向量化，这是完全有道理的，但有时这仍然有点让人失望。 通常情况下，你知道你的输入本质上是一个标量，也就是说它只是一个单独的字符串，而你真正想要的输出是它的各个部分所组成的字符向量。</p>
+<p>这导致 R 用户采用各种“unlist”方法来处理结果：</p>
 <div class="cell" data-hash="whole-game_cache/html/unnamed-chunk-7_c6cd3e5ddf70b909ef3172090d940aca">
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">x</span>, split <span class="op">=</span> <span class="st">","</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "alfa"    "bravo"   "charlie" "delta"</span></span>
@@ -496,13 +545,13 @@ RStudio
 <span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">x</span>, split <span class="op">=</span> <span class="st">","</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="co">#&gt; [1] "alfa"    "bravo"   "charlie" "delta"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The second, safer solution is the basis for the inaugural function of regexcite: <code>strsplit1()</code>.</p>
+<p>第二种更安全的解决方案是 regexcite 的首个函数 <code>strsplit1()</code> 的基础。</p>
 <div class="cell" data-engine.opts="{&quot;file&quot;:&quot;R/strsplit1.R&quot;}" data-hash="whole-game_cache/html/strsplit1-write_493dca4eda9282087f8da67330304fcb">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode cat r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>strsplit1 <span class="ot">&lt;-</span> <span class="cf">function</span>(x, split) {</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">strsplit</span>(x, <span class="at">split =</span> split)[[<span class="dv">1</span>]]</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This book does not teach you how to write functions in R. To learn more about that take a look at the <a href="https://r4ds.hadley.nz/functions.html">Functions chapter</a> of R for Data Science and the <a href="https://adv-r.hadley.nz/functions.html">Functions chapter</a> of Advanced R.</p>
+<p>这本书不会教你如何在 R 中编写函数。 要了解更多相关知识，请查阅 <em>R for Data Science</em> 的 <a href="https://r4ds.hadley.nz/functions.html">Functions chapter</a> 以及 <em>Advanced R</em> 的 <a href="https://adv-r.hadley.nz/functions.html">Functions chapter</a>。</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -513,28 +562,27 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The name of <code>strsplit1()</code> is a nod to the very handy <code><a href="https://rdrr.io/r/base/paste.html">paste0()</a></code>, which first appeared in R 2.15.0 in 2012. <code><a href="https://rdrr.io/r/base/paste.html">paste0()</a></code> was created to address the extremely common use case of <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code>-ing strings together <em>without</em> a separator. <code><a href="https://rdrr.io/r/base/paste.html">paste0()</a></code> has been lovingly described as <a href="https://simplystatistics.org/posts/2013-01-31-paste0-is-statistical-computings-most-influential-contribution-of-the-21st-century/">“statistical computing’s most influential contribution of the 21st century”</a>.</p>
-<p>The <code>strsplit1()</code> function was so inspiring that it’s now a real function in the stringr package: <code><a href="https://stringr.tidyverse.org/reference/str_split.html">stringr::str_split_1()</a></code>!</p>
+<p><code>strsplit1()</code> 函数的名称是对十分方便的 <code><a href="https://rdrr.io/r/base/paste.html">paste0()</a></code> 函数的致敬，它在 2012 年的 R 2.15.0 中首次出现。 <code><a href="https://rdrr.io/r/base/paste.html">paste0()</a></code> 的创建是为了解决函数 <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code> 的一个十分常见的用例：将字符串<em>不带分隔符</em>连接到一起。 <code><a href="https://rdrr.io/r/base/paste.html">paste0()</a></code> 被亲切的描述为 <a href="https://simplystatistics.org/posts/2013-01-31-paste0-is-statistical-computings-most-influential-contribution-of-the-21st-century/">“21世纪统计计算最具影响力的贡献 (statistical computing’s most influential contribution of the 21st century)”</a>.</p>
+<p><code>strsplit1()</code> 函数同样鼓舞人心，现在他是 stringr 包中一个真正的函数：<code><a href="https://stringr.tidyverse.org/reference/str_split.html">stringr::str_split_1()</a></code>！</p>
 </div>
 </div>
 </section><section id="use_r" class="level2" data-number="1.7"><h2 data-number="1.7" class="anchored" data-anchor-id="use_r">
 <span class="header-section-number">1.7</span> <code>use_r()</code>
 </h2>
-<p>Where should you put the definition of <code>strsplit1()</code>? Save it in a <code>.R</code> file, in the <code>R/</code> subdirectory of your package. A reasonable starting position is to make a new <code>.R</code> file for each user-facing function in your package and name the file after the function. As you add more functions, you’ll want to relax this and begin to group related functions together. We’ll save the definition of <code>strsplit1()</code> in the file <code>R/strsplit1.R</code>.</p>
-<p>The helper <code><a href="https://usethis.r-lib.org/reference/use_r.html">use_r()</a></code> creates and/or opens a script below <code>R/</code>. It really shines in a more mature package, when navigating between <code>.R</code> files and the associated test file. But, even here, it’s useful to keep yourself from getting too carried away while working in <code>Untitled4</code>.</p>
+<p>应该将 <code>strsplit1()</code> 的函数定义放在哪里呢？ 它应该被保存在软件包 <code>R/</code> 子目录中的 <code>.R</code> 文件里。 一个合理的开始是为包中每个面向用户的函数创建一个新的 <code>.R</code> 文件，并以函数的名称命名该文件。 随着你添加更多的函数，你可能想放松一下，开始将相关的函数分组放在一起。 我们将会把 <code>strsplit1()</code> 的函数定义保存在 <code>R/strsplit1.R</code> 文件中。</p>
+<p>辅助函数 <code><a href="https://usethis.r-lib.org/reference/use_r.html">use_r()</a></code> 会在 <code>R/</code> 目录下创建并（或）打开一个脚本文件。 在成熟的软件包中，当需要在 <code>.R</code> 文件和相应的测试文件中切换时，它表现得非常出色。 但即使在这种情况下，在 <code>Untitled4</code> 中工作时使用它也很有用，可以避免自己过度沉迷<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>。</p>
 <div class="cell" data-hash="whole-game_cache/html/init-strsplit1_69d91b7255753da459a35a921a3fc088">
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_r.html">use_r</a></span><span class="op">(</span><span class="st">"strsplit1"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; • Edit 'R/strsplit1.R'</span></span>
-<span><span class="co">#&gt; • Call `use_test()` to create a matching test file</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; • Edit 'R/strsplit1.R'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Put the definition of <code>strsplit1()</code> <strong>and only the definition of <code>strsplit1()</code></strong> in <code>R/strsplit1.R</code> and save it. The file <code>R/strsplit1.R</code> should NOT contain any of the other top-level code we have recently executed, such as the definition of our practice input <code>x</code>, <code><a href="https://devtools.r-lib.org/">library(devtools)</a></code>, or <code><a href="https://usethis.r-lib.org/reference/use_git.html">use_git()</a></code>. This foreshadows an adjustment you’ll need to make as you transition from writing R scripts to R packages. Packages and scripts use different mechanisms to declare their dependency on other packages and to store example or test code. We explore this further in <span class="quarto-unresolved-ref">?sec-r</span>.</p>
+<p>把 <code>strsplit1()</code> 的函数定义，<strong>且只有 <code>strsplit1()</code> 的定义</strong>，放在 <code>R/strsplit1.R</code> 中并保存。 <code>R/strsplit1.R</code> 文件<strong>不</strong>应该包含任何我们最近执行过的顶层代码，例如我们最近执行的练习输入 <code>x</code> 的定义、<code><a href="https://devtools.r-lib.org/">library(devtools)</a></code> 或 <code><a href="https://usethis.r-lib.org/reference/use_git.html">use_git()</a></code>。 这预示了在从编写 R 脚本转换为编写 R 包时你需要做出的调整。 包和脚本使用不同的机制来声明它们对其他包的依赖关系以及存储示例或测试代码。 我们将在 <span class="quarto-unresolved-ref">?sec-r</span> 中进一步探讨该问题。</p>
 </section><section id="sec-whole-game-load-all" class="level2" data-number="1.8"><h2 data-number="1.8" class="anchored" data-anchor-id="sec-whole-game-load-all">
 <span class="header-section-number">1.8</span> <code>load_all()</code>
 </h2>
 <p>How do we test drive <code>strsplit1()</code>? If this were a regular R script, we might use RStudio to send the function definition to the R Console and define <code>strsplit1()</code> in the global environment. Or maybe we’d call <code>source("R/strsplit1.R")</code>. For package development, however, devtools offers a more robust approach.</p>
-<p>Call <code><a href="https://rdrr.io/pkg/devtools/man/load_all.html">load_all()</a></code> to make <code>strsplit1()</code> available for experimentation.</p>
+<p>Call <code><a href="https://devtools.r-lib.org/reference/load_all.html">load_all()</a></code> to make <code>strsplit1()</code> available for experimentation.</p>
 <div class="cell" data-hash="whole-game_cache/html/load-all_5a4e1ec68df661213a204649912b4441">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/devtools/man/load_all.html">load_all</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://devtools.r-lib.org/reference/load_all.html">load_all</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ℹ Loading regexcite</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now call <code>strsplit1(x)</code> to see how it works.</p>
@@ -544,7 +592,7 @@ Tip
 <span><span class="fu">strsplit1</span><span class="op">(</span><span class="va">x</span>, split <span class="op">=</span> <span class="st">","</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "alfa"    "bravo"   "charlie" "delta"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Note that <code><a href="https://rdrr.io/pkg/devtools/man/load_all.html">load_all()</a></code> has made the <code>strsplit1()</code> function available, although it does not exist in the global environment.</p>
+<p>Note that <code><a href="https://devtools.r-lib.org/reference/load_all.html">load_all()</a></code> has made the <code>strsplit1()</code> function available, although it does not exist in the global environment.</p>
 <div class="cell" data-hash="whole-game_cache/html/unnamed-chunk-9_17f206ee905aa317ddbb6c0aea4fffdb">
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/exists.html">exists</a></span><span class="op">(</span><span class="st">"strsplit1"</span>, where <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/environment.html">globalenv</a></span><span class="op">(</span><span class="op">)</span>, inherits <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] FALSE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -552,15 +600,15 @@ Tip
 <p>If you see <code>TRUE</code> instead of <code>FALSE</code>, that indicates you’re still using a script-oriented workflow and sourcing your functions. Here’s how to get back on track:</p>
 <ul>
 <li>Clean out the global environment and restart R.</li>
-<li>Re-attach devtools with <code><a href="https://devtools.r-lib.org/">library(devtools)</a></code> and re-load regexcite with <code><a href="https://rdrr.io/pkg/devtools/man/load_all.html">load_all()</a></code>.</li>
+<li>Re-attach devtools with <code><a href="https://devtools.r-lib.org/">library(devtools)</a></code> and re-load regexcite with <code><a href="https://devtools.r-lib.org/reference/load_all.html">load_all()</a></code>.</li>
 <li>Redefine the test input <code>x</code> and call <code>strsplit1(x, split = ",")</code> again. This should work!</li>
 <li>Run <code>exists("strsplit1", where = globalenv(), inherits = FALSE)</code> again and you should see <code>FALSE</code>.</li>
 </ul>
-<p><code><a href="https://rdrr.io/pkg/devtools/man/load_all.html">load_all()</a></code> simulates the process of building, installing, and attaching the regexcite package. As your package accumulates more functions, some exported, some not, some of which call each other, some of which call functions from packages you depend on, <code><a href="https://rdrr.io/pkg/devtools/man/load_all.html">load_all()</a></code> gives you a much more accurate sense of how the package is developing than test driving functions defined in the global environment. Also <code><a href="https://rdrr.io/pkg/devtools/man/load_all.html">load_all()</a></code> allows much faster iteration than actually building, installing, and attaching the package. See <span class="quarto-unresolved-ref">?sec-workflow101-load-all</span> for more about <code><a href="https://rdrr.io/pkg/devtools/man/load_all.html">load_all()</a></code>.</p>
+<p><code><a href="https://devtools.r-lib.org/reference/load_all.html">load_all()</a></code> simulates the process of building, installing, and attaching the regexcite package. As your package accumulates more functions, some exported, some not, some of which call each other, some of which call functions from packages you depend on, <code><a href="https://devtools.r-lib.org/reference/load_all.html">load_all()</a></code> gives you a much more accurate sense of how the package is developing than test driving functions defined in the global environment. Also <code><a href="https://devtools.r-lib.org/reference/load_all.html">load_all()</a></code> allows much faster iteration than actually building, installing, and attaching the package. See <a href="workflow101.html#sec-workflow101-load-all"><span>Section&nbsp;4.4</span></a> for more about <code><a href="https://devtools.r-lib.org/reference/load_all.html">load_all()</a></code>.</p>
 <p>To review what we’ve done so far:</p>
 <ul>
 <li>We wrote our first function, <code>strsplit1()</code>, to split a string into a character vector (not a list containing a character vector).</li>
-<li>We used <code><a href="https://rdrr.io/pkg/devtools/man/load_all.html">load_all()</a></code> to quickly make this function available for interactive use, as if we’d built and installed regexcite and attached it via <code><a href="https://rdrr.io/r/base/library.html">library(regexcite)</a></code>.</li>
+<li>We used <code><a href="https://devtools.r-lib.org/reference/load_all.html">load_all()</a></code> to quickly make this function available for interactive use, as if we’d built and installed regexcite and attached it via <code><a href="https://rdrr.io/r/base/library.html">library(regexcite)</a></code>.</li>
 </ul>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -572,7 +620,7 @@ RStudio
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>RStudio exposes <code><a href="https://rdrr.io/pkg/devtools/man/load_all.html">load_all()</a></code> in the <em>Build</em> menu, in the <em>Build</em> pane via <em>More &gt; Load All</em>, and in keyboard shortcuts Ctrl + Shift + L (Windows &amp; Linux) or Cmd + Shift + L (macOS).</p>
+<p>RStudio exposes <code><a href="https://devtools.r-lib.org/reference/load_all.html">load_all()</a></code> in the <em>Build</em> menu, in the <em>Build</em> pane via <em>More &gt; Load All</em>, and in keyboard shortcuts Ctrl + Shift + L (Windows &amp; Linux) or Cmd + Shift + L (macOS).</p>
 </div>
 </div>
 <section id="commit-strsplit1" class="level3" data-number="1.8.1"><h3 data-number="1.8.1" class="anchored" data-anchor-id="commit-strsplit1">
@@ -586,7 +634,7 @@ RStudio
 <span><span class="co">#&gt;   &lt;chr&gt;         &lt;chr&gt;  &lt;lgl&gt; </span></span>
 <span><span class="co">#&gt; 1 R/strsplit1.R new    TRUE</span></span>
 <span><span class="fu"><a href="https://docs.ropensci.org/gert/reference/git_commit.html">git_commit</a></span><span class="op">(</span><span class="st">"Add strsplit1()"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "b1233cc310127a7eeb95a116ac0314e37326646d"</span></span>
+<span><span class="co">#&gt; [1] "dd6b2fea77c2f51570be2434b7c33287659b0e87"</span></span>
 <span><span class="co">## tags might be useful for making stable links to the package at specific</span></span>
 <span><span class="co">## evolutionary stages</span></span>
 <span><span class="co">## possible convention: tag name = chunk label</span></span>
@@ -611,14 +659,14 @@ index 0000000..29efb88
 <span class="header-section-number">1.9</span> <code>check()</code>
 </h2>
 <p>We have informal, empirical evidence that <code>strsplit1()</code> works. But how can we be sure that all the moving parts of the regexcite package still work? This may seem silly to check, after such a small addition, but it’s good to establish the habit of checking this often.</p>
-<p><code>R CMD check</code>, executed in the shell, is the gold standard for checking that an R package is in full working order. <code><a href="https://rdrr.io/pkg/devtools/man/check.html">check()</a></code> is a convenient way to run this without leaving your R session.</p>
-<p>Note that <code><a href="https://rdrr.io/pkg/devtools/man/check.html">check()</a></code> produces rather voluminous output, optimized for interactive consumption. We intercept that here and just reveal a summary. Your local <code><a href="https://rdrr.io/pkg/devtools/man/check.html">check()</a></code> output will be different.</p>
+<p><code>R CMD check</code>, executed in the shell, is the gold standard for checking that an R package is in full working order. <code><a href="https://devtools.r-lib.org/reference/check.html">check()</a></code> is a convenient way to run this without leaving your R session.</p>
+<p>Note that <code><a href="https://devtools.r-lib.org/reference/check.html">check()</a></code> produces rather voluminous output, optimized for interactive consumption. We intercept that here and just reveal a summary. Your local <code><a href="https://devtools.r-lib.org/reference/check.html">check()</a></code> output will be different.</p>
 <div class="cell" data-hash="whole-game_cache/html/first-check-fake_f478b5c42c53f3c9f7eab7f3f20b0f9a">
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/devtools/man/check.html">check</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://devtools.r-lib.org/reference/check.html">check</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="whole-game_cache/html/first-check_536354f07c43f940dc76fce9af498265">
 <pre><code>── R CMD check results ─────────────────── regexcite 0.0.0.9000 ────
-Duration: 1m 11.3s
+Duration: 6m 9.4s
 
 ❯ checking DESCRIPTION meta-information ... WARNING
   Non-standard license specification:
@@ -633,7 +681,7 @@ Duration: 1m 11.3s
 <pre><code>Non-standard license specification:
   `use_mit_license()`, `use_gpl3_license()` or friends to pick a
   license</code></pre>
-<p>We’ll address that soon, by doing exactly what it says. You can learn more about <code><a href="https://rdrr.io/pkg/devtools/man/check.html">check()</a></code> in <span class="quarto-unresolved-ref">?sec-workflow101-r-cmd-check</span>.</p>
+<p>We’ll address that soon, by doing exactly what it says. You can learn more about <code><a href="https://devtools.r-lib.org/reference/check.html">check()</a></code> in <a href="workflow101.html#sec-workflow101-r-cmd-check"><span>Section&nbsp;4.5</span></a>.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -644,7 +692,7 @@ RStudio
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>RStudio exposes <code><a href="https://rdrr.io/pkg/devtools/man/check.html">check()</a></code> in the <em>Build</em> menu, in the <em>Build</em> pane via <em>Check</em>, and in keyboard shortcuts Ctrl + Shift + E (Windows &amp; Linux) or Cmd + Shift + E (macOS).</p>
+<p>RStudio exposes <code><a href="https://devtools.r-lib.org/reference/check.html">check()</a></code> in the <em>Build</em> menu, in the <em>Build</em> pane via <em>Check</em>, and in keyboard shortcuts Ctrl + Shift + E (Windows &amp; Linux) or Cmd + Shift + E (macOS).</p>
 </div>
 </div>
 </section><section id="edit-description" class="level2" data-number="1.10"><h2 data-number="1.10" class="anchored" data-anchor-id="edit-description">
@@ -693,7 +741,7 @@ RoxygenNote: 7.1.2</code></pre>
 <span><span class="co">#&gt;   &lt;chr&gt;       &lt;chr&gt;    &lt;lgl&gt; </span></span>
 <span><span class="co">#&gt; 1 DESCRIPTION modified TRUE</span></span>
 <span><span class="fu"><a href="https://docs.ropensci.org/gert/reference/git_commit.html">git_commit</a></span><span class="op">(</span><span class="st">"Edit DESCRIPTION"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "bd76e0bcde20aea83644f78486f57a95515ef432"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; [1] "cc2f9c9e5e0782c571dd8af80f03dfdddf7bbf16"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="use_mit_license" class="level2" data-number="1.11"><h2 data-number="1.11" class="anchored" data-anchor-id="use_mit_license">
 <span class="header-section-number">1.11</span> <code>use_mit_license()</code>
@@ -707,7 +755,7 @@ RoxygenNote: 7.1.2</code></pre>
 <p>To configure a valid license for the package, call <code><a href="https://usethis.r-lib.org/reference/licenses.html">use_mit_license()</a></code>.</p>
 <div class="cell" data-hash="whole-game_cache/html/use-mit-license_b9e4cab0213683f7cec8ccd79bbb2cac">
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://usethis.r-lib.org/reference/licenses.html">use_mit_license</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Setting License field in DESCRIPTION to 'MIT + file LICENSE'</span></span>
+<span><span class="co">#&gt; ✔ Adding 'MIT + file LICENSE' to License</span></span>
 <span><span class="co">#&gt; ✔ Writing 'LICENSE'</span></span>
 <span><span class="co">#&gt; ✔ Writing 'LICENSE.md'</span></span>
 <span><span class="co">#&gt; ✔ Adding '^LICENSE\\.md$' to '.Rbuildignore'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -728,7 +776,7 @@ COPYRIGHT HOLDER: regexcite authors</code></pre>
 <span><span class="co">#&gt; 3 LICENSE       new      TRUE  </span></span>
 <span><span class="co">#&gt; 4 LICENSE.md    new      TRUE</span></span>
 <span><span class="fu"><a href="https://docs.ropensci.org/gert/reference/git_commit.html">git_commit</a></span><span class="op">(</span><span class="st">"Use MIT license"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "aaaf7f6d5ccd99c0a06afed2fcfa19af175acbfa"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; [1] "b8cde16a0b7075badfc8c65359db7da23daf9f85"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="sec-whole-game-document" class="level2" data-number="1.12"><h2 data-number="1.12" class="anchored" data-anchor-id="sec-whole-game-document">
 <span class="header-section-number">1.12</span> <code>document()</code>
@@ -761,11 +809,11 @@ COPYRIGHT HOLDER: regexcite authors</code></pre>
 <span><span class="co">#&gt;   &lt;chr&gt;         &lt;chr&gt;    &lt;lgl&gt; </span></span>
 <span><span class="co">#&gt; 1 R/strsplit1.R modified TRUE</span></span>
 <span><span class="fu"><a href="https://docs.ropensci.org/gert/reference/git_commit.html">git_commit</a></span><span class="op">(</span><span class="st">"Add roxygen header to document strsplit1()"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "da8b6bf200172f513fd3631b5454758ba8822f52"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; [1] "48e6898f6d50b3025432c25060675772e8cea141"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>But we’re not done yet! We still need to trigger the conversion of this new roxygen comment into <code>man/strsplit1.Rd</code> with <code><a href="https://rdrr.io/pkg/devtools/man/document.html">document()</a></code>:</p>
+<p>But we’re not done yet! We still need to trigger the conversion of this new roxygen comment into <code>man/strsplit1.Rd</code> with <code><a href="https://devtools.r-lib.org/reference/document.html">document()</a></code>:</p>
 <div class="cell" data-hash="whole-game_cache/html/document-strsplit1_41419fd5f2454a02dbad5c468a34819e">
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/devtools/man/document.html">document</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://devtools.r-lib.org/reference/document.html">document</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ℹ Updating regexcite documentation</span></span>
 <span><span class="co">#&gt; Setting `RoxygenNote` to "7.2.3"</span></span>
 <span><span class="co">#&gt; ℹ Loading regexcite</span></span>
@@ -782,18 +830,18 @@ RStudio
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>RStudio exposes <code><a href="https://rdrr.io/pkg/devtools/man/document.html">document()</a></code> in the <em>Build</em> menu, in the <em>Build</em> pane via <em>More &gt; Document</em>, and in keyboard shortcuts Ctrl + Shift + D (Windows &amp; Linux) or Cmd + Shift + D (macOS).</p>
+<p>RStudio exposes <code><a href="https://devtools.r-lib.org/reference/document.html">document()</a></code> in the <em>Build</em> menu, in the <em>Build</em> pane via <em>More &gt; Document</em>, and in keyboard shortcuts Ctrl + Shift + D (Windows &amp; Linux) or Cmd + Shift + D (macOS).</p>
 </div>
 </div>
 <p>You should now be able to preview your help file like so:</p>
 <div class="cell" data-hash="whole-game_cache/html/unnamed-chunk-10_3d28093e092d9f50c63743fbc0f8b029">
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="op">?</span><span class="va">strsplit1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>You’ll see a message like “Rendering development documentation for ‘strsplit1’”, which reminds that you are basically previewing draft documentation. That is, this documentation is present in your package’s source, but is not yet present in an installed package. In fact, we haven’t installed regexcite yet, but we will soon. If <code>?strsplit1</code> doesn’t work for you, you may need to call <code><a href="https://rdrr.io/pkg/devtools/man/load_all.html">load_all()</a></code> first, then try again.</p>
+<p>You’ll see a message like “Rendering development documentation for ‘strsplit1’”, which reminds that you are basically previewing draft documentation. That is, this documentation is present in your package’s source, but is not yet present in an installed package. In fact, we haven’t installed regexcite yet, but we will soon. If <code>?strsplit1</code> doesn’t work for you, you may need to call <code><a href="https://devtools.r-lib.org/reference/load_all.html">load_all()</a></code> first, then try again.</p>
 <p>Note also that your package’s documentation won’t be properly wired up until it has been formally built and installed. This polishes off niceties like the links between help files and the creation of a package index.</p>
 <section id="namespace-changes" class="level3" data-number="1.12.1"><h3 data-number="1.12.1" class="anchored" data-anchor-id="namespace-changes">
 <span class="header-section-number">1.12.1</span> <code>NAMESPACE</code> changes</h3>
-<p>In addition to converting <code>strsplit1()</code>’s special comment into <code>man/strsplit1.Rd</code>, the call to <code><a href="https://rdrr.io/pkg/devtools/man/document.html">document()</a></code> updates the <code>NAMESPACE</code> file, based on <code>@export</code> tags found in roxygen comments. Open <code>NAMESPACE</code> for inspection. The contents should be:</p>
+<p>In addition to converting <code>strsplit1()</code>’s special comment into <code>man/strsplit1.Rd</code>, the call to <code><a href="https://devtools.r-lib.org/reference/document.html">document()</a></code> updates the <code>NAMESPACE</code> file, based on <code>@export</code> tags found in roxygen comments. Open <code>NAMESPACE</code> for inspection. The contents should be:</p>
 <!-- OK to use this approach here because I actively do not want a copy button. NAMESPACE should be managed by roxygen and I don't want to tempt anyone to edit it by hand. -->
 <div class="cell" data-asis="true" data-hash="whole-game_cache/html/unnamed-chunk-11_c0214d115934b330ecc52ffbeef6a009">
 <pre><code># Generated by roxygen2: do not edit by hand
@@ -810,38 +858,38 @@ export(strsplit1)</code></pre>
 <span><span class="co">#&gt; 2 man/strsplit1.Rd new      TRUE  </span></span>
 <span><span class="co">#&gt; 3 NAMESPACE        modified TRUE</span></span>
 <span><span class="fu"><a href="https://docs.ropensci.org/gert/reference/git_commit.html">git_commit</a></span><span class="op">(</span><span class="st">"Run document()"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2eadd186e804934ee33129ed4d583ddec5571f09"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; [1] "d8fb26d79b64fbb8f32d189979deebe9019520f2"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section></section><section id="再次-check" class="level2" data-number="1.13"><h2 data-number="1.13" class="anchored" data-anchor-id="再次-check">
 <span class="header-section-number">1.13</span> 再次 <code>check()</code>
 </h2>
 <p>现在，regexcite 应该可以立刻并将永远干净地通过 <code>R CMD check</code>：0 错误，0 警告，0 注释。</p>
 <div class="cell" data-hash="whole-game_cache/html/first-clean-check-fake_fb038f6c08e1c876db1d11446dae15f1">
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/devtools/man/check.html">check</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://devtools.r-lib.org/reference/check.html">check</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="whole-game_cache/html/first-clean-check_7ccf4158a556d049714c05594e57e218">
 <pre><code>── R CMD check results ─────────────────── regexcite 0.0.0.9000 ────
-Duration: 1m 19.3s
+Duration: 3m 18.4s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔</code></pre>
 </div>
 </section><section id="install" class="level2" data-number="1.14"><h2 data-number="1.14" class="anchored" data-anchor-id="install">
 <span class="header-section-number">1.14</span> <code>install()</code>
 </h2>
-<p>Now that we know we have a minimum viable product, let’s install the regexcite package into your library via <code><a href="https://rdrr.io/pkg/devtools/man/install.html">install()</a></code>:</p>
+<p>Now that we know we have a minimum viable product, let’s install the regexcite package into your library via <code><a href="https://devtools.r-lib.org/reference/install.html">install()</a></code>:</p>
 <div class="cell" data-hash="whole-game_cache/html/first-install-fake_352592b62e7b75d5eef8452b10cb1c90">
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/devtools/man/install.html">install</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://devtools.r-lib.org/reference/install.html">install</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="whole-game_cache/html/first-install_14c65827aa425387c4e4ecd19eae3101">
 <pre><code>── R CMD build ─────────────────────────────────────────────────────
-* checking for file 'C:\Users\xiaob\AppData\Local\Temp\RtmpAnNRAK\regexcite/DESCRIPTION' ... OK
+* checking for file 'C:\Users\xiaob\AppData\Local\Temp\RtmpYv5eCz\regexcite/DESCRIPTION' ... OK
 * preparing 'regexcite':
 * checking DESCRIPTION meta-information ... OK
 * checking for LF line-endings in source and make files and shell scripts
 * checking for empty or unneeded directories
 * building 'regexcite_0.0.0.9000.tar.gz'
 Running "D:/R/R-4.2.1/bin/x64/Rcmd.exe" INSTALL \
-  "C:\Users\xiaob\AppData\Local\Temp\RtmpAnNRAK/regexcite_0.0.0.9000.tar.gz" \
+  "C:\Users\xiaob\AppData\Local\Temp\RtmpYv5eCz/regexcite_0.0.0.9000.tar.gz" \
   --install-tests 
 * installing to library 'D:/R/R-4.2.1/library'
 * installing *source* package 'regexcite' ...
@@ -886,7 +934,7 @@ RStudio
 <div class="cell" data-hash="whole-game_cache/html/use-testthat_29bb842a17989118279ca2d7892e87d0">
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_testthat.html">use_testthat</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ✔ Adding 'testthat' to Suggests field in DESCRIPTION</span></span>
-<span><span class="co">#&gt; ✔ Setting Config/testthat/edition field in DESCRIPTION to '3'</span></span>
+<span><span class="co">#&gt; ✔ Adding '3' to Config/testthat/edition</span></span>
 <span><span class="co">#&gt; ✔ Creating 'tests/testthat/'</span></span>
 <span><span class="co">#&gt; ✔ Writing 'tests/testthat.R'</span></span>
 <span><span class="co">#&gt; • Call `use_test()` to initialize a basic test file and open it for editing.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -900,7 +948,7 @@ RStudio
 <span><span class="co">#&gt; 1 DESCRIPTION      modified TRUE  </span></span>
 <span><span class="co">#&gt; 2 tests/testthat.R new      TRUE</span></span>
 <span><span class="fu"><a href="https://docs.ropensci.org/gert/reference/git_commit.html">git_commit</a></span><span class="op">(</span><span class="st">"Add testing infrastructure"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "9dd9dbceec3e5fc2a9fe72a6dab030e1163314e8"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; [1] "2b1159b034bc1b28e8a8507ac19e73dd310dbfa5"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>However, it’s still up to YOU to write the actual tests!</p>
 <p>The helper <code><a href="https://usethis.r-lib.org/reference/use_r.html">use_test()</a></code> opens and/or creates a test file. You can provide the file’s basename or, if you are editing the relevant source file in RStudio, it will be automatically generated. For many of you, if <code>R/strsplit1.R</code> is the active file in RStudio, you can just call <code><a href="https://usethis.r-lib.org/reference/use_r.html">use_test()</a></code>. However, since this book is built non-interactively, we must provide the basename explicitly:</p>
@@ -926,13 +974,13 @@ RStudio
 <span><span class="co">#&gt;   &lt;chr&gt;                           &lt;chr&gt;  &lt;lgl&gt; </span></span>
 <span><span class="co">#&gt; 1 tests/testthat/test-strsplit1.R new    TRUE</span></span>
 <span><span class="fu"><a href="https://docs.ropensci.org/gert/reference/git_commit.html">git_commit</a></span><span class="op">(</span><span class="st">"Test strsplit1()"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "43b24726d32ee204e83746564e907154cba15afc"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; [1] "a3882e92bcbb5193df9858d9a9f131b8773a1534"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Run this test interactively, as you will when you write your own. If <code>test_that()</code> or <code>strsplit1()</code> can’t be found, that suggests that you probably need to call <code><a href="https://rdrr.io/pkg/devtools/man/load_all.html">load_all()</a></code>.</p>
-<p>Going forward, your tests will mostly run <em>en masse</em> and at arm’s length via <code><a href="https://rdrr.io/pkg/devtools/man/test.html">test()</a></code>:</p>
+<p>Run this test interactively, as you will when you write your own. If <code>test_that()</code> or <code>strsplit1()</code> can’t be found, that suggests that you probably need to call <code><a href="https://devtools.r-lib.org/reference/load_all.html">load_all()</a></code>.</p>
+<p>Going forward, your tests will mostly run <em>en masse</em> and at arm’s length via <code><a href="https://devtools.r-lib.org/reference/test.html">test()</a></code>:</p>
 <!-- TODO: I have no idea why I have to disable crayon here, but if I don't, I guess raw ANSI escapes. Other chunks seem to work fine with downlig. It would also be nice to not see evidence of progress reporting, but the previous approach to turning that off keeps this chunk from showing any output at all :( The previous approach was `R.options = list(testthat.default_reporter = testthat::ProgressReporter$new(update_interval = Inf))`. -->
 <div class="cell" data-r.options="{&quot;crayon.enabled&quot;:false}" data-hash="whole-game_cache/html/unnamed-chunk-15_3e4efa2791483da3d8c3756a2aab74a5">
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/devtools/man/test.html">test</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://devtools.r-lib.org/reference/test.html">test</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ℹ Testing regexcite</span></span>
 <span><span class="co">#&gt; ✔ | F W S  OK | Context</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -940,7 +988,9 @@ RStudio
 <span><span class="co">#&gt; ✔ |         1 | strsplit1</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ══ Results ═════════════════════════════════════════════════════════</span></span>
-<span><span class="co">#&gt; [ FAIL 0 | WARN 0 | SKIP 0 | PASS 1 ]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; [ FAIL 0 | WARN 0 | SKIP 0 | PASS 1 ]</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; 🎯 Your tests hit the mark 🎯</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -952,10 +1002,10 @@ RStudio
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>RStudio exposes <code><a href="https://rdrr.io/pkg/devtools/man/test.html">test()</a></code> in the <em>Build</em> menu, in the <em>Build</em> pane via <em>More &gt; Test package</em>, and in keyboard shortcuts Ctrl + Shift + T (Windows &amp; Linux) or Cmd + Shift + T (macOS).</p>
+<p>RStudio exposes <code><a href="https://devtools.r-lib.org/reference/test.html">test()</a></code> in the <em>Build</em> menu, in the <em>Build</em> pane via <em>More &gt; Test package</em>, and in keyboard shortcuts Ctrl + Shift + T (Windows &amp; Linux) or Cmd + Shift + T (macOS).</p>
 </div>
 </div>
-<p>Your tests are also run whenever you <code><a href="https://rdrr.io/pkg/devtools/man/check.html">check()</a></code> the package. In this way, you basically augment the standard checks with some of your own, that are specific to your package. It is a good idea to use the <a href="https://covr.r-lib.org">covr package</a> to track what proportion of your package’s source code is exercised by the tests. More details can be found in <span class="quarto-unresolved-ref">?sec-testing-basics</span>.</p>
+<p>Your tests are also run whenever you <code><a href="https://devtools.r-lib.org/reference/check.html">check()</a></code> the package. In this way, you basically augment the standard checks with some of your own, that are specific to your package. It is a good idea to use the <a href="https://covr.r-lib.org">covr package</a> to track what proportion of your package’s source code is exercised by the tests. More details can be found in <span class="quarto-unresolved-ref">?sec-testing-basics</span>.</p>
 </section><section id="use_package" class="level2" data-number="1.16"><h2 data-number="1.16" class="anchored" data-anchor-id="use_package">
 <span class="header-section-number">1.16</span> <code>use_package()</code>
 </h2>
@@ -976,9 +1026,9 @@ RStudio
 <span><span class="co">#&gt;   &lt;chr&gt;       &lt;chr&gt;    &lt;lgl&gt; </span></span>
 <span><span class="co">#&gt; 1 DESCRIPTION modified TRUE</span></span>
 <span><span class="fu"><a href="https://docs.ropensci.org/gert/reference/git_commit.html">git_commit</a></span><span class="op">(</span><span class="st">"Import stringr"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2cf7675fd92ade413bbdaa92a77997c98b05fef8"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; [1] "06dd7e5f8f5514e2ea3ee440127c558a1f30653e"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Let’s revisit <code>strsplit1()</code> to make it more stringr-like. Here’s a new take on it<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>:</p>
+<p>Let’s revisit <code>strsplit1()</code> to make it more stringr-like. Here’s a new take on it<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>:</p>
 <div class="cell" data-hash="whole-game_cache/html/str-split-one-sneak-peek_371ff271e7790d0fa82a2d2b3a8e3342">
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">str_split_one</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">string</span>, <span class="va">pattern</span>, <span class="va">n</span> <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html">is.character</a></span><span class="op">(</span><span class="va">string</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">string</span><span class="op">)</span> <span class="op">&lt;=</span> <span class="fl">1</span><span class="op">)</span></span>
@@ -1045,14 +1095,14 @@ RStudio
 <span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(<span class="fu">str_split_one</span>(<span class="st">"a.b"</span>, stringr<span class="sc">::</span><span class="fu">fixed</span>(<span class="st">"."</span>)), <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>))</span>
 <span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Before we take the new <code>str_split_one()</code> out for a test drive, we need to call <code><a href="https://rdrr.io/pkg/devtools/man/document.html">document()</a></code>. Why? Remember that <code><a href="https://rdrr.io/pkg/devtools/man/document.html">document()</a></code> does two main jobs:</p>
+<p>Before we take the new <code>str_split_one()</code> out for a test drive, we need to call <code><a href="https://devtools.r-lib.org/reference/document.html">document()</a></code>. Why? Remember that <code><a href="https://devtools.r-lib.org/reference/document.html">document()</a></code> does two main jobs:</p>
 <ol type="1">
 <li>Converts our roxygen comments into proper R documentation.</li>
 <li>(Re)generates <code>NAMESPACE</code>.</li>
 </ol>
 <p>The second job is especially important here, since we will no longer export <code>strsplit1()</code> and we will newly export <code>str_split_one()</code>. Don’t be dismayed by the warning about <code>"Objects listed as exports, but not present in namespace: strsplit1"</code>. That always happens when you remove something from the namespace.</p>
 <div class="cell" data-hash="whole-game_cache/html/document-str-split-one_40e3c2a5b5ab99a201ced58efe54edef">
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/devtools/man/document.html">document</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://devtools.r-lib.org/reference/document.html">document</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ℹ Updating regexcite documentation</span></span>
 <span><span class="co">#&gt; ℹ Loading regexcite</span></span>
 <span><span class="co">#&gt; Warning: Objects listed as exports, but not present in namespace:</span></span>
@@ -1061,9 +1111,9 @@ RStudio
 <span><span class="co">#&gt; Writing 'str_split_one.Rd'</span></span>
 <span><span class="co">#&gt; Deleting 'strsplit1.Rd'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Try out the new <code>str_split_one()</code> function by simulating package installation via <code><a href="https://rdrr.io/pkg/devtools/man/load_all.html">load_all()</a></code>:</p>
+<p>Try out the new <code>str_split_one()</code> function by simulating package installation via <code><a href="https://devtools.r-lib.org/reference/load_all.html">load_all()</a></code>:</p>
 <div class="cell" data-hash="whole-game_cache/html/str-split-one-test-drive_77178ce957ff188078d71b7424b4938e">
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/devtools/man/load_all.html">load_all</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://devtools.r-lib.org/reference/load_all.html">load_all</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ℹ Loading regexcite</span></span>
 <span><span class="fu">str_split_one</span><span class="op">(</span><span class="st">"a, b, c"</span>, pattern <span class="op">=</span> <span class="st">", "</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "a" "b" "c"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1086,7 +1136,7 @@ RStudio
 <span><span class="co">#&gt; 6 tests/testthat/test-str_split_one.R new      TRUE  </span></span>
 <span><span class="co">#&gt; 7 tests/testthat/test-strsplit1.R     deleted  TRUE</span></span>
 <span><span class="fu"><a href="https://docs.ropensci.org/gert/reference/git_commit.html">git_commit</a></span><span class="op">(</span><span class="st">"Switch to str_split_one()"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "c89536a80f8e2d584d82fd12f38037030bf56fc4"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; [1] "af77950758119301e2341bc0a4324070699f18f6"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="use_github" class="level2" data-number="1.17"><h2 data-number="1.17" class="anchored" data-anchor-id="use_github">
 <span class="header-section-number">1.17</span> <code>use_github()</code>
@@ -1121,7 +1171,7 @@ RStudio
 </ul>
 <p>如何填充这个内容框架？ 可以自由地从 <code>DESCRIPTION</code> 文件和任何正式或非正式的测试或示例中复制内容。 任何东西都比没有好。 这很有帮助，因为人们可能不会安装你的软件包并逐个查看帮助文件来学习如何使用它。</p>
 <p>我们喜欢用 R Markdown 写 <code>README</code> 文件，这样它可以体现实际的用法。 包含实时代码还可以降低 <code>README</code> 文件过时和与实际软件包不同步的可能性。</p>
-<p>要进行你自己的编辑，如果 RStudio 还没有这样做，请打开 <code>README.Rmd</code> 进行编辑。<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> 确保它显示了 <code>str_split_one()</code> 的一些用法。</p>
+<p>要进行你自己的编辑，如果 RStudio 还没有这样做，请打开 <code>README.Rmd</code> 进行编辑。<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> 确保它显示了 <code>str_split_one()</code> 的一些用法。</p>
 <p>我们使用的 <code>README.Rmd</code> 在这里：<a href="https://github.com/jennybc/regexcite/blob/main/README.Rmd">README.Rmd</a> 以下是该文件的内容：</p>
 <div class="cell" data-hash="whole-game_cache/html/copy-readme-rmd_db0061bc3b28f763bcaeea3ead45b9d4">
 <div class="sourceCode" id="cb57"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">file_copy</span><span class="op">(</span></span>
@@ -1202,12 +1252,12 @@ str_split_one(y, pattern = stringr::fixed("."))
 ```</code></pre>
 </div>
 <p>别忘了渲染生成 <code>README.md</code>！ 如果你尝试提交 <code>README.Rmd</code> 而不是 <code>README.md</code>，或者 <code>README.md</code> 似乎已经过期时，pre-commit hook 应该会提醒你。</p>
-<p>使用 <code><a href="https://rdrr.io/pkg/devtools/man/build_rmd.html">build_readme()</a></code> 渲染生成 <code>README.Rmd</code> 文件是最好的方法，因为它会确保使用你的软件包的最新版本进行渲染，即它会从当前源代码安装一个临时副本来进行渲染。</p>
+<p>使用 <code><a href="https://devtools.r-lib.org/reference/build_rmd.html">build_readme()</a></code> 渲染生成 <code>README.Rmd</code> 文件是最好的方法，因为它会确保使用你的软件包的最新版本进行渲染，即它会从当前源代码安装一个临时副本来进行渲染。</p>
 <div class="cell" data-hash="whole-game_cache/html/readme-render_95df9f1870796bcb8c08fa3e86ada30d">
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/devtools/man/build_rmd.html">build_readme</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://devtools.r-lib.org/reference/build_rmd.html">build_readme</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ℹ Installing regexcite in temporary library</span></span>
 <span><span class="co">#&gt; ℹ Building</span></span>
-<span><span class="co">#&gt;   'C:/Users/xiaob/AppData/Local/Temp/RtmpAnNRAK/regexcite/README.Rmd'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt;   'C:/Users/xiaob/AppData/Local/Temp/RtmpYv5eCz/regexcite/README.Rmd'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>你可以简单地通过访问 <a href="https://github.com/jennybc/regexcite#readme">visiting regexcite on GitHub</a> 来查看渲染好的 <code>README.md</code>。</p>
 <p>最后，别忘了做最后一次提交。 如果你使用 GitHub，还需要推送到远程仓库。</p>
@@ -1220,35 +1270,35 @@ str_split_one(y, pattern = stringr::fixed("."))
 <span><span class="co">#&gt; 2 README.md     new      TRUE  </span></span>
 <span><span class="co">#&gt; 3 README.Rmd    new      TRUE</span></span>
 <span><span class="fu"><a href="https://docs.ropensci.org/gert/reference/git_commit.html">git_commit</a></span><span class="op">(</span><span class="st">"Write README.Rmd and render"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "4cda6a47210ee4597a3c4c6810b465953a3c9f1e"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; [1] "75804d4f43ae53f9b80bff8cb5a3babe2e7def06"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="最后一步check-以及-install" class="level2" data-number="1.19"><h2 data-number="1.19" class="anchored" data-anchor-id="最后一步check-以及-install">
 <span class="header-section-number">1.19</span> 最后一步：<code>check()</code> 以及 <code>install()</code>
 </h2>
-<p>让我们再次运行 <code><a href="https://rdrr.io/pkg/devtools/man/check.html">check()</a></code> 以确保软件包一切正常。</p>
+<p>让我们再次运行 <code><a href="https://devtools.r-lib.org/reference/check.html">check()</a></code> 以确保软件包一切正常。</p>
 <div class="cell" data-hash="whole-game_cache/html/final-check-fake_5ab5e1158c22678c4e128fb118190fae">
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/devtools/man/check.html">check</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://devtools.r-lib.org/reference/check.html">check</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="whole-game_cache/html/final-check_d6e7600e8afbeba469f67fa2c051ad8f">
 <pre><code>── R CMD check results ─────────────────── regexcite 0.0.0.9000 ────
-Duration: 1m 12.7s
+Duration: 1m 6s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔</code></pre>
 </div>
 <p>regexcite 应该没有错误、警告或注释信息。 现在是重新构建和正确安装它的最好时机。 庆祝一下！</p>
 <div class="cell" data-hash="whole-game_cache/html/final-install-fake_67cefac871efc656aeb9e21ed13add15">
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/devtools/man/install.html">install</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://devtools.r-lib.org/reference/install.html">install</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="whole-game_cache/html/final-install_7ade5da8f20ad38d982226920b4fd373">
 <pre><code>── R CMD build ─────────────────────────────────────────────────────
-* checking for file 'C:\Users\xiaob\AppData\Local\Temp\RtmpAnNRAK\regexcite/DESCRIPTION' ... OK
+* checking for file 'C:\Users\xiaob\AppData\Local\Temp\RtmpYv5eCz\regexcite/DESCRIPTION' ... OK
 * preparing 'regexcite':
 * checking DESCRIPTION meta-information ... OK
 * checking for LF line-endings in source and make files and shell scripts
 * checking for empty or unneeded directories
 * building 'regexcite_0.0.0.9000.tar.gz'
 Running "D:/R/R-4.2.1/bin/x64/Rcmd.exe" INSTALL \
-  "C:\Users\xiaob\AppData\Local\Temp\RtmpAnNRAK/regexcite_0.0.0.9000.tar.gz" \
+  "C:\Users\xiaob\AppData\Local\Temp\RtmpYv5eCz/regexcite_0.0.0.9000.tar.gz" \
   --install-tests 
 * installing to library 'D:/R/R-4.2.1/library'
 * installing *source* package 'regexcite' ...
@@ -1311,18 +1361,19 @@ Running "D:/R/R-4.2.1/bin/x64/Rcmd.exe" INSTALL \
 </ul>
 <p>在开发过程中，你会时常调用这些函数：</p>
 <ul>
-<li><code><a href="https://rdrr.io/pkg/devtools/man/load_all.html">load_all()</a></code></li>
-<li><code><a href="https://rdrr.io/pkg/devtools/man/document.html">document()</a></code></li>
-<li><code><a href="https://rdrr.io/pkg/devtools/man/test.html">test()</a></code></li>
-<li><code><a href="https://rdrr.io/pkg/devtools/man/check.html">check()</a></code></li>
+<li><code><a href="https://devtools.r-lib.org/reference/load_all.html">load_all()</a></code></li>
+<li><code><a href="https://devtools.r-lib.org/reference/document.html">document()</a></code></li>
+<li><code><a href="https://devtools.r-lib.org/reference/test.html">test()</a></code></li>
+<li><code><a href="https://devtools.r-lib.org/reference/check.html">check()</a></code></li>
 </ul>
 
 
 </section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><hr>
 <ol>
 <li id="fn1"><p>译者注：这里的“obvious”我并没有理解其确切含义，也许指的是只有 usethis 会显示加载信息，所以最为显眼。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>Recall that this example was so inspiring that it’s now a real function in the stringr package: `stringr::str_split_1()`!<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>To make your own edits, if RStudio has not already done so, open README.Rmd for editing.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>译者注：这里的 “too carried away” 翻译为“过度沉迷”，译者从自身的开发经验出发，理解为“过度沉迷”于函数细节，失去了对函数细节于包的整体功能结构之间的平衡。<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Recall that this example was so inspiring that it’s now a real function in the stringr package: `stringr::str_split_1()`!<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>To make your own edits, if RStudio has not already done so, open README.Rmd for editing.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -1561,6 +1612,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./setup.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">系统设置</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

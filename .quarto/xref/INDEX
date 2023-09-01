@@ -18,5 +18,23 @@
   "whole-game.Rmd": {
     "whole-game.html": "644d2db7",
     "whole-game.adoc": "a82b74c4"
+  },
+  "setup.Rmd": {
+    "setup.html": "816a1164"
+  },
+  "structure.Rmd": {
+    "structure.html": "777599c1"
+  },
+  "workflow101.Rmd": {
+    "workflow101.html": "a1241507"
+  },
+  "package-within.Rmd": {
+    "package-within.html": "be67cbd1"
+  },
+  "references.qmd": {
+    "references.html": "a19c9327"
+  },
+  "R-CMD-check.Rmd": {
+    "R-CMD-check.html": "967eddeb"
   }
 }

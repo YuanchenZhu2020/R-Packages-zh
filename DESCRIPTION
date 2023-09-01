@@ -14,11 +14,11 @@ Imports:
     lubridate,
     nycflights13,
     pak,
-    pkgsearch,
+    pkgsearch (>= 3.1.2.9000),
     rlang,
     roxygen2,
     stringi,
-    stringr (>= 1.4.0.9000),
+    stringr (>= 1.5.0),
     testthat,
     tidyverse,
     usethis,
@@ -26,13 +26,12 @@ Imports:
 Suggests:
     bslib,
     digest,
-    downlit (>= 0.4.1.9000),
+    downlit (>= 0.4.2),
     jsonlite,
     knitr,
     parsermd,
     pkgload,
     xml2
-Remotes: 
-    r-lib/downlit,
-    tidyverse/stringr
 Encoding: UTF-8
+Remotes:  
+    r-hub/pkgsearch
