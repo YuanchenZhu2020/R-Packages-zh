@@ -2,7 +2,7 @@
 
 本书是 [*R Packages (2e)*](https://r-pkgs.org/) 一书的个人中文翻译版，**仍然在翻译中**。欢迎大家提出修改意见。
 
-个人翻译版可以通过[**我的个人网站**]()或 [GitHub Page]() 进行阅读。
+个人翻译版可以通过[**我的个人网站**](https://book.formlesslab.top/r-pkgs)或 [GitHub Page]() 进行阅读。
 
 ## 翻译进度
 
@@ -10,7 +10,7 @@
 -   [x] Preface
 -   [x] Introduction
 -   [ ] The Whole Game
--   [ ] System setup
+-   [x] System setup
 -   [ ] Package structure and state
 -   [ ] Fundamental development workflows
 -   [ ] The package within

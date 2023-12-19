@@ -1,2 +1,5 @@
 /.quarto/
 .Rproj.user
+_book/
+*_cache
+*_files
