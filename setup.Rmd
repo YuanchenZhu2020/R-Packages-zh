@@ -124,7 +124,7 @@ Rtools **不是** R 软件包。
 
 ### macOS
 
-你需要安装 Xcode 命令行工具，这需要你[注册成为 Apple 开发人员](https://developer.apple.com/programs/register/)（不用担心，它是免费的）。
+你需要安装 Xcode 命令行工具，这需要你[注册成为 Apple 开发人员](https://developer.apple.com/programs/enroll/)（不用担心，对于哪些只希望安装应用程序，例如 Xcode 命令行工具的个人来说是免费的。只有那些想要发布应用程序、访问测试版软件并集成Siri、Apple Pay和iCloud等功能的人才需要加入付费开发者计划。）。
 
 然后，在 shell 中执行如下操作：
 

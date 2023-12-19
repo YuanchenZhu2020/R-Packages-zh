@@ -15,6 +15,7 @@ book:
   description: |
     学习如何创建软件包（package），它是可分享、可复用和可重复的 R 代码。
   cover-image: images/cover-2e-small.png
+  favicon: images/cover-2e-small.png
 
   reader-mode: true
   site-url: https://r-pkgs.org/
