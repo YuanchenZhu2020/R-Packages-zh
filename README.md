@@ -2,7 +2,7 @@
 
 本书是 [*R Packages (2e)*](https://r-pkgs.org/) 一书的个人中文翻译版，**仍然在翻译中**。欢迎大家提出修改意见。
 
-个人翻译版可以通过[**我的个人网站**](https://book.formlesslab.top/r-pkgs)或 [GitHub Page]() 进行阅读。
+个人翻译版可以通过[**我的个人网站**](https://book.formlesslab.top/r-pkgs)或 [GitHub Page](https://yuanchenzhu2020.github.io/R-Packages-zh/) 进行阅读。
 
 ## 翻译进度
 
