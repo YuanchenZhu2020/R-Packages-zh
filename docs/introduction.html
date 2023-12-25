@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.361">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="description" content="学习如何创建软件包（package），它是可分享、可复用和可重复的 R 代码。">
+<title>R Packages (2e) - 简介</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./whole-game.html" rel="next">
+<link href="./preface.html" rel="prev">
+<link href="./images/cover-2e-small.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script defer="" data-domain="r-pkgs.org" src="https://plausible.io/js/plausible.js"></script>
+</head>
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./introduction.html">简介</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">R Packages (2e)</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/hadley/r-pkgs/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">欢迎！</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./translator-preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">翻译与排版说明</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">前言</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./introduction.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">简介</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">入门</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./whole-game.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">The Whole Game</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">系统设置</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./structure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">软件包结构与状态</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workflow101.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Fundamental development workflows</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./package-within.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The package within</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./R-CMD-check.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title"><code>R CMD check</code></span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li><a href="#sec-intro-phil" id="toc-sec-intro-phil" class="nav-link active" data-scroll-target="#sec-intro-phil">开发理念</a></li>
+  <li><a href="#intro-outline" id="toc-intro-outline" class="nav-link" data-scroll-target="#intro-outline">本书包含的内容</a></li>
+  <li><a href="#%E6%9C%AC%E4%B9%A6%E6%B2%A1%E6%9C%89%E5%8C%85%E5%90%AB%E7%9A%84%E5%86%85%E5%AE%B9" id="toc-本书没有包含的内容" class="nav-link" data-scroll-target="#%E6%9C%AC%E4%B9%A6%E6%B2%A1%E6%9C%89%E5%8C%85%E5%90%AB%E7%9A%84%E5%86%85%E5%AE%B9">本书没有包含的内容</a></li>
+  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/hadley/r-pkgs/edit/main/introduction.Rmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/hadley/r-pkgs/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title"><span id="intro" class="quarto-section-identifier">简介</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header><p>在 R 中，可共享代码的基本单位是软件包 (package)。 软件包将代码、数据、文档和测试整合到一起，使其很容易与他人分享。 截止到 2023 年 3 月，在综合性 R 档案网络 (<strong>C</strong>omprehensive <strong>R</strong> <strong>A</strong>rchive <strong>N</strong>etwork)，或者说 R 包的公共信息交换平台 CRAN 上已经有超过 19,000 个软件包。 这些种类繁多的软件包是 R 语言如此成功的原因之一：很可能已经有人已经解决了你正在研究的问题，因此你可以下载他们的软件包，从他们的工作中获益。</p>
+<p>如果你正在读这本书，那么就应该已经知道如何通过以下方式来使用软件包了：</p>
+<ul>
+<li>从 CRAN 安装包：<code>install.packages("x")</code>。</li>
+<li>在 R 中使用包：<code><a href="https://rdrr.io/r/base/library.html">library("x")</a></code> 或 <code><a href="https://rdrr.io/r/base/library.html">library(x)</a></code>。</li>
+<li>获取包的帮助信息：<code>package?x</code> 或 <code><a href="https://rdrr.io/pkg/x/man">help(package = "x")</a></code>。</li>
+</ul>
+<p>本书的目标是教你如何开发软件包，这样你就可以编写自己的包，而不仅仅是使用别人的包。 那么为什么要编写一个软件包呢？ 一个令人信服的理由是，你有想与他人分享的代码。<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> 将代码整合进一个包里可以让其他人很容易地使用它，因为和你一样，他们也知道如何使用包。 因此，如果你的代码整合进了一个包中，任何 R 语言的用户都可以很轻松地下载、安装并学习如何使用它。</p>
+<p>即使你不分享自己的代码，软件包依然很有用。 正如 Hilary Parker 在她的 <a href="https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/">introduction to packages</a> 所提到的：“严格说来，它不一定和代码分享有关（尽管这是一个额外的好处），它主要是能节省你的时间。”<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>将代码组织在一个包中会让你工作起来更容易，因为软件包遵循一些通用的约定。 例如，你需要将 R 代码文件放在 <code>R/</code> 目录下，将测试文件放在 <code>tests/</code> 目录下，还有将数据文件放在 <code>data/</code> 目录下。 这些约定很有用，因为：</p>
+<ul>
+<li><p>它们能节省时间——你不需要考虑如何组织软件包才是最佳的，只需要按照模板操作。</p></li>
+<li><p>标准化的规范带来标准化的工具——如果你遵循 R 包的规范，就能免费获得许多工具。</p></li>
+</ul>
+<p>你的数据分析流程甚至也可以用软件包来构建（例如 <span class="citation" data-cites="marwick2018-tas">Marwick, Boettiger, and Mullen (<a href="references.html#ref-marwick2018-tas" role="doc-biblioref">2018a</a>)</span> 或 <span class="citation" data-cites="marwick2018-peerj">Marwick, Boettiger, and Mullen (<a href="references.html#ref-marwick2018-peerj" role="doc-biblioref">2018b</a>)</span>），不过我们不会在这里深入研究这个用例。</p>
+<section id="sec-intro-phil" class="level2"><h2 class="anchored" data-anchor-id="sec-intro-phil">开发理念</h2>
+<p>本书宣扬了我们的软件包开发理念：凡是能够自动化的，都应该自动化。 尽量减少手动操作。 用函数完成尽可能多的事情。 这样是希望你将时间用于思考你想要让包做什么，而不是包结构的各种细节。</p>
+<p>这一理念主要是 devtools 包来实现的，这个软件包是让通用开发任务自动化的 R 函数套件中的代表。 devtools 在 2018 年 10 月发布了 2.0.0 版本，标志着其内部重组为一系列功能更具针对性的软件包，而它则更像是一个元软件包 (meta-package)。 usethis 包是其中你最有可能与之交互的子软件包，我们将在 <a href="setup.html#sec-setup-usage"><span>Section&nbsp;2.2</span></a> 中解释 devtools 和 usethis 之间的关系。</p>
+<p>像往常一样，devtools 包的目的是让软件包的开发尽可能的轻松便利。 它囊括了 Hadley Wickham 自从作为一名多产的独立开发者以来积累的最佳实践经验。 最近，他在 Posit（以前称为 RStudio）组建了一个开发团队，共同维护数百个开源 R 包，包括那些被称为 <a href="https://www.tidyverse.org">the tidyverse</a> 的包。 这个团队的能力让我们能够以惊人的规模探索所有可能出现的错误。 幸运的是，它还让我们有机会在专家和富有同情心的同事的陪伴下反思成功和失败。 我们试图开发出一些实践方法，让包的维护者和用户的工作更加轻松便利， 而 devtools 元软件包正是把这些经验教训具体化的地方。</p>
+<p>devtools 与 RStudio 协同工作，我们相信这是对大多数 R 用户来说是最好的开发环境。 目前最流行的 RStudio 替代品是启用了 <a href="https://marketplace.visualstudio.com/items?itemName=REditorSupport.r">R extension</a> 的 <a href="https://code.visualstudio.com/">Visual Studio Code</a> (VS Code)。 这可能是一个有价值并且功能强大的环境，然而它确实需要更多的工作来设置和定制<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+RStudio
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>在整本书中，我们在像这样特殊格式的段落中强调了使用 RStudio 加速软件包开发工作流程的具体方法。</p>
+</div>
+</div>
+<p>devtools 和 RStudio 一起，让你无需关注软件包是怎样构建的这种低级细节。 但是当你开始开发更多的软件包时，我们强烈建议你去了解这些细节。 有关软件包开发官方细节的最佳资源，始终是官方的 <a href="https://cran.r-project.org/doc/manuals/R-exts.html#Creating-R-packages">writing R extensions</a> 手册<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. 然而，如果你还不熟悉软件包的基础知识，这本使用手册可能难以理解。 它也十分详尽，涵盖了所有可能的软件包组件，而不是像本书那样只关注最常见和最有用的组件。 一旦你掌握了 R 包的基础知识，并且想深入了解其背后发生了什么，那么这本手册就是十分有用的资料。</p>
+</section><section id="intro-outline" class="level2"><h2 class="anchored" data-anchor-id="intro-outline">本书包含的内容</h2>
+<p>本书的第一部分将为你提供软件包开发之旅所需的所有工具，强烈建议你按顺序阅读。 我们将在 <a href="whole-game.html"><span>Chapter&nbsp;1</span></a> 中介绍一个小软件包的完整开发过程。 在我们深入研究 R 包的关键组件之前，它旨在描绘出整体的图景并提出一个工作流程。 然后在 <a href="setup.html"><span>Chapter&nbsp;2</span></a> 你将学习如何为软件包开发准备好系统环境；在 <a href="structure.html"><span>Chapter&nbsp;3</span></a> 中，你将学习软件 包的基本结构以及它不同状态下的差异。 接下来，在 <a href="workflow101.html"><span>Chapter&nbsp;4</span></a> 中，我们将介绍软件包开发人员经常遇到的核心工作流。 本书第一部分以另一个案例 (<a href="package-within.html"><span>Chapter&nbsp;5</span></a>) 作为结尾，这次重点介绍如何将脚本转换为包，并讨论在这个过程中可能面临的挑战。</p>
+<p>本书的其余部分可以根据需要进行阅读。 在你开发过程中面临各种问题时，可以在各章中进行选择阅读。</p>
+<p>我们首先介绍软件包中的关键组件：<span class="quarto-unresolved-ref">?sec-r</span> 讨论代码的位置和组织方式，<span class="quarto-unresolved-ref">?sec-data</span> 介绍如何在包中包含数据，<span class="quarto-unresolved-ref">?sec-misc</span> 介绍几个需要在一些地方讨论，但不太重要的文件和目录。</p>
+<p>接下来，我们将从 <span class="quarto-unresolved-ref">?sec-description</span> 的 <code>DESCRIPTION</code> 文件开始，深入了解包的元数据。 在 <span class="quarto-unresolved-ref">?sec-dependencies-mindset-background</span> 中，我们将介绍使用依赖项的成本和收益，并提供一些关于包命名空间和搜索路径的技术背景知识。 在 <span class="quarto-unresolved-ref">?sec-dependencies-in-practice</span> 中，我们关注一些实际问题，比如如何在包的不同部分使用不同类型的依赖。 这也是我们讨论导出函数 (exporting functions) 的地方，这使得其他包和项目可以将你的包作为依赖项。 我们将在 <span class="quarto-unresolved-ref">?sec-license</span> 中以有关添加开源软件许可证的内容结束这一部分。</p>
+<p>为了确保软件包能按照设计正常工作（并在你修改代码后继续正常工作），测试你的代码是必不可少的工作，所以接下来的三章将介绍测试的艺术和科学。 <span class="quarto-unresolved-ref">?sec-testing-basics</span> 通过 testthat 包介绍测试的基础知识。 <span class="quarto-unresolved-ref">?sec-testing-design</span> 教你如何以最有效的方式设计和组织测试。 <span class="quarto-unresolved-ref">?sec-testing-advanced</span> 将结束对测试的介绍，这一章将教你处理具有挑战性的情况的高级技能。</p>
+<p>如果你想让其他人（包括未来的你！）理解如何使用包中的函数，就需要为它编写文档。 <span class="quarto-unresolved-ref">?sec-man</span> 开始教你使用 roxygen2 为包中的函数编写文档。 只有在你知道要查找哪个函数的时候，函数文档才有帮助。所以在 <span class="quarto-unresolved-ref">?sec-vignettes</span> 中，我们将讨论主题文档 (vignettes)，它可以帮助你为整个包提供文档。 我们将在 <span class="quarto-unresolved-ref">?sec-other-markdown</span> 结束对文档编写的介绍，这一章介绍其他重要的 markdown 文件，如 <code>README.md</code> 和 <code>NEWS.md</code>。<span class="quarto-unresolved-ref">?sec-website</span> 则是介绍如何用 pkgdown 创建软件包网站。</p>
+<p>本书最后回顾了开发实践方法，例如使用版本控制和持续集成的好处 (<span class="quarto-unresolved-ref">?sec-sw-dev-practices</span>)。 最后，我们会讨论软件包的生命周期 (<span class="quarto-unresolved-ref">?sec-lifecycle</span>)，包括在CRAN上发布软件包 (<span class="quarto-unresolved-ref">?sec-release</span>)。</p>
+<p>本书中有很多东西要学，但不要感到不知所措。 从一个最小的有用的功能子集（例如一个 <code>R/</code> 目录！）开始，随着时间的推移逐步构建你的包。 套用禅僧铃木俊隆 (Shunryu Suzuki) 的话:“每个包都是完美的，就像它本来的模样——但是也许可以稍作改进。”<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+</section><section id="本书没有包含的内容" class="level2"><h2 class="anchored" data-anchor-id="本书没有包含的内容">本书没有包含的内容</h2>
+<p>还有一些实践方法在本书中几乎没有讨论，这只是因为我们没有足够多地使用它们，因此没有任何独特的见解。 这是否意味着我们应该积极避免使用这些方法呢？ 可能并不是这样，因为我们在书中试图明确地说明我们认为你应该避免的做法。 因此，如果有什么东西没有在本书中介绍，这只是意味着数百个被广泛使用的 R 包并没有依赖于这项技术。 这一结果应该能鼓励你去评估自己的开发需求与我们不重叠的可能性有多大。 但有时这个问题的答案是明确的“是”，在这种情况下，你只需要去查阅其他的资料。</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-marwick2018-tas" class="csl-entry" role="listitem">
+Marwick, Ben, Carl Boettiger, and Lincoln Mullen. 2018a. <span>“Packaging Data Analytical Work Reproducibly Using r (and Friends).”</span> <em>The American Statistician</em> 72 (1): 80–88. <a href="https://doi.org/10.1080/00031305.2017.1375986">https://doi.org/10.1080/00031305.2017.1375986</a>.
+</div>
+<div id="ref-marwick2018-peerj" class="csl-entry" role="listitem">
+———. 2018b. <span>“Packaging Data Analytical Work Reproducibly Using r (and Friends).”</span> <em>PeerJ Preprints</em> 6 (March): e3192v2. <a href="https://doi.org/10.7287/peerj.preprints.3192v2">https://doi.org/10.7287/peerj.preprints.3192v2</a>.
+</div>
+</div>
+</section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><hr>
+<ol>
+<li id="fn1"><p>译者注：译者认为这里想要表达开发 R 包能带来一个明显的优势，即方便分享自己的代码，这一优势具有强烈的推动力和说服力，让你想要开发 R 包。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>“Seriously, it doesn’t have to be about sharing your code (although that is an added benefit!). It is about saving yourself time.”<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p><a href="https://ess.r-project.org/">Emacs Speaks Statistics</a> (ESS) 的用户将会发现本书中描述的许多工作流也可以在上面找到。 对于那些忠于 vim 的用户，我们推荐使用 <a href="https://github.com/jalvesaq/Nvim-R">Nvim-R plugin</a>。<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>你也可以在 <a href="https://rstudio.github.io/r-manuals/r-exts/Function-and-variable-index.html">https://rstudio.github.io/r-manuals/r-exts/</a> 上找到这本手册的 Quarto 版本。<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>译者注：原话来自铃木俊隆的书籍《禅之初心》(Zen Mind, Beginner’s Mind)<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./preface.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">前言</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./whole-game.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">The Whole Game</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

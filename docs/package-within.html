@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.361">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="description" content="学习如何创建软件包（package），它是可分享、可复用和可重复的 R 代码。">
+<title>R Packages (2e) - 5&nbsp; The package within</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./workflow101.html" rel="prev">
+<link href="./images/cover-2e-small.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script defer="" data-domain="r-pkgs.org" src="https://plausible.io/js/plausible.js"></script>
+</head>
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./whole-game.html">入门</a></li><li class="breadcrumb-item"><a href="./package-within.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The package within</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">R Packages (2e)</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/hadley/r-pkgs/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">欢迎！</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./translator-preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">翻译与排版说明</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">前言</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">简介</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">入门</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./whole-game.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">The Whole Game</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">系统设置</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./structure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">软件包结构与状态</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workflow101.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Fundamental development workflows</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./package-within.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The package within</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./R-CMD-check.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title"><code>R CMD check</code></span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li><a href="#alfa-a-script-that-works" id="toc-alfa-a-script-that-works" class="nav-link active" data-scroll-target="#alfa-a-script-that-works"><span class="header-section-number">5.1</span> Alfa: a script that works</a></li>
+  <li><a href="#bravo-a-better-script-that-works" id="toc-bravo-a-better-script-that-works" class="nav-link" data-scroll-target="#bravo-a-better-script-that-works"><span class="header-section-number">5.2</span> Bravo: a better script that works</a></li>
+  <li><a href="#charlie-a-separate-file-for-helper-functions" id="toc-charlie-a-separate-file-for-helper-functions" class="nav-link" data-scroll-target="#charlie-a-separate-file-for-helper-functions"><span class="header-section-number">5.3</span> Charlie: a separate file for helper functions</a></li>
+  <li><a href="#delta-a-failed-attempt-at-making-a-package" id="toc-delta-a-failed-attempt-at-making-a-package" class="nav-link" data-scroll-target="#delta-a-failed-attempt-at-making-a-package"><span class="header-section-number">5.4</span> Delta: a failed attempt at making a package</a></li>
+  <li><a href="#echo-a-working-package" id="toc-echo-a-working-package" class="nav-link" data-scroll-target="#echo-a-working-package"><span class="header-section-number">5.5</span> Echo: a working package</a></li>
+  <li><a href="#sec-package-within-build-time-run-time" id="toc-sec-package-within-build-time-run-time" class="nav-link" data-scroll-target="#sec-package-within-build-time-run-time"><span class="header-section-number">5.6</span> Foxtrot: build time vs.&nbsp;run time</a></li>
+  <li><a href="#sec-package-within-side-effects" id="toc-sec-package-within-side-effects" class="nav-link" data-scroll-target="#sec-package-within-side-effects"><span class="header-section-number">5.7</span> Golf: side effects</a></li>
+  <li>
+<a href="#concluding-thoughts" id="toc-concluding-thoughts" class="nav-link" data-scroll-target="#concluding-thoughts"><span class="header-section-number">5.8</span> Concluding thoughts</a>
+  <ul class="collapse">
+<li><a href="#script-vs.-package" id="toc-script-vs.-package" class="nav-link" data-scroll-target="#script-vs.-package"><span class="header-section-number">5.8.1</span> Script vs.&nbsp;package</a></li>
+  <li><a href="#finding-the-package-within" id="toc-finding-the-package-within" class="nav-link" data-scroll-target="#finding-the-package-within"><span class="header-section-number">5.8.2</span> Finding the package within</a></li>
+  <li><a href="#package-code-is-different" id="toc-package-code-is-different" class="nav-link" data-scroll-target="#package-code-is-different"><span class="header-section-number">5.8.3</span> Package code is different</a></li>
+  </ul>
+</li>
+  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/hadley/r-pkgs/edit/main/package-within.Rmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/hadley/r-pkgs/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title"><span id="sec-package-within" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The package within</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header><!--
+
+This is still a mix of "you" and "we", but I feel like it's OK. I think there is a "we": we, as authors, guiding the reader ("you") through a learning exercise. Both parties are walking through the example, so it's OK to talk about "we/our" and "you/your(s)". Especially when describing mistakes, sometimes it feels better that "we" are making the mistake instead of only "you" the reader.
+
+Unused ideas for little data cleaning tasks:
+
+* dysfunctional missing value codes, e.g. where -99 means temp is missing
+
+* using the degree symbol properly with unicode escape sequence
+--><p>This part of the book ends the same way it started, with the development of a small toy package. <a href="whole-game.html"><span>Chapter&nbsp;1</span></a> established the basic mechanics, workflow, and tooling of package development, but said practically nothing about the R code inside the package. This chapter focuses primarily on the package’s R code and how it differs from R code in a script.</p>
+<p>Starting with a data analysis script, you learn how to find the package that lurks within. You’ll isolate and then extract reusable data and logic from the script, put this into an R package, and then use that package in a much simplified script. We’ve included a few rookie mistakes along the way, in order to highlight special considerations for the R code inside a package.</p>
+<p>Note that the section headers incorporate the NATO phonetic alphabet (alfa, bravo, etc.) and have no specific meaning. They are just a convenient way to mark our progress towards a working package. It is fine to follow along just by reading and this chapter is completely self-contained, i.e.&nbsp;it’s not a prerequisite for material later in the book. But if you wish to see the state of specific files along the way, they can be found in the <a href="https://github.com/hadley/r-pkgs/tree/main/package-within-files">source files for the book</a>.</p>
+<section id="alfa-a-script-that-works" class="level2" data-number="5.1"><h2 data-number="5.1" class="anchored" data-anchor-id="alfa-a-script-that-works">
+<span class="header-section-number">5.1</span> Alfa: a script that works</h2>
+<!--
+There's quite a bit of ugliness and awkwardness around paths here. But I'm not convinced it's worth it to do this properly, whatever that would even mean here.
+-->
+<p>Let’s consider <code>data-cleaning.R</code>, a fictional data analysis script for a group that collects reports from people who went for a swim:</p>
+<blockquote class="blockquote">
+<p>Where did you swim and how hot was it outside?</p>
+</blockquote>
+<p>Their data usually comes as a CSV file, such as <code>swim.csv</code>:</p>
+<div class="cell">
+<pre><code>name,where,temp
+Adam,beach,95
+Bess,coast,91
+Cora,seashore,28
+Dale,beach,85
+Evan,seaside,31</code></pre>
+</div>
+<p><code>data-cleaning.R</code> begins by reading <code>swim.csv</code> into a data frame:</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">infile</span> <span class="op">&lt;-</span> <span class="st">"swim.csv"</span></span>
+<span><span class="op">(</span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="va">infile</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<pre><code>#&gt;   name    where temp
+#&gt; 1 Adam    beach   95
+#&gt; 2 Bess    coast   91
+#&gt; 3 Cora seashore   28
+#&gt; 4 Dale    beach   85
+#&gt; 5 Evan  seaside   31</code></pre>
+</div>
+<p>They then classify each observation as using American (“US”) or British (“UK”) English, based on the word chosen to describe the sandy place where the ocean and land meet. The <code>where</code> column is used to build the new <code>english</code> column.</p>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span><span class="op">$</span><span class="va">english</span><span class="op">[</span><span class="va">dat</span><span class="op">$</span><span class="va">where</span> <span class="op">==</span> <span class="st">"beach"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"US"</span></span>
+<span><span class="va">dat</span><span class="op">$</span><span class="va">english</span><span class="op">[</span><span class="va">dat</span><span class="op">$</span><span class="va">where</span> <span class="op">==</span> <span class="st">"coast"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"US"</span></span>
+<span><span class="va">dat</span><span class="op">$</span><span class="va">english</span><span class="op">[</span><span class="va">dat</span><span class="op">$</span><span class="va">where</span> <span class="op">==</span> <span class="st">"seashore"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"UK"</span></span>
+<span><span class="va">dat</span><span class="op">$</span><span class="va">english</span><span class="op">[</span><span class="va">dat</span><span class="op">$</span><span class="va">where</span> <span class="op">==</span> <span class="st">"seaside"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"UK"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Sadly, the temperatures are often reported in a mix of Fahrenheit and Celsius. In the absence of better information, they guess that Americans report temperatures in Fahrenheit and therefore those observations are converted to Celsius.</p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span><span class="op">$</span><span class="va">temp</span><span class="op">[</span><span class="va">dat</span><span class="op">$</span><span class="va">english</span> <span class="op">==</span> <span class="st">"US"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">temp</span><span class="op">[</span><span class="va">dat</span><span class="op">$</span><span class="va">english</span> <span class="op">==</span> <span class="st">"US"</span><span class="op">]</span> <span class="op">-</span> <span class="fl">32</span><span class="op">)</span> <span class="op">*</span> <span class="fl">5</span><span class="op">/</span><span class="fl">9</span></span>
+<span><span class="va">dat</span></span>
+<span><span class="co">#&gt;   name    where temp english</span></span>
+<span><span class="co">#&gt; 1 Adam    beach 35.0      US</span></span>
+<span><span class="co">#&gt; 2 Bess    coast 32.8      US</span></span>
+<span><span class="co">#&gt; 3 Cora seashore 28.0      UK</span></span>
+<span><span class="co">#&gt; 4 Dale    beach 29.4      US</span></span>
+<span><span class="co">#&gt; 5 Evan  seaside 31.0      UK</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, this cleaned (cleaner?) data is written back out to a CSV file. They like to capture a timestamp in the filename when they do this<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">now</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">now</span>, <span class="st">"%Y-%B-%d_%H-%M-%S"</span><span class="op">)</span></span>
+<span><span class="op">(</span><span class="va">outfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">timestamp</span>, <span class="st">"_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span><span class="op">(</span><span class="st">"(.*)([.]csv$)"</span>, <span class="st">"\\1_clean\\2"</span>, <span class="va">infile</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "2023-十二月-25_22-26-57_swim_clean.csv"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv</a></span><span class="op">(</span><span class="va">dat</span>, file <span class="op">=</span> <span class="va">outfile</span>, quote <span class="op">=</span> <span class="cn">FALSE</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is <code>data-cleaning.R</code> in its entirety:</p>
+<!--
+Any edits to the code shown above must be manually transferred to this file.
+-->
+<div class="cell" data-file="package-within-files/alfa/data-cleaning.R">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">infile</span> <span class="op">&lt;-</span> <span class="st">"swim.csv"</span></span>
+<span><span class="op">(</span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="va">infile</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dat</span><span class="op">$</span><span class="va">english</span><span class="op">[</span><span class="va">dat</span><span class="op">$</span><span class="va">where</span> <span class="op">==</span> <span class="st">"beach"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"US"</span></span>
+<span><span class="va">dat</span><span class="op">$</span><span class="va">english</span><span class="op">[</span><span class="va">dat</span><span class="op">$</span><span class="va">where</span> <span class="op">==</span> <span class="st">"coast"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"US"</span></span>
+<span><span class="va">dat</span><span class="op">$</span><span class="va">english</span><span class="op">[</span><span class="va">dat</span><span class="op">$</span><span class="va">where</span> <span class="op">==</span> <span class="st">"seashore"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"UK"</span></span>
+<span><span class="va">dat</span><span class="op">$</span><span class="va">english</span><span class="op">[</span><span class="va">dat</span><span class="op">$</span><span class="va">where</span> <span class="op">==</span> <span class="st">"seaside"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"UK"</span></span>
+<span></span>
+<span><span class="va">dat</span><span class="op">$</span><span class="va">temp</span><span class="op">[</span><span class="va">dat</span><span class="op">$</span><span class="va">english</span> <span class="op">==</span> <span class="st">"US"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">temp</span><span class="op">[</span><span class="va">dat</span><span class="op">$</span><span class="va">english</span> <span class="op">==</span> <span class="st">"US"</span><span class="op">]</span> <span class="op">-</span> <span class="fl">32</span><span class="op">)</span> <span class="op">*</span> <span class="fl">5</span><span class="op">/</span><span class="fl">9</span></span>
+<span><span class="va">dat</span></span>
+<span></span>
+<span><span class="va">now</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">now</span>, <span class="st">"%Y-%B-%d_%H-%M-%S"</span><span class="op">)</span></span>
+<span><span class="op">(</span><span class="va">outfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">timestamp</span>, <span class="st">"_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span><span class="op">(</span><span class="st">"(.*)([.]csv$)"</span>, <span class="st">"\\1_clean\\2"</span>, <span class="va">infile</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv</a></span><span class="op">(</span><span class="va">dat</span>, file <span class="op">=</span> <span class="va">outfile</span>, quote <span class="op">=</span> <span class="cn">FALSE</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Even if your typical analytical tasks are quite different, hopefully you see a few familiar patterns here. It’s easy to imagine that this group does very similar pre-processing of many similar data files over time. Their analyses can be more efficient and consistent if they make these standard data maneuvers available to themselves as functions in a package, instead of inlining the same data and logic into dozens or hundreds of data ingest scripts.</p>
+</section><section id="bravo-a-better-script-that-works" class="level2" data-number="5.2"><h2 data-number="5.2" class="anchored" data-anchor-id="bravo-a-better-script-that-works">
+<span class="header-section-number">5.2</span> Bravo: a better script that works</h2>
+<p>The package that lurks within the original script is actually pretty hard to see! It’s obscured by a few suboptimal coding practices, such as the use of repetitive copy/paste-style code and the mixing of code and data. Therefore a good first step is to refactor this code, isolating as much data and logic as possible in proper objects and functions, respectively.</p>
+<p>This is also a good time to introduce the use of some add-on packages, for several reasons. First, we would actually use the tidyverse for this sort of data wrangling. Second, many people use add-on packages in their scripts, so it is good to see how add-on packages are handled inside a package.</p>
+<p>Here’s the new and improved version of the script.</p>
+<div class="cell" data-file="package-within-files/bravo/data-cleaning.R">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">infile</span> <span class="op">&lt;-</span> <span class="st">"swim.csv"</span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="va">infile</span>, col_types <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"c"</span>, where <span class="op">=</span> <span class="st">"c"</span>, temp <span class="op">=</span> <span class="st">"d"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">lookup_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
+<span>      <span class="op">~</span><span class="va">where</span>, <span class="op">~</span><span class="va">english</span>,</span>
+<span>     <span class="st">"beach"</span>,     <span class="st">"US"</span>,</span>
+<span>     <span class="st">"coast"</span>,     <span class="st">"US"</span>,</span>
+<span>  <span class="st">"seashore"</span>,     <span class="st">"UK"</span>,</span>
+<span>   <span class="st">"seaside"</span>,     <span class="st">"UK"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">lookup_table</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">f_to_c</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="fl">32</span><span class="op">)</span> <span class="op">*</span> <span class="fl">5</span><span class="op">/</span><span class="fl">9</span></span>
+<span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>temp <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">english</span> <span class="op">==</span> <span class="st">"US"</span>, <span class="fu">f_to_c</span><span class="op">(</span><span class="va">temp</span><span class="op">)</span>, <span class="va">temp</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">dat</span></span>
+<span></span>
+<span><span class="va">now</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">time</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">time</span>, <span class="st">"%Y-%B-%d_%H-%M-%S"</span><span class="op">)</span></span>
+<span><span class="va">outfile_path</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">infile</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/savehistory.html">timestamp</a></span><span class="op">(</span><span class="va">now</span><span class="op">)</span>, <span class="st">"_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span><span class="op">(</span><span class="st">"(.*)([.]csv$)"</span>, <span class="st">"\\1_clean\\2"</span>, <span class="va">infile</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu">outfile_path</span><span class="op">(</span><span class="va">infile</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The key changes to note are:</p>
+<ul>
+<li>We are using functions from tidyverse packages (specifically from readr and dplyr) and we make them available with <code><a href="https://tidyverse.tidyverse.org">library(tidyverse)</a></code>.</li>
+<li>The map between different “beach” words and whether they are considered to be US or UK English is now isolated in a lookup table, which lets us create the <code>english</code> column in one go with a <code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join()</a></code>. This lookup table makes the mapping easier to comprehend and would be much easier to extend in the future with new “beach” words.</li>
+<li>
+<code>f_to_c()</code>, <code><a href="https://rdrr.io/r/utils/savehistory.html">timestamp()</a></code>, and <code>outfile_path()</code> are new helper functions that hold the logic for converting temperatures and forming the timestamped output file name.</li>
+</ul>
+<p>It’s getting easier to recognize the reusable bits of this script, i.e.&nbsp;the bits that have nothing to do with a specific input file, like <code>swim.csv</code>. This sort of refactoring often happens naturally on the way to creating your own package, but if it does not, it’s a good idea to do this intentionally.</p>
+</section><section id="charlie-a-separate-file-for-helper-functions" class="level2" data-number="5.3"><h2 data-number="5.3" class="anchored" data-anchor-id="charlie-a-separate-file-for-helper-functions">
+<span class="header-section-number">5.3</span> Charlie: a separate file for helper functions</h2>
+<p>A typical next step is to move reusable data and logic out of the analysis script and into one or more separate files. This is a conventional opening move, if you want to use these same helper files in multiple analyses.</p>
+<p>Here is the content of <code>beach-lookup-table.csv</code>:</p>
+<div class="cell">
+<pre><code>where,english
+beach,US
+coast,US
+seashore,UK
+seaside,UK</code></pre>
+</div>
+<p>Here is the content of <code>cleaning-helpers.R</code>:</p>
+<div class="cell" data-file="package-within-files/charlie/cleaning-helpers.R">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">localize_beach</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">lookup_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span></span>
+<span>    <span class="st">"beach-lookup-table.csv"</span>,</span>
+<span>    col_types <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"c"</span>, english <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">lookup_table</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">f_to_c</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="fl">32</span><span class="op">)</span> <span class="op">*</span> <span class="fl">5</span><span class="op">/</span><span class="fl">9</span></span>
+<span></span>
+<span><span class="va">celsify_temp</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">dat</span>, temp <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">english</span> <span class="op">==</span> <span class="st">"US"</span>, <span class="fu">f_to_c</span><span class="op">(</span><span class="va">temp</span><span class="op">)</span>, <span class="va">temp</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">now</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">time</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">time</span>, <span class="st">"%Y-%B-%d_%H-%M-%S"</span><span class="op">)</span></span>
+<span><span class="va">outfile_path</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">infile</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/savehistory.html">timestamp</a></span><span class="op">(</span><span class="va">now</span><span class="op">)</span>, <span class="st">"_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span><span class="op">(</span><span class="st">"(.*)([.]csv$)"</span>, <span class="st">"\\1_clean\\2"</span>, <span class="va">infile</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We’ve added some high-level helper functions, <code>localize_beach()</code> and <code>celsify_temp()</code>, to the pre-existing helpers (<code>f_to_c()</code>, <code><a href="https://rdrr.io/r/utils/savehistory.html">timestamp()</a></code>, and <code>outfile_path()</code>).</p>
+<p>Here is the next version of the data cleaning script, now that we’ve pulled out the helper functions (and lookup table).</p>
+<div class="cell" data-file="package-within-files/charlie/data-cleaning.R">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"cleaning-helpers.R"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">infile</span> <span class="op">&lt;-</span> <span class="st">"swim.csv"</span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="va">infile</span>, col_types <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"c"</span>, where <span class="op">=</span> <span class="st">"c"</span>, temp <span class="op">=</span> <span class="st">"d"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="op">(</span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>    <span class="fu">localize_beach</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>    <span class="fu">celsify_temp</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu">outfile_path</span><span class="op">(</span><span class="va">infile</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice that the script is getting shorter and, hopefully, easier to read and modify, because repetitive and fussy clutter has been moved out of sight. Whether the code is actually easier to work with is subjective and depends on how natural the “interface” feels for the people who actually preprocess swimming data. These sorts of design decisions are the subject of a separate project: <a href="https://design.tidyverse.org/">design.tidyverse.org</a>.</p>
+<p>Let’s assume the group agrees that our design decisions are promising, i.e.&nbsp;we seem to be making things better, not worse. Sure, the existing code is not perfect, but this is a typical developmental stage when you’re trying to figure out what the helper functions should be and how they should work.</p>
+</section><section id="delta-a-failed-attempt-at-making-a-package" class="level2" data-number="5.4"><h2 data-number="5.4" class="anchored" data-anchor-id="delta-a-failed-attempt-at-making-a-package">
+<span class="header-section-number">5.4</span> Delta: a failed attempt at making a package</h2>
+<p>While this first attempt to create a package will end in failure, it’s still helpful to go through some common missteps, to illuminate what happens behind the scenes.</p>
+<p>Here are the simplest steps that you might take, in an attempt to convert <code>cleaning-helpers.R</code> into a proper package:</p>
+<ul>
+<li>Use <code>usethis::create_package("path/to/delta")</code> to scaffold a new R package, with the name “delta”.
+<ul>
+<li>This is a good first step!</li>
+</ul>
+</li>
+<li>Copy <code>cleaning-helpers.R</code> into the new package, specifically, to <code>R/cleaning-helpers.R</code>.
+<ul>
+<li>This is morally correct, but mechanically wrong in several ways, as we will soon see.</li>
+</ul>
+</li>
+<li>Copy <code>beach-lookup-table.csv</code> into the new package. But where? Let’s try the top-level of the source package.
+<ul>
+<li>This is not going to end well. Shipping data files in a package is a special topic, which is covered in <span class="quarto-unresolved-ref">?sec-data</span>.</li>
+</ul>
+</li>
+<li>Install this package, perhaps using <code><a href="https://devtools.r-lib.org/reference/install.html">devtools::install()</a></code> or via Ctrl + Shift + B (Windows &amp; Linux) or Cmd + Shift + B in RStudio.
+<ul>
+<li>Despite all of the problems identified above, this actually works! Which is interesting, because we can (try to) use it and see what happens.</li>
+</ul>
+</li>
+</ul>
+<p>Here is the next version of the data cleaning script that you hope will run after successfully installing this package (which we’re calling “delta”).</p>
+<div class="cell" data-file="package-within-files/delta-data-cleaning.R">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">delta</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">infile</span> <span class="op">&lt;-</span> <span class="st">"swim.csv"</span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="va">infile</span>, col_types <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"c"</span>, where <span class="op">=</span> <span class="st">"c"</span>, temp <span class="op">=</span> <span class="st">"d"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">localize_beach</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">celsify_temp</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu">outfile_path</span><span class="op">(</span><span class="va">infile</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The only change from our previous script is that</p>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"cleaning-helpers.R"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>has been replaced by</p>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">delta</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here’s what actually happens if you install the delta package and try to run the data cleaning script:</p>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">delta</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">infile</span> <span class="op">&lt;-</span> <span class="st">"swim.csv"</span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="va">infile</span>, col_types <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"c"</span>, where <span class="op">=</span> <span class="st">"c"</span>, temp <span class="op">=</span> <span class="st">"d"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">localize_beach</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">celsify_temp</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Error in localize_beach(.) : could not find function "localize_beach"</span></span>
+<span></span>
+<span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu">outfile_path</span><span class="op">(</span><span class="va">infile</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Error in outfile_path(infile) : could not find function "outfile_path"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>None of the helper functions are actually available for use, even though you call <code><a href="https://rdrr.io/r/base/library.html">library(delta)</a></code>! In contrast to <code><a href="https://rdrr.io/r/base/source.html">source()</a></code>ing a file of helper functions, attaching a package does not dump its functions into the global workspace. By default, functions in a package are only for internal use. You need to export <code>localize_beach()</code>, <code>celsify_temp()</code>, and <code>outfile_path()</code> so your users can call them. In the devtools workflow, we achieve this by putting <code>@export</code> in the special roxygen comment above each function (namespace management is covered in <span class="quarto-unresolved-ref">?sec-dependencies-NAMESPACE-workflow</span>), like so:</p>
+<div class="cell">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#' @export</span></span>
+<span><span class="va">celsify_temp</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">dat</span>, temp <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">english</span> <span class="op">==</span> <span class="st">"US"</span>, <span class="fu">f_to_c</span><span class="op">(</span><span class="va">temp</span><span class="op">)</span>, <span class="va">temp</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>After you add the <code>@export</code> tag to <code>localize_beach()</code>, <code>celsify_temp()</code>, and <code>outfile_path()</code>, you run <code><a href="https://devtools.r-lib.org/reference/document.html">devtools::document()</a></code> to (re)generate the <code>NAMESPACE</code> file, and re-install the delta package. Now when you re-execute the data cleaning script, it works!</p>
+<p>Correction: it <em>sort of</em> works <em>sometimes</em>. Specifically, it works if and only if the working directory is set to the top-level of the source package. From any other working directory, you still get an error:</p>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">localize_beach</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">celsify_temp</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Error: 'beach-lookup-table.csv' does not exist in current working directory ('/Users/jenny/tmp').</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The lookup table consulted inside <code>localize_beach()</code> cannot be found. One does not simply dump CSV files into the source of an R package and expect things to “just work”. We will fix this in our next iteration of the package (<span class="quarto-unresolved-ref">?sec-data</span> has full coverage of how to include data in a package).</p>
+<p>Before we abandon this initial experiment, let’s also marvel at the fact that you were able to install, attach, and, to a certain extent, use a fundamentally broken package. <code><a href="https://devtools.r-lib.org/reference/load_all.html">devtools::load_all()</a></code> works fine, too! This is a sobering reminder that you should be running <code>R CMD check</code>, probably via <code><a href="https://devtools.r-lib.org/reference/check.html">devtools::check()</a></code>, very often during development. This will quickly alert you to many problems that simple installation and usage does not reveal.</p>
+<p>Indeed, <code>check()</code> fails for this package and you see this:</p>
+<pre><code> * installing *source* package ‘delta’ ...
+ ** using staged installation
+ ** R
+ ** byte-compile and prepare package for lazy loading
+ Error in library(tidyverse) : there is no package called ‘tidyverse’
+ Error: unable to load R code in package ‘delta’
+ Execution halted
+ ERROR: lazy loading failed for package ‘delta’
+ * removing ‘/Users/jenny/rrr/delta.Rcheck/delta’</code></pre>
+<p>What do you mean “there is no package called ‘tidyverse’”?!? We’re using it, with no problems, in our main script! Also, we’ve already installed and used this package, why can’t <code>R CMD check</code> find it?</p>
+<p>This error is what happens when the strictness of <code>R CMD check</code> meets the very first line of <code>R/cleaning-helpers.R</code>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This is <em>not</em> how you declare that your package depends on another package (the tidyverse, in this case). This is <em>also not</em> how you make functions in another package available for use in yours. Dependencies must be declared in <code>DESCRIPTION</code> (and that’s not all). Since we declared no dependencies, <code>R CMD check</code> takes us at our word and tries to install our package with only the base packages available, which means this <code><a href="https://tidyverse.tidyverse.org">library(tidyverse)</a></code> call fails. A “regular” installation succeeds, simply because the tidyverse is available in your regular library, which hides this particular mistake.</p>
+<p>To review, copying <code>cleaning-helpers.R</code> to <code>R/cleaning-helpers.R</code>, without further modification, was problematic in (at least) the following ways:</p>
+<ul>
+<li>Does not account for exported vs.&nbsp;non-exported functions.</li>
+<li>The CSV file holding our lookup table cannot be found in the installed package.</li>
+<li>Does not properly declare our dependency on other add-on packages.</li>
+</ul></section><section id="echo-a-working-package" class="level2" data-number="5.5"><h2 data-number="5.5" class="anchored" data-anchor-id="echo-a-working-package">
+<span class="header-section-number">5.5</span> Echo: a working package</h2>
+<p>We’re ready to make the most minimal version of this package that actually works.</p>
+<p>Here is the new version of <code>R/cleaning-helpers.R</code><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>:</p>
+<div class="cell" data-file="package-within-files/echo/R/cleaning-helpers.R">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lookup_table</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
+<span>      <span class="op">~</span><span class="va">where</span>, <span class="op">~</span><span class="va">english</span>,</span>
+<span>     <span class="st">"beach"</span>,     <span class="st">"US"</span>,</span>
+<span>     <span class="st">"coast"</span>,     <span class="st">"US"</span>,</span>
+<span>  <span class="st">"seashore"</span>,     <span class="st">"UK"</span>,</span>
+<span>   <span class="st">"seaside"</span>,     <span class="st">"UK"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="va">localize_beach</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">lookup_table</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">f_to_c</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="fl">32</span><span class="op">)</span> <span class="op">*</span> <span class="fl">5</span><span class="op">/</span><span class="fl">9</span></span>
+<span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="va">celsify_temp</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">dat</span>, temp <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">english</span> <span class="op">==</span> <span class="st">"US"</span>, <span class="fu">f_to_c</span><span class="op">(</span><span class="va">temp</span><span class="op">)</span>, <span class="va">temp</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">now</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">time</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">time</span>, <span class="st">"%Y-%B-%d_%H-%M-%S"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="va">outfile_path</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">infile</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/savehistory.html">timestamp</a></span><span class="op">(</span><span class="va">now</span><span class="op">)</span>, <span class="st">"_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span><span class="op">(</span><span class="st">"(.*)([.]csv$)"</span>, <span class="st">"\\1_clean\\2"</span>, <span class="va">infile</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We’ve gone back to defining the <code>lookup_table</code> with R code, since the initial attempt to read it from CSV created some sort of filepath snafu. This is OK for small, internal, static data, but remember to see <span class="quarto-unresolved-ref">?sec-data</span> for more general techniques for storing data in a package.</p>
+<p>All of the calls to tidyverse functions have now been qualified with the name of the specific package that actually provides the function, e.g.&nbsp;<code><a href="https://dplyr.tidyverse.org/reference/mutate.html">dplyr::mutate()</a></code>. There are other ways to access functions in another package, explained in <span class="quarto-unresolved-ref">?sec-dependencies-in-imports</span>, but this is our recommended default. It is also our strong recommendation that no one depend on the tidyverse meta-package in a package<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. Instead, it is better to identify the specific package(s) you actually use. In this case, the package only uses dplyr.</p>
+<p>The <code><a href="https://tidyverse.tidyverse.org">library(tidyverse)</a></code> call is gone and instead we declare the use of dplyr in the <code>Imports</code> field of <code>DESCRIPTION</code>:</p>
+<pre><code>Package: echo
+(... other lines omitted ...)
+Imports: 
+    dplyr</code></pre>
+<p>This, together with the use of namespace-qualified calls, like <code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">dplyr::left_join()</a></code>, constitutes a valid way to use another package within yours. The metadata conveyed via <code>DESCRIPTION</code> is covered in <span class="quarto-unresolved-ref">?sec-description</span>.</p>
+<p>All of the user-facing functions have an <code>@export</code> tag in their roxygen comment, which means that <code><a href="https://devtools.r-lib.org/reference/document.html">devtools::document()</a></code> adds them correctly to the <code>NAMESPACE</code> file. Note that <code>f_to_c()</code> is currently only used internally, inside <code>celsify_temp()</code>, so it is not exported (likewise for <code><a href="https://rdrr.io/r/utils/savehistory.html">timestamp()</a></code>).</p>
+<p>This version of the package can be installed, used, AND it technically passes <code>R CMD check</code>, though with 1 warning and 1 note.</p>
+<pre><code>* checking for missing documentation entries ... WARNING
+Undocumented code objects:
+  ‘celsify_temp’ ‘localize_beach’ ‘outfile_path’
+All user-level objects in a package should have documentation entries.
+See chapter ‘Writing R documentation files’ in the ‘Writing R
+Extensions’ manual.
+
+* checking R code for possible problems ... NOTE
+celsify_temp: no visible binding for global variable ‘english’
+celsify_temp: no visible binding for global variable ‘temp’
+Undefined global functions or variables:
+  english temp</code></pre>
+<p>The “no visible binding” note is a peculiarity of using dplyr and unquoted variable names inside a package, where the use of bare variable names (<code>english</code> and <code>temp</code>) looks suspicious. You can add either of these lines to any file below <code>R/</code> to eliminate this note (such as the package-level documentation file described in <span class="quarto-unresolved-ref">?sec-man-package-doc</span>):</p>
+<div class="cell">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># option 1 (then you should also put utils in Imports)</span></span>
+<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/globalVariables.html">globalVariables</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"english"</span>, <span class="st">"temp"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># option 2</span></span>
+<span><span class="va">english</span> <span class="op">&lt;-</span> <span class="va">temp</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We’re seeing that it can be tricky to program around a package like dplyr, which makes heavy use of nonstandard evaluation. Behind the scenes, that is the technique that allows dplyr’s end users to use bare (not quoted) variable names. Packages like dplyr prioritize the experience of the typical end user, at the expense of making them trickier to depend on. The two options shown above for suppressing the “no visible binding” note, represent entry-level solutions. For a more sophisticated treatment of these issues, see <code><a href="https://dplyr.tidyverse.org/articles/in-packages.html">vignette("in-packages", package = "dplyr")</a></code> and <code><a href="https://dplyr.tidyverse.org/articles/programming.html">vignette("programming", package = "dplyr")</a></code>.</p>
+<p>The warning about missing documentation is because the exported functions have not been properly documented. This is a valid concern and something you should absolutely address in a real package. You’ve already seen how to create help files with roxygen comments in <a href="whole-game.html#sec-whole-game-document"><span>Section&nbsp;1.12</span></a> and we cover this topic thoroughly in <span class="quarto-unresolved-ref">?sec-man</span>.</p>
+</section><section id="sec-package-within-build-time-run-time" class="level2" data-number="5.6"><h2 data-number="5.6" class="anchored" data-anchor-id="sec-package-within-build-time-run-time">
+<span class="header-section-number">5.6</span> Foxtrot: build time vs.&nbsp;run time</h2>
+<p>The echo package works, which is great, but group members notice something odd about the timestamps:</p>
+<div class="cell">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "2023-03-26 22:48:48 PDT"</span></span>
+<span></span>
+<span><span class="fu">outfile_path</span><span class="op">(</span><span class="st">"INFILE.csv"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "2020-September-03_11-06-33_INFILE_clean.csv"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The datetime in the timestamped filename doesn’t reflect the time reported by the system. In fact, the users claim that the timestamp never seems to change at all! Why is this?</p>
+<p>Recall how we form the filepath for output files:</p>
+<div class="cell">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">now</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">time</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">time</span>, <span class="st">"%Y-%B-%d_%H-%M-%S"</span><span class="op">)</span></span>
+<span><span class="va">outfile_path</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">infile</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/savehistory.html">timestamp</a></span><span class="op">(</span><span class="va">now</span><span class="op">)</span>, <span class="st">"_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span><span class="op">(</span><span class="st">"(.*)([.]csv$)"</span>, <span class="st">"\\1_clean\\2"</span>, <span class="va">infile</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The fact that we capture <code>now &lt;- Sys.time()</code> outside of the definition of <code>outfile_path()</code> has probably been vexing some readers for a while. <code>now</code> reflects the instant in time when we execute <code>now &lt;- Sys.time()</code>. In the initial approach, <code>now</code> was assigned when we <code><a href="https://rdrr.io/r/base/source.html">source()</a></code>d <code>cleaning-helpers.R</code>. That’s not ideal, but it was probably a pretty harmless mistake, because the helper file would be <code><a href="https://rdrr.io/r/base/source.html">source()</a></code>d shortly before we wrote the output file.</p>
+<p>But this approach is quite devastating in the context of a package. <code>now &lt;- Sys.time()</code> is executed <strong>when the package is built</strong><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. And never again. It is very easy to assume your package code is re-evaluated when the package is attached or used. But it is not. Yes, the code <em>inside your functions</em> is absolutely run whenever they are called. But your functions – and any other objects created in top-level code below <code>R/</code> – are defined exactly once, at build time.</p>
+<p>By defining <code>now</code> with top-level code below <code>R/</code>, we’ve doomed our package to timestamp all of its output files with the same (wrong) time. The fix is to make sure the <code><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time()</a></code> call happens at run time.</p>
+<p>Let’s look again at parts of <code>R/cleaning-helpers.R</code>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lookup_table</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span></span>
+<span>      <span class="op">~</span><span class="va">where</span>, <span class="op">~</span><span class="va">english</span>,</span>
+<span>     <span class="st">"beach"</span>,     <span class="st">"US"</span>,</span>
+<span>     <span class="st">"coast"</span>,     <span class="st">"US"</span>,</span>
+<span>  <span class="st">"seashore"</span>,     <span class="st">"UK"</span>,</span>
+<span>   <span class="st">"seaside"</span>,     <span class="st">"UK"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">now</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">time</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">time</span>, <span class="st">"%Y-%B-%d_%H-%M-%S"</span><span class="op">)</span></span>
+<span><span class="va">outfile_path</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">infile</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/savehistory.html">timestamp</a></span><span class="op">(</span><span class="va">now</span><span class="op">)</span>, <span class="st">"_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span><span class="op">(</span><span class="st">"(.*)([.]csv$)"</span>, <span class="st">"\\1_clean\\2"</span>, <span class="va">infile</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>There are four top-level <code>&lt;-</code> assignments in this excerpt. The top-level definitions of the data frame <code>lookup_table</code> and the functions <code><a href="https://rdrr.io/r/utils/savehistory.html">timestamp()</a></code> and <code>outfile_path()</code> are correct. It is appropriate that these be defined exactly once, at build time. The top-level definition of <code>now</code>, which is then used inside <code>outfile_path()</code>, is regrettable.</p>
+<p>Here are better versions of <code>outfile_path()</code>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># always timestamp as "now"</span></span>
+<span><span class="va">outfile_path</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">infile</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/savehistory.html">timestamp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ts</span>, <span class="st">"_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span><span class="op">(</span><span class="st">"(.*)([.]csv$)"</span>, <span class="st">"\\1_clean\\2"</span>, <span class="va">infile</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># allow user to provide a time, but default to "now"</span></span>
+<span><span class="va">outfile_path</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">infile</span>, <span class="va">time</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/savehistory.html">timestamp</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">ts</span>, <span class="st">"_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span><span class="op">(</span><span class="st">"(.*)([.]csv$)"</span>, <span class="st">"\\1_clean\\2"</span>, <span class="va">infile</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This illustrates that you need to have a different mindset when defining objects inside a package. The vast majority of those objects should be functions and these functions should generally only use data they create or that is passed via an argument. There are some types of sloppiness that are fairly harmless when a function is defined immediately before its use, but that can be more costly for functions distributed as a package.</p>
+</section><section id="sec-package-within-side-effects" class="level2" data-number="5.7"><h2 data-number="5.7" class="anchored" data-anchor-id="sec-package-within-side-effects">
+<span class="header-section-number">5.7</span> Golf: side effects</h2>
+<p>The timestamps now reflect the current time, but the group raises a new concern. As it stands, the timestamps reflect who has done the data cleaning and which part of the world they’re in. The heart of the timestamp strategy is this format string<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"%Y-%B-%d_%H-%M-%S"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "2023-十二月-25_22-26-57"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This formats <code><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time()</a></code> in such a way that it includes the month <em>name</em> (not number) and the local time<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p>
+<p><a href="#tbl-timestamps">Table&nbsp;<span>5.1</span></a> shows what happens when such a timestamp is produced by several hypothetical colleagues cleaning some data at exactly the same instant in time.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="tbl-timestamps" class="anchored">
+<table class="table table-sm table-striped small">
+<caption>Table&nbsp;5.1: Timestamp varies by locale and timezone.</caption>
+<colgroup>
+<col style="width: 25%">
+<col style="width: 35%">
+<col style="width: 15%">
+<col style="width: 23%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">location</th>
+<th style="text-align: left;">timestamp</th>
+<th style="text-align: left;">LC_TIME</th>
+<th style="text-align: left;">tz</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Rome, Italy</td>
+<td style="text-align: left;">2020-settembre-05_00-30-00</td>
+<td style="text-align: left;">it_IT.UTF-8</td>
+<td style="text-align: left;">Europe/Rome</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Warsaw, Poland</td>
+<td style="text-align: left;">2020-wrzesień-05_00-30-00</td>
+<td style="text-align: left;">pl_PL.UTF-8</td>
+<td style="text-align: left;">Europe/Warsaw</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sao Paulo, Brazil</td>
+<td style="text-align: left;">2020-setembro-04_19-30-00</td>
+<td style="text-align: left;">pt_BR.UTF-8</td>
+<td style="text-align: left;">America/Sao_Paulo</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Greenwich, England</td>
+<td style="text-align: left;">2020-September-04_23-30-00</td>
+<td style="text-align: left;">en_GB.UTF-8</td>
+<td style="text-align: left;">Europe/London</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">“Computer World!”</td>
+<td style="text-align: left;">2020-September-04_22-30-00</td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;">UTC</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>Note that the month names vary, as does the time, and even the date! The safest choice is to form timestamps with respect to a fixed locale and time zone (presumably the non-geographic choices represented by “Computer World!” above).</p>
+<p>You do some research and learn that you can force a certain locale via <code><a href="https://rdrr.io/r/base/locales.html">Sys.setlocale()</a></code> and force a certain time zone by setting the TZ environment variable. Specifically, we set the LC_TIME component of the locale to “C” and the time zone to “UTC” (Coordinated Universal Time). Here’s your first attempt to improve <code><a href="https://rdrr.io/r/utils/savehistory.html">timestamp()</a></code>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">time</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/locales.html">Sys.setlocale</a></span><span class="op">(</span><span class="st">"LC_TIME"</span>, <span class="st">"C"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv</a></span><span class="op">(</span>TZ <span class="op">=</span> <span class="st">"UTC"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">time</span>, <span class="st">"%Y-%B-%d_%H-%M-%S"</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>But your Brazilian colleague notices that datetimes print differently, before and after she uses <code>outfile_path()</code> from your package:</p>
+<p>Before:</p>
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"%Y-%B-%d_%H-%M-%S"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<pre><code>#&gt; [1] "2023-dezembro-25_11-26-58"</code></pre>
+</div>
+<p>After:</p>
+<div class="cell">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">outfile_path</span><span class="op">(</span><span class="st">"INFILE.csv"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "2023-December-25_14-26-57_INFILE_clean.csv"</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"%Y-%B-%d_%H-%M-%S"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "2023-December-25_14-26-58"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice that her month name switched from Portuguese to English and the time is clearly being reported in a different time zone. The calls to <code><a href="https://rdrr.io/r/base/locales.html">Sys.setlocale()</a></code> and <code><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv()</a></code> inside <code><a href="https://rdrr.io/r/utils/savehistory.html">timestamp()</a></code> have made persistent (and very surprising) changes to her R session. This sort of side effect is very undesirable and is extremely difficult to track down and debug, especially in more complicated settings.</p>
+<p>Here are better versions of <code><a href="https://rdrr.io/r/utils/savehistory.html">timestamp()</a></code>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># use withr::local_*() functions to keep the changes local to timestamp()</span></span>
+<span><span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">time</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_locale.html">local_locale</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"LC_TIME"</span> <span class="op">=</span> <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_timezone.html">local_timezone</a></span><span class="op">(</span><span class="st">"UTC"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">time</span>, <span class="st">"%Y-%B-%d_%H-%M-%S"</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># use the tz argument to format.POSIXct()</span></span>
+<span><span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">time</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_locale.html">local_locale</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"LC_TIME"</span> <span class="op">=</span> <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">time</span>, <span class="st">"%Y-%B-%d_%H-%M-%S"</span>, tz <span class="op">=</span> <span class="st">"UTC"</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># put the format() call inside withr::with_*()</span></span>
+<span><span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">time</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_locale.html">with_locale</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"LC_TIME"</span> <span class="op">=</span> <span class="st">"C"</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">time</span>, <span class="st">"%Y-%B-%d_%H-%M-%S"</span>, tz <span class="op">=</span> <span class="st">"UTC"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>These show various methods to limit the scope of our changes to LC_TIME and the timezone. A good rule of thumb is to make the scope of such changes as narrow as possible and practical. The <code>tz</code> argument of <code><a href="https://rdrr.io/r/base/format.html">format()</a></code> is the most surgical way to deal with the timezone, but nothing similar exists for LC_TIME. We make the temporary locale modification using the withr package, which provides a very flexible toolkit for temporary state changes. This (and <code><a href="https://rdrr.io/r/base/on.exit.html">base::on.exit()</a></code>) are discussed further in <span class="quarto-unresolved-ref">?sec-code-r-landscape</span>. Note that if you use withr as we do above, you would need to list it in <code>DESCRIPTION</code> in <code>Imports</code> (<span class="quarto-unresolved-ref">?sec-dependencies-in-practice</span>, <span class="quarto-unresolved-ref">?sec-dependencies-tidyverse</span>).</p>
+<p>This underscores a point from the previous section: you need to adopt a different mindset when defining functions inside a package. Try to avoid making any changes to the user’s overall state. If such changes are unavoidable, make sure to reverse them (if possible) or to document them explicitly (if related to the function’s primary purpose).</p>
+</section><section id="concluding-thoughts" class="level2" data-number="5.8"><h2 data-number="5.8" class="anchored" data-anchor-id="concluding-thoughts">
+<span class="header-section-number">5.8</span> Concluding thoughts</h2>
+<p>Finally, after several iterations, we have successfully extracted the repetitive data cleaning code for the swimming survey into an R package. This example concludes the first part of the book and marks the transition into more detailed reference material on specific package components. Before we move on, let’s review the lessons learned in this chapter.</p>
+<section id="script-vs.-package" class="level3" data-number="5.8.1"><h3 data-number="5.8.1" class="anchored" data-anchor-id="script-vs.-package">
+<span class="header-section-number">5.8.1</span> Script vs.&nbsp;package</h3>
+<p>When you first hear that expert R users often put their code into packages, you might wonder exactly what that means. Specifically, what happens to your existing R scripts, R Markdown reports, and Shiny apps? Does all of that code somehow get put into a package? The answer is “no”, in most contexts.</p>
+<p>Typically, you identify certain recurring operations that occur across multiple projects and this is what you extract into an R package. You will still have R scripts, R Markdown reports, and Shiny apps, but by moving specific pieces of code into a formal package, your data products tend to become more concise and easier to maintain.</p>
+</section><section id="finding-the-package-within" class="level3" data-number="5.8.2"><h3 data-number="5.8.2" class="anchored" data-anchor-id="finding-the-package-within">
+<span class="header-section-number">5.8.2</span> Finding the package within</h3>
+<p>Although the example in this chapter is rather simple, it still captures the typical process of developing an R package for personal or organizational use. You typically start with a collection of idiosyncratic and related R scripts, scattered across different projects. Over time, you begin to notice that certain needs come up over and over again.</p>
+<p>Each time you revisit a similar analysis, you might try to elevate your game a bit, compared to the previous iteration. You refactor copy/paste-style code using more robust patterns and start to encapsulate key “moves” in helper functions, which might eventually migrate into their own file. Once you reach this stage, you’re in a great position to take the next step and create a package.</p>
+</section><section id="package-code-is-different" class="level3" data-number="5.8.3"><h3 data-number="5.8.3" class="anchored" data-anchor-id="package-code-is-different">
+<span class="header-section-number">5.8.3</span> Package code is different</h3>
+<p>Writing package code is a bit different from writing R scripts and it’s natural to feel some discomfort when making this adjustment. Here are the most common gotchas that trip many of us up at first:</p>
+<ul>
+<li>Package code requires new ways of working with functions in other packages. The <code>DESCRIPTION</code> file is the principal way to declare dependencies; we don’t do this via <code><a href="https://rdrr.io/r/base/library.html">library(somepackage)</a></code>.</li>
+<li>If you want data or files to be persistently available, there are package-specific methods of storage and retrieval. You can’t just put files in the package and hope for the best.</li>
+<li>It’s necessary to be explicit about which functions are user-facing and which are internal helpers. By default, functions are not exported for use by others.</li>
+<li>A new level of discipline is required to ensure that code runs at the intended time (build time vs.&nbsp;run time) and that there are no unintended side effects.</li>
+</ul>
+
+
+</section></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><hr>
+<ol>
+<li id="fn1"><p><code><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time()</a></code> returns an object of class <code>POSIXct</code>, therefore when we call <code><a href="https://rdrr.io/r/base/format.html">format()</a></code> on it, we are actually using <code><a href="https://rdrr.io/r/base/strptime.html">format.POSIXct()</a></code>. Read the help for <a href="https://rdrr.io/r/base/strptime.html"><code>?format.POSIXct</code></a> if you’re not familiar with such format strings.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Putting everything in one file, with this name, is not ideal, but it is technically allowed. We discuss organising and naming the files below <code>R/</code> in <span class="quarto-unresolved-ref">?sec-code-organising</span>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>The blog post <a href="https://www.tidyverse.org/blog/2018/06/tidyverse-not-for-packages/">The tidyverse is for EDA, not packages</a> elaborates on this.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Here we’re referring to when the package code is compiled, which could be either when the binary is made (for macOS or Windows; <a href="structure.html#sec-structure-binary"><span>Section&nbsp;3.4</span></a>) or when the package is installed from source (<a href="structure.html#sec-installed-package"><span>Section&nbsp;3.5</span></a>).<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p><code><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time()</a></code> returns an object of class <code>POSIXct</code>, therefore when we call <code><a href="https://rdrr.io/r/base/format.html">format()</a></code> on it, we are actually using <code><a href="https://rdrr.io/r/base/strptime.html">format.POSIXct()</a></code>. Read the help for <a href="https://rdrr.io/r/base/strptime.html"><code>?format.POSIXct</code></a> if you’re not familiar with such format strings.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>It would clearly be better to format according to ISO 8601, which encodes the month by number, but please humor me for the sake of making this example more obvious.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./workflow101.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Fundamental development workflows</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">References</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
