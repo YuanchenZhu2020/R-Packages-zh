@@ -303,80 +303,80 @@ strsplit1 <- function(x, split) {
 
 ## `use_r()`
 
-Where should you put the definition of `strsplit1()`?
-Save it in a `.R` file, in the `R/` subdirectory of your package.
-A reasonable starting position is to make a new `.R` file for each user-facing function in your package and name the file after the function.
-As you add more functions, you'll want to relax this and begin to group related functions together.
-We'll save the definition of `strsplit1()` in the file `R/strsplit1.R`.
+`strsplit1()` 的函数定义应该放在哪里呢？
+它应该被保存在软件包的 `R/` 子目录下的 `.R` 文件中。
+一个合理的处理方法是为包中每个面向用户的函数创建一个新的 `.R` 文件，并用函数名命名对应文件。
+当你添加更多函数时，你可能会希望放宽一点这个要求，并将相关函数分组组织在一起。
+我们将会把 `strsplit1()` 的函数定义保存在文件 `R/strsplit1.R` 中。
 
-The helper `use_r()` creates and/or opens a script below `R/`.
-It really shines in a more mature package, when navigating between `.R` files and the associated test file.
-But, even here, it's useful to keep yourself from getting too carried away while working in `Untitled4`.
+辅助函数 `use_r()` 会在 `R/` 目录下创建和（或）打开对应脚本文件。
+在一个开发逐渐成熟的软件包中，当你需要在 `.R` 文件以及关联的测试文件之间切换时，它真的很好用。
+但是，即使在目前刚开始开发的阶段，它在防止你自己沉迷于在 `Untitled4` 中工作也是很有帮助的。
 
 ```{r init-strsplit1, eval = create}
 use_r("strsplit1")
 ```
 
-Put the definition of `strsplit1()` **and only the definition of `strsplit1()`** in `R/strsplit1.R` and save it.
-The file `R/strsplit1.R` should NOT contain any of the other top-level code we have recently executed, such as the definition of our practice input `x`, `library(devtools)`, or `use_git()`.
-This foreshadows an adjustment you'll need to make as you transition from writing R scripts to R packages.
-Packages and scripts use different mechanisms to declare their dependency on other packages and to store example or test code.
-We explore this further in @sec-r.
+将 `strsplit1()` 的函数定义，并且**只有 `strsplit1()` 的函数定义**放在 `R/strsplit1.R` 文件中并保存。
+文件 `R/strsplit1.R` 不应该包含其他任何我们最近执行的顶层代码，例如我们用于实践的输入 `x`、`library(devtools)` 或 `use_git()`。
+这预示着从编写 R 脚本过渡到编写 R 包时需要进行的调整。
+软件包和脚本使用不同的机制来声明它们对其他包的依赖性，并存储示例或测试代码。
+我们将在 @sec-r 中进一步讨论这一点。
 
 ## `load_all()` {#sec-whole-game-load-all}
 
-How do we test drive `strsplit1()`?
-If this were a regular R script, we might use RStudio to send the function definition to the R Console and define `strsplit1()` in the global environment.
-Or maybe we'd call `source("R/strsplit1.R")`.
-For package development, however, devtools offers a more robust approach.
+我们应该如何测试 `strsplit1()`？
+如果这是一个普通的 R 脚本，我们可以使用 RStudio 将函数定义发送到 R 控制台，并在全局环境中定义 `strsplit1()`。
+或者我们可以调用 `source("R/strsplit1.R")`。
+然而，对于软件包开发来说，devtools 提供了一种更健壮的方法。
 
-Call `load_all()` to make `strsplit1()` available for experimentation.
+调用 `load_all()` 来使 `strsplit1()` 可以用于测试运行。
 
 ```{r load-all, eval = create}
 load_all()
 ```
 
-Now call `strsplit1(x)` to see how it works.
+现在可以调用 `strsplit1(x)` 来看看它是如何工作的。
 
 ```{r, eval = create}
 (x <- "alfa,bravo,charlie,delta")
 strsplit1(x, split = ",")
 ```
 
-Note that `load_all()` has made the `strsplit1()` function available, although it does not exist in the global environment.
+请注意 `load_all()` 会使得 `strsplit1()` 函数可以使用，尽管它在全局环境中并不存在。
 
 ```{r, eval = create}
 exists("strsplit1", where = globalenv(), inherits = FALSE)
 ```
 
-If you see `TRUE` instead of `FALSE`, that indicates you're still using a script-oriented workflow and sourcing your functions.
-Here's how to get back on track:
+如果你的运行结果是 `TRUE` 而不是 `FALSE`，这意味着你仍然在使用面向脚本的工作流，并导入了你脚本的源代码。
+下面是回到正轨的方法：
 
--   Clean out the global environment and restart R.
--   Re-attach devtools with `library(devtools)` and re-load regexcite with `load_all()`.
--   Redefine the test input `x` and call `strsplit1(x, split = ",")` again. This should work!
--   Run `exists("strsplit1", where = globalenv(), inherits = FALSE)` again and you should see `FALSE`.
+-   清理你的全局环境并重启 R。
+-   使用 `library(devtools)` 重新载入 devtools 并调用 `load_all()` 来重新加载 regexcite 包。
+-   重新定义测试输入 `x`，然后再次调用 `strsplit1(x, split = ",")`。这应该可以正常执行！
+-   再次运行 `exists("strsplit1", where = globalenv(), inherits = FALSE)`，此时你应该可以看到输出了 `FALSE`。
 
-`load_all()` simulates the process of building, installing, and attaching the regexcite package.
-As your package accumulates more functions, some exported, some not, some of which call each other, some of which call functions from packages you depend on, `load_all()` gives you a much more accurate sense of how the package is developing than test driving functions defined in the global environment.
-Also `load_all()` allows much faster iteration than actually building, installing, and attaching the package.
-See @sec-workflow101-load-all for more about `load_all()`.
+`load_all()` 模拟了构建、安装和载入 regexcite 软件包的过程。
+当你的软件包积累了更多的函数时，有的函数导出供用户使用，而有的没有，有的函数会互相调用而有的从依赖的其他包中调用，使用 `load_all()` 相比于在全局工作空间中测试函数，能够使你对于软件包的开发过程有更为准确的了解。
+同样的，`load_all()` 对于构建、安装和载入软件包的过程，能够允许更加快速的迭代。
+有关 `load_all()` 的更多信息，请参阅 @sec-workflow101-load-all。
 
-To review what we've done so far:
+到目前为止的内容：
 
--   We wrote our first function, `strsplit1()`, to split a string into a character vector (not a list containing a character vector).
--   We used `load_all()` to quickly make this function available for interactive use, as if we'd built and installed regexcite and attached it via `library(regexcite)`.
+-   我们以及编写了第一个函数 `strsplit1()`，它用于将一个字符串拆分为一个字符向量（而不是包含字符向量的列表）。
+-   我们使用 `load_all()` 来快速地让这个函数可以用于交互式使用，就好像我们已经构建安装了 regexcite 并通过 `library(regexcite)` 载入了这个软件包一样。
 
 ::: callout-tip
 ## RStudio
 
-RStudio exposes `load_all()` in the *Build* menu, in the *Build* pane via *More \> Load All*, and in keyboard shortcuts Ctrl + Shift + L (Windows & Linux) or Cmd + Shift + L (macOS).
+RStudio 在 *Build* 菜单中，或者在 *Build* 窗格中依次点击 *More \> Load All* 提供了 `load_all()` 的快捷调用，另外使用快捷键 Ctrl + Shift + L (Windows & Linux) 或 Cmd + Shift + L (macOS) 也可以快速调用该函数。
 :::
 
 ### 提交对 `strsplit1()` 的更改
 
-If you're using Git, use your preferred method to commit the new `R/strsplit1.R` file.
-We do so behind the scenes here and here's the associated diff.
+如果你正在使用 Git，你可以使用你喜欢的方法来提交新的 `R/strsplit1.R` 文件。
+我们在幕后也进行了这一操作，这是提交前后的差异。
 
 ```{r strsplit1-commit, eval = create, include = debug}
 git_add(path("R", "strsplit1.R"))
@@ -394,8 +394,8 @@ git_commit("Add strsplit1()")
 cat(git_diff_patch(ref = "HEAD"))
 ```
 
-From this point on, we commit after each step.
-Remember [these commits](https://github.com/jennybc/regexcite/commits/main) are available in the public repository.
+从这一节后，我们会在每一步执行完后进行提交。
+请记住[这些提交](https://github.com/jennybc/regexcite/commits/main)在公开储存库中都是可见的。
 
 ## `check()`
 
