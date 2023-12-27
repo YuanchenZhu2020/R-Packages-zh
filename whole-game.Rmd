@@ -370,7 +370,7 @@ exists("strsplit1", where = globalenv(), inherits = FALSE)
 ::: callout-tip
 ## RStudio
 
-RStudio 在 *Build* 菜单中，或者在 *Build* 窗格中依次点击 *More \> Load All* 提供了 `load_all()` 的快捷调用，另外使用快捷键 Ctrl + Shift + L (Windows & Linux) 或 Cmd + Shift + L (macOS) 也可以快速调用该函数。
+RStudio 在 *Build* 菜单中，或者在 *Build* 窗格中通过依次点击 *More \> Load All* 提供了 `load_all()` 的快捷调用，另外使用快捷键 Ctrl + Shift + L (Windows & Linux) 或 Cmd + Shift + L (macOS) 也可以快速调用该函数。
 :::
 
 ### 提交对 `strsplit1()` 的更改
@@ -399,16 +399,16 @@ cat(git_diff_patch(ref = "HEAD"))
 
 ## `check()`
 
-We have informal, empirical evidence that `strsplit1()` works.
-But how can we be sure that all the moving parts of the regexcite package still work?
-This may seem silly to check, after such a small addition, but it's good to establish the habit of checking this often.
+我们现在有非正式的经验证据表明 `strsplit1()` 工作正常。
+但是，我们如何确保 regexcite 包的所有可变部分仍然工作呢？
+在这么小的一个增加之后，检查其他部分似乎很愚蠢，但养成经常检查的习惯是很有益处的。
 
-`R CMD check`, executed in the shell, is the gold standard for checking that an R package is in full working order.
-`check()` is a convenient way to run this without leaving your R session.
+在 shell 中执行的 `R CMD check` 是检查 R 包是否处于完全工作状态的黄金标准。
+`check()` 是在不离开 R 会话的情况下运行这一操作的方便方法。
 
-Note that `check()` produces rather voluminous output, optimized for interactive consumption.
-We intercept that here and just reveal a summary.
-Your local `check()` output will be different.
+请注意 `check()` 生成的输出相当庞大，针对交互式使用进行了优化。
+我们在这里截取了一部分，并展示一个摘要。
+你本地运行 `check()` 的输出会有所不同。
 
 ```{r first-check-fake, eval = FALSE}
 check()
@@ -418,11 +418,11 @@ check()
 shhh_check(error_on = "never")
 ```
 
-*It is essential to actually read the output of the check!* Deal with problems early and often.
-It's just like incremental development of `.R` and `.Rmd` files.
-The longer you go between full checks that everything works, the harder it becomes to pinpoint and solve your problems.
+*阅读检查的输出是十分必要的！*请尽可能早并经常性地解决出现的问题。
+这就像在 `.R` 和 `.Rmd` 文件上进行增量开发。
+你检查每件事是否正常的时间间隔越长，就越难找到问题所在并解决问题。
 
-At this point, we expect 1 warning (and 0 errors, 0 notes):
+在这一步中，我们收到了 1 个警告 (warnings)（0 个错误 (errors)，0 个提示信息 (notes)）：
 
 ```         
 Non-standard license specification:
@@ -430,35 +430,35 @@ Non-standard license specification:
   license
 ```
 
-We'll address that soon, by doing exactly what it says.
-You can learn more about `check()` in @sec-workflow101-r-cmd-check.
+我们将会完全按照它所说的去做，完全解决这一问题。
+你可以在 @sec-workflow101-r-cmd-check 中了解更多有关 `check()` 的信息。
 
 ::: callout-tip
 ## RStudio
 
-RStudio exposes `check()` in the *Build* menu, in the *Build* pane via *Check*, and in keyboard shortcuts Ctrl + Shift + E (Windows & Linux) or Cmd + Shift + E (macOS).
+RStudio 在 *Build* 菜单中，或者在 *Build* 窗格中通过点击 *Check* 提供了 `check()` 的快捷调用，另外使用快捷键 Ctrl + Shift + E (Windows & Linux) 或 Cmd + Shift + E (macOS) 也可以快速调用该函数。
 :::
 
 ## 编辑 `DESCRIPTION`
 
-The `DESCRIPTION` file provides metadata about your package and is covered fully in @sec-description.
-This is a good time to have a look at regexcite's current `DESCRIPTION`.
-You'll see it's populated with boilerplate content, which needs to be replaced.
+`DESCRIPTION` 文件提供了关于你的软件包的元数据，这在 @sec-description 中有完整的介绍。
+现在是查看 regexcite 当前 `DESCRIPTION` 的好时机。
+你将看到它被填充了样板内容，这些内容需要替换
 
-To add your own metadata, make these edits:
+要添加你自己的元数据，请进行以下编辑操作：
 
--   Make yourself the author. If you don't have an ORCID, you can omit the `comment = ...` portion.
--   Write some descriptive text in the `Title` and `Description` fields.
+-   让自己成为作者。如果你没有 ORCID，你可以忽略 `comment = ...` 部分。
+-   在 `Title` 和 `Description` 字段中写一些描述性文字。
 
 ::: callout-tip
 ## RStudio
 
-Use Ctrl + `.` in RStudio and start typing "DESCRIPTION" to activate a helper that makes it easy to open a file for editing.
-In addition to a filename, your hint can be a function name.
-This is very handy once a package has lots of files.
+在 RStudio 中使用 Ctrl + `.` 然后输入 "DESCRIPTION" 来激活辅助功能，这样可以轻松打开指定文件进行编辑。
+除了可以输入文件名外，还可以输入函数名。
+当软件包具有大量文件时，这一功能十分便利。
 :::
 
-When you're done, `DESCRIPTION` should look similar to this:
+当你完成上面的操作后，`DESCRIPTION` 的文件内容应该和下面类似：
 
 <!-- I'm trying to avoid any syntax highlighting here, while also not trying to do things in a way that's acceptable to O'Reilly who wants "text". -->
 
@@ -487,29 +487,29 @@ git_commit("Edit DESCRIPTION")
 
 > [Pick a License, Any License. -- Jeff Atwood](https://blog.codinghorror.com/pick-a-license-any-license/)
 
-We currently have a placeholder in the `License` field of `DESCRIPTION` that's deliberately invalid and suggests a resolution.
+我们目前在 `DESCRIPTION` 的 `License` 字段中有一个占位符，该占位符故意设置为无效的，并提供了一种解决方案。
 
 ```         
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
 ```
 
-To configure a valid license for the package, call `use_mit_license()`.
+要为软件包配置有效的许可证，请调用 `use_mit_license()`。
 
 ```{r use-mit-license, eval = create}
 use_mit_license()
 ```
 
-This configures the `License` field correctly for the MIT license, which promises to name the copyright holders and year in a `LICENSE` file.
-Open the newly created `LICENSE` file and confirm it looks something like this:
+这将会把 `License` 字段正确地设置为 MIT 许可证，该许可证要求在 `LICENSE` 文件中写入版权持有人和年份。
+打开新创建的 `LICENSE` 文件然后确保它看起来和下面的类似：
 
 ```{r reveal-LICENSE, eval = create, echo = FALSE, comment = ""}
 writeLines(readLines("LICENSE"))
 ```
 
-Like other license helpers, `use_mit_license()` also puts a copy of the full license in `LICENSE.md` and adds this file to `.Rbuildignore`.
-It's considered a best practice to include a full license in your package's source, such as on GitHub, but CRAN disallows the inclusion of this file in a package tarball.
-You can learn more about licensing in @sec-license.
+就像其他创建许可证的辅助函数一样，`use_mit_license()` 还会将完整的许可证副本放入 `LICENSE.md` 文件中，并将这个文件添加到 `.Rbuildignore`。
+最好的做法是在软件包的源代码中包含完整的许可证文本，就像在 GitHub 中一样，但是 CRAN 禁止在软件包源代码中包含这一文件。
+你可以在 @sec-license 中找到更多有关添加许可证的内容。
 
 ```{r commit-license, eval = create, include = debug}
 git_add(c(".Rbuildignore", "DESCRIPTION", "LICENSE", "LICENSE.md"))
