@@ -201,16 +201,16 @@ dir_info(all = TRUE) %>%
 
 ## `use_git()`
 
-The regexcite directory is an R source package and an RStudio Project.
-Now we make it also a Git repository, with `use_git()`.
-(By the way, `use_git()` works in any project, regardless of whether it's an R package.)
+regexcite 目录是一个 R 源码包，同时也是一个 RStudio 项目。
+现在，我们使用 `use_git()` 让它变成一个 Git 储存库。
+（顺便一提，`use_git()` 可以在任何项目中工作，不论它是否是一个 R 包。）
 
 ```{r use-git, eval = create}
 use_git()
 ```
 
-In an interactive session, you will be asked if you want to commit some files here and you should accept the offer.
-Behind the scenes, we'll also commit those same files.
+在交互式会话中，系统将询问你是否要在此处提交 (commit) 这些文件，一般来说会选择提交。
+在幕后，我们也将提交这些相同的文件。
 
 ```{r gert-begin, eval = create, include = debug}
 suppressPackageStartupMessages(library(gert))
@@ -218,9 +218,9 @@ git_add(".")
 git_commit("Initial commit")
 ```
 
-So what has changed in the package?
-Only the creation of a `.git` directory, which is hidden in most contexts, including the RStudio file browser.
-Its existence is evidence that we have indeed initialized a Git repo here.
+那么在软件包中发生了什么变化呢？
+可以发现只创建了 `.git` 目录，这个目录在大多数环境中都是隐藏的，包括 RStudio 文件浏览器
+它的存在证明我们确实在这个目录下初始化了 Git 存储库。
 
 ```{r post-git-file-list, echo = FALSE, eval = create}
 dir_info(all = TRUE, regexp = "^[.]git$") %>% 
@@ -228,13 +228,13 @@ dir_info(all = TRUE, regexp = "^[.]git$") %>%
   knitr::kable()
 ```
 
-If you're using RStudio, it probably requested permission to relaunch itself in this Project, which you should do.
-You can do so manually by quitting, then relaunching RStudio by double clicking on `regexcite.Rproj`.
-Now, in addition to package development support, you have access to a basic Git client in the *Git* tab of the *Environment/History/Build* pane.
+如果你使用的是 RStudio，它可能会请求在此项目中重新启动，遵从它的请求即可。
+你也可以通过关闭 RStudio 然后双击 `regexcite.Rproj` 来手动重新启动RStudio。
+现在，除了软件包的开发支持外，你也可以在 *Environment/History/Build* 窗格中的 *Git* 选项卡访问一个基础的 Git 客户端。
 
 <!-- TODO: good place for a screenshot. -->
 
-Click on History (the clock icon in the Git pane) and, if you consented, you will see an initial commit made via `use_git()`:
+点击 History（Git 窗格中的时钟图标），如果你之前同意了提交，你将会看到一个通过 `use_git()` 完成的初始提交。
 
 ```{r inspect-first-commit, echo = FALSE, eval = create}
 git_log(max = 1) %>% 
@@ -246,34 +246,34 @@ git_log(max = 1) %>%
 ::: callout-tip
 ## RStudio
 
-RStudio can initialize a Git repository, in any Project, even if it's not an R package, as long you've set up RStudio + Git integration.
-Do *Tools \> Version Control \> Project Setup*.
-Then choose *Version control system: Git* and *initialize a new git repository for this project*.
+只要你配置了 RStudio + Git 集成环境，RStudio 可以在任何项目中初始化一个 Git 储存库，即使该项目不是一个 R 软件包。
+依次点击 *Tools \> Version Control \> Project Setup*。
+然后选择 *Version control system: Git* 来*为这个项目初始化一个新的 git 储存库*。
 :::
 
-## Write the first function
+## 编写第一个函数
 
-A fairly common task when dealing with strings is the need to split a single string into many parts.
-The `strsplit()` function in base R does exactly this.
+在处理字符串时，一个相当常见的任务是需要将单个字符串拆分为许多部分。
+base R中的 `strsplit()` 函数就是完成这个任务的。
 
 ```{r}
 (x <- "alfa,bravo,charlie,delta")
 strsplit(x, split = ",")
 ```
 
-Take a close look at the return value.
+仔细看看返回值。
 
 ```{r}
 str(strsplit(x, split = ","))
 ```
 
-The shape of this return value often surprises people or, at least, inconveniences them.
-The input is a character vector of length one and the output is a list of length one.
-This makes total sense in light of R's fundamental tendency towards vectorization.
-But sometimes it's still a bit of a bummer.
-Often you know that your input is morally a scalar, i.e. it's just a single string, and really want the output to be the character vector of its parts.
+这个返回值的形状常常使人们感到惊讶，或者至少使他们感到不方便。
+函数输入是长度为 1 的字符向量，而函数输出则是长度为 1 的列表。
+考虑到 R 向矢量化演进的基本趋势，这是完全有意义的。
+但有时它仍然有点讨人厌。
+通常情况下，你知道你的输入在逻辑上是一个标量，即它只是一个单一的字符串，并且希望输出包含它各部分的字符向量。
 
-This leads R users to employ various methods of "unlist"-ing the result:
+这导致 R 用户采用各种方法对输出结果进行列表展开 (unlist)：
 
 ```{r}
 unlist(strsplit(x, split = ","))
@@ -281,7 +281,7 @@ unlist(strsplit(x, split = ","))
 strsplit(x, split = ",")[[1]]
 ```
 
-The second, safer solution is the basis for the inaugural function of regexcite: `strsplit1()`.
+上面的第二种更安全的解决方案是 regexcite 的首个函数 —— `strsplit1()` 的基础: 
 
 ```{cat strsplit1-write, eval = create, class.source = "r"}
 #| engine.opts = list(file = path("R", "strsplit1.R"))
@@ -290,15 +290,15 @@ strsplit1 <- function(x, split) {
 }
 ```
 
-This book does not teach you how to write functions in R.
-To learn more about that take a look at the [Functions chapter](https://r4ds.hadley.nz/functions.html) of R for Data Science and the [Functions chapter](https://adv-r.hadley.nz/functions.html) of Advanced R.
+这本书不会教你如何用 R 写函数。
+要了解更多信息，请查看 R for Data Scienc 的 [Functions chapter](https://r4ds.hadley.nz/functions.html) 以及 Advanced R 的 [Functions chapter](https://adv-r.hadley.nz/functions.html)。
 
 ::: callout-tip
-The name of `strsplit1()` is a nod to the very handy `paste0()`, which first appeared in R 2.15.0 in 2012.
-`paste0()` was created to address the extremely common use case of `paste()`-ing strings together *without* a separator.
-`paste0()` has been lovingly described as ["statistical computing's most influential contribution of the 21st century"](https://simplystatistics.org/posts/2013-01-31-paste0-is-statistical-computings-most-influential-contribution-of-the-21st-century/).
+`strsplit1()` 的名字是对非常方便的 `paste0()` 的致敬，它首次出现在 2012 年的 R 2.15.0 中。
+创建 `paste0()` 是为了解决 `paste()` *不使用*分隔符将字符串连接在一起的极其常见的用例。
+`paste0()` 被亲切地描述为 ["statistical computing's most influential contribution of the 21st century"](https://simplystatistics.org/posts/2013-01-31-paste0-is-statistical-computings-most-influential-contribution-of-the-21st-century/).
 
-The `strsplit1()` function was so inspiring that it's now a real function in the stringr package: `stringr::str_split_1()`!
+`strsplit1()` 函数非常鼓舞人心，现在它是 stringr 包中的一个真正的函数： `stringr::str_split_1()`!
 :::
 
 ## `use_r()`
@@ -373,7 +373,7 @@ To review what we've done so far:
 RStudio exposes `load_all()` in the *Build* menu, in the *Build* pane via *More \> Load All*, and in keyboard shortcuts Ctrl + Shift + L (Windows & Linux) or Cmd + Shift + L (macOS).
 :::
 
-### Commit `strsplit1()`
+### 提交对 `strsplit1()` 的更改
 
 If you're using Git, use your preferred method to commit the new `R/strsplit1.R` file.
 We do so behind the scenes here and here's the associated diff.
@@ -439,7 +439,7 @@ You can learn more about `check()` in @sec-workflow101-r-cmd-check.
 RStudio exposes `check()` in the *Build* menu, in the *Build* pane via *Check*, and in keyboard shortcuts Ctrl + Shift + E (Windows & Linux) or Cmd + Shift + E (macOS).
 :::
 
-## Edit `DESCRIPTION`
+## 编辑 `DESCRIPTION`
 
 The `DESCRIPTION` file provides metadata about your package and is covered fully in @sec-description.
 This is a good time to have a look at regexcite's current `DESCRIPTION`.
@@ -585,7 +585,7 @@ If `?strsplit1` doesn't work for you, you may need to call `load_all()` first, t
 Note also that your package's documentation won't be properly wired up until it has been formally built and installed.
 This polishes off niceties like the links between help files and the creation of a package index.
 
-### `NAMESPACE` changes
+### `NAMESPACE` 的更改
 
 In addition to converting `strsplit1()`'s special comment into `man/strsplit1.Rd`, the call to `document()` updates the `NAMESPACE` file, based on `@export` tags found in roxygen comments.
 Open `NAMESPACE` for inspection.
@@ -606,9 +606,9 @@ git_add(c("NAMESPACE", path("man", "strsplit1.Rd")))
 git_commit("Run document()")
 ```
 
-## `check()` again
+## 再次 `check()`
 
-regexcite should pass `R CMD check` cleanly now and forever more: 0 errors, 0 warnings, 0 notes.
+regexcite 应该可以在现在并且永远干净地通过 `R CMD check`，并且 0 错误 (errors)，0 警告 (warnings)，0 提示信息 (notes)。
 
 ```{r first-clean-check-fake, eval = FALSE}
 check()
