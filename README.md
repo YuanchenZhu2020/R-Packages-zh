@@ -9,7 +9,7 @@
 -   [x] welcome
 -   [x] Preface
 -   [x] Introduction
--   [ ] The Whole Game
+-   [x] The Whole Game
 -   [x] System setup
 -   [ ] Package structure and state
 -   [ ] Fundamental development workflows
