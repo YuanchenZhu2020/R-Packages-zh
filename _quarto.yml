@@ -19,8 +19,8 @@ book:
   favicon: images/cover-2e-small.png
 
   reader-mode: true
-  site-url: https://r-pkgs.org/
-  repo-url: https://github.com/hadley/r-pkgs/
+  site-url: https://book.formlesslab.top/r-pkgs/
+  repo-url: https://github.com/YuanchenZhu2020/R-Packages-zh
   repo-actions: [edit, issue]
   
   chapters:
