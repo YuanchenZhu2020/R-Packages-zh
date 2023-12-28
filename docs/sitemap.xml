@@ -2,46 +2,58 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://r-pkgs.org/index.html</loc>
-    <lastmod>2023-12-25T14:27:38.023Z</lastmod>
+    <lastmod>2023-12-28T10:14:23.606Z</lastmod>
   </url>
   <url>
     <loc>https://r-pkgs.org/translator-preface.html</loc>
-    <lastmod>2023-12-25T14:27:22.735Z</lastmod>
+    <lastmod>2023-12-28T10:14:23.613Z</lastmod>
   </url>
   <url>
     <loc>https://r-pkgs.org/preface.html</loc>
-    <lastmod>2023-12-25T14:27:22.758Z</lastmod>
+    <lastmod>2023-12-28T10:14:23.626Z</lastmod>
   </url>
   <url>
     <loc>https://r-pkgs.org/introduction.html</loc>
-    <lastmod>2023-12-25T14:27:22.763Z</lastmod>
+    <lastmod>2023-12-28T10:14:23.633Z</lastmod>
   </url>
   <url>
     <loc>https://r-pkgs.org/whole-game.html</loc>
-    <lastmod>2023-12-25T14:27:50.825Z</lastmod>
+    <lastmod>2023-12-28T10:14:50.906Z</lastmod>
   </url>
   <url>
     <loc>https://r-pkgs.org/setup.html</loc>
-    <lastmod>2023-12-25T14:27:22.798Z</lastmod>
+    <lastmod>2023-12-28T10:14:23.667Z</lastmod>
   </url>
   <url>
     <loc>https://r-pkgs.org/structure.html</loc>
-    <lastmod>2023-12-25T14:27:22.813Z</lastmod>
+    <lastmod>2023-12-28T10:14:23.676Z</lastmod>
   </url>
   <url>
     <loc>https://r-pkgs.org/workflow101.html</loc>
-    <lastmod>2023-12-25T14:27:24.303Z</lastmod>
+    <lastmod>2023-12-28T10:14:23.691Z</lastmod>
   </url>
   <url>
     <loc>https://r-pkgs.org/package-within.html</loc>
-    <lastmod>2023-12-25T14:27:24.330Z</lastmod>
+    <lastmod>2023-12-28T10:14:24.150Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r-pkgs.org/code.html</loc>
+    <lastmod>2023-12-28T10:14:24.185Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r-pkgs.org/data.html</loc>
+    <lastmod>2023-12-28T10:14:24.204Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r-pkgs.org/misc.html</loc>
+    <lastmod>2023-12-28T10:14:24.214Z</lastmod>
   </url>
   <url>
     <loc>https://r-pkgs.org/references.html</loc>
-    <lastmod>2023-12-25T14:27:24.332Z</lastmod>
+    <lastmod>2023-12-28T10:14:24.221Z</lastmod>
   </url>
   <url>
     <loc>https://r-pkgs.org/R-CMD-check.html</loc>
-    <lastmod>2023-12-25T14:27:24.348Z</lastmod>
+    <lastmod>2023-12-28T10:14:24.241Z</lastmod>
   </url>
 </urlset>

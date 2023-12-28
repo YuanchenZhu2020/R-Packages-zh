@@ -164,7 +164,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./whole-game.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">The Whole Game</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">整个流程</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -182,7 +182,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./workflow101.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Fundamental development workflows</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">基本开发工作流</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -193,21 +193,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">References</span></span></a>
-  </div>
-</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text">Appendices</span></a>
+ <span class="menu-text">软件包组件</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./code.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">R code</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./misc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">其它组件</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./R-CMD-check.html" class="sidebar-item-text sidebar-link active">
@@ -319,7 +348,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- https://github.com/wch/r-source/blob/trunk/src/library/tools/R/check.R#L3459 --><ul>
 <li>
 <p><strong>Checking installed package size</strong>. It’s easy to accidentally include large files that blow up the size of your package. This check ensures that the whole package is less than 5 MB and each subdirectory is less than 1 MB. If you see this message, check that you haven’t accidentally included a large file.</p>
-<p>If submitting to CRAN, you’ll need to justify the size of your package. First, make sure the package is as small as it possibly can be: try recompressing the data, <span class="quarto-unresolved-ref">?sec-data-data-raw</span>; and minimising vignettes, <span class="quarto-unresolved-ref">?sec-vignettes</span>. If it’s still too large, consider moving data into its own package.</p>
+<p>If submitting to CRAN, you’ll need to justify the size of your package. First, make sure the package is as small as it possibly can be: try recompressing the data, <a href="data.html#sec-data-data-raw"><span>Section&nbsp;7.1.1</span></a>; and minimising vignettes, <span class="quarto-unresolved-ref">?sec-vignettes</span>. If it’s still too large, consider moving data into its own package.</p>
 </li>
 </ul>
 <!-- https://github.com/wch/r-source/blob/trunk/src/library/tools/R/check.R#L746 --><ul>
@@ -327,7 +356,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Checking top-level files</strong>. Only specified files and directories are allowed at the top level of the package (e.g.&nbsp;<code>DESCRIPTION</code>, <code>R/</code>, <code>src/</code>). To include other files, you have two choices:</p>
 <ul>
 <li><p>If they don’t need to be installed (i.e.&nbsp;they’re only used for development tasks), add them to <code>.Rbuildignore</code> with <code><a href="https://usethis.r-lib.org/reference/use_build_ignore.html">usethis::use_build_ignore()</a></code>.</p></li>
-<li><p>If they need to be installed: move them into <code>inst/</code>. They’ll be moved back to the top-level package directory when installed. Learn more in <span class="quarto-unresolved-ref">?sec-misc-inst</span>.</p></li>
+<li><p>If they need to be installed: move them into <code>inst/</code>. They’ll be moved back to the top-level package directory when installed. Learn more in <a href="misc.html#sec-misc-inst"><span>Section&nbsp;8.2</span></a>.</p></li>
 </ul>
 </li>
 </ul>
@@ -337,7 +366,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><p>Don’t include any empty directories. These are usually removed automatically by <code>R CMD build</code> so you shouldn’t see this error. If you do, just delete the empty directory.</p></li>
 <li><p>The case of files and directories is important. All sub-directories should be lower-case, except for <code>R/</code>. A citation file, if present, should be in <code>inst/CITATION</code>. Rename as needed.</p></li>
-<li><p>The contents of <code>inst/</code> shouldn’t clash with top-level contents of the package, such as <code>data/</code> or <code>R/</code>. If they do, rename your files/directories. Learn more in <span class="quarto-unresolved-ref">?sec-misc-inst</span>.</p></li>
+<li><p>The contents of <code>inst/</code> shouldn’t clash with top-level contents of the package, such as <code>data/</code> or <code>R/</code>. If they do, rename your files/directories. Learn more in <a href="misc.html#sec-misc-inst"><span>Section&nbsp;8.2</span></a>.</p></li>
 </ul>
 </li>
 </ul>
@@ -353,7 +382,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Checking DESCRIPTION meta-information</strong>.</p>
 <ul>
 <li><p>The <code>DESCRIPTION</code> must be valid. You are unlikely to see this error, because <code><a href="https://devtools.r-lib.org/reference/load_all.html">devtools::load_all()</a></code> runs the same check each time you re-load the package.</p></li>
-<li><p>If you use any non-ASCII characters in the DESCRIPTION, you must also specify an encoding. There are only three encodings that work on all platforms: latin1, latin2 and UTF-8. We strongly recommend UTF-8: <code>Encoding: UTF-8</code>. Learn more in <span class="quarto-unresolved-ref">?sec-data-non-ascii</span>.</p></li>
+<li><p>If you use any non-ASCII characters in the DESCRIPTION, you must also specify an encoding. There are only three encodings that work on all platforms: latin1, latin2 and UTF-8. We strongly recommend UTF-8: <code>Encoding: UTF-8</code>. Learn more in <a href="data.html#sec-data-non-ascii"><span>Section&nbsp;7.1.3</span></a>.</p></li>
 <li><p>The <code>License</code> must refer to either a known license (a complete list can be found at <a href="https://svn.r-project.org/R/trunk/share/licenses/license.db" class="uri">https://svn.r-project.org/R/trunk/share/licenses/license.db</a>), or it must use <code>file LICENSE</code> and that file must exist. Errors here are most likely to be typos. Learn more in <span class="quarto-unresolved-ref">?sec-license</span>.</p></li>
 <li><p>You should either provide <code>Authors@R</code> or <code>Authors</code> and <code>Maintainer</code>. You’ll get an error if you’ve specified both, which you can fix by removing the one you didn’t want. Learn more in <span class="quarto-unresolved-ref">?sec-description-authors-at-r</span>.</p></li>
 </ul>
@@ -411,7 +440,7 @@ tools:::.check_package_CRAN_incoming
 <!-- https://github.com/wch/r-source/blob/trunk/src/library/tools/R/check.R#L1226 -->
 <ul>
 <li>
-<strong>Checking R files for non-ASCII characters</strong>. For maximum portability (i.e.&nbsp;so people can use your package on Windows) you should avoid using non-ASCII characters in R files. It’s ok to use them in comments, but object names shouldn’t use them, and in strings you should use unicode escapes. See the CRAN-specific notes in <span class="quarto-unresolved-ref">?sec-r</span> for more details.</li>
+<strong>Checking R files for non-ASCII characters</strong>. For maximum portability (i.e.&nbsp;so people can use your package on Windows) you should avoid using non-ASCII characters in R files. It’s ok to use them in comments, but object names shouldn’t use them, and in strings you should use unicode escapes. See the CRAN-specific notes in <a href="code.html"><span>Chapter&nbsp;6</span></a> for more details.</li>
 </ul>
 <!-- https://github.com/wch/r-source/blob/trunk/src/library/tools/R/check.R#L1258 --><ul>
 <li>
@@ -464,7 +493,7 @@ tools:::.check_package_CRAN_incoming
 <li><p><code><a href="https://rdrr.io/pkg/codetools/man/checkUsage.html">codetools::checkUsagePackage()</a></code> is called to check that your functions don’t use variables that don’t exist. This sometimes raises false positives with functions that use non-standard evaluation (NSE), like <code><a href="https://rdrr.io/r/base/subset.html">subset()</a></code> or <code><a href="https://rdrr.io/r/base/with.html">with()</a></code>. Generally, we think you should avoid NSE in package functions, and hence avoid this NOTE, but if you can not, see <code><a href="https://rdrr.io/r/utils/globalVariables.html">?globalVariables</a></code> for how to suppress this NOTE.</p></li>
 <li><p>You are not allowed to use <code><a href="https://rdrr.io/r/base/Internal.html">.Internal()</a></code> in a package. Either call the R wrapper function, or write your own C function. (If you copy and paste the C function from base R, make sure to maintain the copyright notice, use a GPL-2 compatible license, and list R-core in the <code>Authors@R</code> field.)</p></li>
 <li><p>Similarly you are not allowed to use <code>:::</code> to access non-exported functions from other packages. Either ask the package maintainer to export the function you need, or write your own version of it using exported functions. Alternatively, if the licenses are compatible you can copy and paste the exported function into your own package. If you do this, remember to update <code>Authors@R</code>.</p></li>
-<li><p>Don’t use <code><a href="https://rdrr.io/r/base/assign.html">assign()</a></code> to modify objects in the global environment. If you need to maintain state across function calls, create your own environment, as described in <span class="quarto-unresolved-ref">?sec-data-state</span>.</p></li>
+<li><p>Don’t use <code><a href="https://rdrr.io/r/base/assign.html">assign()</a></code> to modify objects in the global environment. If you need to maintain state across function calls, create your own environment, as described in <a href="data.html#sec-data-state"><span>Section&nbsp;7.4</span></a>.</p></li>
 <li><p>Don’t use <code><a href="https://rdrr.io/r/base/attach.html">attach()</a></code> in your code. Instead refer to variables explicitly.</p></li>
 <li><p>Don’t use <code><a href="https://rdrr.io/r/utils/data.html">data()</a></code> without specifying the <code>envir</code> argument. Otherwise the data will be loaded in the global environment.</p></li>
 <li><p>Don’t use deprecated or defunct functions. Update your code to use the latest versions.</p></li>
@@ -499,8 +528,8 @@ tools:::.check_package_compact_sysdata
 <li>
 <p><strong>Checking contents of ‘data’ directory</strong>.</p>
 <ul>
-<li><p>The data directory can only contain file types described in <span class="quarto-unresolved-ref">?sec-data-data</span>.</p></li>
-<li><p>Data files can contain non-ASCII characters only if the encoding is correctly set. This usually shouldn’t be a problem if you’re saving <code>.Rdata</code> files. If you do see this error, look at the <code><a href="https://rdrr.io/r/base/Encoding.html">Encoding()</a></code> of each column in the data frame, and ensure none are “unknown”. (You’ll typically need to fix this somewhere in the import process). Learn more in <span class="quarto-unresolved-ref">?sec-data-non-ascii</span>.</p></li>
+<li><p>The data directory can only contain file types described in <a href="data.html#sec-data-data"><span>Section&nbsp;7.1</span></a>.</p></li>
+<li><p>Data files can contain non-ASCII characters only if the encoding is correctly set. This usually shouldn’t be a problem if you’re saving <code>.Rdata</code> files. If you do see this error, look at the <code><a href="https://rdrr.io/r/base/Encoding.html">Encoding()</a></code> of each column in the data frame, and ensure none are “unknown”. (You’ll typically need to fix this somewhere in the import process). Learn more in <a href="data.html#sec-data-non-ascii"><span>Section&nbsp;7.1.3</span></a>.</p></li>
 <li><p>If you’ve compressed a data file with <code>bzip2</code> or <code>xz</code> you need to declare at least <code>Depends: R (&gt;= 2.10)</code> in your <code>DESCRIPTION</code>.</p></li>
 <li><p>If you’ve used a sub-optimal compression algorithm for your data, re-compress with the suggested algorithm.</p></li>
 </ul>
@@ -895,7 +924,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="./references.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">References</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">References</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

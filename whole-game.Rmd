@@ -518,20 +518,20 @@ git_commit("Use MIT license")
 
 ## `document()` {#sec-whole-game-document}
 
-Wouldn't it be nice to get help on `strsplit1()`, just like we do with other R functions?
-This requires that your package have a special R documentation file, `man/strsplit1.Rd`, written in an R-specific markup language that is sort of like LaTeX.
-Luckily we don't necessarily have to author that directly.
+就像其他 R 函数那样，在使用 `strsplit1()` 时能够获得帮助文档不是很好吗？
+这要求软件包具有特殊的 R 文档文件 `man/strsplit1.Rd`，这是一个以类似于 LaTeX 的 R 的特殊标记语言编写的文档。
+幸运的是我们不需要直接编辑这类文档。
 
-We write a specially formatted comment right above `strsplit1()`, in its source file, and then let a package called [roxygen2](https://roxygen2.r-lib.org) handle the creation of `man/strsplit1.Rd`.
-The motivation and mechanics of roxygen2 are covered in @sec-man.
+我们在源代码文件中的 `strsplit1()` 函数上方直接编写一个特别格式的注释，然后让一个叫做 [roxygen2](https://roxygen2.r-lib.org) 的软件包来完成 `man/strsplit1.Rd` 的创建。
+roxygen2 设计的动机和机制将在 @sec-man 中进行介绍。
 
-If you use RStudio, open `R/strsplit1.R` in the source editor and put the cursor somewhere in the `strsplit1()` function definition.
-Now do *Code \> Insert roxygen skeleton*.
-A very special comment should appear above your function, in which each line begins with `#'`.
-RStudio only inserts a barebones template, so you will need to edit it to look something like that below.
+如果你使用 RStudio，则在源代码编辑器中打开 `R/strsplit1.R`，将光标放在 `strsplit1()` 函数定义中的某处。
+然后依次点击 *Code \> Insert roxygen skeleton*。
+函数上方应该会出现一个非常特殊的注释模板，每行以 `#` 开头。
+RStudio 只插入模板框架，因此你需要对其进行编辑，如下所示。
 
-If you don't use RStudio, create the comment yourself.
-Regardless, you should modify it to look something like this:
+如果你不使用 RStudio，请自己创建注释。
+无论使用哪种方式，你都应该修改注释，让它看起来像下面那样：
 
 ```{cat strsplit1-with-roxygen-write, eval = create, class.source = "r"}
 #| engine.opts = list(file = path("R", "strsplit1.R"))
@@ -558,8 +558,8 @@ git_add(path("R", "strsplit1.R"))
 git_commit("Add roxygen header to document strsplit1()")
 ```
 
-But we're not done yet!
-We still need to trigger the conversion of this new roxygen comment into `man/strsplit1.Rd` with `document()`:
+但是我们还没有完成！
+我们还需要使用 `document()` 开始执行将这个新的 roxygen 注释转换为 `man/strsplit1.Rd` 的过程：
 
 ```{r document-strsplit1, eval = create}
 document()
@@ -568,28 +568,28 @@ document()
 ::: callout-tip
 ## RStudio
 
-RStudio exposes `document()` in the *Build* menu, in the *Build* pane via *More \> Document*, and in keyboard shortcuts Ctrl + Shift + D (Windows & Linux) or Cmd + Shift + D (macOS).
+RStudio 在 *Build* 菜单中，或在 *Build* 窗格中通过 *More \> Document* 提供了 `document()` 的快捷调用，另外使用快捷键 Ctrl + Shift + D (Windows & Linux) 或 Cmd + Shift + D (macOS) 也可以快速调用该函数。
 :::
 
-You should now be able to preview your help file like so:
+你现在应该能够通过如下方式预览你的函数帮助文档：
 
 ```{r eval = FALSE}
 ?strsplit1
 ```
 
-You'll see a message like "Rendering development documentation for 'strsplit1'", which reminds that you are basically previewing draft documentation.
-That is, this documentation is present in your package's source, but is not yet present in an installed package.
-In fact, we haven't installed regexcite yet, but we will soon.
-If `?strsplit1` doesn't work for you, you may need to call `load_all()` first, then try again.
+你将看到类似 "Rendering development documentation for 'strsplit1'" 的提示信息，它告诉你，你基本上正在预览草稿文档。
+也就是说，该文档存在于你的包的源代码中，但是尚未存在于已安装的包中。
+事实上，我们还没有安装 regexcite，但很快就要安装了。
+如果你发现 `?strsplit1` 并不管用，你可能需要先调用 `load_all()`，然后再试一次。
 
-Note also that your package's documentation won't be properly wired up until it has been formally built and installed.
-This polishes off niceties like the links between help files and the creation of a package index.
+注意，在正式构建和安装之前，你的软件包的文档不会正确地关联起来。
+这样就省去了一些细节，比如帮助文件之间的链接和软件包索引的创建。
 
 ### `NAMESPACE` 的更改
 
-In addition to converting `strsplit1()`'s special comment into `man/strsplit1.Rd`, the call to `document()` updates the `NAMESPACE` file, based on `@export` tags found in roxygen comments.
-Open `NAMESPACE` for inspection.
-The contents should be:
+除了将 `strsplit1()` 的特殊注释转化为 `man/strsplit1.Rd`，对 `document()` 的调用会基于在 roxygen 注释中找到的 `@export` 标签来更新 `NAMESPACE` 文件。
+打开 `NAMESPACE` 进行检查。
+其中的内容应该如下所示：
 
 <!-- OK to use this approach here because I actively do not want a copy button. NAMESPACE should be managed by roxygen and I don't want to tempt anyone to edit it by hand. -->
 
@@ -597,9 +597,9 @@ The contents should be:
 cat(readLines("NAMESPACE"), sep = "\n")
 ```
 
-The export directive in `NAMESPACE` is what makes `strsplit1()` available to a user after attaching regexcite via `library(regexcite)`.
-Just as it is entirely possible to author `.Rd` files "by hand", you can manage `NAMESPACE` explicitly yourself.
-But we choose to delegate this to devtools (and roxygen2).
+在通过 `library(regexcite)` 载入 regexcite 后，`NAMESPACE` 中的 export 指令使得 `strsplit1()` 对于用户来说可用。
+就像完全有可能“手工”编写 `.Rd` 文件一样，你可以自己显式地管理 `NAMESPACE`。
+但我们选择将这个任务委托给 devtools（以及 roxygen2）来完成。
 
 ```{r commit-namespace, eval = create, include = debug}
 git_add(c("NAMESPACE", path("man", "strsplit1.Rd")))
@@ -620,7 +620,7 @@ shhh_check(error_on = "never")
 
 ## `install()`
 
-Now that we know we have a minimum viable product, let's install the regexcite package into your library via `install()`:
+由于现在我们已经有了一个最小的可行软件包，让我们通过 `install()` 将 regexcite 包安装到你的库中：
 
 ```{r first-install-fake, eval = FALSE}
 install()
@@ -633,12 +633,12 @@ cat(pretty_install(), sep = "\n")
 ::: callout-tip
 ## RStudio
 
-RStudio exposes similar functionality in the *Build* menu and in the *Build* pane via *Install and Restart*, and in keyboard shortcuts Ctrl + Shift + B (Windows & Linux) or Cmd + Shift + B (macOS).
+RStudio 在 *Build* 菜单中，或在 *Build* 窗格中通过 *Install and Restart* 提供了类似功能的快捷调用，另外使用快捷键 Ctrl + Shift + B (Windows & Linux) 或 Cmd + Shift + B (macOS) 也可以快速调用这一功能。
 :::
 
-After installation is complete, we can attach and use regexcite like any other package.
-Let's revisit our small example from the top.
-This is also a good time to restart your R session and ensure you have a clean workspace.
+安装完成后，我们可以像其他包一样载入和使用 regexcite。
+让我们从头开始回顾我们的小型示例。
+这也是重新启动 R 会话并确保你有一个干净的工作空间的好时机。
 
 ```{r, eval = create}
 library(regexcite)
@@ -647,44 +647,44 @@ x <- "alfa,bravo,charlie,delta"
 strsplit1(x, split = ",")
 ```
 
-Success!
+成功！
 
 ## `use_testthat()`
 
-We've tested `strsplit1()` informally, in a single example.
-We can formalize this as a unit test.
-This means we express a concrete expectation about the correct `strsplit1()` result for a specific input.
+我们已经在一个示例中非正式地测试了 `strsplit1()`。
+我们还可以将其形式化为单元测试。
+这意味着我们对于特定输入的 `strsplit1()` 的正确结果表达了明确的期望。
 
-First, we declare our intent to write unit tests and to use the testthat package for this, via `use_testthat()`:
+首先，我们声明我们将使用 testthat 包中的 `use_testthat()` 来编写单元测试：
 
 ```{r use-testthat, eval = create}
 use_testthat()
 ```
 
-This initializes the unit testing machinery for your package.
-It adds `Suggests: testthat` to `DESCRIPTION`, creates the directory `tests/testthat/`, and adds the script `tests/testthat.R`.
-You'll notice that testthat is probably added with a minimum version of 3.0.0 and a second DESCRIPTION field, `Config/testthat/edition: 3`.
-We'll talk more about those details in @sec-testing-basics.
+这将初始化软件包的单元测试机制。
+它会将 `Suggests: testthat` 添加到 `DESCRIPTION`，创建目录 `tests/testthat/`，并添加脚本文件 `tests/testthat.R`。
+你会注意到 testthat 可能添加了 3.0.0 的最小版本依赖要求，以及第二个 DESCRIPTION 字段 `Config/testthat/edition: 3`。
+我们将会在 @sec-testing-basics 中详细讨论这些细节。
 
 ```{r commit-testthat-init, eval = create, include = debug}
 git_add(c("DESCRIPTION", path("tests", "testthat.R")))
 git_commit("Add testing infrastructure")
 ```
 
-However, it's still up to YOU to write the actual tests!
+然而，是否编写实际的测试仍然取决于你！
 
-The helper `use_test()` opens and/or creates a test file.
-You can provide the file's basename or, if you are editing the relevant source file in RStudio, it will be automatically generated.
-For many of you, if `R/strsplit1.R` is the active file in RStudio, you can just call `use_test()`.
-However, since this book is built non-interactively, we must provide the basename explicitly:
+辅助函数 `use_test()` 用于打开并（或）创建测试文件。
+你可以提供文件名，或者，如果你在 RStudio 中编辑相关的源文件，文件名将自动生成。
+对于大部分人来说，如果 `R/strsplit1.R` 是 RStudio 中打开的文件，你只需要调用 `use_test()` 就好。
+然而，由于本书是非交互构建的，我们必须显式地提供文件名：
 
 ```{r test-strsplit1, eval = create}
 use_test("strsplit1")
 ```
 
-This creates the file `tests/testthat/test-strsplit1.R`.
-If it had already existed, `use_test()` would have just opened it.
-You will notice that there is an example test in the newly created file - delete that code and replace it with this content:
+它将会生成文件 `tests/testthat/test-strsplit1.R`。
+如果该文件已经存在，`use_test()` 将只会打开它。
+你会注意到在新创建的文件中有一个测试样例——你需要删除这些代码，并将以下内容添加到文件中:
 
 ```{r include = debug, eval = create}
 test_path <- path("tests", "testthat", "test-strsplit1.R")
@@ -697,17 +697,17 @@ test_that("strsplit1() splits a string", {
 })
 ```
 
-This tests that `strsplit1()` gives the expected result when splitting a string.
+这将测试 `strsplit1()` 在分割字符串时是否给出预期的结果。
 
 ```{r commit-strsplit1-test, eval = create, include = debug}
 git_add(test_path)
 git_commit("Test strsplit1()")
 ```
 
-Run this test interactively, as you will when you write your own.
-If `test_that()` or `strsplit1()` can't be found, that suggests that you probably need to call `load_all()`.
+交互式地运行这个测试，就像你编写自己的测试时会做的那样。
+如果无法找到 `test_that()` 或 `strsplit1()`，那么这表示你可能需要调用 `load_all()`。
 
-Going forward, your tests will mostly run *en masse* and at arm's length via `test()`:
+在以后的过程中，你的测试大部分将主要通过 `test()` 以*批量*方式运行：
 
 <!-- TODO: I have no idea why I have to disable crayon here, but if I don't, I guess raw ANSI escapes. Other chunks seem to work fine with downlig. It would also be nice to not see evidence of progress reporting, but the previous approach to turning that off keeps this chunk from showing any output at all :( The previous approach was `R.options = list(testthat.default_reporter = testthat::ProgressReporter$new(update_interval = Inf))`. -->
 
@@ -722,47 +722,47 @@ test()
 ::: callout-tip
 ## RStudio
 
-RStudio exposes `test()` in the *Build* menu, in the *Build* pane via *More \> Test package*, and in keyboard shortcuts Ctrl + Shift + T (Windows & Linux) or Cmd + Shift + T (macOS).
+RStudio 在 *Build* 菜单中，或者在 *Build* 窗格中通过 *More \> Test package* 提供 `test()` 的快捷调用，另外使用快捷键 Ctrl + Shift + T (Windows & Linux) 或 Cmd + Shift + T (macOS) 也可以快速调用这一函数。
 :::
 
-Your tests are also run whenever you `check()` the package.
-In this way, you basically augment the standard checks with some of your own, that are specific to your package.
-It is a good idea to use the [covr package](https://covr.r-lib.org) to track what proportion of your package's source code is exercised by the tests.
-More details can be found in @sec-testing-basics.
+每当你使用 `check()` 检查软件包时，你的测试也会运行。
+这样，你基本上就可以使用一些特定于自己的包的检查来扩展标准检查。
+使用 [covr package](https://covr.r-lib.org) 跟踪该测试所执行的源代码的比例也是一个好主意。
+更多细节见 @sec-testing-basics。
 
 ## `use_package()`
 
-You will inevitably want to use a function from another package in your own package.
-We will need to use package-specific methods for declaring the other packages we need (i.e. our dependencies) and for using these packages in ours.
-If you plan to submit a package to CRAN, note that this even applies to functions in packages that you think of as "always available", such as `stats::median()` or `utils::head()`.
+在开发自己的软件包时，你不可避免地会想要在自己的包中使用另一个包中的函数。
+要在我们的包中声明我们需要的其他包（即我们的依赖项），以及在我们的包中使用这些包，需要使用专用于软件包的方法来完成。
+请注意，如果你计划将一个包提交到 CRAN，这种方法甚至适用于一些你认为是“始终可用”的包，例如 `stats::median()` 或 `utils::head()`。
 
-One common dilemma when using R's regular expression functions is uncertainty about whether to request `perl = TRUE` or `perl = FALSE`.
-And then there are often, but not always, other arguments that alter how patterns are matched, such as `fixed`, `ignore.case`, and `invert`.
-It can be hard to keep track of which functions use which arguments and how the arguments interact, so many users never get to the point where they retain these details without rereading the docs.
+在使用 R 的正则表达式函数时，一个常见的困境是对于是否要求 `perl = TRUE` 或 `perl = FALSE` 存在不确定性。
+此外，通常（但并非总是）还有其他参数会改变模式的匹配方式，例如 `fixed`、`ignore.case` 和 `invert`。
+跟踪哪个函数使用了哪个参数以及参数之间如何交互是一件很困难的事，因此许多用户在不重复读文档的情况下永远不会记住这些细节。
 
-The stringr package "provides a cohesive set of functions designed to make working with strings as easy as possible".
-In particular, stringr uses one regular expression system everywhere (ICU regular expressions) and uses the same interface in every function for controlling matching behaviors, such as case sensitivity.
-Some people find this easier to internalize and program around.
-Let's imagine you decide you'd rather build regexcite based on stringr (and stringi) than base R's regular expression functions.
+stringr 包“提供了一组协调一致的函数，旨在使处理字符串变得尽可能简单”。
+具体而言，stringr 在所有地方都使用一个正则表达式系统（ICU 正则表达式），并在每个函数中使用相同的接口来控制匹配行为，比如大小写敏感性。
+一些人发现这样更容易内化知识和编程。
+让我们假设你决定基于 stringr（和 stringi）构建 regexcite，而不是基于 R 的基础正则表达式函数。
 
-First, declare your general intent to use some functions from the stringr namespace with `use_package()`:
+首先，通过使用 `use_package()` 来声明你的通用意图，即使用 stringr 命名空间中的一些函数：
 
 ```{r use-stringr, eval = create}
 use_package("stringr")
 ```
 
-This adds the stringr package to the `Imports` field of `DESCRIPTION`.
-And that is all it does.
+这一命令会把 stringr 包加入到 `DESCRIPTION` 的 `Imports` 字段。
+这就是它的全部功能。
 
 ```{r commit-stringr-imports, eval = create, include = debug}
 git_add("DESCRIPTION")
 git_commit("Import stringr")
 ```
 
-Let's revisit `strsplit1()` to make it more stringr-like.
-Here's a new take on it[^whole-game-1]:
+让我们重新回到 `strsplit1()`，使它更像 stringr 的风格。
+这里有一个新的实现方案[^whole-game-1]:
 
-[^whole-game-1]: Recall that this example was so inspiring that it's now a real function in the stringr package: \`stringr::str_split_1()\`!
+[^whole-game-1]: 回想一下，这个例子是如此鼓舞人心，以至于它现在是 stringr 包中的一个真正的函数： \`stringr::str_split_1()\`！
 
 ```{r str-split-one-sneak-peek, eval = FALSE}
 str_split_one <- function(string, pattern, n = Inf) {
@@ -775,26 +775,26 @@ str_split_one <- function(string, pattern, n = Inf) {
 }
 ```
 
-Notice that we:
+请注意，我们：
 
--   Rename the function to `str_split_one()`, to signal that it is a wrapper around `stringr::str_split()`.
--   Adopt the argument names from `stringr::str_split()`. Now we have `string` and `pattern` (and `n`), instead of `x` and `split`.
--   Introduce a bit of argument checking and edge case handling. This is unrelated to the switch to stringr and would be equally beneficial in the version built on `strsplit()`.
--   Use the `package::function()` form when calling `stringr::str_split()`. This specifies that we want to call the `str_split()` function from the stringr namespace. There is more than one way to call a function from another package and the one we endorse here is explained fully in @sec-dependencies-in-practice.
+-   将函数重命名为 `str_split_one()`，以表示它是 `stringr::str_split()` 的一个封装。
+-   采用了 `stringr::str_split()` 的参数名称。现在我们有了 `string` 和 `pattern`（以及 `n`），而不是 `x` 和 `split`。
+-   引入了一些参数检查和边界情况处理。这与切换到 stringr 无关，并且在基于 `strsplit()` 构建的版本中同样有益。
+-   在调用 `stringr::str_split()` 时使用了 `package::function()` 形式。这指定我们要从 stringr 命名空间中调用 `str_split()` 函数。从另一个包中调用函数的方法不止一种，而我们在这里建议的方法在 @sec-dependencies-in-practice 中有完整的解释。
 
-Where should we write this new function definition?
-If we want to keep following the convention where we name the `.R` file after the function it defines, we now need to do some fiddly file shuffling.
-Because this comes up fairly often in real life, we have the `rename_files()` function, which choreographs the renaming of a file in `R/` and its associated companion files below `test/`.
+我们应该在哪里写这个新的函数定义？
+如果我们想继续遵循我们将 `.R` 文件命名为其中定义的函数的约定，那么我们现在需要进行一些繁琐的文件移动和重新组织的操作。
+因为这在现实生活中经常出现，所以我们使用了 `rename_files()` 函数, 它会协调在 `R/` 目录下的文件重命名以及与之相关的 `test/` 目录下伴随文件的重命名。
 
 ```{r}
 rename_files("strsplit1", "str_split_one")
 ```
 
-Remember: the file name work is purely aspirational.
-We still need to update the contents of these files!
+请记住：对文件名进行操作远远不够。
+我们仍然需要更新这些文件的内容！
 
-Here are the updated contents of `R/str_split_one.R`.
-In addition to changing the function definition, we've also updated the roxygen header to reflect the new arguments and to include examples that show off the stringr features.
+以下是 `R/str_split_one.R` 的更新内容。
+除了更改函数定义之外，我们还更新了 roxygen 注释以反映参数的更新，并包含展示 stringr 特性的示例。
 
 ```{cat str-split-one-write, eval = create, class.source = "r"}
 #| engine.opts = list(file = path("R", "str_split_one.R"))
@@ -823,10 +823,10 @@ str_split_one <- function(string, pattern, n = Inf) {
 }
 ```
 
-Don't forget to also update the test file!
+别忘了也要更新测试文件！
 
-Here are the updated contents of `tests/testthat/test-str_split_one.R`.
-In addition to the change in the function's name and arguments, we've added a couple more tests.
+以下是 `tests/testthat/test-str_split_one.R` 的更新内容。
+除了更改函数的名称和参数之外，我们还添加了几个测试。
 
 ```{cat str-split-one-test-write, eval = create, class.source = "r"}
 #| engine.opts = list(file = path("tests", "testthat", "test-str_split_one.R"))
@@ -844,22 +844,22 @@ test_that("str_split_one() exposes features of stringr::str_split()", {
 })
 ```
 
-Before we take the new `str_split_one()` out for a test drive, we need to call `document()`.
-Why?
-Remember that `document()` does two main jobs:
+在我们导出新的 `str_split_one()` 进行测试之前，我们需要调用 `document()`。
+为什么呢？
+请记住 `document()` 做了两件主要的工作：
 
-1.  Converts our roxygen comments into proper R documentation.
-2.  (Re)generates `NAMESPACE`.
+1.  将我们的 roxygen 注释转换为适当的 R 文档。
+2.  （重新）生成 `NAMESPACE`。
 
-The second job is especially important here, since we will no longer export `strsplit1()` and we will newly export `str_split_one()`.
-Don't be dismayed by the warning about `"Objects listed as exports, but not present in namespace: strsplit1"`.
-That always happens when you remove something from the namespace.
+第二个工作在这里特别重要，因为我们将不再导出 `strsplit1()`，而是导出新的 `str_split_one()`。
+不要对 `"Objects listed as exports, but not present in namespace: strsplit1"` 的警告感到沮丧。
+当你从命名空间中删除某些内容时，这种情况总是会发生。
 
 ```{r document-str-split-one, eval = create}
 document()
 ```
 
-Try out the new `str_split_one()` function by simulating package installation via `load_all()`:
+通过 `load_all()` 模拟软件包安装，试试新的 `str_split_one()` 函数：
 
 ```{r str-split-one-test-drive, eval = create}
 load_all()
@@ -878,52 +878,52 @@ git_commit("Switch to str_split_one()")
 
 ## `use_github()`
 
-You've seen us making commits during the development process for regexcite.
-You can see an indicative history at <https://github.com/jennybc/regexcite>.
-Our use of version control and the decision to expose the development process means you can inspect the state of the regexcite source at each developmental stage.
-By looking at so-called diffs, you can see exactly how each devtools helper function modifies the source files that constitute the regexcite package.
+你已经看到我们在 regexcite 的开发过程中进行了许多提交。
+你可以在 <https://github.com/jennybc/regexcite> 中看到指示性的提交历史记录
+我们使用版本控制系统并公开开发过程的决定意味着你可以在每个开发阶段检查 regexcite 源代码的状态。
+通过查看所谓的文件差异 (diff)，你可以确切地看到每个 devtools 辅助函数是如何修改构成 regexcite 软件包的源文件的。
 
-How would you connect your local regexcite package and Git repository to a companion repository on GitHub?
-Here are three approaches:
+如何将你的本地 regexcite 软件包和 Git 存储库连接到 GitHub 上的配套存储库呢？
+这里有三种方法：
 
-1.  [`use_github()`](https://usethis.r-lib.org/reference/use_github.html) is a helper that we recommend for the long-term. We won't demonstrate it here because it requires some credential setup on your end. We also don't want to tear down and rebuild the public regexcite package every time we build this book.
-2.  Set up the GitHub repo first! It sounds counter-intuitive, but the easiest way to get your work onto GitHub is to initiate there, then use RStudio to start working in a synced local copy. This approach is described in Happy Git's workflows [New project, GitHub first](https://happygitwithr.com/new-github-first.html) and [Existing project, GitHub first](https://happygitwithr.com/existing-github-first.html).
-3.  Command line Git can always be used to add a remote repository *post hoc*. This is described in the Happy Git workflow [Existing project, GitHub last](https://happygitwithr.com/existing-github-last.html).
+1.  [`use_github()`](https://usethis.r-lib.org/reference/use_github.html) 是我们一直以来推荐使用的辅助函数。我们不会在这里演示，因为它需要在你的主机端进行一些登录凭证的设置。我们也不想在每次建立这本书的时候都删除和重建公共 regexcite 软件包储存库。
+2.  先设置 GitHub 储存库！这听起来有悖常理，但把你的工作放到 GitHub 托管的最简单方法是在那里初始化，然后使用 RStudio 在同步的本地副本中开始工作。这种方法在 Happy Git 的工作流 [New project, GitHub first](https://happygitwithr.com/new-github-first.html) 和 [Existing project, GitHub first](https://happygitwithr.com/existing-github-first.html) 中进行了描述。
+3.  命令行 Git (Command line Git) 始终可以用于在*事后*添加远程存储库。这在 Happy Git 工作流 [Existing project, GitHub last](https://happygitwithr.com/existing-github-last.html) 中进行了描述。
 
-Any of these approaches will connect your local regexcite project to a GitHub repo, public or private, which you can push to or pull from using the Git client built into RStudio.
-In @sec-sw-dev-practices, we elaborate on why version control (e.g., Git) and, specifically, hosted version control (e.g. GitHub) is worth incorporating into your package development process.
+这些方法都会将你的本地 regexcite 项目连接到公共或私有的 GitHub 储存库，你可以使用 RStudio 中内置的 Git 客户端来推送 (push) 或拉取 (pull) 它。
+在 @sec-sw-dev-practices 中，我们详细说明了为什么版本控制（例如 Git），特别是托管版本控制（例如 GitHub）值得合并到软件包开发过程中。
 
 ## `use_readme_rmd()`
 
-Now that your package is on GitHub, the `README.md` file matters.
-It is the package's home page and welcome mat, at least until you decide to give it a website (see @sec-website), add a vignette (see @sec-vignettes), or submit it to CRAN (see @sec-release).
+现在你的软件包已经公开到 GitHub 上了，那么 `README.md` 文件就很重要。
+它是软件包的主页和欢迎界面，至少在你决定为它建立一个网站（见 @sec-website），添加一份主题文档 (vignette)（见 @sec-vignettes），或者提交到 CRAN（见 @sec-release）之前是这样。
 
-The `use_readme_rmd()` function initializes a basic, executable `README.Rmd` ready for you to edit:
+`use_readme_rmd()` 函数的作用是初始化一个基础的，可执行的 `README.Rmd` 以供你编辑：
 
 ```{r use-readme-rmd, eval = create}
 use_readme_rmd()
 ```
 
-In addition to creating `README.Rmd`, this adds some lines to `.Rbuildignore`, and creates a Git pre-commit hook to help you keep `README.Rmd` and `README.md` in sync.
+除了创建 `README.Rmd` 外，它还会在 `.Rbuildignore` 添加几行内容并创建一个 Git 预提交钩子 (pre-commit hook) 来帮助你保持 `README.Rmd` 和 `README.md` 的同步。
 
-`README.Rmd` already has sections that prompt you to:
+`README.Rmd` 中已经包含了一些部分，提示你：
 
--   Describe the purpose of the package.
--   Provide installation instructions. If a GitHub remote is detected when `use_readme_rmd()` is called, this section is pre-filled with instructions on how to install from GitHub.
--   Show a bit of usage.
+-   描述开发这个软件包的目的。
+-   提供安装说明。如果在调用 `use_readme_rmd()` 时检测到已配置 GitHub 远程仓库，这一节将预先填充如何从 GitHub 进行安装的说明。
+-  展示一些用法
 
-How to populate this skeleton?
-Copy stuff liberally from `DESCRIPTION` and any formal and informal tests or examples you have.
-Anything is better than nothing.
-This is helpful because people probably won't install your package and comb through individual help files to figure out how to use it.
+如何填充这个内容框架？
+可以从 `DESCRIPTION` 和任何正式或非正式的测试和示例中大量复制内容。
+有内容总比没有好。
+这很有帮助，因为人们可能不会安装你的软件包并仔细检查各个帮助文件来弄清楚如何使用它。
 
-We like to write the `README` in R Markdown, so it can feature actual usage.
-The inclusion of live code also makes it less likely that your `README` grows stale and out-of-sync with your actual package.
+我们喜欢使用 R Markdown 编写 `README`，这样它就可以展示实际用法。
+包含可实时运行的代码能够减少你的 `README` 变得过时，并且与实际的软件包不同步的可能性。
 
-To make your own edits, if RStudio has not already done so, open `README.Rmd` for editing.
-Make sure it shows some usage of `str_split_one()`.
+如果 RStudio 还没有像上面描述的那样做，请打开 `README.Rmd` 自己进行编辑。
+确保它显示了 `str_split_one()` 的一些用法。
 
-The `README.Rmd` we use is here: [README.Rmd](https://github.com/jennybc/regexcite/blob/main/README.Rmd) and here's what it contains:
+我们使用的 `README.Rmd` 可以在这里找到：[README.Rmd](https://github.com/jennybc/regexcite/blob/main/README.Rmd)，以下是该文件的内容：
 
 ```{r copy-readme-rmd, include = debug, eval = create}
 file_copy(
@@ -937,19 +937,19 @@ file_copy(
 writeLines(readLines("README.Rmd"))
 ```
 
-Don't forget to render it to make `README.md`!
-The pre-commit hook should remind you if you try to commit `README.Rmd`, but not `README.md`, and also when `README.md` appears to be out-of-date.
+别忘了渲染该文件以生成 `README.md`！
+如果你尝试提交 `README.Rmd` 而不是 `README.md`，或者 `README.md` 已经过时了，预提交钩子 (pre-commit hook) 应该会提示你。
 
-The very best way to render `README.Rmd` is with `build_readme()`, because it takes care to render with the most current version of your package, i.e. it installs a temporary copy from the current source.
+渲染 `README.Rmd` 的最好方法是使用 `build_readme()`，因为它会注意使用软件包的最新版本来进行渲染， 即它会从当前包的源代码中安装一个临时副本进行渲染。
 
 ```{r readme-render, eval = create}
 build_readme()
 ```
 
-You can see the rendered `README.md` simply by [visiting regexcite on GitHub](https://github.com/jennybc/regexcite#readme).
+你只需要简单地[访问 GitHub 上的 regexcite ](https://github.com/jennybc/regexcite#readme)就可以看到已经渲染好的 `README.md`。
 
-Finally, don't forget to do one last commit.
-And push, if you're using GitHub.
+最后，别忘了做最后一次提交。
+如果你使用了 GitHub，还需要推送至远程仓库。
 
 ```{r commit-rendered-readme, eval = create, include = debug}
 git_add(c(".Rbuildignore", "README.Rmd", "README.md"))
@@ -965,7 +965,7 @@ git_remote_add("https://github.com/jennybc/regexcite.git")
 git_push(force = TRUE)
 ```
 
-## 最后一步：`check()` 然后 `install()`
+## 最后一步：`check()`，然后 `install()`
 
 让我们再次运行 `check()`，确保软件包仍然一切正常。
 
@@ -1009,7 +1009,7 @@ knitr::opts_knit$set(root.dir = owd)
 getwd()
 ```
 
-## Review
+## 回顾
 
 这一章的目的是给你一个典型的软件包开发流程的印象，可以总结为 @fig-package-dev-workflow 所示的流程图。
 除了 GitHub Actions 外，你在这里看到的所有内容都已经在这一章中提到过了，你将在 @sec-sw-dev-practices-gha 中学到更多。

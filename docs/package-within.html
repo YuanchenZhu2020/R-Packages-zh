@@ -61,7 +61,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
+<link href="./code.html" rel="next">
 <link href="./workflow101.html" rel="prev">
 <link href="./images/cover-2e-small.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
@@ -165,7 +165,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./whole-game.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">The Whole Game</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">整个流程</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -183,7 +183,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./workflow101.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Fundamental development workflows</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">基本开发工作流</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -194,21 +194,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">References</span></span></a>
-  </div>
-</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text">Appendices</span></a>
+ <span class="menu-text">软件包组件</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./code.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">R code</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./misc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">其它组件</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./R-CMD-check.html" class="sidebar-item-text sidebar-link">
@@ -323,7 +352,7 @@ Evan,seaside,31</code></pre>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">now</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">now</span>, <span class="st">"%Y-%B-%d_%H-%M-%S"</span><span class="op">)</span></span>
 <span><span class="op">(</span><span class="va">outfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">timestamp</span>, <span class="st">"_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span><span class="op">(</span><span class="st">"(.*)([.]csv$)"</span>, <span class="st">"\\1_clean\\2"</span>, <span class="va">infile</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2023-十二月-25_22-26-57_swim_clean.csv"</span></span>
+<span><span class="co">#&gt; [1] "2023-十二月-28_18-13-18_swim_clean.csv"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv</a></span><span class="op">(</span><span class="va">dat</span>, file <span class="op">=</span> <span class="va">outfile</span>, quote <span class="op">=</span> <span class="cn">FALSE</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here is <code>data-cleaning.R</code> in its entirety:</p>
@@ -460,7 +489,7 @@ seaside,UK</code></pre>
 </li>
 <li>Copy <code>beach-lookup-table.csv</code> into the new package. But where? Let’s try the top-level of the source package.
 <ul>
-<li>This is not going to end well. Shipping data files in a package is a special topic, which is covered in <span class="quarto-unresolved-ref">?sec-data</span>.</li>
+<li>This is not going to end well. Shipping data files in a package is a special topic, which is covered in <a href="data.html"><span>Chapter&nbsp;7</span></a>.</li>
 </ul>
 </li>
 <li>Install this package, perhaps using <code><a href="https://devtools.r-lib.org/reference/install.html">devtools::install()</a></code> or via Ctrl + Shift + B (Windows &amp; Linux) or Cmd + Shift + B in RStudio.
@@ -522,7 +551,7 @@ seaside,UK</code></pre>
 <span>  <span class="fu">celsify_temp</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Error: 'beach-lookup-table.csv' does not exist in current working directory ('/Users/jenny/tmp').</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The lookup table consulted inside <code>localize_beach()</code> cannot be found. One does not simply dump CSV files into the source of an R package and expect things to “just work”. We will fix this in our next iteration of the package (<span class="quarto-unresolved-ref">?sec-data</span> has full coverage of how to include data in a package).</p>
+<p>The lookup table consulted inside <code>localize_beach()</code> cannot be found. One does not simply dump CSV files into the source of an R package and expect things to “just work”. We will fix this in our next iteration of the package (<a href="data.html"><span>Chapter&nbsp;7</span></a> has full coverage of how to include data in a package).</p>
 <p>Before we abandon this initial experiment, let’s also marvel at the fact that you were able to install, attach, and, to a certain extent, use a fundamentally broken package. <code><a href="https://devtools.r-lib.org/reference/load_all.html">devtools::load_all()</a></code> works fine, too! This is a sobering reminder that you should be running <code>R CMD check</code>, probably via <code><a href="https://devtools.r-lib.org/reference/check.html">devtools::check()</a></code>, very often during development. This will quickly alert you to many problems that simple installation and usage does not reveal.</p>
 <p>Indeed, <code>check()</code> fails for this package and you see this:</p>
 <pre><code> * installing *source* package ‘delta’ ...
@@ -578,7 +607,7 @@ seaside,UK</code></pre>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/savehistory.html">timestamp</a></span><span class="op">(</span><span class="va">now</span><span class="op">)</span>, <span class="st">"_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span><span class="op">(</span><span class="st">"(.*)([.]csv$)"</span>, <span class="st">"\\1_clean\\2"</span>, <span class="va">infile</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We’ve gone back to defining the <code>lookup_table</code> with R code, since the initial attempt to read it from CSV created some sort of filepath snafu. This is OK for small, internal, static data, but remember to see <span class="quarto-unresolved-ref">?sec-data</span> for more general techniques for storing data in a package.</p>
+<p>We’ve gone back to defining the <code>lookup_table</code> with R code, since the initial attempt to read it from CSV created some sort of filepath snafu. This is OK for small, internal, static data, but remember to see <a href="data.html"><span>Chapter&nbsp;7</span></a> for more general techniques for storing data in a package.</p>
 <p>All of the calls to tidyverse functions have now been qualified with the name of the specific package that actually provides the function, e.g.&nbsp;<code><a href="https://dplyr.tidyverse.org/reference/mutate.html">dplyr::mutate()</a></code>. There are other ways to access functions in another package, explained in <span class="quarto-unresolved-ref">?sec-dependencies-in-imports</span>, but this is our recommended default. It is also our strong recommendation that no one depend on the tidyverse meta-package in a package<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. Instead, it is better to identify the specific package(s) you actually use. In this case, the package only uses dplyr.</p>
 <p>The <code><a href="https://tidyverse.tidyverse.org">library(tidyverse)</a></code> call is gone and instead we declare the use of dplyr in the <code>Imports</code> field of <code>DESCRIPTION</code>:</p>
 <pre><code>Package: echo
@@ -669,7 +698,7 @@ Undefined global functions or variables:
 <p>The timestamps now reflect the current time, but the group raises a new concern. As it stands, the timestamps reflect who has done the data cleaning and which part of the world they’re in. The heart of the timestamp strategy is this format string<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>:</p>
 <div class="cell">
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"%Y-%B-%d_%H-%M-%S"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2023-十二月-25_22-26-57"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; [1] "2023-十二月-28_18-13-19"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This formats <code><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time()</a></code> in such a way that it includes the month <em>name</em> (not number) and the local time<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p>
 <p><a href="#tbl-timestamps">Table&nbsp;<span>5.1</span></a> shows what happens when such a timestamp is produced by several hypothetical colleagues cleaning some data at exactly the same instant in time.</p>
@@ -741,15 +770,15 @@ Undefined global functions or variables:
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"%Y-%B-%d_%H-%M-%S"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<pre><code>#&gt; [1] "2023-dezembro-25_11-26-58"</code></pre>
+<pre><code>#&gt; [1] "2023-dezembro-28_07-13-19"</code></pre>
 </div>
 <p>After:</p>
 <div class="cell">
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">outfile_path</span><span class="op">(</span><span class="st">"INFILE.csv"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2023-December-25_14-26-57_INFILE_clean.csv"</span></span>
+<span><span class="co">#&gt; [1] "2023-December-28_10-13-19_INFILE_clean.csv"</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"%Y-%B-%d_%H-%M-%S"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2023-December-25_14-26-58"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; [1] "2023-December-28_10-13-20"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Notice that her month name switched from Portuguese to English and the time is clearly being reported in a different time zone. The calls to <code><a href="https://rdrr.io/r/base/locales.html">Sys.setlocale()</a></code> and <code><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv()</a></code> inside <code><a href="https://rdrr.io/r/utils/savehistory.html">timestamp()</a></code> have made persistent (and very surprising) changes to her R session. This sort of side effect is very undesirable and is extremely difficult to track down and debug, especially in more complicated settings.</p>
 <p>Here are better versions of <code><a href="https://rdrr.io/r/utils/savehistory.html">timestamp()</a></code>:</p>
@@ -775,7 +804,7 @@ Undefined global functions or variables:
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>These show various methods to limit the scope of our changes to LC_TIME and the timezone. A good rule of thumb is to make the scope of such changes as narrow as possible and practical. The <code>tz</code> argument of <code><a href="https://rdrr.io/r/base/format.html">format()</a></code> is the most surgical way to deal with the timezone, but nothing similar exists for LC_TIME. We make the temporary locale modification using the withr package, which provides a very flexible toolkit for temporary state changes. This (and <code><a href="https://rdrr.io/r/base/on.exit.html">base::on.exit()</a></code>) are discussed further in <span class="quarto-unresolved-ref">?sec-code-r-landscape</span>. Note that if you use withr as we do above, you would need to list it in <code>DESCRIPTION</code> in <code>Imports</code> (<span class="quarto-unresolved-ref">?sec-dependencies-in-practice</span>, <span class="quarto-unresolved-ref">?sec-dependencies-tidyverse</span>).</p>
+<p>These show various methods to limit the scope of our changes to LC_TIME and the timezone. A good rule of thumb is to make the scope of such changes as narrow as possible and practical. The <code>tz</code> argument of <code><a href="https://rdrr.io/r/base/format.html">format()</a></code> is the most surgical way to deal with the timezone, but nothing similar exists for LC_TIME. We make the temporary locale modification using the withr package, which provides a very flexible toolkit for temporary state changes. This (and <code><a href="https://rdrr.io/r/base/on.exit.html">base::on.exit()</a></code>) are discussed further in <a href="code.html#sec-code-r-landscape"><span>Section&nbsp;6.5</span></a>. Note that if you use withr as we do above, you would need to list it in <code>DESCRIPTION</code> in <code>Imports</code> (<span class="quarto-unresolved-ref">?sec-dependencies-in-practice</span>, <span class="quarto-unresolved-ref">?sec-dependencies-tidyverse</span>).</p>
 <p>This underscores a point from the previous section: you need to adopt a different mindset when defining functions inside a package. Try to avoid making any changes to the user’s overall state. If such changes are unavoidable, make sure to reverse them (if possible) or to document them explicitly (if related to the function’s primary purpose).</p>
 </section><section id="concluding-thoughts" class="level2" data-number="5.8"><h2 data-number="5.8" class="anchored" data-anchor-id="concluding-thoughts">
 <span class="header-section-number">5.8</span> Concluding thoughts</h2>
@@ -802,7 +831,7 @@ Undefined global functions or variables:
 </section></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><hr>
 <ol>
 <li id="fn1"><p><code><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time()</a></code> returns an object of class <code>POSIXct</code>, therefore when we call <code><a href="https://rdrr.io/r/base/format.html">format()</a></code> on it, we are actually using <code><a href="https://rdrr.io/r/base/strptime.html">format.POSIXct()</a></code>. Read the help for <a href="https://rdrr.io/r/base/strptime.html"><code>?format.POSIXct</code></a> if you’re not familiar with such format strings.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>Putting everything in one file, with this name, is not ideal, but it is technically allowed. We discuss organising and naming the files below <code>R/</code> in <span class="quarto-unresolved-ref">?sec-code-organising</span>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Putting everything in one file, with this name, is not ideal, but it is technically allowed. We discuss organising and naming the files below <code>R/</code> in <a href="code.html#sec-code-organising"><span>Section&nbsp;6.1</span></a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>The blog post <a href="https://www.tidyverse.org/blog/2018/06/tidyverse-not-for-packages/">The tidyverse is for EDA, not packages</a> elaborates on this.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4"><p>Here we’re referring to when the package code is compiled, which could be either when the binary is made (for macOS or Windows; <a href="structure.html#sec-structure-binary"><span>Section&nbsp;3.4</span></a>) or when the package is installed from source (<a href="structure.html#sec-installed-package"><span>Section&nbsp;3.5</span></a>).<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn5"><p><code><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time()</a></code> returns an object of class <code>POSIXct</code>, therefore when we call <code><a href="https://rdrr.io/r/base/format.html">format()</a></code> on it, we are actually using <code><a href="https://rdrr.io/r/base/strptime.html">format.POSIXct()</a></code>. Read the help for <a href="https://rdrr.io/r/base/strptime.html"><code>?format.POSIXct</code></a> if you’re not familiar with such format strings.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
@@ -1041,12 +1070,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="./workflow101.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Fundamental development workflows</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">基本开发工作流</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">References</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./code.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">R code</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -1,4 +1,4 @@
-# Fundamental development workflows {#sec-workflow101}
+# 基本开发工作流 {#sec-workflow101}
 
 ```{r, echo = FALSE}
 source("common.R")

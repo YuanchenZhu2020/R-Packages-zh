@@ -1,0 +1,120 @@
+# 其它组件 {#sec-misc}
+
+```{r, echo = FALSE}
+source("common.R")
+```
+
+本书这一部分的前两章涵盖了人们可以通过 R 包分发的两个最明显的内容：函数 (@sec-r) 和数据 (@sec-data)。
+但这并不是制作一个 R 软件包的全部内容。
+还有其他软件包组件是必需的，例如 `DESCRIPTION` 文件，或者是我们强烈推荐的其它组件，例如测试和文档。
+
+本书接下来的几个部分围绕重要的概念进行组织：软件包依赖、测试和文档。
+但在我们深入研究这些主题之前，本章将揭开一些组件的神秘面纱，不是每个包都需要这些组件，但了解它们是很有益处的。
+
+## 其它目录
+
+下面是一些你可能会在 R 源码包中遇到的顶级目录，按其重要性和使用频率大致排序：
+
+-   `src/`：存放已编译代码的源文件和头文件，通常是 C 和 c++。
+    这是一项重要的技术，用于提高 R 包的性能，并能够为 R 用户释放外部库的强大功能。
+    从第二版开始，本书将不再涵盖这个主题，因为对已编译代码的真正有用的处理需要更多的篇幅进行说明，我们无法在这里给出。
+    tidyverse 一般使用 [cpp11 包](https://cpp11.r-lib.org) 来将 C++ 连接到 R 中；大多数其他包使用 [Rcpp](https://www.rcpp.org)，这是最完善的用于集成 R 和 C++ 的包。
+
+-   `inst/`：用于存放你希望包含在软件包中的任意其他文件。
+    这包括一些特殊的文件，比如下面 @sec-misc-inst 描述的 `CITATION`。
+    其他可能出现在 `inst/` 目录中的文件示例包括 R Markdown 模板（参见 `usethis::use_rmarkdown_template()`）或 [RStudio 插件](https://docs.posit.co/ide/user/ide/guide/productivity/add-ins.html)。
+
+-   `tools/`：存放配置过程中需要的辅助文件，通常和 `configure` 脚本一起出现。
+    我们将在下面的 @sec-misc-tools 中对此进行详细讨论。
+
+-   `demo/`：用于软件包演示。
+    我们将演示示例视作一种遗留现象，其目标现在可以通过主题文档 (vignette) 更好地实现 (@sec-vignettes)。
+    对于积极维护的包，在任何现有的演示示例中重新使用更可见的内容(例如在README中)可能是有意义的。For actively maintained packages, it probably makes sense to repurpose the content in any existing demos somewhere that's more visible, e.g. in `README.Rmd` (@sec-readme) or in vignettes (@sec-vignettes).
+    These other locations offer other advantages, such as making sure that the code is exercised regularly.
+    This is not true of actual demos, leaving them vulnerable to rot.
+
+-   `exec/`: for executable scripts.
+    Unlike files placed in other directories, files in `exec/` are automatically flagged as executable.
+    Empirically, to the extent that R packages are shipping scripts for external interpreters, the `inst/` directory seems to be the preferred location these days.
+
+-   `po/`: translations for messages.
+    This is useful, but beyond the scope of this book.
+    See the [Internationalization](https://cran.rstudio.com/doc/manuals/r-devel/R-exts.html#Internationalization) chapter of "Writing R extensions" and the [potools package](https://michaelchirico.github.io/potools/index.html) for more details.
+
+## Installed files {#sec-misc-inst}
+
+When a package is installed, everything in `inst/` is copied into the top-level directory of the installed package (see @fig-package-files). In some sense `inst/` is the opposite of `.Rbuildignore` - where `.Rbuildignore` lets you remove arbitrary files and directories from the built package, `inst/` lets you add them.
+
+::: callout-warning
+You are free to put anything you like in `inst/` with one caution: because `inst/` is copied into the top-level directory, don't create a subdirectory that collides with any of the directories that make up the official structure of an R package.
+We recommend avoiding directories with special significance in either the source or installed form of a package, such as: `inst/data`, `inst/help`, `inst/html`, `inst/libs`, `inst/man`, `inst/Meta`, `inst/R`, `inst/src`, `inst/tests`, `inst/tools`, and `inst/vignettes`.
+In most cases, this prevents you from having a malformed package.
+And even though some of the above directories are technically allowed, they can be an unnecessary source of confusion.
+:::
+
+Here are some of the most common files and folders found in `inst/`:
+
+-   `inst/CITATION`: how to cite the package, see below for details.
+
+-   `inst/extdata`: additional external data for examples and vignettes.
+    See section @sec-data-extdata for more detail.
+
+What if you need a path to the file at `inst/foo` to use in, e.g., the code below `R/` or in your documentation?
+The default solution is to use `system.file("foo", package = "yourpackage")`.
+But this presents a workflow dilemma: When you're developing your package, you engage with it in its source form (`inst/foo`), but your users engage with its installed form (`/foo`).
+Happily, devtools provides a shim for `system.file()` that is activated by `load_all()`.
+Section @sec-data-system-file covers this in more depth and includes an interesting alternative, `fs::path_package()` .
+
+### Package citation {#sec-misc-inst-citation}
+
+The `CITATION` file lives in the `inst` directory and is intimately connected to the `citation()` function which tells you how to cite R and R packages.
+Calling `citation()` without any arguments tells you how to cite base R:
+
+```{r}
+citation()
+```
+
+Calling it with a package name tells you how to cite that package:
+
+```{r}
+citation("tidyverse")
+```
+
+The associated `inst/CITATION` file looks like this:
+
+```{r, echo = FALSE, comment = ""}
+citation <- readLines(system.file("CITATION", package = "tidyverse"))
+cat(citation, sep = "\n")
+```
+
+You can call `usethis::use_citation()` to initiate this file and fill in your details.
+Read the `?bibentry` help topic for more details.
+
+## Configuration tools {#sec-misc-tools}
+
+If a package has a configuration script (`configure` on Unix-alikes, `configure.win` on Windows), it is executed as the first step by `R CMD INSTALL`. This is typically associated with a package that has a `src/` subdirectory containing C/C++ code and the `configure` script is needed at compile time.
+If that script needs auxiliary files, those should be located in the `tools/` directory.
+The scripts below `tools/` can have an effect on the installed package, but the contents of `tools/` will not ultimately be present in the installed package.
+In any case, this is mostly (but not solely) relevant to packages with compiled code, which is beyond the scope of this book.
+
+We bring this up because, in practice, some packages use the `tools/` directory for a different but related purpose.
+Some packages have periodic maintenance tasks for which it is helpful to record detailed instructions.
+For example, many packages embed some sort of external resource, e.g. code or data:
+
+-   Source code and headers for an embedded third-party C/C++ library.
+
+-   Web toolkits.
+
+-   R code that's inlined (as opposed to imported).
+
+-   Specification for a web API.
+
+-   Colour palettes, styles, and themes.
+
+These external assets are also usually evolving over time, so they need to be re-ingested on a regular basis.
+This makes it particularly rewarding to implement such housekeeping programmatically.
+
+This is the second, unofficial use of the `tools/` directory, characterized by two big differences from its official purpose: The packages that do this generally do not have a `configure` script and they list `tools/` in `.Rbuildignore`, meaning that these scripts are not included in the package bundle.
+These scripts are maintained in the source package for developer convenience but are never shipped with the package.
+
+This practice is closely related to our recommendation to store the instructions for the creation of package data in `data-raw/` (section @sec-data-data-raw) and to record the method of construction for any test fixtures (section @sec-testing-advanced-concrete-fixture).

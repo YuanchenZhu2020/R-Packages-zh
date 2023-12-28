@@ -37,11 +37,11 @@ book:
     - workflow101.Rmd
     - package-within.Rmd
 
-  # - part: Package components
-  #   chapters:
-  #   - code.Rmd
-  #   - data.Rmd
-  #   - misc.Rmd
+  - part: 软件包组件
+    chapters:
+    - code.Rmd
+    - data.Rmd
+    - misc.Rmd
 
   # - part: Package metadata
   #   chapters:

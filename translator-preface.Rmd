@@ -17,7 +17,7 @@
 | compelling | 令人信服的 | @intro 中 "One compelling reason ..." 应该想要表达开发 R 包能带来一个明显的优势，即方便分享自己的代码，这一优势具有强烈的推动力和说服力，让你想要开发 R 包。^[译者注：需要再想清楚作者想表达的意思，然后润色] |
 | section | 章节，段落 | 本书中的 section 多用于指代层级低于 "chapter" 的文段，有的是小节，也有的是一个段落。 |
 | espouse | 宣扬，倡导 | 直译为“支持”，从语句通顺的角度翻译为“宣扬”。 |
-| Vignette | 主题文档 | 原意是“小插曲”、“短文”、“小品文”等，在 R 中 Vignette 是对整个包或包的某个功能主题进行概括性的介绍，这里突出其内容特性，强调其内容为贡功能“主题”，不强调其独立性和概括性。 |
+| Vignette | 主题文档 | 原意是“小插曲”、“短文”、“小品文”等，在 R 中 Vignette 是对整个包或包的某个功能主题进行概括性的介绍，这里突出其内容特性，强调其内容为功能“主题”，不强调其独立性和概括性。 |
 | Shunryu Suzuki | 铃木俊隆 | 人名的中文翻译依据是 [Wikipedia](https://en.wikipedia.org/wiki/Shunry%C5%AB_Suzuki) |
 | toy package | 示例软件包 | 直译过来是“玩具一般的软件包”，表示其各部分相比于真实软件包来说都较为简单，但包含了真实软件包的必要的部分，用于作为一个实例展示开发流程。 |
 | commit history | 提交历史 | GitHub 或 Git 中列出的 commit 历史。 |
@@ -41,6 +41,11 @@
 | morally | 从逻辑上讲 | 这个词原意为“按照道义上的”，其翻译依赖于上下文语境，在编程领域可能更倾向于翻译为“从逻辑上讲”。 |
 | unlist | 列表展开 | 这里指将列表展开为向量。 |
 | attach (library) | 载入（包） | 这里指载入包，使其可用。实际执行的是将包的路径“附加”到查找路径中。 |
+| demo | 演示示例 | 这里指软件包中的演示示例，通常是一个 R 脚本，用于展示软件包的功能。 |
+| diff (in git) | 版本差异；文件差异 | 可以参考 git 中的 diff 命令，用于比较两个版本或两个文件的差异。 |
+| pre-commit hook | 预提交钩子 | 这里指 git 中的 pre-commit hook，是在执行 commit 命令前执行的脚本，可以用于在 commit 前执行一些操作，例如检查代码风格、运行测试等。 |
+| live code | 可实时运行的代码 | 主要指 R Markdown 或其它任何形式的文档中，在生成文档时需要实时执行的代码。 |
+| file shuffling | 文件移动和重新组织操作 | 这里指对文件进行移动、重命名、删除等操作，就像“洗牌”一样。 |
 
 ## 排版说明 {.unnumbered}
 
@@ -67,9 +72,9 @@
 | welcome | ✅ | ✅|
 | Preface | ✅  |  ✅ |
 | Introduction | ✅  |  ⚙️|
-| The Whole Game | ⚙️ | |
-| System setup | ✅ |  ⚙️|
-| Package structure and state |  |  |
+| The Whole Game | ✅ | ⚙️ |
+| System setup | ✅ | ⚙️ |
+| Package structure and state | ⚙️ |  |
 | Fundamental development workflows | | |
 | The package within | | |
 | R Code | | |
