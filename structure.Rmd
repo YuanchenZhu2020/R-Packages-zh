@@ -4,108 +4,109 @@
 source("common.R")
 ```
 
-This chapter will start you on the road to package development by converting the implicit knowledge you've gained from *using* R packages into the explicit knowledge needed to *create and modify* them.
-You'll learn about the various states a package can be in and the difference between a package and library (and why you should care).
+本章将会把你从*使用* R 包中获得的隐式知识转化为*创建和修改* R 包所需的显式知识，从而使你踏上 R 软件包开发之路。
+你将会了解到软件包可能处于的各种状态，以及包 (package) 和库 (library) 之间的区别（以及为什么你应该关心这些区别）。
 
-## Package states {#sec-package-states}
+## 软件包状态 {#sec-package-states}
 
-When you create or modify a package, you work on its "source code" or "source files".
-You interact with the in-development package in its **source** form.
-This is NOT the package form you are most familiar with from day-to-day usage.
-Package development workflows make much more sense if you understand the five states an R package can be in:
+当你创建或修改软件包时，需要在它的“源代码”或“源文件”上进行。
+你会以**源代码**的形式和正在开发中的包进行交互。
+当然，这并不是你在日常使用中最熟悉的软件包形式。
+但是，如果你了解 R 包可能处于的五种状态，那么软件包开发工作流将变得更有意义：
 
--   source
--   bundled
--   binary
--   installed
--   in-memory
+-   源代码状态 (source)
+-   打包状态 (bundled)
+-   二进制文件状态 (binary)
+-   已安装状态 (installed)
+-   载入内存状态 (in-memory)
 
-You already know some of the functions that put packages into these states.
-For example, `install.packages()` can move a package from the source, bundled, or binary states into the installed state.
-`devtools::install_github()` takes a source package on GitHub and moves it into the installed state.
-The `library()` function loads an installed package into memory, making it available for immediate and direct use.
+你可能已经了解一些将软件包置于这些状态的函数。
+例如，`install.packages()` 函数可以将软件包从源代码状态、打包状态或二进制文件状态转为已安装状态。
+`devtools::install_github()` 函数获取 GitHub 上的源代码软件包并将其转为已安装状态。
+而 `library()` 函数将已安装的软件包加载到内存中，使其立即可以直接使用。
 
-## Source package {#sec-source-package}
+## 源码包 {#sec-source-package}
 
-A **source** package is just a directory of files with a specific structure.
-It includes particular components, such as a `DESCRIPTION` file, an `R/` directory containing `.R` files, and so on.
-Most of the remaining chapters in this book are dedicated to detailing these components.
+一个**源代码**软件包就是一个有着特定结构的文件目录。
+它包含特定的组件，例如一个 `DESCRIPTION` 文件，包含 `.R` 文件的 `R/` 目录等等。
+本书其余的大部分章节都致力于详细介绍这些组件。
 
-If you are new to package development, you may have never seen a package in source form!
-You might not even have any source packages on your computer.
-The easiest way to see a package in source form right away is to browse around its code on the web.
+如果你刚刚接触 R 包开发，那么你可能从未见过源代码形式的软件包！
+你的计算机上甚至可能没有任何源码包。
+以源代码形式查看软件包的最简单的方法是在网站上浏览其代码。
 
-Many R packages are developed in the open on GitHub (or GitLab or similar).
-The best case scenario is that you visit the package's CRAN landing page, e.g.:
+许多 R 包是在 GitHub（或者 GitLab 以及类似的平台）上公开开发的。
+要找到它们的网址，最好的情况是你能够访问软件包的 CRAN 主页 (landing page)，例如：
 
 -   forcats: <https://cran.r-project.org/package=forcats>
 -   readxl: <https://cran.r-project.org/package=readxl>
 
-and one of its URLs links to a repository on a public hosting service, e.g.:
+页面中一个 URL 会链接到公共托管服务上的存储库，例如：
 
 -   forcats: <https://github.com/tidyverse/forcats>
 -   readxl: <https://github.com/tidyverse/readxl>
 
-Some maintainers forget to list this URL, even though the package is developed in a public repository, but you still might be able to discover it via search.
+即使这个包是在公共存储库中开发的，有时候一些维护者会忘记列出这个 URL，但是你仍然可以通过搜索发现它。
 
-Even if a package is not developed on a public platform, you can visit its source in the [unofficial, read-only mirror maintained by R-hub](https://docs.r-hub.io/#cranatgh).
-Examples:
+即使软件包不是在公共平台上开发的，你也可以通过 [由 R-hub 维护的非官方只读镜像](https://docs.r-hub.io/#cranatgh) 来访问其源代码，例如：
 
 -   MASS: <https://github.com/cran/MASS>
 -   car: <https://github.com/cran/car>
 
-Note that exploring a package's source and history within the `cran` GitHub organisation is not the same as exploring the package's true development venue, because this source and its evolution is just reverse-engineered from the package's CRAN releases.
-This presents a redacted view of the package and its history, but, by definition, it includes everything that is essential.
+请注意，在 `cran` GitHub 组织中探索软件包的源代码及其开发历史并不等同于探索软件包真正的开发场所，因为里面的源代码和演变历史只是根据它在 CRAN 的正式发布版本 (release) 中通过逆向工程提取出来的。
+我们看到的这只是对软件包及其开发历史的一种编辑结果，但根据定义，它仍然包含了所有必需的内容。
 
-## Bundled package {#sec-bundled-package}
+## 归档包[^bundled-package] {#sec-bundled-package}
 
-A **bundled** package is a package that's been compressed into a single file.
-By convention (from Linux), package bundles in R use the extension `.tar.gz` and are sometimes referred to as "source tarballs".
-This means that multiple files have been reduced to a single file (`.tar`) and then compressed using gzip (`.gz`).
-While a bundle is not that useful on its own, it's a platform-agnostic, transportation-friendly intermediary between a source package and an installed package.
+[^bundled-package]:译者注：“归档”一词在中国大陆的用语习惯中较少使用，但考虑 `tar` 的原意，确实有“为一个版本创建只读快照”的含义，和这里的 R 包相符。
 
-In the rare case that you need to make a bundle from a package you're developing locally, use `devtools::build()`.
-Under the hood, this calls `pkgbuild::build()` and, ultimately, `R CMD build`, which is described further in the [Building package tarballs](https://cran.r-project.org/doc/manuals/R-exts.html#Building-package-tarballs) section of [Writing R Extensions](https://cran.r-project.org/doc/manuals/R-exts.html).
+一个**归档打包的**软件包是被压缩成单个文件的软件包。
+按照惯例（该惯例来自 Linux），R 中的归档包使用 `.tar.gz` 扩展名，有时候也被称为 "source tarballs"。
+这意味着多个文件已经被打包为一个文件 (`.tar`) 并使用 gzip (`.gz`) 进行压缩。
+虽然归档包本身并不那么有用，但它是源码包和已安装包之间平台无关、便于传输的中间媒介。
 
-This should tip you off that a package bundle or "source tarball" is not simply the result of making a tar archive of the source files, then compressing with gzip.
-By convention, in the R world, a few more operations are carried out when making the `.tar.gz` file and this is why we've elected to refer to this form as a package **bundle**, in this book.
+在从本地开发的软件包中生成归档包这种罕见的情况下，请使用 `devtools::build()` 函数。
+在幕后，它会调用 `pkgbuild::build()` 并最终调用 `R CMD build`，这些内容会在 [Writing R Extensions](https://cran.r-project.org/doc/manuals/R-exts.html) 的 [Building package tarballs](https://cran.r-project.org/doc/manuals/R-exts.html#Building-package-tarballs) 章节中进行更多阐述。 
 
-Every CRAN package is available in bundled form, via the "Package source" field of its landing page.
-Continuing our examples from above, you could download the bundles `forcats_0.4.0.tar.gz` and `readxl_1.3.1.tar.gz` (or whatever the current versions may be).
-You could unpack such a bundle in the shell (not the R console) like so:
+这应该会提醒你，归档包或 "source tarball" 不仅仅是对源文件进行 tar 打包归档，然后使用 gzip 压缩的结果。
+按照惯例，在 R 世界中，在制作 `.tar.gz` 文件时还要执行一些操作，而这就是为什么我们选择在本书中将这种形式称为**归档包**的原因。
+
+每一个 CRAN 软件包都以归档包的形式提供，可以通过软件包主页 (landing page) 中 "Package source" 字段获取。
+继续我们上面的示例，你可以下载归档包 `forcats_0.4.0.tar.gz` 和 `readxl_1.3.1.tar.gz`（或者任何当前的版本）。
+你可以在 shell（而不是 R 控制台）中进行解压：
 
 ``` bash
 tar xvf forcats_0.4.0.tar.gz
 ```
 
-If you decompress a bundle, you'll see it looks almost the same as a source package.
-@fig-package-files shows the files present in the source, bundled, and binary forms of a fictional package named zzzpackage.
-We've deliberately crafted this example to include most of the package parts covered in this book.
-Not every package will include every file seen here, nor does this diagram include every possible file that might appear in a package.
+如果解压一个归档包，你会发现它看起来几乎与源码包相同。
+@fig-package-files 展示了一个名为 zzzpackage 的虚构软件包的源码包、归档包和二进制包中的文件。
+我们精心设计了这个示例，以包含本书中涉及的大部分软件包组件。
+不过，不是每个软件包都包含这里看到的每个文件，这个图也不包括包中可能出现的每个文件。
 
 ```{r}
 #| label: fig-package-files
 #| echo: false
 #| out-width: ~
 #| fig-cap: >
-#|   Package forms: source vs. bundled vs. binary.
+#|   软件包形式：源代码 vs. 归档 vs. 二进制。
 #| fig-alt: >
-#|   Side-by-side comparison of source, bundled, and binary package. 
-#|   The flow of files (location and format) from package source to 
-#|   bundled to binary state is shown. This is described in
-#|   detail in the appropriately named sections of this chapter.
+#|   源码包、归档包和二进制包之间并列比较。
+#|   展示了从软件包源代码到打包状态，再到二进制状态的流向（包括路径和格式）
+#|   这一过程将在本章适当命名的章节中
+#|   进行详细介绍。
 knitr::include_graphics("diagrams/package-files.png")
 ```
 
-The main differences between a source package and an uncompressed bundle are:
+未压缩的归档包相比于源码包的主要区别为：
 
--   Vignettes have been built, so rendered outputs, such as HTML, appear below `inst/doc/` and a vignette index appears in the `build/` directory.
+-   已经构建了主题文档 (vignettes)，因此渲染好的输出文件，例如 HTML 会出现在 `inst/doc/` 目录下，并且主题文档 (vignette) 索引会出现在 `build/` 目录中。
 
--   A local source package might contain temporary files used to save time during development, like compilation artefacts in `src/`.
-    These are never found in a bundle.
+-   本地源码包可能包含用于在开发期间节省时间的临时文件，例如 `src/` 中的编译产物 (compilation artifacts)。
+    这些文件不会在归档包中出现。
 
--   Any files listed in `.Rbuildignore` are not included in the bundle.
-    These are typically files that facilitate your development process, but that should be excluded from the distributed product.
+-   `.Rbuildignore` 中列出的任何文件都不包含在捆绑包中。
+    这些文件通常有助于你的开发过程，但应该从分发的最终产品中排除。
 
 ### `.Rbuildignore` {#sec-rbuildignore}
 
@@ -382,7 +383,7 @@ Above, the macOS system is used as a primary development machine and has many pa
 The core set of base and recommended packages that ship with R live in the system-level library and are the same on all operating systems.
 This separation appeals to many developers and makes it easy to, for example, clean out your add-on packages without disturbing your base R installation.
 
-[^structure-3]: For more details, see the [Maintaining R section](https://whattheyforgot.org/maintaining-r.html#how-to-transfer-your-library-when-updating-r) in *What They Forgot To Teach You About R*, [Managing Libraries](https://rstudio.github.io/r-manuals/r-admin/Add-on-packages.html#managing-libraries) in *R Installation and Administration* and the R help files for `?Startup` and `?.libPaths`.
+[^structure-3]: For more details, see the [Maintaining R section](https://rstats.wtf/maintaining-r#how-to-transfer-your-library-when-updating-r) in *What They Forgot To Teach You About R*, [Managing Libraries](https://rstudio.github.io/r-manuals/r-admin/Add-on-packages.html#managing-libraries) in *R Installation and Administration* and the R help files for `?Startup` and `?.libPaths`.
 
 If you're on macOS or Linux and only see one library, there is no urgent need to change anything.
 But next time you upgrade R, consider creating a user-level library.
