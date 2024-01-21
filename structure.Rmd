@@ -25,7 +25,7 @@ source("common.R")
 `devtools::install_github()` 函数获取 GitHub 上的源代码软件包并将其转为已安装状态。
 而 `library()` 函数将已安装的软件包加载到内存中，使其立即可以直接使用。
 
-## 源码包 {#sec-source-package}
+## 源码包 (Source Package) {#sec-source-package}
 
 一个**源代码**软件包就是一个有着特定结构的文件目录。
 它包含特定的组件，例如一个 `DESCRIPTION` 文件，包含 `.R` 文件的 `R/` 目录等等。
@@ -56,7 +56,7 @@ source("common.R")
 请注意，在 `cran` GitHub 组织中探索软件包的源代码及其开发历史并不等同于探索软件包真正的开发场所，因为里面的源代码和演变历史只是根据它在 CRAN 的正式发布版本 (release) 中通过逆向工程提取出来的。
 我们看到的这只是对软件包及其开发历史的一种编辑结果，但根据定义，它仍然包含了所有必需的内容。
 
-## 归档包[^bundled-package] {#sec-bundled-package}
+## 归档包 (Bundled Package)[^bundled-package] {#sec-bundled-package}
 
 [^bundled-package]:译者注：“归档”一词在中国大陆的用语习惯中较少使用，但考虑 `tar` 的原意，确实有“为一个版本创建只读快照”的含义，和这里的 R 包相符。
 
@@ -110,55 +110,55 @@ knitr::include_graphics("diagrams/package-files.png")
 
 ### `.Rbuildignore` {#sec-rbuildignore}
 
-You won't need to contemplate the exact structure of package `.tar.gz` files very often, but you do need to understand the `.Rbuildignore` file.
-It controls which files from the source package make it into the downstream forms.
+你不需要经常考虑 `.tar.gz` 形式的软件包的确切结构，但你确实需要了解 `.Rbuildignore` 文件。
+它决定了源码包中的哪些文件可以进入后面的工作流。
 
-Each line of `.Rbuildignore` is a Perl-compatible regular expression that is matched, without regard to case, against the path to each file in the source package[^structure-1].
-If the regular expression matches, that file or directory is excluded.
-Note there are some default exclusions implemented by R itself, mostly relating to classic version control systems and editors, such as SVN, Git, and Emacs.
+`.Rbuildignore` 的每一行都是一个 Perl 兼容的正则表达式 (Perl-compatible regular expression, PCRE)，它会在不考虑大小写的情况下与源码包中每个文件的路径进行匹配[^structure-1]。
+如果正则表达式匹配到了文件或目录，那么该文件或目录将会被排除，无法进入之后的软件包开发工作流。
+注意，有一些默认排除项由 R 本身执行，主要与经典的版本控制系统和编辑器（例如 SVN, Git 和 Emacs）有关。
 
-[^structure-1]: To see the set of filepaths that should be on your radar, execute `dir(full.names = TRUE, recursive = TRUE, include.dirs = TRUE, all.files = TRUE)` in the package's top-level directory.
+[^structure-1]: 要查看会参与匹配的所有文件路径的集合，请在软件包的顶层目录执行命令 `dir(full.names = TRUE, recursive = TRUE, include.dirs = TRUE, all.files = TRUE)`。
 
-We usually modify `.Rbuildignore` with the `usethis::use_build_ignore()` function, which takes care of easy-to-forget details, such as regular expression anchoring and escaping.
-To exclude a specific file or directory (the most common use case), you **MUST** anchor the regular expression.
-For example, to exclude a directory called "notes", the `.Rbuildignore` entry must be `^notes$`, whereas the unanchored regular expression `notes` will match any file name containing "notes", e.g.
-`R/notes.R`, `man/important-notes.R`, `data/endnotes.Rdata`, etc.
-We find that `use_build_ignore()` helps us get more of our `.Rbuildignore` entries right the first time.
+我们通常使用 `usethis::use_build_ignore()` 函数来修改 `.Rbuildignore`，该函数能够帮助你处理一些容易遗忘的细节，例如正则表达式的添加定位锚点 (anchoring) 和转义 (escaping)。
+要排除特定的文件或目录（这是最常见的用例），**必须**为正则表达式添加定位锚点 (anchor)。
+例如，如果要排除一个名为 "notes" 的目录，`.Rbuildignore` 中对应条目必须是 `^notes$`，而没有添加定位锚点的正则表达式 `notes` 将会匹配任意包含 "notes" 的文件名，例如 
+`R/notes.R`, `man/important-notes.R`, `data/endnotes.Rdata` 等。
+我们发现 `use_build_ignore()` 有助于我们第一次就更准确地获取更多的 `.Rbuildignore` 条目。
 
-`.Rbuildignore` is a way to resolve some of the tension between the practices that support your development process and CRAN's requirements for submission and distribution (@sec-release).
-Even if you aren't planning to release on CRAN, following these conventions will allow you to make the best use of R's built-in tooling for package checking and installation.
-The files you should `.Rbuildignore` fall into two broad, semi-overlapping classes:
+`.Rbuildignore` 提供了一种解决方式，能够协调支持开发流程的常规做法和 CRAN 对软件包提交和分发的要求之间的一些紧张关系 (@sec-release)。
+即使你不打算在 CRAN 上发布你的软件包，遵循这些约定也能让你充分地利用 R 的内置工具来检查和安装程序包。
+你应该添加到 `.Rbuildignore` 中的文件分为两个半重叠的类别：
 
--   Files that help you generate package contents programmatically. Examples:
-    -   Using `README.Rmd` to generate an informative and current `README.md` (@sec-readme).
-    -   Storing `.R` scripts to create and update internal or exported data (@sec-data-data-raw).
--   Files that drive package development, checking, and documentation, outside of CRAN's purview. Examples:
-    -   Files relating to the RStudio IDE (@sec-workflow101-rstudio-projects).
-    -   Using the [pkgdown package](https://pkgdown.r-lib.org) to generate a website (@sec-website).
-    -   Configuration files related to continuous integration/deployment (@sec-sw-dev-practices-ci).
+-   帮助你以编程方式生成软件包内容的文件。例如：
+    -   使用 `README.Rmd` 生成信息丰富且最新的 `README.md` (@sec-readme)。
+    -   储存用于创建和更新内部或导出数据的 `.R` 脚本 (@sec-data-data-raw)。
+-   在 CRAN 的要求之外驱动软件包开发、检查和文档的文件。例如：
+    -   和 RStudio IDE 有关的文件 (@sec-workflow101-rstudio-projects)。
+    -   使用 [pkgdown package](https://pkgdown.r-lib.org) 生成的软件包网站 (@sec-website)。
+    -   与持续集成/部署有关的配置文件 (@sec-sw-dev-practices-ci)。
 
-Here is a non-exhaustive list of typical entries in the `.Rbuildignore` file for a package in the tidyverse:
+以下是一个 `.Rbuildignore` 文件非详尽的典型条目列表，来自 tidyverse 包：
 
 ```         
-^.*\.Rproj$         # Designates the directory as an RStudio Project
-^\.Rproj\.user$     # Used by RStudio for temporary files
-^README\.Rmd$       # An Rmd file used to generate README.md
-^LICENSE\.md$       # Full text of the license
-^cran-comments\.md$ # Comments for CRAN submission
-^data-raw$          # Code used to create data included in the package
-^pkgdown$           # Resources used for the package website
-^_pkgdown\.yml$     # Configuration info for the package website
-^\.github$          # GitHub Actions workflows
+^.*\.Rproj$         # 指定目录为 RStudio 项目的文件
+^\.Rproj\.user$     # RStudio 使用的临时文件
+^README\.Rmd$       # 用于生成 README.md 的 Rmd 文件
+^LICENSE\.md$       # 许可证全文
+^cran-comments\.md$ # CRAN 提交的评论意见
+^data-raw$          # 用于创建软件包中包含的数据的代码
+^pkgdown$           # 用于软件包网站的资源文件
+^_pkgdown\.yml$     # 软件包网站的配置文件
+^\.github$          # GitHub Actions 工作流
 ```
 
-Note that the comments above must not appear in an actual `.Rbuildignore` file; they are included here only for exposition.
+注意，上面的注释不能出现在实际的 `.Rbuildignore` 文件中，它们在这里只是为了说明文件作用。
 
-We'll mention when you need to add files to `.Rbuildignore` whenever it's important.
-Remember that `usethis::use_build_ignore()` is an attractive way to manage this file.
-Furthermore, many usethis functions that add a file that should be listed in `.Rbuildignore` take care of this automatically.
-For example, `use_read_rmd()` adds "\^README\\.Rmd\$" to `.Rbuildignore`.
+当你需要向 `.Rbuildignore` 中添加文件时，我们会在书中提到。
+请记住 `usethis::use_build_ignore()` 是管理这类文件的一种有吸引力的方法。
+此外，许多 usethis 函数在添加一个应该列在 `.Rbuildignore` 中的文件时会自动处理这个问题。
+例如 `use_read_rmd()` 会将 "\^README\\.Rmd\$" 添加到 `.Rbuildignore`。
 
-## Binary package {#sec-structure-binary}
+## 二进制包 (Binary Package) {#sec-structure-binary}
 
 If you want to distribute your package to an R user who doesn't have package development tools, you'll need to provide a **binary** package.
 The primary maker and distributor of binary packages is CRAN, not individual maintainers.
@@ -205,7 +205,7 @@ Here are some of the most notable differences:
 
 -   Some files and folders have been dropped, such as `README.md`, `build/`, `tests/`, and `vignettes/`.
 
-## Installed package {#sec-installed-package}
+## 已安装的包 (Installed package) {#sec-installed-package}
 
 An **installed** package is a binary package that's been decompressed into a package library (described in @sec-library).
 @fig-installation illustrates the many ways a package can be installed, along with a few other functions for converting a package from one state to another.
@@ -278,28 +278,28 @@ The rest of the devtools/remotes `install_*()` functions are aimed at making thi
 Analogous to `.Rbuildignore`, described in section @sec-rbuildignore, `.Rinstignore` lets you keep files present in a package bundle out of the installed package.
 However, in contrast to `.Rbuildignore`, this is rather obscure and rarely needed.
 
-## In-memory package
+## 内存中的包 (In-memory package)
 
-We finally arrive at a command familiar to everyone who uses R:
+我们终于讲到了一个每个使用 R 的人都熟悉的命令：
 
 ```{r, eval = FALSE}
 library(usethis)
 ```
 
-Assuming usethis is installed, this call makes its functions available for use, i.e. now we can do:
+假设你已经安装了 usethis，这个函数调用会使得 usethis 包的所有函数都能够使用，也就是说，我们现在可以直接执行函数：
 
 ```{r, eval = FALSE}
 create_package("/path/to/my/coolpackage")
 ```
 
-The usethis package has been loaded into memory and, in fact, has also been attached to the search path.
-The distinction between loading and attaching packages is not important when you're writing scripts, but it's very important when you're writing packages.
-You'll learn more about the difference and why it's important in @sec-dependencies-attach-vs-load.
+usethis 包现在已经被载入了内存，实际上，它也被附加到了搜索路径中。
+在编写脚本时，载入和附加软件包之间的区别并不重要，但是当你编写软件包时却非常重要。
+你将在 @sec-dependencies-attach-vs-load 中了解到它们之间的区别和重要性。
 
-`library()` is not a great way to iteratively tweak and test drive a package you're developing, because it only works for an installed package.
-In @sec-workflow101-load-all, you'll learn how `devtools::load_all()` accelerates development by allowing you to load a source package directly into memory.
+`library()` 并不是迭代地调整和测试驱动一个软件包的好方法，因为它只对已安装的包起作用。
+在 @sec-workflow101-load-all 中你将会了解到 `devtools::load_all()` 是如何通过允许你直接将源码包加载到内存中来加速开发的。
 
-## Package libraries {#sec-library}
+## 软件包库 (Package libraries) {#sec-library}
 
 We just discussed the `library()` function, whose name is inspired by what it does.
 When you call `library(somepackage)`, R looks through the current **libraries** for an installed package named "somepackage" and, if successful, it makes somepackage available for use.

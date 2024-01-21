@@ -1,59 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://r-pkgs.org/index.html</loc>
-    <lastmod>2023-12-28T10:14:23.606Z</lastmod>
+    <loc>https://book.formlesslab.top/r-pkgs/book-asciidoc/R-Packages--2e-.adoc</loc>
+    <lastmod>2024-01-21T08:16:00.587Z</lastmod>
   </url>
   <url>
-    <loc>https://r-pkgs.org/translator-preface.html</loc>
-    <lastmod>2023-12-28T10:14:23.613Z</lastmod>
+    <loc>https://book.formlesslab.top/r-pkgs/index.html</loc>
+    <lastmod>2023-12-19T06:19:27.597Z</lastmod>
   </url>
   <url>
-    <loc>https://r-pkgs.org/preface.html</loc>
-    <lastmod>2023-12-28T10:14:23.626Z</lastmod>
+    <loc>https://book.formlesslab.top/r-pkgs/book-asciidoc/translator-preface.adoc</loc>
+    <lastmod>2024-01-21T08:16:04.717Z</lastmod>
   </url>
   <url>
-    <loc>https://r-pkgs.org/introduction.html</loc>
-    <lastmod>2023-12-28T10:14:23.633Z</lastmod>
+    <loc>https://book.formlesslab.top/r-pkgs/translator-preface.html</loc>
+    <lastmod>2024-01-21T07:03:46.850Z</lastmod>
   </url>
   <url>
-    <loc>https://r-pkgs.org/whole-game.html</loc>
-    <lastmod>2023-12-28T10:14:50.906Z</lastmod>
+    <loc>https://book.formlesslab.top/r-pkgs/book-asciidoc/preface.adoc</loc>
+    <lastmod>2024-01-21T08:16:13.148Z</lastmod>
   </url>
   <url>
-    <loc>https://r-pkgs.org/setup.html</loc>
-    <lastmod>2023-12-28T10:14:23.667Z</lastmod>
+    <loc>https://book.formlesslab.top/r-pkgs/preface.html</loc>
+    <lastmod>2023-12-19T06:19:27.610Z</lastmod>
   </url>
   <url>
-    <loc>https://r-pkgs.org/structure.html</loc>
-    <lastmod>2023-12-28T10:14:23.676Z</lastmod>
+    <loc>https://book.formlesslab.top/r-pkgs/book-asciidoc/introduction.adoc</loc>
+    <lastmod>2024-01-21T08:16:41.675Z</lastmod>
   </url>
   <url>
-    <loc>https://r-pkgs.org/workflow101.html</loc>
-    <lastmod>2023-12-28T10:14:23.691Z</lastmod>
+    <loc>https://book.formlesslab.top/r-pkgs/introduction.html</loc>
+    <lastmod>2023-12-28T10:19:48.774Z</lastmod>
   </url>
   <url>
-    <loc>https://r-pkgs.org/package-within.html</loc>
-    <lastmod>2023-12-28T10:14:24.150Z</lastmod>
+    <loc>https://book.formlesslab.top/r-pkgs/book-asciidoc/whole-game.adoc</loc>
+    <lastmod>2024-01-21T08:18:26.870Z</lastmod>
   </url>
   <url>
-    <loc>https://r-pkgs.org/code.html</loc>
-    <lastmod>2023-12-28T10:14:24.185Z</lastmod>
+    <loc>https://book.formlesslab.top/r-pkgs/whole-game.html</loc>
+    <lastmod>2023-12-28T10:15:22.063Z</lastmod>
   </url>
   <url>
-    <loc>https://r-pkgs.org/data.html</loc>
-    <lastmod>2023-12-28T10:14:24.204Z</lastmod>
+    <loc>https://book.formlesslab.top/r-pkgs/book-asciidoc/setup.adoc</loc>
+    <lastmod>2024-01-21T08:18:45.729Z</lastmod>
   </url>
   <url>
-    <loc>https://r-pkgs.org/misc.html</loc>
-    <lastmod>2023-12-28T10:14:24.214Z</lastmod>
+    <loc>https://book.formlesslab.top/r-pkgs/setup.html</loc>
+    <lastmod>2023-12-19T06:19:27.610Z</lastmod>
   </url>
   <url>
-    <loc>https://r-pkgs.org/references.html</loc>
-    <lastmod>2023-12-28T10:14:24.221Z</lastmod>
+    <loc>https://book.formlesslab.top/r-pkgs/book-asciidoc/structure.adoc</loc>
+    <lastmod>2024-01-21T08:19:21.112Z</lastmod>
   </url>
   <url>
-    <loc>https://r-pkgs.org/R-CMD-check.html</loc>
-    <lastmod>2023-12-28T10:14:24.241Z</lastmod>
+    <loc>https://book.formlesslab.top/r-pkgs/structure.html</loc>
+    <lastmod>2024-01-21T07:48:33.127Z</lastmod>
+  </url>
+  <url>
+    <loc>https://book.formlesslab.top/r-pkgs/book-asciidoc/workflow101.adoc</loc>
+    <lastmod>2024-01-21T08:19:56.789Z</lastmod>
+  </url>
+  <url>
+    <loc>https://book.formlesslab.top/r-pkgs/workflow101.html</loc>
+    <lastmod>2023-12-27T07:39:55.576Z</lastmod>
+  </url>
+  <url>
+    <loc>https://book.formlesslab.top/r-pkgs/book-asciidoc/package-within.adoc</loc>
+    <lastmod>2024-01-21T08:20:37.342Z</lastmod>
+  </url>
+  <url>
+    <loc>https://book.formlesslab.top/r-pkgs/package-within.html</loc>
+    <lastmod>2023-12-19T06:19:27.608Z</lastmod>
+  </url>
+  <url>
+    <loc>https://book.formlesslab.top/r-pkgs/book-asciidoc/references.adoc</loc>
+    <lastmod>2024-01-21T08:20:50.462Z</lastmod>
+  </url>
+  <url>
+    <loc>https://book.formlesslab.top/r-pkgs/references.html</loc>
+    <lastmod>2023-12-19T06:19:27.610Z</lastmod>
+  </url>
+  <url>
+    <loc>https://book.formlesslab.top/r-pkgs/book-asciidoc/R-CMD-check.adoc</loc>
+    <lastmod>2024-01-21T08:20:55.598Z</lastmod>
+  </url>
+  <url>
+    <loc>https://book.formlesslab.top/r-pkgs/R-CMD-check.html</loc>
+    <lastmod>2023-12-19T06:19:27.453Z</lastmod>
   </url>
 </urlset>

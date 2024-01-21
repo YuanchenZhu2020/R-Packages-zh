@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.361">
+<meta name="generator" content="quarto-1.4.547">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="description" content="学习如何创建软件包（package），它是可分享、可复用和可重复的 R 代码。">
 <title>R Packages (2e) - 3&nbsp; 软件包结构与状态</title>
@@ -20,7 +20,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -78,7 +78,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -87,6 +93,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -97,23 +104,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./whole-game.html">入门</a></li><li class="breadcrumb-item"><a href="./structure.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">软件包结构与状态</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./whole-game.html">入门</a></li><li class="breadcrumb-item"><a href="./structure.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">软件包结构与状态</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
   </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">R Packages (2e)</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/hadley/r-pkgs/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/YuanchenZhu2020/R-Packages-zh" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
   <div class="quarto-reader-toggle-btn">
   <i class="bi"></i>
@@ -194,50 +201,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text">软件包组件</span></a>
+ <span class="menu-text">Appendices</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./code.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">R code</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./misc.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">其它组件</span></span></a>
-  </div>
-</li>
-      </ul>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">References</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./R-CMD-check.html" class="sidebar-item-text sidebar-link">
@@ -248,28 +226,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
     </ul>
 </div>
-</nav><div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#sec-package-states" id="toc-sec-package-states" class="nav-link active" data-scroll-target="#sec-package-states"><span class="header-section-number">3.1</span> Package states</a></li>
-  <li><a href="#sec-source-package" id="toc-sec-source-package" class="nav-link" data-scroll-target="#sec-source-package"><span class="header-section-number">3.2</span> Source package</a></li>
+<li><a href="#sec-package-states" id="toc-sec-package-states" class="nav-link active" data-scroll-target="#sec-package-states"><span class="header-section-number">3.1</span> 软件包状态</a></li>
+  <li><a href="#sec-source-package" id="toc-sec-source-package" class="nav-link" data-scroll-target="#sec-source-package"><span class="header-section-number">3.2</span> 源码包 (Source Package)</a></li>
   <li>
-<a href="#sec-bundled-package" id="toc-sec-bundled-package" class="nav-link" data-scroll-target="#sec-bundled-package"><span class="header-section-number">3.3</span> Bundled package</a>
+<a href="#sec-bundled-package" id="toc-sec-bundled-package" class="nav-link" data-scroll-target="#sec-bundled-package"><span class="header-section-number">3.3</span> 归档包 (Bundled Package)</a>
   <ul class="collapse">
 <li><a href="#sec-rbuildignore" id="toc-sec-rbuildignore" class="nav-link" data-scroll-target="#sec-rbuildignore"><span class="header-section-number">3.3.1</span> <code>.Rbuildignore</code></a></li>
   </ul>
 </li>
-  <li><a href="#sec-structure-binary" id="toc-sec-structure-binary" class="nav-link" data-scroll-target="#sec-structure-binary"><span class="header-section-number">3.4</span> Binary package</a></li>
-  <li><a href="#sec-installed-package" id="toc-sec-installed-package" class="nav-link" data-scroll-target="#sec-installed-package"><span class="header-section-number">3.5</span> Installed package</a></li>
-  <li><a href="#in-memory-package" id="toc-in-memory-package" class="nav-link" data-scroll-target="#in-memory-package"><span class="header-section-number">3.6</span> In-memory package</a></li>
-  <li><a href="#sec-library" id="toc-sec-library" class="nav-link" data-scroll-target="#sec-library"><span class="header-section-number">3.7</span> Package libraries</a></li>
-  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/hadley/r-pkgs/edit/main/structure.Rmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/hadley/r-pkgs/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+  <li><a href="#sec-structure-binary" id="toc-sec-structure-binary" class="nav-link" data-scroll-target="#sec-structure-binary"><span class="header-section-number">3.4</span> 二进制包 (Binary Package)</a></li>
+  <li><a href="#sec-installed-package" id="toc-sec-installed-package" class="nav-link" data-scroll-target="#sec-installed-package"><span class="header-section-number">3.5</span> 已安装的包 (Installed package)</a></li>
+  <li><a href="#%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E5%8C%85-in-memory-package" id="toc-内存中的包-in-memory-package" class="nav-link" data-scroll-target="#%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E5%8C%85-in-memory-package"><span class="header-section-number">3.6</span> 内存中的包 (In-memory package)</a></li>
+  <li><a href="#sec-library" id="toc-sec-library" class="nav-link" data-scroll-target="#sec-library"><span class="header-section-number">3.7</span> 软件包库 (Package libraries)</a></li>
+  </ul><div class="toc-actions"><ul><li><a href="https://github.com/YuanchenZhu2020/R-Packages-zh/edit/main/structure.Rmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/YuanchenZhu2020/R-Packages-zh/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./whole-game.html">入门</a></li><li class="breadcrumb-item"><a href="./structure.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">软件包结构与状态</span></a></li></ol></nav><div class="quarto-title">
 <h1 class="title"><span id="sec-package-structure-state" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">软件包结构与状态</span></span></h1>
 </div>
 
@@ -283,103 +261,109 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
-</header><p>This chapter will start you on the road to package development by converting the implicit knowledge you’ve gained from <em>using</em> R packages into the explicit knowledge needed to <em>create and modify</em> them. You’ll learn about the various states a package can be in and the difference between a package and library (and why you should care).</p>
+
+</header><p>本章将会把你从<em>使用</em> R 包中获得的隐式知识转化为<em>创建和修改</em> R 包所需的显式知识，从而使你踏上 R 软件包开发之路。 你将会了解到软件包可能处于的各种状态，以及包 (package) 和库 (library) 之间的区别（以及为什么你应该关心这些区别）。</p>
 <section id="sec-package-states" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="sec-package-states">
-<span class="header-section-number">3.1</span> Package states</h2>
-<p>When you create or modify a package, you work on its “source code” or “source files”. You interact with the in-development package in its <strong>source</strong> form. This is NOT the package form you are most familiar with from day-to-day usage. Package development workflows make much more sense if you understand the five states an R package can be in:</p>
+<span class="header-section-number">3.1</span> 软件包状态</h2>
+<p>当你创建或修改软件包时，需要在它的“源代码”或“源文件”上进行。 你会以<strong>源代码</strong>的形式和正在开发中的包进行交互。 当然，这并不是你在日常使用中最熟悉的软件包形式。 但是，如果你了解 R 包可能处于的五种状态，那么软件包开发工作流将变得更有意义：</p>
 <ul>
-<li>source</li>
-<li>bundled</li>
-<li>binary</li>
-<li>installed</li>
-<li>in-memory</li>
+<li>源代码状态 (source)</li>
+<li>打包状态 (bundled)</li>
+<li>二进制文件状态 (binary)</li>
+<li>已安装状态 (installed)</li>
+<li>载入内存状态 (in-memory)</li>
 </ul>
-<p>You already know some of the functions that put packages into these states. For example, <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code> can move a package from the source, bundled, or binary states into the installed state. <code><a href="https://remotes.r-lib.org/reference/install_github.html">devtools::install_github()</a></code> takes a source package on GitHub and moves it into the installed state. The <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> function loads an installed package into memory, making it available for immediate and direct use.</p>
+<p>你可能已经了解一些将软件包置于这些状态的函数。 例如，<code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code> 函数可以将软件包从源代码状态、打包状态或二进制文件状态转为已安装状态。 <code><a href="https://remotes.r-lib.org/reference/install_github.html">devtools::install_github()</a></code> 函数获取 GitHub 上的源代码软件包并将其转为已安装状态。 而 <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> 函数将已安装的软件包加载到内存中，使其立即可以直接使用。</p>
 </section><section id="sec-source-package" class="level2" data-number="3.2"><h2 data-number="3.2" class="anchored" data-anchor-id="sec-source-package">
-<span class="header-section-number">3.2</span> Source package</h2>
-<p>A <strong>source</strong> package is just a directory of files with a specific structure. It includes particular components, such as a <code>DESCRIPTION</code> file, an <code>R/</code> directory containing <code>.R</code> files, and so on. Most of the remaining chapters in this book are dedicated to detailing these components.</p>
-<p>If you are new to package development, you may have never seen a package in source form! You might not even have any source packages on your computer. The easiest way to see a package in source form right away is to browse around its code on the web.</p>
-<p>Many R packages are developed in the open on GitHub (or GitLab or similar). The best case scenario is that you visit the package’s CRAN landing page, e.g.:</p>
+<span class="header-section-number">3.2</span> 源码包 (Source Package)</h2>
+<p>一个<strong>源代码</strong>软件包就是一个有着特定结构的文件目录。 它包含特定的组件，例如一个 <code>DESCRIPTION</code> 文件，包含 <code>.R</code> 文件的 <code>R/</code> 目录等等。 本书其余的大部分章节都致力于详细介绍这些组件。</p>
+<p>如果你刚刚接触 R 包开发，那么你可能从未见过源代码形式的软件包！ 你的计算机上甚至可能没有任何源码包。 以源代码形式查看软件包的最简单的方法是在网站上浏览其代码。</p>
+<p>许多 R 包是在 GitHub（或者 GitLab 以及类似的平台）上公开开发的。 要找到它们的网址，最好的情况是你能够访问软件包的 CRAN 主页 (landing page)，例如：</p>
 <ul>
 <li>forcats: <a href="https://cran.r-project.org/package=forcats" class="uri">https://cran.r-project.org/package=forcats</a>
 </li>
 <li>readxl: <a href="https://cran.r-project.org/package=readxl" class="uri">https://cran.r-project.org/package=readxl</a>
 </li>
 </ul>
-<p>and one of its URLs links to a repository on a public hosting service, e.g.:</p>
+<p>页面中一个 URL 会链接到公共托管服务上的存储库，例如：</p>
 <ul>
 <li>forcats: <a href="https://github.com/tidyverse/forcats" class="uri">https://github.com/tidyverse/forcats</a>
 </li>
 <li>readxl: <a href="https://github.com/tidyverse/readxl" class="uri">https://github.com/tidyverse/readxl</a>
 </li>
 </ul>
-<p>Some maintainers forget to list this URL, even though the package is developed in a public repository, but you still might be able to discover it via search.</p>
-<p>Even if a package is not developed on a public platform, you can visit its source in the <a href="https://docs.r-hub.io/#cranatgh">unofficial, read-only mirror maintained by R-hub</a>. Examples:</p>
+<p>即使这个包是在公共存储库中开发的，有时候一些维护者会忘记列出这个 URL，但是你仍然可以通过搜索发现它。</p>
+<p>即使软件包不是在公共平台上开发的，你也可以通过 <a href="https://docs.r-hub.io/#cranatgh">由 R-hub 维护的非官方只读镜像</a> 来访问其源代码，例如：</p>
 <ul>
 <li>MASS: <a href="https://github.com/cran/MASS" class="uri">https://github.com/cran/MASS</a>
 </li>
 <li>car: <a href="https://github.com/cran/car" class="uri">https://github.com/cran/car</a>
 </li>
 </ul>
-<p>Note that exploring a package’s source and history within the <code>cran</code> GitHub organisation is not the same as exploring the package’s true development venue, because this source and its evolution is just reverse-engineered from the package’s CRAN releases. This presents a redacted view of the package and its history, but, by definition, it includes everything that is essential.</p>
+<p>请注意，在 <code>cran</code> GitHub 组织中探索软件包的源代码及其开发历史并不等同于探索软件包真正的开发场所，因为里面的源代码和演变历史只是根据它在 CRAN 的正式发布版本 (release) 中通过逆向工程提取出来的。 我们看到的这只是对软件包及其开发历史的一种编辑结果，但根据定义，它仍然包含了所有必需的内容。</p>
 </section><section id="sec-bundled-package" class="level2" data-number="3.3"><h2 data-number="3.3" class="anchored" data-anchor-id="sec-bundled-package">
-<span class="header-section-number">3.3</span> Bundled package</h2>
-<p>A <strong>bundled</strong> package is a package that’s been compressed into a single file. By convention (from Linux), package bundles in R use the extension <code>.tar.gz</code> and are sometimes referred to as “source tarballs”. This means that multiple files have been reduced to a single file (<code>.tar</code>) and then compressed using gzip (<code>.gz</code>). While a bundle is not that useful on its own, it’s a platform-agnostic, transportation-friendly intermediary between a source package and an installed package.</p>
-<p>In the rare case that you need to make a bundle from a package you’re developing locally, use <code><a href="https://devtools.r-lib.org/reference/build.html">devtools::build()</a></code>. Under the hood, this calls <code><a href="https://pkgbuild.r-lib.org/reference/build.html">pkgbuild::build()</a></code> and, ultimately, <code>R CMD build</code>, which is described further in the <a href="https://cran.r-project.org/doc/manuals/R-exts.html#Building-package-tarballs">Building package tarballs</a> section of <a href="https://cran.r-project.org/doc/manuals/R-exts.html">Writing R Extensions</a>.</p>
-<p>This should tip you off that a package bundle or “source tarball” is not simply the result of making a tar archive of the source files, then compressing with gzip. By convention, in the R world, a few more operations are carried out when making the <code>.tar.gz</code> file and this is why we’ve elected to refer to this form as a package <strong>bundle</strong>, in this book.</p>
-<p>Every CRAN package is available in bundled form, via the “Package source” field of its landing page. Continuing our examples from above, you could download the bundles <code>forcats_0.4.0.tar.gz</code> and <code>readxl_1.3.1.tar.gz</code> (or whatever the current versions may be). You could unpack such a bundle in the shell (not the R console) like so:</p>
+<span class="header-section-number">3.3</span> 归档包 (Bundled Package)<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>
+</h2>
+<p>一个<strong>归档打包的</strong>软件包是被压缩成单个文件的软件包。 按照惯例（该惯例来自 Linux），R 中的归档包使用 <code>.tar.gz</code> 扩展名，有时候也被称为 “source tarballs”。 这意味着多个文件已经被打包为一个文件 (<code>.tar</code>) 并使用 gzip (<code>.gz</code>) 进行压缩。 虽然归档包本身并不那么有用，但它是源码包和已安装包之间平台无关、便于传输的中间媒介。</p>
+<p>在从本地开发的软件包中生成归档包这种罕见的情况下，请使用 <code><a href="https://devtools.r-lib.org/reference/build.html">devtools::build()</a></code> 函数。 在幕后，它会调用 <code><a href="https://pkgbuild.r-lib.org/reference/build.html">pkgbuild::build()</a></code> 并最终调用 <code>R CMD build</code>，这些内容会在 <a href="https://cran.r-project.org/doc/manuals/R-exts.html">Writing R Extensions</a> 的 <a href="https://cran.r-project.org/doc/manuals/R-exts.html#Building-package-tarballs">Building package tarballs</a> 章节中进行更多阐述。</p>
+<p>这应该会提醒你，归档包或 “source tarball” 不仅仅是对源文件进行 tar 打包归档，然后使用 gzip 压缩的结果。 按照惯例，在 R 世界中，在制作 <code>.tar.gz</code> 文件时还要执行一些操作，而这就是为什么我们选择在本书中将这种形式称为<strong>归档包</strong>的原因。</p>
+<p>每一个 CRAN 软件包都以归档包的形式提供，可以通过软件包主页 (landing page) 中 “Package source” 字段获取。 继续我们上面的示例，你可以下载归档包 <code>forcats_0.4.0.tar.gz</code> 和 <code>readxl_1.3.1.tar.gz</code>（或者任何当前的版本）。 你可以在 shell（而不是 R 控制台）中进行解压：</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar</span> xvf forcats_0.4.0.tar.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>If you decompress a bundle, you’ll see it looks almost the same as a source package. <a href="#fig-package-files">Figure&nbsp;<span>3.1</span></a> shows the files present in the source, bundled, and binary forms of a fictional package named zzzpackage. We’ve deliberately crafted this example to include most of the package parts covered in this book. Not every package will include every file seen here, nor does this diagram include every possible file that might appear in a package.</p>
+<p>如果解压一个归档包，你会发现它看起来几乎与源码包相同。 <a href="#fig-package-files" class="quarto-xref">Figure&nbsp;<span>3.1</span></a> 展示了一个名为 zzzpackage 的虚构软件包的源码包、归档包和二进制包中的文件。 我们精心设计了这个示例，以包含本书中涉及的大部分软件包组件。 不过，不是每个软件包都包含这里看到的每个文件，这个图也不包括包中可能出现的每个文件。</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-package-files" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure"><p><img src="diagrams/package-files.png" class="img-fluid figure-img" alt="Side-by-side comparison of source, bundled, and binary package. The flow of files (location and format) from package source to bundled to binary state is shown. This is described in detail in the appropriately named sections of this chapter." width="1360"></p>
-<figcaption class="figure-caption">Figure&nbsp;3.1: Package forms: source vs.&nbsp;bundled vs.&nbsp;binary.</figcaption></figure>
+<div id="fig-package-files" class="quarto-figure quarto-figure-center quarto-float anchored" alt="源码包、归档包和二进制包之间并列比较。 展示了从软件包源代码到打包状态，再到二进制状态的流向（包括路径和格式） 这一过程将在本章适当命名的章节中 进行详细介绍。">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-package-files-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="diagrams/package-files.png" class="img-fluid figure-img" alt="源码包、归档包和二进制包之间并列比较。 展示了从软件包源代码到打包状态，再到二进制状态的流向（包括路径和格式） 这一过程将在本章适当命名的章节中 进行详细介绍。" width="1360">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-package-files-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1: 软件包形式：源代码 vs.&nbsp;归档 vs.&nbsp;二进制。
+</figcaption></figure>
 </div>
 </div>
 </div>
-<p>The main differences between a source package and an uncompressed bundle are:</p>
+<p>未压缩的归档包相比于源码包的主要区别为：</p>
 <ul>
-<li><p>Vignettes have been built, so rendered outputs, such as HTML, appear below <code>inst/doc/</code> and a vignette index appears in the <code>build/</code> directory.</p></li>
-<li><p>A local source package might contain temporary files used to save time during development, like compilation artefacts in <code>src/</code>. These are never found in a bundle.</p></li>
-<li><p>Any files listed in <code>.Rbuildignore</code> are not included in the bundle. These are typically files that facilitate your development process, but that should be excluded from the distributed product.</p></li>
+<li><p>已经构建了主题文档 (vignettes)，因此渲染好的输出文件，例如 HTML 会出现在 <code>inst/doc/</code> 目录下，并且主题文档 (vignette) 索引会出现在 <code>build/</code> 目录中。</p></li>
+<li><p>本地源码包可能包含用于在开发期间节省时间的临时文件，例如 <code>src/</code> 中的编译产物 (compilation artifacts)。 这些文件不会在归档包中出现。</p></li>
+<li><p><code>.Rbuildignore</code> 中列出的任何文件都不包含在捆绑包中。 这些文件通常有助于你的开发过程，但应该从分发的最终产品中排除。</p></li>
 </ul>
 <section id="sec-rbuildignore" class="level3" data-number="3.3.1"><h3 data-number="3.3.1" class="anchored" data-anchor-id="sec-rbuildignore">
 <span class="header-section-number">3.3.1</span> <code>.Rbuildignore</code>
 </h3>
-<p>You won’t need to contemplate the exact structure of package <code>.tar.gz</code> files very often, but you do need to understand the <code>.Rbuildignore</code> file. It controls which files from the source package make it into the downstream forms.</p>
-<p>Each line of <code>.Rbuildignore</code> is a Perl-compatible regular expression that is matched, without regard to case, against the path to each file in the source package<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. If the regular expression matches, that file or directory is excluded. Note there are some default exclusions implemented by R itself, mostly relating to classic version control systems and editors, such as SVN, Git, and Emacs.</p>
-<p>We usually modify <code>.Rbuildignore</code> with the <code><a href="https://usethis.r-lib.org/reference/use_build_ignore.html">usethis::use_build_ignore()</a></code> function, which takes care of easy-to-forget details, such as regular expression anchoring and escaping. To exclude a specific file or directory (the most common use case), you <strong>MUST</strong> anchor the regular expression. For example, to exclude a directory called “notes”, the <code>.Rbuildignore</code> entry must be <code>^notes$</code>, whereas the unanchored regular expression <code>notes</code> will match any file name containing “notes”, e.g. <code>R/notes.R</code>, <code>man/important-notes.R</code>, <code>data/endnotes.Rdata</code>, etc. We find that <code><a href="https://usethis.r-lib.org/reference/use_build_ignore.html">use_build_ignore()</a></code> helps us get more of our <code>.Rbuildignore</code> entries right the first time.</p>
-<p><code>.Rbuildignore</code> is a way to resolve some of the tension between the practices that support your development process and CRAN’s requirements for submission and distribution (<span class="quarto-unresolved-ref">?sec-release</span>). Even if you aren’t planning to release on CRAN, following these conventions will allow you to make the best use of R’s built-in tooling for package checking and installation. The files you should <code>.Rbuildignore</code> fall into two broad, semi-overlapping classes:</p>
+<p>你不需要经常考虑 <code>.tar.gz</code> 形式的软件包的确切结构，但你确实需要了解 <code>.Rbuildignore</code> 文件。 它决定了源码包中的哪些文件可以进入后面的工作流。</p>
+<p><code>.Rbuildignore</code> 的每一行都是一个 Perl 兼容的正则表达式 (Perl-compatible regular expression, PCRE)，它会在不考虑大小写的情况下与源码包中每个文件的路径进行匹配<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>。 如果正则表达式匹配到了文件或目录，那么该文件或目录将会被排除，无法进入之后的软件包开发工作流。 注意，有一些默认排除项由 R 本身执行，主要与经典的版本控制系统和编辑器（例如 SVN, Git 和 Emacs）有关。</p>
+<p>我们通常使用 <code><a href="https://usethis.r-lib.org/reference/use_build_ignore.html">usethis::use_build_ignore()</a></code> 函数来修改 <code>.Rbuildignore</code>，该函数能够帮助你处理一些容易遗忘的细节，例如正则表达式的添加定位锚点 (anchoring) 和转义 (escaping)。 要排除特定的文件或目录（这是最常见的用例），<strong>必须</strong>为正则表达式添加定位锚点 (anchor)。 例如，如果要排除一个名为 “notes” 的目录，<code>.Rbuildignore</code> 中对应条目必须是 <code>^notes$</code>，而没有添加定位锚点的正则表达式 <code>notes</code> 将会匹配任意包含 “notes” 的文件名，例如 <code>R/notes.R</code>, <code>man/important-notes.R</code>, <code>data/endnotes.Rdata</code> 等。 我们发现 <code><a href="https://usethis.r-lib.org/reference/use_build_ignore.html">use_build_ignore()</a></code> 有助于我们第一次就更准确地获取更多的 <code>.Rbuildignore</code> 条目。</p>
+<p><code>.Rbuildignore</code> 提供了一种解决方式，能够协调支持开发流程的常规做法和 CRAN 对软件包提交和分发的要求之间的一些紧张关系 (<span class="quarto-unresolved-ref">?sec-release</span>)。 即使你不打算在 CRAN 上发布你的软件包，遵循这些约定也能让你充分地利用 R 的内置工具来检查和安装程序包。 你应该添加到 <code>.Rbuildignore</code> 中的文件分为两个半重叠的类别：</p>
 <ul>
-<li>Files that help you generate package contents programmatically. Examples:
+<li>帮助你以编程方式生成软件包内容的文件。例如：
 <ul>
-<li>Using <code>README.Rmd</code> to generate an informative and current <code>README.md</code> (<span class="quarto-unresolved-ref">?sec-readme</span>).</li>
-<li>Storing <code>.R</code> scripts to create and update internal or exported data (<a href="data.html#sec-data-data-raw"><span>Section&nbsp;7.1.1</span></a>).</li>
+<li>使用 <code>README.Rmd</code> 生成信息丰富且最新的 <code>README.md</code> (<span class="quarto-unresolved-ref">?sec-readme</span>)。</li>
+<li>储存用于创建和更新内部或导出数据的 <code>.R</code> 脚本 (<span class="quarto-unresolved-ref">?sec-data-data-raw</span>)。</li>
 </ul>
 </li>
-<li>Files that drive package development, checking, and documentation, outside of CRAN’s purview. Examples:
+<li>在 CRAN 的要求之外驱动软件包开发、检查和文档的文件。例如：
 <ul>
-<li>Files relating to the RStudio IDE (<a href="workflow101.html#sec-workflow101-rstudio-projects"><span>Section&nbsp;4.2</span></a>).</li>
-<li>Using the <a href="https://pkgdown.r-lib.org">pkgdown package</a> to generate a website (<span class="quarto-unresolved-ref">?sec-website</span>).</li>
-<li>Configuration files related to continuous integration/deployment (<span class="quarto-unresolved-ref">?sec-sw-dev-practices-ci</span>).</li>
+<li>和 RStudio IDE 有关的文件 (<a href="workflow101.html#sec-workflow101-rstudio-projects" class="quarto-xref"><span>Section 4.2</span></a>)。</li>
+<li>使用 <a href="https://pkgdown.r-lib.org">pkgdown package</a> 生成的软件包网站 (<span class="quarto-unresolved-ref">?sec-website</span>)。</li>
+<li>与持续集成/部署有关的配置文件 (<span class="quarto-unresolved-ref">?sec-sw-dev-practices-ci</span>)。</li>
 </ul>
 </li>
 </ul>
-<p>Here is a non-exhaustive list of typical entries in the <code>.Rbuildignore</code> file for a package in the tidyverse:</p>
-<pre><code>^.*\.Rproj$         # Designates the directory as an RStudio Project
-^\.Rproj\.user$     # Used by RStudio for temporary files
-^README\.Rmd$       # An Rmd file used to generate README.md
-^LICENSE\.md$       # Full text of the license
-^cran-comments\.md$ # Comments for CRAN submission
-^data-raw$          # Code used to create data included in the package
-^pkgdown$           # Resources used for the package website
-^_pkgdown\.yml$     # Configuration info for the package website
-^\.github$          # GitHub Actions workflows</code></pre>
-<p>Note that the comments above must not appear in an actual <code>.Rbuildignore</code> file; they are included here only for exposition.</p>
-<p>We’ll mention when you need to add files to <code>.Rbuildignore</code> whenever it’s important. Remember that <code><a href="https://usethis.r-lib.org/reference/use_build_ignore.html">usethis::use_build_ignore()</a></code> is an attractive way to manage this file. Furthermore, many usethis functions that add a file that should be listed in <code>.Rbuildignore</code> take care of this automatically. For example, <code>use_read_rmd()</code> adds “^README\.Rmd$” to <code>.Rbuildignore</code>.</p>
+<p>以下是一个 <code>.Rbuildignore</code> 文件非详尽的典型条目列表，来自 tidyverse 包：</p>
+<pre><code>^.*\.Rproj$         # 指定目录为 RStudio 项目的文件
+^\.Rproj\.user$     # RStudio 使用的临时文件
+^README\.Rmd$       # 用于生成 README.md 的 Rmd 文件
+^LICENSE\.md$       # 许可证全文
+^cran-comments\.md$ # CRAN 提交的评论意见
+^data-raw$          # 用于创建软件包中包含的数据的代码
+^pkgdown$           # 用于软件包网站的资源文件
+^_pkgdown\.yml$     # 软件包网站的配置文件
+^\.github$          # GitHub Actions 工作流</code></pre>
+<p>注意，上面的注释不能出现在实际的 <code>.Rbuildignore</code> 文件中，它们在这里只是为了说明文件作用。</p>
+<p>当你需要向 <code>.Rbuildignore</code> 中添加文件时，我们会在书中提到。 请记住 <code><a href="https://usethis.r-lib.org/reference/use_build_ignore.html">usethis::use_build_ignore()</a></code> 是管理这类文件的一种有吸引力的方法。 此外，许多 usethis 函数在添加一个应该列在 <code>.Rbuildignore</code> 中的文件时会自动处理这个问题。 例如 <code>use_read_rmd()</code> 会将 “^README\.Rmd$” 添加到 <code>.Rbuildignore</code>。</p>
 </section></section><section id="sec-structure-binary" class="level2" data-number="3.4"><h2 data-number="3.4" class="anchored" data-anchor-id="sec-structure-binary">
-<span class="header-section-number">3.4</span> Binary package</h2>
+<span class="header-section-number">3.4</span> 二进制包 (Binary Package)</h2>
 <p>If you want to distribute your package to an R user who doesn’t have package development tools, you’ll need to provide a <strong>binary</strong> package. The primary maker and distributor of binary packages is CRAN, not individual maintainers. But even if you delegate the responsibility of distributing your package to CRAN, it’s still important for a maintainer to understand the nature of a binary package.</p>
 <p>Like a package bundle, a binary package is a single file. Unlike a bundled package, a binary package is platform specific and there are two basic flavors: Windows and macOS. (Linux users are generally required to have the tools necessary to install from <code>.tar.gz</code> files, although the emergence of resources like <a href="https://packagemanager.posit.co/">Posit Public Package Manager</a> is giving Linux users the same access to binary packages as their colleagues on Windows and macOS.)</p>
 <p>Binary packages for macOS are stored as <code>.tgz</code>, whereas Windows binary packages end in <code>.zip</code>. If you need to make a binary package, use <code>devtools::build(binary = TRUE)</code> on the relevant operating system. Under the hood, this calls <code>pkgbuild::build(binary = TRUE)</code> and, ultimately, <code>R CMD INSTALL --build</code>, which is described further in the <a href="https://cran.r-project.org/doc/manuals/R-exts.html#Building-binary-packages">Building binary packages</a> section of <a href="https://cran.r-project.org/doc/manuals/R-exts.html">Writing R Extensions</a>. If you choose to release your package on CRAN (<span class="quarto-unresolved-ref">?sec-release</span>), you submit your package in bundled form, then CRAN creates and distributes the package binaries.</p>
@@ -391,7 +375,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
 </ul>
 <p>and this is, indeed, part of what’s usually going on behind the scenes when you call <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code>.</p>
-<p>If you uncompress a binary package, you’ll see that the internal structure is rather different from a source or bundled package. <a href="#fig-package-files">Figure&nbsp;<span>3.1</span></a> includes this comparison, so this is a good time to revisit that diagram. Here are some of the most notable differences:</p>
+<p>If you uncompress a binary package, you’ll see that the internal structure is rather different from a source or bundled package. <a href="#fig-package-files" class="quarto-xref">Figure&nbsp;<span>3.1</span></a> includes this comparison, so this is a good time to revisit that diagram. Here are some of the most notable differences:</p>
 <ul>
 <li><p>There are no <code>.R</code> files in the <code>R/</code> directory - instead there are three files that store the parsed functions in an efficient file format. This is basically the result of loading all the R code and then saving the functions with <code><a href="https://rdrr.io/r/base/save.html">save()</a></code>. (In the process, this adds a little extra metadata to make things as fast as possible).</p></li>
 <li><p>A <code>Meta/</code> directory contains a number of <code>.rds</code> files. These files contain cached metadata about the package, like what topics the help files cover and a parsed version of the <code>DESCRIPTION</code> file. (You can use <code><a href="https://rdrr.io/r/base/readRDS.html">readRDS()</a></code> to see exactly what’s in those files). These files make package loading faster by caching costly computations.</p></li>
@@ -401,13 +385,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>The contents of <code>inst/</code> are moved to the top-level directory. For example, vignette files are now in <code>doc/</code>.</p></li>
 <li><p>Some files and folders have been dropped, such as <code>README.md</code>, <code>build/</code>, <code>tests/</code>, and <code>vignettes/</code>.</p></li>
 </ul></section><section id="sec-installed-package" class="level2" data-number="3.5"><h2 data-number="3.5" class="anchored" data-anchor-id="sec-installed-package">
-<span class="header-section-number">3.5</span> Installed package</h2>
-<p>An <strong>installed</strong> package is a binary package that’s been decompressed into a package library (described in <a href="#sec-library"><span>Section&nbsp;3.7</span></a>). <a href="#fig-installation">Figure&nbsp;<span>3.2</span></a> illustrates the many ways a package can be installed, along with a few other functions for converting a package from one state to another. This diagram is complicated! In an ideal world, installing a package would involve stringing together a set of simple steps: source -&gt; bundle, bundle -&gt; binary, binary -&gt; installed. In the real world, it’s not this simple because there are often (faster) shortcuts available.</p>
+<span class="header-section-number">3.5</span> 已安装的包 (Installed package)</h2>
+<p>An <strong>installed</strong> package is a binary package that’s been decompressed into a package library (described in <a href="#sec-library" class="quarto-xref"><span>Section 3.7</span></a>). <a href="#fig-installation" class="quarto-xref">Figure&nbsp;<span>3.2</span></a> illustrates the many ways a package can be installed, along with a few other functions for converting a package from one state to another. This diagram is complicated! In an ideal world, installing a package would involve stringing together a set of simple steps: source -&gt; bundle, bundle -&gt; binary, binary -&gt; installed. In the real world, it’s not this simple because there are often (faster) shortcuts available.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-installation" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure"><p><img src="diagrams/install-load.png" class="img-fluid figure-img" alt="A chart showing different ways to go from one package state to another: 1. library() puts an installed package into memory. 2. Functions such as install.packages(),    devtools::install_github(), and devtools::install()    can install a package starting variously in the source,    bundle, or binary forms. 3. devtools::build() can create a bundle or a binary. 4. devtools::load_all() puts a source package into memory." width="933"></p>
-<figcaption class="figure-caption">Figure&nbsp;3.2: Many methods for converting between package states.</figcaption></figure>
+<div id="fig-installation" class="quarto-figure quarto-figure-center quarto-float anchored" alt="A chart showing different ways to go from one package state to another: 1. library() puts an installed package into memory. 2. Functions such as install.packages(),    devtools::install_github(), and devtools::install()    can install a package starting variously in the source,    bundle, or binary forms. 3. devtools::build() can create a bundle or a binary. 4. devtools::load_all() puts a source package into memory.">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-installation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="diagrams/install-load.png" class="img-fluid figure-img" alt="A chart showing different ways to go from one package state to another: 1. library() puts an installed package into memory. 2. Functions such as install.packages(),    devtools::install_github(), and devtools::install()    can install a package starting variously in the source,    bundle, or binary forms. 3. devtools::build() can create a bundle or a binary. 4. devtools::load_all() puts a source package into memory." width="933">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-installation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.2: Many methods for converting between package states.
+</figcaption></figure>
 </div>
 </div>
 </div>
@@ -440,26 +428,26 @@ RStudio
 <span><span class="co">#&gt; [10] "install_remote"    "install_svn"       "install_url"      </span></span>
 <span><span class="co">#&gt; [13] "install_version"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><code><a href="https://remotes.r-lib.org/reference/install_github.html">install_github()</a></code> is the most useful of these functions and is also featured in <a href="#fig-installation">Figure&nbsp;<span>3.2</span></a>. It is the flagship example of a family of functions that can download a package from a remote location that is not CRAN and do whatever is necessary to install it and its dependencies. The rest of the devtools/remotes <code>install_*()</code> functions are aimed at making things that are technically possible with base tooling a bit easier or more explicit, such as <code><a href="https://remotes.r-lib.org/reference/install_version.html">install_version()</a></code> which installs a specific version of a CRAN package.</p>
-<p>Analogous to <code>.Rbuildignore</code>, described in section <a href="#sec-rbuildignore"><span>Section&nbsp;3.3.1</span></a>, <code>.Rinstignore</code> lets you keep files present in a package bundle out of the installed package. However, in contrast to <code>.Rbuildignore</code>, this is rather obscure and rarely needed.</p>
-</section><section id="in-memory-package" class="level2" data-number="3.6"><h2 data-number="3.6" class="anchored" data-anchor-id="in-memory-package">
-<span class="header-section-number">3.6</span> In-memory package</h2>
-<p>We finally arrive at a command familiar to everyone who uses R:</p>
+<p><code><a href="https://remotes.r-lib.org/reference/install_github.html">install_github()</a></code> is the most useful of these functions and is also featured in <a href="#fig-installation" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>. It is the flagship example of a family of functions that can download a package from a remote location that is not CRAN and do whatever is necessary to install it and its dependencies. The rest of the devtools/remotes <code>install_*()</code> functions are aimed at making things that are technically possible with base tooling a bit easier or more explicit, such as <code><a href="https://remotes.r-lib.org/reference/install_version.html">install_version()</a></code> which installs a specific version of a CRAN package.</p>
+<p>Analogous to <code>.Rbuildignore</code>, described in section <a href="#sec-rbuildignore" class="quarto-xref"><span>Section 3.3.1</span></a>, <code>.Rinstignore</code> lets you keep files present in a package bundle out of the installed package. However, in contrast to <code>.Rbuildignore</code>, this is rather obscure and rarely needed.</p>
+</section><section id="内存中的包-in-memory-package" class="level2" data-number="3.6"><h2 data-number="3.6" class="anchored" data-anchor-id="内存中的包-in-memory-package">
+<span class="header-section-number">3.6</span> 内存中的包 (In-memory package)</h2>
+<p>我们终于讲到了一个每个使用 R 的人都熟悉的命令：</p>
 <div class="cell">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://usethis.r-lib.org">usethis</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Assuming usethis is installed, this call makes its functions available for use, i.e.&nbsp;now we can do:</p>
+<p>假设你已经安装了 usethis，这个函数调用会使得 usethis 包的所有函数都能够使用，也就是说，我们现在可以直接执行函数：</p>
 <div class="cell">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://usethis.r-lib.org/reference/create_package.html">create_package</a></span><span class="op">(</span><span class="st">"/path/to/my/coolpackage"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The usethis package has been loaded into memory and, in fact, has also been attached to the search path. The distinction between loading and attaching packages is not important when you’re writing scripts, but it’s very important when you’re writing packages. You’ll learn more about the difference and why it’s important in <span class="quarto-unresolved-ref">?sec-dependencies-attach-vs-load</span>.</p>
-<p><code><a href="https://rdrr.io/r/base/library.html">library()</a></code> is not a great way to iteratively tweak and test drive a package you’re developing, because it only works for an installed package. In <a href="workflow101.html#sec-workflow101-load-all"><span>Section&nbsp;4.4</span></a>, you’ll learn how <code><a href="https://devtools.r-lib.org/reference/load_all.html">devtools::load_all()</a></code> accelerates development by allowing you to load a source package directly into memory.</p>
+<p>usethis 包现在已经被载入了内存，实际上，它也被附加到了搜索路径中。 在编写脚本时，载入和附加软件包之间的区别并不重要，但是当你编写软件包时却非常重要。 你将在 <span class="quarto-unresolved-ref">?sec-dependencies-attach-vs-load</span> 中了解到它们之间的区别和重要性。</p>
+<p><code><a href="https://rdrr.io/r/base/library.html">library()</a></code> 并不是迭代地调整和测试驱动一个软件包的好方法，因为它只对已安装的包起作用。 在 <a href="workflow101.html#sec-workflow101-load-all" class="quarto-xref"><span>Section 4.4</span></a> 中你将会了解到 <code><a href="https://devtools.r-lib.org/reference/load_all.html">devtools::load_all()</a></code> 是如何通过允许你直接将源码包加载到内存中来加速开发的。</p>
 </section><section id="sec-library" class="level2" data-number="3.7"><h2 data-number="3.7" class="anchored" data-anchor-id="sec-library">
-<span class="header-section-number">3.7</span> Package libraries</h2>
+<span class="header-section-number">3.7</span> 软件包库 (Package libraries)</h2>
 <p>We just discussed the <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> function, whose name is inspired by what it does. When you call <code><a href="https://rdrr.io/r/base/library.html">library(somepackage)</a></code>, R looks through the current <strong>libraries</strong> for an installed package named “somepackage” and, if successful, it makes somepackage available for use.</p>
 <p>In R, a <strong>library</strong> is a directory containing installed packages, sort of like a library for books. Unfortunately, in the R world, you will frequently encounter confused usage of the words “library” and “package”. It’s common for someone to refer to dplyr, for example, as a library when it is actually a package. There are a few reasons for the confusion. First, R’s terminology arguably runs counter to broader programming conventions, where the usual meaning of “library” is closer to what we mean by “package”. The name of the <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> function itself probably reinforces the wrong associations. Finally, this vocabulary error is often harmless, so it’s easy for R users to fall into the wrong habit and for people who point out this mistake to look like insufferable pedants. But here’s the bottom line:</p>
 <blockquote class="blockquote">
-<p>We use the <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> function to load <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> a <strong>package</strong>.</p>
+<p>We use the <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> function to load <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> a <strong>package</strong>.</p>
 </blockquote>
 <p>The distinction between the two is important and useful as you get involved in package development.</p>
 <p>You can have multiple libraries on your computer. In fact, many of you already do, especially if you’re on Windows. You can use <code><a href="https://rdrr.io/r/base/libPaths.html">.libPaths()</a></code> to see which libraries are currently active. Here’s how this might look on Windows:</p>
@@ -513,7 +501,7 @@ RStudio
 <li>A user library</li>
 <li>A system-level or global library</li>
 </ol>
-<p>This setup is typical on Windows, but is something you usually need to opt into on macOS and Linux<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. With this setup, add-on packages installed from CRAN (or elsewhere) or under local development are kept in the user library. Above, the macOS system is used as a primary development machine and has many packages here (~1000), whereas the Windows system is only used occasionally and is much more spartan. The core set of base and recommended packages that ship with R live in the system-level library and are the same on all operating systems. This separation appeals to many developers and makes it easy to, for example, clean out your add-on packages without disturbing your base R installation.</p>
+<p>This setup is typical on Windows, but is something you usually need to opt into on macOS and Linux<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. With this setup, add-on packages installed from CRAN (or elsewhere) or under local development are kept in the user library. Above, the macOS system is used as a primary development machine and has many packages here (~1000), whereas the Windows system is only used occasionally and is much more spartan. The core set of base and recommended packages that ship with R live in the system-level library and are the same on all operating systems. This separation appeals to many developers and makes it easy to, for example, clean out your add-on packages without disturbing your base R installation.</p>
 <p>If you’re on macOS or Linux and only see one library, there is no urgent need to change anything. But next time you upgrade R, consider creating a user-level library. By default, R looks for a user library found at the path stored in the environment variable <code>R_LIBS_USER</code>, which itself defaults to <code>~/Library/R/m/x.y/library,</code> on macOS, and <code>~/R/m-library/x.y</code> on Linux (where <code>m</code> is a concise description of your CPU architecture, and <code>x.y</code> is the R version). You can see this path with <code>Sys.getenv("R_LIBS_USER")</code>. These directories do not exist by default, and the use of them must be enabled by creating the directory. When you install a new version of R, and prior to installing any add-on packages, use <code>dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)</code> to create a user library in the default location. Now you will have the library setup seen above. Alternatively, you could set up a user library elsewhere and tell R about that by setting the <code>R_LIBS_USER</code> environment variable in <code>.Renviron</code>. The simplest way to edit your <code>.Renviron</code> file is with <code><a href="https://usethis.r-lib.org/reference/edit.html">usethis::edit_r_environ()</a></code>, which will create the file if it doesn’t exist, and open it for editing.</p>
 <p>The filepaths for these libraries also make it clear they are associated with a specific version of R (4.2.x at the time of writing), which is also typical. This reflects and enforces the fact that you need to reinstall your add-on packages when you update R from, say, 4.1 to 4.2, which is a change in the <strong>minor</strong> version. You generally do not need to re-install add-on packages for a <strong>patch</strong> release, e.g., going from R 4.2.1 to 4.2.2.</p>
 <p>As your R usage grows more sophisticated, it’s common to start managing package libraries with more intention. For example, tools like <a href="https://rstudio.github.io/renv/">renv</a> (and its predecessor <a href="https://rstudio.github.io/packrat/">packrat</a>) automate the process of managing project-specific libraries. This can be important for making data products reproducible, portable, and isolated from one another. A package developer might prepend the library search path with a temporary library, containing a set of packages at specific versions, in order to explore issues with backwards and forwards compatibility, without affecting other day-to-day work. Reverse dependency checks are another example where we explicitly manage the library search path.</p>
@@ -529,9 +517,10 @@ RStudio
 
 </section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><hr>
 <ol>
-<li id="fn1"><p>To see the set of filepaths that should be on your radar, execute <code>dir(full.names = TRUE, recursive = TRUE, include.dirs = TRUE, all.files = TRUE)</code> in the package’s top-level directory.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>Well, actually, <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> loads and attaches a package, but that’s a topic for <span class="quarto-unresolved-ref">?sec-dependencies-attach-vs-load</span>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>For more details, see the <a href="https://whattheyforgot.org/maintaining-r.html#how-to-transfer-your-library-when-updating-r">Maintaining R section</a> in <em>What They Forgot To Teach You About R</em>, <a href="https://rstudio.github.io/r-manuals/r-admin/Add-on-packages.html#managing-libraries">Managing Libraries</a> in <em>R Installation and Administration</em> and the R help files for <code><a href="https://rdrr.io/r/base/Startup.html">?Startup</a></code> and <code><a href="https://rdrr.io/r/base/libPaths.html">?.libPaths</a></code>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>译者注：“归档”一词在中国大陆的用语习惯中较少使用，但考虑 <code>tar</code> 的原意，确实有“为一个版本创建只读快照”的含义，和这里的 R 包相符。<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>要查看会参与匹配的所有文件路径的集合，请在软件包的顶层目录执行命令 <code>dir(full.names = TRUE, recursive = TRUE, include.dirs = TRUE, all.files = TRUE)</code>。<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Well, actually, <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> loads and attaches a package, but that’s a topic for <span class="quarto-unresolved-ref">?sec-dependencies-attach-vs-load</span>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>For more details, see the <a href="https://rstats.wtf/maintaining-r#how-to-transfer-your-library-when-updating-r">Maintaining R section</a> in <em>What They Forgot To Teach You About R</em>, <a href="https://rstudio.github.io/r-manuals/r-admin/Add-on-packages.html#managing-libraries">Managing Libraries</a> in <em>R Installation and Administration</em> and the R help files for <code><a href="https://rdrr.io/r/base/Startup.html">?Startup</a></code> and <code><a href="https://rdrr.io/r/base/libPaths.html">?.libPaths</a></code>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -611,10 +600,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -624,8 +612,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -638,6 +635,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -681,6 +797,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -706,6 +823,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -765,12 +908,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./setup.html" class="pagination-link">
+      <a href="./setup.html" class="pagination-link  aria-label=">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">系统设置</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./workflow101.html" class="pagination-link">
+      <a href="./workflow101.html" class="pagination-link" aria-label="<span class='chapter-number'>4</span>&nbsp; <span class='chapter-title'>基本开发工作流</span>">
         <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">基本开发工作流</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
@@ -779,4 +922,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/YuanchenZhu2020/R-Packages-zh/edit/main/structure.Rmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/YuanchenZhu2020/R-Packages-zh/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

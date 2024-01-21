@@ -1,1 +1,1 @@
-Sitemap: https://r-pkgs.org/sitemap.xml
+Sitemap: https://book.formlesslab.top/r-pkgs/sitemap.xml

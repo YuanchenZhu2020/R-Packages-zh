@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.361">
+<meta name="generator" content="quarto-1.4.547">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="description" content="学习如何创建软件包（package），它是可分享、可复用和可重复的 R 代码。">
 <title>R Packages (2e) - 简介</title>
@@ -22,6 +22,7 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -63,7 +64,13 @@ div.csl-indent {
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -72,6 +79,7 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -82,23 +90,23 @@ div.csl-indent {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./introduction.html">简介</a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./introduction.html">简介</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
   </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">R Packages (2e)</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/hadley/r-pkgs/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/YuanchenZhu2020/R-Packages-zh" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
   <div class="quarto-reader-toggle-btn">
   <i class="bi"></i>
@@ -179,50 +187,21 @@ div.csl-indent {
 </li>
       </ul>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text">软件包组件</span></a>
+ <span class="menu-text">Appendices</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./code.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">R code</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./misc.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">其它组件</span></span></a>
-  </div>
-</li>
-      </ul>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">References</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./R-CMD-check.html" class="sidebar-item-text sidebar-link">
@@ -233,7 +212,7 @@ div.csl-indent {
 </li>
     </ul>
 </div>
-</nav><div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
@@ -242,7 +221,7 @@ div.csl-indent {
 <li><a href="#sec-intro-phil" id="toc-sec-intro-phil" class="nav-link active" data-scroll-target="#sec-intro-phil">开发理念</a></li>
   <li><a href="#intro-outline" id="toc-intro-outline" class="nav-link" data-scroll-target="#intro-outline">本书包含的内容</a></li>
   <li><a href="#%E6%9C%AC%E4%B9%A6%E6%B2%A1%E6%9C%89%E5%8C%85%E5%90%AB%E7%9A%84%E5%86%85%E5%AE%B9" id="toc-本书没有包含的内容" class="nav-link" data-scroll-target="#%E6%9C%AC%E4%B9%A6%E6%B2%A1%E6%9C%89%E5%8C%85%E5%90%AB%E7%9A%84%E5%86%85%E5%AE%B9">本书没有包含的内容</a></li>
-  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/hadley/r-pkgs/edit/main/introduction.Rmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/hadley/r-pkgs/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+  </ul><div class="toc-actions"><ul><li><a href="https://github.com/YuanchenZhu2020/R-Packages-zh/edit/main/introduction.Rmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/YuanchenZhu2020/R-Packages-zh/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
@@ -258,6 +237,7 @@ div.csl-indent {
     
   </div>
   
+
 
 </header><p>在 R 中，可共享代码的基本单位是软件包 (package)。 软件包将代码、数据、文档和测试整合到一起，使其很容易与他人分享。 截止到 2023 年 3 月，在综合性 R 档案网络 (<strong>C</strong>omprehensive <strong>R</strong> <strong>A</strong>rchive <strong>N</strong>etwork)，或者说 R 包的公共信息交换平台 CRAN 上已经有超过 19,000 个软件包。 这些种类繁多的软件包是 R 语言如此成功的原因之一：很可能已经有人已经解决了你正在研究的问题，因此你可以下载他们的软件包，从他们的工作中获益。</p>
 <p>如果你正在读这本书，那么就应该已经知道如何通过以下方式来使用软件包了：</p>
@@ -275,7 +255,7 @@ div.csl-indent {
 <p>你的数据分析流程甚至也可以用软件包来构建（例如 <span class="citation" data-cites="marwick2018-tas">Marwick, Boettiger, and Mullen (<a href="references.html#ref-marwick2018-tas" role="doc-biblioref">2018a</a>)</span> 或 <span class="citation" data-cites="marwick2018-peerj">Marwick, Boettiger, and Mullen (<a href="references.html#ref-marwick2018-peerj" role="doc-biblioref">2018b</a>)</span>），不过我们不会在这里深入研究这个用例。</p>
 <section id="sec-intro-phil" class="level2"><h2 class="anchored" data-anchor-id="sec-intro-phil">开发理念</h2>
 <p>本书宣扬了我们的软件包开发理念：凡是能够自动化的，都应该自动化。 尽量减少手动操作。 用函数完成尽可能多的事情。 这样是希望你将时间用于思考你想要让包做什么，而不是包结构的各种细节。</p>
-<p>这一理念主要是 devtools 包来实现的，这个软件包是让通用开发任务自动化的 R 函数套件中的代表。 devtools 在 2018 年 10 月发布了 2.0.0 版本，标志着其内部重组为一系列功能更具针对性的软件包，而它则更像是一个元软件包 (meta-package)。 usethis 包是其中你最有可能与之交互的子软件包，我们将在 <a href="setup.html#sec-setup-usage"><span>Section&nbsp;2.2</span></a> 中解释 devtools 和 usethis 之间的关系。</p>
+<p>这一理念主要是 devtools 包来实现的，这个软件包是让通用开发任务自动化的 R 函数套件中的代表。 devtools 在 2018 年 10 月发布了 2.0.0 版本，标志着其内部重组为一系列功能更具针对性的软件包，而它则更像是一个元软件包 (meta-package)。 usethis 包是其中你最有可能与之交互的子软件包，我们将在 <a href="setup.html#sec-setup-usage" class="quarto-xref"><span>2.2 devtools, usethis, 以及你自己</span></a> 中解释 devtools 和 usethis 之间的关系。</p>
 <p>像往常一样，devtools 包的目的是让软件包的开发尽可能的轻松便利。 它囊括了 Hadley Wickham 自从作为一名多产的独立开发者以来积累的最佳实践经验。 最近，他在 Posit（以前称为 RStudio）组建了一个开发团队，共同维护数百个开源 R 包，包括那些被称为 <a href="https://www.tidyverse.org">the tidyverse</a> 的包。 这个团队的能力让我们能够以惊人的规模探索所有可能出现的错误。 幸运的是，它还让我们有机会在专家和富有同情心的同事的陪伴下反思成功和失败。 我们试图开发出一些实践方法，让包的维护者和用户的工作更加轻松便利， 而 devtools 元软件包正是把这些经验教训具体化的地方。</p>
 <p>devtools 与 RStudio 协同工作，我们相信这是对大多数 R 用户来说是最好的开发环境。 目前最流行的 RStudio 替代品是启用了 <a href="https://marketplace.visualstudio.com/items?itemName=REditorSupport.r">R extension</a> 的 <a href="https://code.visualstudio.com/">Visual Studio Code</a> (VS Code)。 这可能是一个有价值并且功能强大的环境，然而它确实需要更多的工作来设置和定制<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -293,19 +273,19 @@ RStudio
 </div>
 <p>devtools 和 RStudio 一起，让你无需关注软件包是怎样构建的这种低级细节。 但是当你开始开发更多的软件包时，我们强烈建议你去了解这些细节。 有关软件包开发官方细节的最佳资源，始终是官方的 <a href="https://cran.r-project.org/doc/manuals/R-exts.html#Creating-R-packages">writing R extensions</a> 手册<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. 然而，如果你还不熟悉软件包的基础知识，这本使用手册可能难以理解。 它也十分详尽，涵盖了所有可能的软件包组件，而不是像本书那样只关注最常见和最有用的组件。 一旦你掌握了 R 包的基础知识，并且想深入了解其背后发生了什么，那么这本手册就是十分有用的资料。</p>
 </section><section id="intro-outline" class="level2"><h2 class="anchored" data-anchor-id="intro-outline">本书包含的内容</h2>
-<p>本书的第一部分将为你提供软件包开发之旅所需的所有工具，强烈建议你按顺序阅读。 我们将在 <a href="whole-game.html"><span>Chapter&nbsp;1</span></a> 中介绍一个小软件包的完整开发过程。 在我们深入研究 R 包的关键组件之前，它旨在描绘出整体的图景并提出一个工作流程。 然后在 <a href="setup.html"><span>Chapter&nbsp;2</span></a> 你将学习如何为软件包开发准备好系统环境；在 <a href="structure.html"><span>Chapter&nbsp;3</span></a> 中，你将学习软件 包的基本结构以及它不同状态下的差异。 接下来，在 <a href="workflow101.html"><span>Chapter&nbsp;4</span></a> 中，我们将介绍软件包开发人员经常遇到的核心工作流。 本书第一部分以另一个案例 (<a href="package-within.html"><span>Chapter&nbsp;5</span></a>) 作为结尾，这次重点介绍如何将脚本转换为包，并讨论在这个过程中可能面临的挑战。</p>
+<p>本书的第一部分将为你提供软件包开发之旅所需的所有工具，强烈建议你按顺序阅读。 我们将在 <a href="whole-game.html" class="quarto-xref"><span>1&nbsp; 整个流程</span></a> 中介绍一个小软件包的完整开发过程。 在我们深入研究 R 包的关键组件之前，它旨在描绘出整体的图景并提出一个工作流程。 然后在 <a href="setup.html" class="quarto-xref"><span>2&nbsp; 系统设置</span></a> 你将学习如何为软件包开发准备好系统环境；在 <a href="structure.html" class="quarto-xref"><span>3&nbsp; 软件包结构与状态</span></a> 中，你将学习软件 包的基本结构以及它不同状态下的差异。 接下来，在 <a href="workflow101.html" class="quarto-xref"><span>4&nbsp; 基本开发工作流</span></a> 中，我们将介绍软件包开发人员经常遇到的核心工作流。 本书第一部分以另一个案例 (<a href="package-within.html" class="quarto-xref"><span>5&nbsp; The package within</span></a>) 作为结尾，这次重点介绍如何将脚本转换为包，并讨论在这个过程中可能面临的挑战。</p>
 <p>本书的其余部分可以根据需要进行阅读。 在你开发过程中面临各种问题时，可以在各章中进行选择阅读。</p>
-<p>我们首先介绍软件包中的关键组件：<a href="code.html"><span>Chapter&nbsp;6</span></a> 讨论代码的位置和组织方式，<a href="data.html"><span>Chapter&nbsp;7</span></a> 介绍如何在包中包含数据，<a href="misc.html"><span>Chapter&nbsp;8</span></a> 介绍几个需要在一些地方讨论，但不太重要的文件和目录。</p>
+<p>我们首先介绍软件包中的关键组件：<span class="quarto-unresolved-ref">?sec-r</span> 讨论代码的位置和组织方式，<span class="quarto-unresolved-ref">?sec-data</span> 介绍如何在包中包含数据，<span class="quarto-unresolved-ref">?sec-misc</span> 介绍几个需要在一些地方讨论，但不太重要的文件和目录。</p>
 <p>接下来，我们将从 <span class="quarto-unresolved-ref">?sec-description</span> 的 <code>DESCRIPTION</code> 文件开始，深入了解包的元数据。 在 <span class="quarto-unresolved-ref">?sec-dependencies-mindset-background</span> 中，我们将介绍使用依赖项的成本和收益，并提供一些关于包命名空间和搜索路径的技术背景知识。 在 <span class="quarto-unresolved-ref">?sec-dependencies-in-practice</span> 中，我们关注一些实际问题，比如如何在包的不同部分使用不同类型的依赖。 这也是我们讨论导出函数 (exporting functions) 的地方，这使得其他包和项目可以将你的包作为依赖项。 我们将在 <span class="quarto-unresolved-ref">?sec-license</span> 中以有关添加开源软件许可证的内容结束这一部分。</p>
 <p>为了确保软件包能按照设计正常工作（并在你修改代码后继续正常工作），测试你的代码是必不可少的工作，所以接下来的三章将介绍测试的艺术和科学。 <span class="quarto-unresolved-ref">?sec-testing-basics</span> 通过 testthat 包介绍测试的基础知识。 <span class="quarto-unresolved-ref">?sec-testing-design</span> 教你如何以最有效的方式设计和组织测试。 <span class="quarto-unresolved-ref">?sec-testing-advanced</span> 将结束对测试的介绍，这一章将教你处理具有挑战性的情况的高级技能。</p>
 <p>如果你想让其他人（包括未来的你！）理解如何使用包中的函数，就需要为它编写文档。 <span class="quarto-unresolved-ref">?sec-man</span> 开始教你使用 roxygen2 为包中的函数编写文档。 只有在你知道要查找哪个函数的时候，函数文档才有帮助。所以在 <span class="quarto-unresolved-ref">?sec-vignettes</span> 中，我们将讨论主题文档 (vignettes)，它可以帮助你为整个包提供文档。 我们将在 <span class="quarto-unresolved-ref">?sec-other-markdown</span> 结束对文档编写的介绍，这一章介绍其他重要的 markdown 文件，如 <code>README.md</code> 和 <code>NEWS.md</code>。<span class="quarto-unresolved-ref">?sec-website</span> 则是介绍如何用 pkgdown 创建软件包网站。</p>
 <p>本书最后回顾了开发实践方法，例如使用版本控制和持续集成的好处 (<span class="quarto-unresolved-ref">?sec-sw-dev-practices</span>)。 最后，我们会讨论软件包的生命周期 (<span class="quarto-unresolved-ref">?sec-lifecycle</span>)，包括在CRAN上发布软件包 (<span class="quarto-unresolved-ref">?sec-release</span>)。</p>
 <p>本书中有很多东西要学，但不要感到不知所措。 从一个最小的有用的功能子集（例如一个 <code>R/</code> 目录！）开始，随着时间的推移逐步构建你的包。 套用禅僧铃木俊隆 (Shunryu Suzuki) 的话:“每个包都是完美的，就像它本来的模样——但是也许可以稍作改进。”<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
 </section><section id="本书没有包含的内容" class="level2"><h2 class="anchored" data-anchor-id="本书没有包含的内容">本书没有包含的内容</h2>
-<p>还有一些实践方法在本书中几乎没有讨论，这只是因为我们没有足够多地使用它们，因此没有任何独特的见解。 这是否意味着我们应该积极避免使用这些方法呢？ 可能并不是这样，因为我们在书中试图明确地说明我们认为你应该避免的做法。 因此，如果有什么东西没有在本书中介绍，这只是意味着数百个被广泛使用的 R 包并没有依赖于这项技术。 这一结果应该能鼓励你去评估自己的开发需求与我们不重叠的可能性有多大。 但有时这个问题的答案是明确的“是”，在这种情况下，你只需要去查阅其他的资料。</p>
+<p>还有一些实践方法在本书中几乎没有讨论，这只是因为我们没有足够多地使用过它们，因此没有任何独特的见解。 这是否意味着我们应该尽量避免使用这些方法呢？ 可能并不是这样，因为我们在书中会试图明确地说明我们认为你应该避免使用的方法。 因此，如果有什么东西没有在本书中介绍，这只是意味着数百个被广泛使用的 R 包并没有依赖于这项技术。 这一结果应该能鼓励你去评估自己的开发需求与我们互不重叠的可能性。 但有时这个问题的答案是明确的“是”，在这种情况下，只需要去查阅其他的资料即可。</p>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-marwick2018-tas" class="csl-entry" role="listitem">
 Marwick, Ben, Carl Boettiger, and Lincoln Mullen. 2018a. <span>“Packaging Data Analytical Work Reproducibly Using r (and Friends).”</span> <em>The American Statistician</em> 72 (1): 80–88. <a href="https://doi.org/10.1080/00031305.2017.1375986">https://doi.org/10.1080/00031305.2017.1375986</a>.
 </div>
@@ -399,10 +379,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -412,8 +391,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -426,6 +414,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -469,6 +576,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -494,6 +602,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -553,12 +687,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./preface.html" class="pagination-link">
+      <a href="./preface.html" class="pagination-link  aria-label=">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">前言</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./whole-game.html" class="pagination-link">
+      <a href="./whole-game.html" class="pagination-link" aria-label="<span class='chapter-number'>1</span>&nbsp; <span class='chapter-title'>整个流程</span>">
         <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">整个流程</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
@@ -567,4 +701,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/YuanchenZhu2020/R-Packages-zh/edit/main/introduction.Rmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/YuanchenZhu2020/R-Packages-zh/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

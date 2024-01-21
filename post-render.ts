@@ -1,5 +1,5 @@
 // The root book file
-const rootFile = "_book/book-asciidoc/R-Packages--2e-.adoc";
+const rootFile = "docs/book-asciidoc/R-Packages--2e-.adoc";
 
 // List of `lines` to replace in final file
 const excludeFromFinal = [

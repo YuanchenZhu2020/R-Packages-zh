@@ -1,0 +1,214 @@
+[[sec-preface]]
+= 前言
+:description: 学习如何创建软件包（package），它是可分享、可复用和可重复的 R 代码。
+
+欢迎阅读 _R packages_ 第二版！ 如果你熟悉第一版的内容，这篇序言介绍了第二版中主要的内容变化，这样你就可以把阅读重点放在新的部分。
+
+这一版有一些主要的变化：
+
+* 更新了反映 devtools 软件包变化的内容，特别是关于它被 https://www.tidyverse.org/articles/2018/10/devtools-2-0-0/#conscious-uncoupling["`有意识地解耦 (conscious uncoupling)`"] 为一系列更小，但功能更集中的软件包。
+* 在介绍构成 R 包的所有重要可变组件的同时，扩大了对工作流 (workflow) 和流程 (process) 的内容覆盖范围。
+* 涵盖全新的主题，如构建软件包网站和 GitHub Actions。
+
+所有的内容已经被完全修改和更新。 许多章节都是新加入的，或是被重新组织，也有一些章节被移除了：
+
+* 新的章节 <<sec-whole-game>> "`整体流程`"。本章概述了整个软件包的开发过程。
+* 新的章节 <<sec-setup>> "`系统设置`"。本章已经从之前版本的“简介 (Introduction)”一章分离出来，并增加了更多细节内容。
+* 原先名为“软件包结构 (Package structure)”的章节已经扩展了内容并分为两章，一章涵盖了软件包结构和状态 (<<sec-package-structure-state>>) ，另一章涉及工作流和工具 (<<sec-workflow101>>)。
+* 新的章节 <<sec-package-within>> "`软件包中的奥秘`"。本章演示了如何从数据分析脚本中提取可复用的逻辑并将其放入包中。
+* <<sec-r>> "`R 代码`"中“组织你的函数 (Organising your functions)”和“代码风格 (Code style)”部分已被删除，转而采用一篇在线的代码风格指南 https://style.tidyverse.org/。 这篇代码风格指南与新的 styler 软件包<<styler>> 搭配使用，可以自动应用许多编码规则。
+* 有关软件包测试的内容以及扩展成三个章节： <<sec-testing-basics>> 是软件包测试基础， <<sec-testing-design>> 是测试套件的设计，而 <<sec-testing-advanced>> 则包含了各种高级的内容主题。
+* 围绕 `+NAMESPACE+` 文件和依赖关系的内容被重新组织成两章：<<sec-dependencies-mindset-background>> 提供了让我们深入思考如何处理软件包依赖关系的技术知识，<<sec-dependencies-in-practice>> 给出了在不同情况下使用不同类型依赖关系的操作细节。
+* 新的章节 <<sec-license>> "`添加开源许可证`"。本章将之前关于添加开源许可证的内容扩展为单独的一章。
+* 删除了关于 C/C++ 的章节。 因为它没有提供足够有用的信息，并且自本书第一版以来，出现了其他更好的学习资源。
+* 删除了“其他组件 (Other components)”一章。
+* 关于 Git/GitHub 的章节以及围绕软件开发实践 (<<sec-sw-dev-practices>>) 这一更普遍的主题进行了重构。 这章将不一步步说明使用 Git/GitHub 的基本步骤。 自本书第一版依赖，Git/GitHub 的使用呈现爆炸式增长，同时和 R 相关的通用和特定主题学习资源也同样飞速增长（例如 https://happygitwithr.com/index.html[Happy Git and GitHub for the useR] 网站）。 Git/GitHub 在本书中仍然占据重要地位，特别是在 <<sec-sw-dev-practices>>。
+* 非常简短的 "`inst`" 一章已经被合并到 <<sec-misc>> 中，内容包括对所有其它的目录的介绍，这些目录在特定情况下可能很重要，但对所有软件包来说并不是必要的。
+
+== 致谢
+
+自从 R Packages 第一版发布以来，支持本书描述的工作流的软件包已经有了广泛的发展。 最初的三个软件包 devtools, roxygen2 和 testthat 已经扩展到由 devtools "`有意识地解耦`"所创建的许多软件包，就如 <<sec-setup-usage>> 所描述的那样。 由于它们具有共同的根源 devtools，因此这些软件包多数源自 Hadley Wickham (HW)。 还有许多其他重要的贡献者，其中许多人现在是软件包的维护者：
+
+* devtools: HW, https://github.com/wch[Winston Chang], https://github.com/jimhester[Jim Hester] (maintainer, >= v1.13.5), https://github.com/jennybc[Jennifer Bryan] (maintainer >= v2.4.3)
+* usethis: HW, https://github.com/jennybc[Jennifer Bryan] (maintainer >= v1.5.0), Malcolm Barrett
+* roxygen2: HW (maintainer), https://github.com/klutometis[Peter Danenburg], https://github.com/mjaeugster[Manuel Eugster]
+* testthat: HW (maintainer)
+* desc: https://github.com/gaborcsardi[Gábor Csárdi] (maintainer), https://github.com/krlmlr[Kirill Müller], https://github.com/jimhester[Jim Hester]
+* pkgbuild: HW, https://github.com/jimhester[Jim Hester], https://github.com/gaborcsardi[Gábor Csárdi] (maintainer >= v1.2.1)
+* pkgload: HW, https://github.com/jimhester[Jim Hester], https://github.com/wch[Winston Chang], https://github.com/lionel-[Lionel Henry] (maintainer >= v1.2.4)
+* rcmdcheck: https://github.com/gaborcsardi[Gábor Csárdi] (maintainer)
+* remotes: HW, https://github.com/jimhester[Jim Hester], https://github.com/gaborcsardi[Gábor Csárdi] (maintainer), https://github.com/wch[Winston Chang], https://github.com/mtmorgan[Martin Morgan], https://github.com/dtenenba[Dan Tenenbaum]
+* revdepcheck: HW, https://github.com/gaborcsardi[Gábor Csárdi] (maintainer)
+* sessioninfo: HW, https://github.com/gaborcsardi[Gábor Csárdi] (maintainer), https://github.com/wch[Winston Chang], https://github.com/rmflight[Robert Flight], https://github.com/krlmlr[Kirill Müller], https://github.com/jimhester[Jim Hester]
+
+这本书是https://github.com/hadley/r-pkgs/[公开编写和修订的]，它是社区努力的成果：许多人阅读草稿、修正错别字 、提出改进意见以及贡献内容。 没有这些贡献者，这本书不会像现在这样好，我们对他们的帮助深表感谢。 我们要感谢我们在 Posit 的同事，特别是 tidyverse 团队，他们一直很乐意讨论软件包的开发实践。 另外，我们出色的技术审查员团队提出的建议也极大地改进了本书：Malcolm Barrett, Laura DeCicco, Zhian Kamvar, Tom Mock 和 Maëlle Salmon。
+
+....
+#> Warning: package 'tidyverse' was built under R version 4.2.3
+#> Warning: package 'ggplot2' was built under R version 4.2.3
+#> Warning: package 'tibble' was built under R version 4.2.3
+#> Warning: package 'tidyr' was built under R version 4.2.3
+#> Warning: package 'readr' was built under R version 4.2.3
+#> Warning: package 'purrr' was built under R version 4.2.3
+#> Warning: package 'dplyr' was built under R version 4.2.3
+#> Warning: package 'stringr' was built under R version 4.2.3
+#> Warning: package 'forcats' was built under R version 4.2.3
+#> Warning: package 'lubridate' was built under R version 4.2.3
+#> ── Attaching core tidyverse packages ──────────── tidyverse 2.0.0 ──
+#> ✔ dplyr     1.1.4     ✔ readr     2.1.4
+#> ✔ forcats   1.0.0     ✔ stringr   1.5.0
+#> ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+#> ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+#> ✔ purrr     1.0.1     
+#> ── Conflicts ────────────────────────────── tidyverse_conflicts() ──
+#> ✖ dplyr::filter() masks stats::filter()
+#> ✖ dplyr::lag()    masks stats::lag()
+#> ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+#> Rows: 410 Columns: 3
+#> ── Column specification ────────────────────────────────────────────
+#> Delimiter: ","
+#> chr (3): user, name, maybe_name
+#> 
+#> ℹ Use `spec()` to retrieve the full column specification for this data.
+#> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+....
+
+Thanks to all contributors the the first and second editions (in alphabetical order by GitHub username):
+
+https://github.com/aaelony[@aaelony], https://github.com/aaronwolen[@aaronwolen] (Aaron Wolen), https://github.com/ablejec[@ablejec] (Andrej Blejec), https://github.com/adamcduncan[@adamcduncan] (Adam Duncan), https://github.com/adessy[@adessy], https://github.com/adrtod[@adrtod] (Adrien Todeschini), https://github.com/aghaynes[@aghaynes] (Alan Haynes), https://github.com/agrueneberg[@agrueneberg] (Alexander Grueneberg), https://github.com/alejandrohagan[@alejandrohagan] (Alejandro Hagan), https://github.com/alesantuz[@alesantuz] (Ale Santuz), https://github.com/alexandrehsd[@alexandrehsd] (Alexandre Henrique), https://github.com/alexholcombe[@alexholcombe] (Alex O. Holcombe), https://github.com/alexpghayes[@alexpghayes] (alex hayes), https://github.com/alforj[@alforj] (Justin Alford), https://github.com/almartin82[@almartin82] (Andrew Martin), https://github.com/aluxh[@aluxh] (Alex Ho), https://github.com/AmelZulji[@AmelZulji], https://github.com/andreaphsz[@andreaphsz] (Andrea Cantieni), https://github.com/andrewdolman[@andrewdolman] (Andrew Dolman), https://github.com/andrewpbray[@andrewpbray] (Andrew Bray), https://github.com/AndrewsOR[@AndrewsOR] (John Andrews), https://github.com/andycraig[@andycraig] (Andrew Craig), https://github.com/angela-li[@angela-li] (Angela Li), https://github.com/anjalisilva[@anjalisilva] (Anjali Silva), https://github.com/apomatix[@apomatix] (Brad Friedman), https://github.com/apreshill[@apreshill] (Alison Presmanes Hill), https://github.com/arashHaratian[@arashHaratian] (Arash), https://github.com/arilamstein[@arilamstein] (Ari Lamstein), https://github.com/arneschillert[@arneschillert] (Arne Schillert), https://github.com/arni-magnusson[@arni-magnusson] (Arni Magnusson), https://github.com/asadow[@asadow] (Adam Sadowski), https://github.com/ateucher[@ateucher] (Andy Teucher), https://github.com/avisser[@avisser] (Andy Visser), https://github.com/ayormark[@ayormark] (Adam Yormark), https://github.com/azzaea[@azzaea] (Azza Ahmed), https://github.com/batpigandme[@batpigandme] (Mara Averick), https://github.com/bclipp[@bclipp] (Brian L), https://github.com/beevabeeva[@beevabeeva], https://github.com/behrman[@behrman] (Bill Behrman), https://github.com/benmarwick[@benmarwick] (Ben Marwick), https://github.com/BernhardKonrad[@BernhardKonrad] (Bernhard Konrad), https://github.com/bgreenwell[@bgreenwell] (Brandon Greenwell), https://github.com/Bisaloo[@Bisaloo] (Hugo Gruson), https://github.com/bklamer[@bklamer] (Brett Klamer), https://github.com/bm5tev3[@bm5tev3], https://github.com/bms63[@bms63] (Ben Straub), https://github.com/bpbond[@bpbond] (Ben Bond-Lamberty), https://github.com/bquast[@bquast] (Bastiaan Quast), https://github.com/Br-Johnson[@Br-Johnson] (Brett Johnson), https://github.com/brews[@brews] (Brewster Malevich), https://github.com/brianrice2[@brianrice2] (Brian Rice), https://github.com/brry[@brry] (Berry Boessenkool), https://github.com/btruel[@btruel], https://github.com/calligross[@calligross] (Calli), https://github.com/carldotac[@carldotac] (Carl Lieberman), https://github.com/carloscinelli[@carloscinelli] (Carlos Cinelli), https://github.com/CDCookJr[@CDCookJr], https://github.com/cderv[@cderv] (Christophe Dervieux), https://github.com/chambm[@chambm] (Matt Chambers), https://github.com/charliejhadley[@charliejhadley] (Charlie Joey Hadley), https://github.com/chezou[@chezou] (Aki Ariga), https://github.com/chsafouane[@chsafouane] (Safouane Chergui), https://github.com/clente[@clente] (Caio Lente), https://github.com/cmarmstrong[@cmarmstrong], https://github.com/cooknl[@cooknl] (CAPN), https://github.com/CorradoLanera[@CorradoLanera] (Corrado Lanera), https://github.com/craigcitro[@craigcitro] (Craig Citro), https://github.com/crtahlin[@crtahlin] (Crt Ahlin), https://github.com/daattali[@daattali] (Dean Attali), https://github.com/danhalligan[@danhalligan] (Dan Halligan), https://github.com/daroczig[@daroczig] (Gergely Daróczi), https://github.com/datarttu[@datarttu] (Arttu Kosonen), https://github.com/davidkane9[@davidkane9] (David Kane), https://github.com/DavisVaughan[@DavisVaughan] (Davis Vaughan), https://github.com/deanbodenham[@deanbodenham], https://github.com/dfalbel[@dfalbel] (Daniel Falbel), https://github.com/dgrtwo[@dgrtwo] (David Robinson), https://github.com/dholstius[@dholstius] (David Holstius), https://github.com/DickStartz[@DickStartz], https://github.com/dkgaraujo[@dkgaraujo] (Douglas K. G. Araujo), https://github.com/dlukes[@dlukes] (David Lukes), https://github.com/DOH-PXC5303[@DOH-PXC5303] (Philip Crain), https://github.com/dongzhuoer[@dongzhuoer] (Zhuoer Dong), https://github.com/DougManuel[@DougManuel] (Doug Manuel), https://github.com/dpprdan[@dpprdan] (Daniel Possenriede), https://github.com/dracodoc[@dracodoc] (dracodoc), https://github.com/drag05[@drag05] (Dragos Bandur), https://github.com/drvinceknight[@drvinceknight] (Vince Knight), https://github.com/dryzliang[@dryzliang], https://github.com/dyavorsky[@dyavorsky] (Dan Yavorsky), https://github.com/e-pet[@e-pet], https://github.com/earino[@earino] (E. Ariño de la Rubia), https://github.com/echelleburns[@echelleburns], https://github.com/eeholmes[@eeholmes] (Eli Holmes), https://github.com/eipi10[@eipi10] (Joel Schwartz), https://github.com/ekbrown[@ekbrown] (Earl Brown), https://github.com/EllaKaye[@EllaKaye] (Ella Kaye), https://github.com/EmilHvitfeldt[@EmilHvitfeldt] (Emil Hvitfeldt), https://github.com/eogoodwin[@eogoodwin], https://github.com/erictleung[@erictleung] (Eric Leung), https://github.com/erikerhardt[@erikerhardt] (Erik Erhardt), https://github.com/espinielli[@espinielli] (Enrico Spinielli), https://github.com/ewan[@ewan] (Ewan Dunbar), https://github.com/fbertran[@fbertran] (Frederic Bertrand), https://github.com/federicomarini[@federicomarini] (Federico Marini), https://github.com/fenguoerbian[@fenguoerbian] (Chao Cheng), https://github.com/fkohrt[@fkohrt] (Florian Kohrt), https://github.com/florisvdh[@florisvdh] (Floris Vanderhaeghe), https://github.com/floswald[@floswald] (Florian Oswald), https://github.com/franrodalg[@franrodalg] (Francisco Rodríguez-Algarra), https://github.com/franticspider[@franticspider] (Simon Hickinbotham), https://github.com/frycast[@frycast] (Daniel Vidali Fryer), https://github.com/fsavje[@fsavje] (Fredrik Sävje), https://github.com/gajusmiknaitis[@gajusmiknaitis], https://github.com/gcpoole[@gcpoole] (Geoffrey Poole), https://github.com/geanders[@geanders] (Brooke Anderson), https://github.com/georoen[@georoen] (Jee Roen), https://github.com/GerardTromp[@GerardTromp] (Gerard Tromp), https://github.com/GillesSanMartin[@GillesSanMartin] (Gilles San Martin), https://github.com/gmaubach[@gmaubach] (Georg Maubach), https://github.com/gonzalezgouveia[@gonzalezgouveia] (Rafael Gonzalez Gouveia), https://github.com/gregmacfarlane[@gregmacfarlane] (Greg Macfarlane), https://github.com/gregrs-uk[@gregrs-uk] (Greg), https://github.com/grst[@grst] (Gregor Sturm), https://github.com/gsrohde[@gsrohde] (Scott Rohde), https://github.com/guru809[@guru809], https://github.com/gustavdelius[@gustavdelius] (Gustav W Delius), https://github.com/haibin[@haibin] (Liu Haibin), https://github.com/hanneoberman[@hanneoberman] (Hanne Oberman), https://github.com/harrismcgehee[@harrismcgehee] (Harris McGehee), https://github.com/havenl[@havenl] (Haven Liu), https://github.com/hcyvan[@hcyvan] (程一航), https://github.com/hdraisma[@hdraisma] (Harmen), https://github.com/hedderik[@hedderik] (Hedderik van Rijn), https://github.com/heists[@heists] ((ꐦ°᷄д°)ა), https://github.com/helske[@helske] (Jouni Helske), https://github.com/henningte[@henningte] (Henning Teickner), https://github.com/HenrikBengtsson[@HenrikBengtsson] (Henrik Bengtsson), https://github.com/heogden[@heogden] (Helen Ogden), https://github.com/hfrick[@hfrick] (Hannah Frick), https://github.com/Holzhauer[@Holzhauer] (Sascha Holzhauer), https://github.com/howardbaek[@howardbaek] (Howard Baek), https://github.com/howbuildingsfail[@howbuildingsfail] (How Buildings Fail), https://github.com/hq9000[@hq9000] (Sergey Grechin), https://github.com/hrbrmstr[@hrbrmstr] (boB Rudis), https://github.com/iangow[@iangow] (Ian Gow), https://github.com/iargent[@iargent], https://github.com/idmn[@idmn] (Iaroslav Domin), https://github.com/ijlyttle[@ijlyttle] (Ian Lyttle), https://github.com/imchoyoung[@imchoyoung] (Choyoung Im), https://github.com/InfiniteCuriosity[@InfiniteCuriosity] (Russ Conte), https://github.com/ionut-stefanb[@ionut-stefanb] (Ionut Stefan-Birdea), https://github.com/Ironholds[@Ironholds] (Os Keyes), https://github.com/ismayc[@ismayc] (Chester Ismay), https://github.com/isomorphisms[@isomorphisms] (i), https://github.com/jackwasey[@jackwasey] (Jack Wasey), https://github.com/jacobbien[@jacobbien] (Jacob Bien), https://github.com/jadeynryan[@jadeynryan] (Jadey Ryan), https://github.com/jameelalsalam[@jameelalsalam] (Jameel Alsalam), https://github.com/jameslairdsmith[@jameslairdsmith] (James Laird-Smith), https://github.com/janzzon[@janzzon] (Stefan Jansson), https://github.com/JayCeBB[@JayCeBB], https://github.com/jcainey[@jcainey] (Joe Cainey), https://github.com/jdblischak[@jdblischak] (John Blischak), https://github.com/jedwards24[@jedwards24] (James Edwards), https://github.com/jemus42[@jemus42] (Lukas Burk), https://github.com/jenniferthompson[@jenniferthompson] (Jennifer Thompson), https://github.com/jeremycg[@jeremycg] (Jeremy Gray), https://github.com/jgarthur[@jgarthur] (Joey Arthur), https://github.com/jimhester[@jimhester] (Jim Hester), https://github.com/jimr1603[@jimr1603] (James Riley), https://github.com/jjesusfilho[@jjesusfilho] (José de Jesus Filho), https://github.com/jkeirstead[@jkeirstead] (James Keirstead), https://github.com/jmarca[@jmarca] (James Marca), https://github.com/jmarshallnz[@jmarshallnz] (Jonathan Marshall), https://github.com/joethorley[@joethorley] (Joe Thorley), https://github.com/johnbaums[@johnbaums] (John), https://github.com/jolars[@jolars] (Johan Larsson), https://github.com/jonthegeek[@jonthegeek] (Jon Harmon), https://github.com/jowalski[@jowalski] (John Kowalski), https://github.com/jpinelo[@jpinelo] (Joao Pinelo Silva), https://github.com/jrdnbradford[@jrdnbradford] (Jordan), https://github.com/jthomasmock[@jthomasmock] (Tom Mock), https://github.com/julian-urbano[@julian-urbano] (Julián Urbano), https://github.com/jwpestrak[@jwpestrak], https://github.com/jzadra[@jzadra] (Jonathan Zadra), https://github.com/jzhaoo[@jzhaoo] (Joanna Zhao), https://github.com/kaetschap[@kaetschap] (Sonja), https://github.com/karthik[@karthik] (Karthik Ram), https://github.com/KasperThystrup[@KasperThystrup] (Kasper Thystrup Karstensen), https://github.com/KatherineCox[@KatherineCox], https://github.com/katrinleinweber[@katrinleinweber] (Katrin Leinweber), https://github.com/kbroman[@kbroman] (Karl Broman), https://github.com/kekecib[@kekecib] (Ibrahim Kekec), https://github.com/KellenBrosnahan[@KellenBrosnahan], https://github.com/kendonB[@kendonB] (Kendon Bell), https://github.com/kevinushey[@kevinushey] (Kevin Ushey), https://github.com/kikapp[@kikapp] (Kristopher Kapphahn), https://github.com/KirkDSL[@KirkDSL], https://github.com/KJByron[@KJByron] (Karen J. Byron), https://github.com/klmr[@klmr] (Konrad Rudolph), https://github.com/KoderKow[@KoderKow] (Kyle Harris), https://github.com/kokbent[@kokbent] (Ben Toh), https://github.com/kongdd[@kongdd] (Dongdong Kong), https://github.com/krlmlr[@krlmlr] (Kirill Müller), https://github.com/kwenzig[@kwenzig] (Knut Wenzig), https://github.com/kwstat[@kwstat] (Kevin Wright), https://github.com/kylelundstedt[@kylelundstedt] (Kyle G. Lundstedt), https://github.com/lancelote[@lancelote] (Pavel Karateev), https://github.com/lbergelson[@lbergelson] (Louis Bergelson), https://github.com/LechMadeyski[@LechMadeyski] (Lech Madeyski), https://github.com/Lenostatos[@Lenostatos] (Leon), https://github.com/lindbrook[@lindbrook], https://github.com/lionel-[@lionel-] (Lionel Henry), https://github.com/LluisRamon[@LluisRamon] (Lluís Ramon), https://github.com/lorenzwalthert[@lorenzwalthert] (Lorenz Walthert), https://github.com/lwjohnst86[@lwjohnst86] (Luke W Johnston), https://github.com/maelle[@maelle] (Maëlle Salmon), https://github.com/maiermarco[@maiermarco], https://github.com/maislind[@maislind] (David M), https://github.com/majr-red[@majr-red] (Matthew Roberts), https://github.com/malcolmbarrett[@malcolmbarrett] (Malcolm Barrett), https://github.com/malexan[@malexan] (Alexander Matrunich), https://github.com/manuelreif[@manuelreif] (Manuel Reif), https://github.com/MarceloRTonon[@MarceloRTonon] (Marcelo Tonon), https://github.com/mariacuellar[@mariacuellar] (Maria Cuellar), https://github.com/markdly[@markdly] (Mark Dulhunty), https://github.com/Marlin-Na[@Marlin-Na] (Marlin), https://github.com/martin-mfg[@martin-mfg], https://github.com/matanhakim[@matanhakim] (Matan Hakim), https://github.com/matdoering[@matdoering], https://github.com/matinang[@matinang] (Matina Angelopoulou), https://github.com/mattflor[@mattflor] (Matthias Flor), https://github.com/maurolepore[@maurolepore] (Mauro Lepore), https://github.com/maxheld83[@maxheld83] (Max Held), https://github.com/mayankvanani[@mayankvanani] (Mayank Vanani), https://github.com/mbjones[@mbjones] (Matt Jones), https://github.com/mccarthy-m-g[@mccarthy-m-g] (Michael McCarthy), https://github.com/mdequeljoe[@mdequeljoe] (Matthew de Queljoe), https://github.com/mdsumner[@mdsumner] (Michael Sumner), https://github.com/michaelboerman[@michaelboerman] (Michael Boerman), https://github.com/MichaelChirico[@MichaelChirico] (Michael Chirico), https://github.com/michaelmikebuckley[@michaelmikebuckley] (Michael Buckley), https://github.com/michaelweylandt[@michaelweylandt] (Michael Weylandt), https://github.com/miguelmorin[@miguelmorin], https://github.com/MikeJohnPage[@MikeJohnPage], https://github.com/mikelnrd[@mikelnrd] (Michael Leonard), https://github.com/mikelove[@mikelove] (Mike Love), https://github.com/mikemc[@mikemc] (Michael McLaren), https://github.com/MilesMcBain[@MilesMcBain] (Miles McBain), https://github.com/mjkanji[@mjkanji] (Muhammad Jarir Kanji), https://github.com/mkuehn10[@mkuehn10] (Michael Kuehn), https://github.com/mllg[@mllg] (Michel Lang), https://github.com/mohamed-180[@mohamed-180] (Mohamed El-Desokey), https://github.com/moodymudskipper[@moodymudskipper] (Antoine Fabri), https://github.com/Moohan[@Moohan] (James McMahon), https://github.com/MrAE[@MrAE] (Jesse Leigh Patsolic), https://github.com/mrcaseb[@mrcaseb], https://github.com/ms609[@ms609] (Martin R. Smith), https://github.com/mskyttner[@mskyttner] (Markus Skyttner), https://github.com/MWilson92[@MWilson92] (Matthew Wilson), https://github.com/myoung3[@myoung3], https://github.com/nachti[@nachti] (Gerhard Nachtmann), https://github.com/nanxstats[@nanxstats] (Nan Xiao), https://github.com/nareal[@nareal] (Nelson Areal), https://github.com/nattalides[@nattalides], https://github.com/ncarchedi[@ncarchedi] (Nick Carchedi), https://github.com/ndphillips[@ndphillips] (Nathaniel Phillips), https://github.com/nick-youngblut[@nick-youngblut] (Nick Youngblut), https://github.com/njtierney[@njtierney] (Nicholas Tierney), https://github.com/nsheff[@nsheff] (Nathan Sheffield), https://github.com/osorensen[@osorensen] (Øystein Sørensen), https://github.com/PabRod[@PabRod] (Pablo Rodríguez-Sánchez), https://github.com/paternogbc[@paternogbc] (Gustavo Brant Paterno), https://github.com/paulrougieux[@paulrougieux] (Paul Rougieux), https://github.com/pdwaggoner[@pdwaggoner] (Philip Waggoner), https://github.com/pearsonca[@pearsonca] (Carl A. B. Pearson), https://github.com/perryjer1[@perryjer1] (Jeremiah), https://github.com/petermeissner[@petermeissner] (Peter Meissner), https://github.com/petersonR[@petersonR] (Ryan Peterson), https://github.com/petzi53[@petzi53] (Peter Baumgartner), https://github.com/PhilipPallmann[@PhilipPallmann] (Philip Pallmann), https://github.com/philliplab[@philliplab] (Phillip Labuschagne), https://github.com/phonixor[@phonixor] (Gerrit-Jan Schutten), https://github.com/pkimes[@pkimes] (Patrick Kimes), https://github.com/pnovoa[@pnovoa] (Pavel Novoa), https://github.com/ppanko[@ppanko] (Pavel Panko), https://github.com/pritesh-shrivastava[@pritesh-shrivastava] (Pritesh Shrivastava), https://github.com/PrzeChoj[@PrzeChoj] (PrzeChoj), https://github.com/PursuitOfDataScience[@PursuitOfDataScience] (Y. Yu), https://github.com/pwaeckerle[@pwaeckerle], https://github.com/raerickson[@raerickson] (Richard Erickson), https://github.com/ramiromagno[@ramiromagno] (Ramiro Magno), https://github.com/ras44[@ras44], https://github.com/rbirkelbach[@rbirkelbach] (Robert Birkelbach), https://github.com/rcorty[@rcorty] (Robert W. Corty), https://github.com/rdiaz02[@rdiaz02] (Ramon Diaz-Uriarte), https://github.com/realAkhmed[@realAkhmed] (Akhmed Umyarov), https://github.com/reikookamoto[@reikookamoto] (Reiko Okamoto), https://github.com/renkun-ken[@renkun-ken] (Kun Ren), https://github.com/retowyss[@retowyss] (Reto Wyss), https://github.com/revodavid[@revodavid] (David Smith), https://github.com/rgknight[@rgknight] (Ryan Knight), https://github.com/rhgof[@rhgof] (Richard), https://github.com/rmar073[@rmar073], https://github.com/rmflight[@rmflight] (Robert M Flight), https://github.com/rmsharp[@rmsharp] (R. Mark Sharp), https://github.com/rnuske[@rnuske] (Robert Nuske), https://github.com/robertzk[@robertzk] (Robert Krzyzanowski), https://github.com/Robinlovelace[@Robinlovelace] (Robin Lovelace), https://github.com/robiRagan[@robiRagan] (Robi Ragan), https://github.com/Robsteranium[@Robsteranium] (Robin Gower), https://github.com/romanzenka[@romanzenka] (Roman Zenka), https://github.com/royfrancis[@royfrancis] (Roy Francis), https://github.com/rpruim[@rpruim] (Randall Pruim), https://github.com/rrunner[@rrunner], https://github.com/rsangole[@rsangole] (Rahul), https://github.com/ryanatanner[@ryanatanner] (Ryan), https://github.com/salim-b[@salim-b] (Salim B), https://github.com/SamEdwardes[@SamEdwardes] (Sam Edwardes), https://github.com/SangdonLim[@SangdonLim] (Sangdon Lim), https://github.com/sathishsrinivasank[@sathishsrinivasank] (Sathish), https://github.com/sbgraves237[@sbgraves237], https://github.com/schifferl[@schifferl] (Lucas Schiffer), https://github.com/scw[@scw] (Shaun Walbridge), https://github.com/sdarodrigues[@sdarodrigues] (Sabrina Rodrigues), https://github.com/sebffischer[@sebffischer] (Sebastian Fischer), https://github.com/serghiou[@serghiou] (Stylianos Serghiou), https://github.com/setoyama60jp[@setoyama60jp], https://github.com/sfirke[@sfirke] (Sam Firke), https://github.com/shannonpileggi[@shannonpileggi] (Shannon Pileggi), https://github.com/Shelmith-Kariuki[@Shelmith-Kariuki] (Shel), https://github.com/SheridanLGrant[@SheridanLGrant] (Sheridan Grant), https://github.com/shntnu[@shntnu] (Shantanu Singh), https://github.com/sibusiso16[@sibusiso16] (S’busiso Mkhondwane), https://github.com/simdadim[@simdadim] (Simen Buodd), https://github.com/SimonPBiggs[@SimonPBiggs] (SPB), https://github.com/simonthelwall[@simonthelwall] (Simon Thelwall), https://github.com/SimonYansenZhao[@SimonYansenZhao] (Simon He Zhao), https://github.com/singmann[@singmann] (Henrik Singmann), https://github.com/Skenvy[@Skenvy] (Nathan Levett), https://github.com/Smudgerville[@Smudgerville] (Richard M. Smith), https://github.com/sn248[@sn248] (Satyaprakash Nayak), https://github.com/sowla[@sowla] (Praer (Suthira) Owlarn), https://github.com/srushe[@srushe] (Stephen Rushe), https://github.com/statnmap[@statnmap] (Sébastien Rochette), https://github.com/steenharsted[@steenharsted] (Steen Harsted), https://github.com/stefaneng[@stefaneng] (Stefan Eng), https://github.com/stefanherzog[@stefanherzog] (Stefan Herzog), https://github.com/stephen-frank[@stephen-frank] (Stephen Frank), https://github.com/stephenll[@stephenll] (Stephen Lienhard), https://github.com/stephenturner[@stephenturner] (Stephen Turner), https://github.com/stevenprimeaux[@stevenprimeaux] (Steven Primeaux), https://github.com/stevensbr[@stevensbr], https://github.com/stewid[@stewid] (Stefan Widgren), https://github.com/sunbeomk[@sunbeomk] (Sunbeom Kwon), https://github.com/superdesolator[@superdesolator] (Po Su), https://github.com/syclik[@syclik] (Daniel Lee), https://github.com/symbolrush[@symbolrush] (Adrian Stämpfli-Schmid), https://github.com/taekyunk[@taekyunk] (Taekyun Kim), https://github.com/talgalili[@talgalili] (Tal Galili), https://github.com/tanho63[@tanho63] (Tan Ho), https://github.com/tbrugz[@tbrugz] (Telmo Brugnara), https://github.com/thisisnic[@thisisnic] (Nic Crane), https://github.com/TimHesterberg[@TimHesterberg] (Tim Hesterberg), https://github.com/titaniumtroop[@titaniumtroop] (Nathan), https://github.com/tjebo[@tjebo], https://github.com/tklebel[@tklebel] (Thomas Klebel), https://github.com/tmstauss[@tmstauss] (Tanner Stauss), https://github.com/tonybreyal[@tonybreyal] (Tony Breyal), https://github.com/tonyfischetti[@tonyfischetti] (Tony Fischetti), https://github.com/TonyLadson[@TonyLadson] (Tony Ladson), https://github.com/trickytank[@trickytank] (Rick Tankard), https://github.com/TroyVan[@TroyVan], https://github.com/uribo[@uribo] (Shinya Uryu), https://github.com/urmils[@urmils], https://github.com/valeonte[@valeonte], https://github.com/vgonzenbach[@vgonzenbach] (Virgilio Gonzenbach), https://github.com/vladpetyuk[@vladpetyuk] (Vlad Petyuk), https://github.com/vnijs[@vnijs] (Vincent Nijs), https://github.com/vspinu[@vspinu] (Vitalie Spinu), https://github.com/wcarlsen[@wcarlsen] (Willi Carlsen), https://github.com/wch[@wch] (Winston Chang), https://github.com/wenjie2wang[@wenjie2wang] (Wenjie Wang), https://github.com/werkstattcodes[@werkstattcodes], https://github.com/wiaidp[@wiaidp], https://github.com/wibeasley[@wibeasley] (Will Beasley), https://github.com/wilkinson[@wilkinson] (Sean Wilkinson), https://github.com/williamlief[@williamlief] (Lief Esbenshade), https://github.com/winterschlaefer[@winterschlaefer] (Christof Winter), https://github.com/wlamnz[@wlamnz] (William Lam), https://github.com/wrathematics[@wrathematics] (Drew Schmidt), https://github.com/XiangyunHuang[@XiangyunHuang] (Xiangyun Huang), https://github.com/xiaochi-liu[@xiaochi-liu] (Xiaochi), https://github.com/XiaoqiLu[@XiaoqiLu] (Xiaoqi Lu), https://github.com/xiaosongz[@xiaosongz] (Xiaosong Zhang), https://github.com/yihui[@yihui] (Yihui Xie), https://github.com/ynsec37[@ynsec37], https://github.com/yonicd[@yonicd], https://github.com/ysdgroot[@ysdgroot], https://github.com/yui-knk[@yui-knk] (Yuichiro Kaneko), https://github.com/Zedseayou[@Zedseayou] (Calum You), https://github.com/zeehio[@zeehio] (Sergio Oller), https://github.com/zekiakyol[@zekiakyol] (Zeki Akyol), https://github.com/zenggyu[@zenggyu] (Guangyu Zeng), https://github.com/zhaoy[@zhaoy], https://github.com/zhilongjia[@zhilongjia] (Zhilong), https://github.com/zhixunwang[@zhixunwang], https://github.com/zkamvar[@zkamvar] (Zhian N. Kamvar), https://github.com/zouter[@zouter] (Wouter Saelens).
+
+== 内容约定
+
+在本书中，我们用 `+fun()+` 来指代函数，用 `+var+` 来指代变量和函数参数，用 `+path/+` 来指代路径。
+
+较大的代码块同时包含输入和输出。 代码输出的内容都被注释了，因此如果你有本书的电子版本，例如 https://r-pkgs.org，就可以轻松地将示例代码复制和粘贴到 R 中。 输出内容的注释看起来像 `+#>+`，这样可以和普通注释区别开来。
+
+== Colophonfootnote:[译者注：版权页]
+
+本书是在 https://www.rstudio.com/products/rstudio/[RStudio] 中使用 https://quarto.org[Quarto] 编写的。 本书 https://r-pkgs.org[官方网站] 由 https://www.netlify.com[Netlify] 托管，并使用 GitHub actions 在每次提交后自动更新。 完整的源代码可以在 https://github.com/hadley/r-pkgs[GitHub] 上找到
+
+本书的当前版本是在如下环境下构建的：
+
+[source,r,cell-code]
+----
+library(devtools)
+#> Warning: package 'devtools' was built under R version 4.2.2
+#> Loading required package: usethis
+#> Warning: package 'usethis' was built under R version 4.2.3
+library(roxygen2)
+#> Warning: package 'roxygen2' was built under R version 4.2.3
+library(testthat)
+#> Warning: package 'testthat' was built under R version 4.2.3
+#> 
+#> Attaching package: 'testthat'
+#> The following object is masked from 'package:devtools':
+#> 
+#>     test_file
+#> The following object is masked from 'package:dplyr':
+#> 
+#>     matches
+#> The following object is masked from 'package:purrr':
+#> 
+#>     is_null
+#> The following objects are masked from 'package:readr':
+#> 
+#>     edition_get, local_edition
+#> The following object is masked from 'package:tidyr':
+#> 
+#>     matches
+devtools::session_info()
+#> ─ Session info ───────────────────────────────────────────────────
+#>  setting  value
+#>  version  R version 4.2.1 (2022-06-23 ucrt)
+#>  os       Windows 10 x64 (build 22000)
+#>  system   x86_64, mingw32
+#>  ui       RTerm
+#>  language (EN)
+#>  collate  Chinese (Simplified)_China.utf8
+#>  ctype    Chinese (Simplified)_China.utf8
+#>  tz       Asia/Taipei
+#>  date     2024-01-21
+#>  pandoc   3.1.1 @ D:/Program Files/RStudio/resources/app/bin/quarto/bin/tools/ (via rmarkdown)
+#> 
+#> ─ Packages ───────────────────────────────────────────────────────
+#>  package     * version date (UTC) lib source
+#>  bit           4.0.5   2022-11-15 [1] CRAN (R 4.2.3)
+#>  bit64         4.0.5   2020-08-30 [1] CRAN (R 4.2.1)
+#>  brio          1.1.3   2021-11-30 [1] CRAN (R 4.2.2)
+#>  cachem        1.0.6   2021-08-19 [1] CRAN (R 4.2.1)
+#>  callr         3.7.3   2022-11-02 [1] CRAN (R 4.2.3)
+#>  cli           3.6.1   2023-03-23 [1] CRAN (R 4.2.3)
+#>  colorspace    2.1-0   2023-01-23 [1] CRAN (R 4.2.3)
+#>  crayon        1.5.2   2022-09-29 [1] CRAN (R 4.2.3)
+#>  devtools    * 2.4.5   2022-10-11 [1] CRAN (R 4.2.2)
+#>  digest        0.6.34  2024-01-11 [1] CRAN (R 4.2.3)
+#>  dplyr       * 1.1.4   2023-11-17 [1] CRAN (R 4.2.3)
+#>  ellipsis      0.3.2   2021-04-29 [1] CRAN (R 4.2.1)
+#>  evaluate      0.23    2023-11-01 [1] CRAN (R 4.2.3)
+#>  fansi         1.0.3   2022-03-24 [1] CRAN (R 4.2.1)
+#>  fastmap       1.1.1   2023-02-24 [1] CRAN (R 4.2.3)
+#>  forcats     * 1.0.0   2023-01-29 [1] CRAN (R 4.2.3)
+#>  fs            1.6.2   2023-04-25 [1] CRAN (R 4.2.3)
+#>  generics      0.1.3   2022-07-05 [1] CRAN (R 4.2.1)
+#>  ggplot2     * 3.4.4   2023-10-12 [1] CRAN (R 4.2.3)
+#>  glue          1.6.2   2022-02-24 [1] CRAN (R 4.2.1)
+#>  gtable        0.3.3   2023-03-21 [1] CRAN (R 4.2.3)
+#>  hms           1.1.3   2023-03-21 [1] CRAN (R 4.2.3)
+#>  htmltools     0.5.7   2023-11-03 [1] CRAN (R 4.2.3)
+#>  htmlwidgets   1.6.2   2023-03-17 [1] CRAN (R 4.2.3)
+#>  httpuv        1.6.6   2022-09-08 [1] CRAN (R 4.2.1)
+#>  jsonlite      1.8.8   2023-12-04 [1] CRAN (R 4.2.3)
+#>  knitr         1.45    2023-10-30 [1] CRAN (R 4.2.3)
+#>  later         1.3.0   2021-08-18 [1] CRAN (R 4.2.1)
+#>  lifecycle     1.0.3   2022-10-07 [1] CRAN (R 4.2.2)
+#>  lubridate   * 1.9.2   2023-02-10 [1] CRAN (R 4.2.3)
+#>  magrittr      2.0.3   2022-03-30 [1] CRAN (R 4.2.1)
+#>  memoise       2.0.1   2021-11-26 [1] CRAN (R 4.2.1)
+#>  mime          0.12    2021-09-28 [1] CRAN (R 4.2.0)
+#>  miniUI        0.1.1.1 2018-05-18 [1] CRAN (R 4.2.1)
+#>  munsell       0.5.0   2018-06-12 [1] CRAN (R 4.2.1)
+#>  pillar        1.9.0   2023-03-22 [1] CRAN (R 4.2.3)
+#>  pkgbuild      1.4.1   2023-06-14 [1] CRAN (R 4.2.1)
+#>  pkgconfig     2.0.3   2019-09-22 [1] CRAN (R 4.2.1)
+#>  pkgload       1.3.4   2024-01-16 [1] CRAN (R 4.2.3)
+#>  prettyunits   1.1.1   2020-01-24 [1] CRAN (R 4.2.1)
+#>  processx      3.8.3   2023-12-10 [1] CRAN (R 4.2.3)
+#>  profvis       0.3.7   2020-11-02 [1] CRAN (R 4.2.2)
+#>  promises      1.2.0.1 2021-02-11 [1] CRAN (R 4.2.1)
+#>  ps            1.7.6   2024-01-18 [1] CRAN (R 4.2.3)
+#>  purrr       * 1.0.1   2023-01-10 [1] CRAN (R 4.2.3)
+#>  R6            2.5.1   2021-08-19 [1] CRAN (R 4.2.1)
+#>  Rcpp          1.0.9   2022-07-08 [1] CRAN (R 4.2.1)
+#>  readr       * 2.1.4   2023-02-10 [1] CRAN (R 4.2.3)
+#>  remotes       2.4.2   2021-11-30 [1] CRAN (R 4.2.1)
+#>  rlang         1.1.1   2023-04-28 [1] CRAN (R 4.2.3)
+#>  rmarkdown     2.25    2023-09-18 [1] CRAN (R 4.2.3)
+#>  roxygen2    * 7.3.0   2024-01-11 [1] CRAN (R 4.2.3)
+#>  rstudioapi    0.15.0  2023-07-07 [1] CRAN (R 4.2.3)
+#>  scales        1.2.1   2022-08-20 [1] CRAN (R 4.2.3)
+#>  sessioninfo   1.2.2   2021-12-06 [1] CRAN (R 4.2.2)
+#>  shiny         1.8.0   2023-11-17 [1] CRAN (R 4.2.3)
+#>  stringi       1.8.3   2023-12-11 [1] CRAN (R 4.2.3)
+#>  stringr     * 1.5.0   2022-12-02 [1] CRAN (R 4.2.3)
+#>  testthat    * 3.2.1   2023-12-02 [1] CRAN (R 4.2.3)
+#>  tibble      * 3.2.1   2023-03-20 [1] CRAN (R 4.2.3)
+#>  tidyr       * 1.3.0   2023-01-24 [1] CRAN (R 4.2.3)
+#>  tidyselect    1.2.0   2022-10-10 [1] CRAN (R 4.2.2)
+#>  tidyverse   * 2.0.0   2023-02-22 [1] CRAN (R 4.2.3)
+#>  timechange    0.3.0   2024-01-18 [1] CRAN (R 4.2.3)
+#>  tinytex       0.49    2023-11-22 [1] CRAN (R 4.2.3)
+#>  tzdb          0.4.0   2023-05-12 [1] CRAN (R 4.2.3)
+#>  urlchecker    1.0.1   2021-11-30 [1] CRAN (R 4.2.2)
+#>  usethis     * 2.2.0   2023-06-06 [1] CRAN (R 4.2.3)
+#>  utf8          1.2.2   2021-07-24 [1] CRAN (R 4.2.1)
+#>  vctrs         0.6.5   2023-12-01 [1] CRAN (R 4.2.3)
+#>  vroom         1.6.3   2023-04-28 [1] CRAN (R 4.2.3)
+#>  withr         3.0.0   2024-01-16 [1] CRAN (R 4.2.3)
+#>  xfun          0.41    2023-11-01 [1] CRAN (R 4.2.3)
+#>  xml2          1.3.3   2021-11-30 [1] CRAN (R 4.2.1)
+#>  xtable        1.8-4   2019-04-21 [1] CRAN (R 4.2.1)
+#> 
+#>  [1] D:/R/R-4.2.1/library
+#> 
+#> ──────────────────────────────────────────────────────────────────
+----

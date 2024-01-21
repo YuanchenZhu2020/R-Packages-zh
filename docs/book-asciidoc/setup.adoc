@@ -1,0 +1,155 @@
+[[sec-setup]]
+= 系统设置
+:description: 学习如何创建软件包（package），它是可分享、可复用和可重复的 R 代码。
+
+[[setup-prep]]
+== 准备好你的系统
+
+在开始之前，请确保您已经安装了最新版本的 R（至少需要 4.2.1，本书即是使用该版本渲染生成的），然后再运行以下代码来获取您将使用到的程序包：
+
+[source,r,cell-code]
+----
+install.packages(c("devtools", "roxygen2", "testthat", "knitr"))
+----
+
+请确保您已经安装了最新版本的 RStudio 集成开发环境（IDE）。 新版本会定期发布，所以我们建议经常更新以获得最新和最好的功能。
+
+从这里下载最新版本的 RStudio Desktop：https://posit.co/download/rstudio-desktop/。 大多数读者可以使用 RStudio Desktop 的免费开源版本。
+
+[[sec-setup-usage]]
+== devtools, usethis, 以及你自己
+
+____
+"`I am large, I contain multitudes.`"
+
+— Walt Whitman, Song of Myself
+____
+
+正如在 <<sec-intro-phil>> 中所提到的，devtools 是一个“元软件包 (meta-package)”，包含并提供了在几个较小的包中维护的功能footnote:[在写作本书时，devtools 提供了来自 https://remotes.r-lib.org/[remotes], https://pkgbuild.r-lib.org/[pkgbuild], https://pkgload.r-lib.org/[pkgload], https://rcmdcheck.r-lib.org/[rcmdcheck], https://revdepcheck.r-lib.org/[revdepcheck], https://sessioninfo.r-lib.org/[sessioninfo], https://usethis.r-lib.org/[usethis], https://testthat.r-lib.org[testthat], and https://roxygen2.r-lib.org[roxygen2] 的功能]。 例如，devtools 可能会提供一个包装器函数 (wrapper function)，以设置用户友好的默认值，引入有用的交互行为，或组合来自多个子软件包的功能。 在某些情况下，它只是从另一个包中重新导出一个函数，以便在使用 (attach)footnote:[译者注：R 中导入软件包的实质是载入其命名空间并将它添加到搜索列表中。] devtools 时能够方便地使用它。
+
+那么我们推荐使用 devtools 及其组成软件包的方法是什么呢？ 根据你的意图有不同的使用方法：
+
+* 如果你正在交互式地使用这些函数来帮助开发软件包，则应将 devtools 视为首选的用于包开发的函数提供者。在这种情况下，你应该将使用 `+library(devtools)+` 附加 devtools 并在不加限定符的情况下调用函数（例如 `+load_all()+`）。
+* 如果你正在编写包代码并使用 devtools 和相关函数，则**不应该**依赖 devtools，而应通过是它们所在的软件包来访问函数。
+** devtools 应该尽量避免以形如 `+pkg::fcn()+` 的限定调用的形式出现在 `+pkg+` 中。相对地，`+pkg+` 应该是 `+fcn()+` 的函数定义所在的包。例如，如果你要在包中创建一个函数，在函数内你需要查询用户 R session 的状态，请在你的包中使用 `+sessioninfo::session_info()+` 而不是 `+devtools::session_info()+`。
+* 如果你发现了漏洞，请尝试在作为函数主要宿主的包上报告它们。`+devtools::fcn()+` 的帮助文档通常说明了 devtools 何时从另一个包中重新导出一个函数。
+
+usethis 软件包是更多人可能知道并直接使用的组成软件包。 它包含了操作 R 项目中文件和文件夹的函数，特别是对于任何既是 R 项目又是 R 软件包的项目。 devtools 让你可以轻松地以交互式方法使用 usethis 函数，当你调用 `+library(devtools)+` 时，usethis 也会被附加。 然后，你可以在不加限定符的情况下使用 usethis 中的任何函数，例如，可以调用 `+use_testthat()+`。 如果你选择指定命名空间，例如在更程序化的风格下工作时，请确保使用 usethis 对调用进行限定，例如，`+usethis::use_testthat()+`。
+
+=== 个人启动配置
+
+你可以通过以下方式附加 (attach) devtools 程序包：
+
+[source,r,cell-code]
+----
+library(devtools)
+----
+
+但是，在每个 R session 中重复附加 devtools 很快就会变得令人恼火。 因此，我们强烈建议将 devtools 附加footnote:[这是我们推荐使用 `+require()+` 而非 `+library()+` 的少数情况之一。如果 `+library()+` 无法附加软件包，它将失败报错，从而终止执行你的 `+.Rprofile+` 文件。 如果 `+require()+` 无法附加软件包，它将会发出警告但仍然允许你的 `+.Rprofile+` 继续执行。 这将在 <<sec-dependencies-attach-vs-load>> 中进一步讨论。]到你的 `+.Rprofile+` 启动文件中, 如下所示：
+
+[source,r,cell-code]
+----
+if (interactive()) {
+  suppressMessages(require(devtools))
+}
+----
+
+为了方便起见， `+use_devtools()+` 函数会在你需要时创建 `+.Rprofile+` 文件，将其打开并进行编辑，然后在剪切板和屏幕上放置必要的代码行。
+
+[WARNING]
+====
+一般来说，在 `+.Rprofile+` 中附加软件包是一个坏主意，因为它会让你创建无法通过显式调用 `+library(foo)+` 来反映所有依赖关系的 R 脚本。 但是 devtools 是一个工作流包，它用于简化软件包开发过程，因此不太可能被嵌入到任何分析脚本中。 请注意，我们仍然注意只在交互式会话中附加软件包。
+====
+
+usethis 会查找某些选项，例如当你__从头 (de novo)__ 开始创建软件包时。 这允许你为自己（作为软件包维护者）或你的首选许可证指定个人默认值。 下面是一个可以进入 `+.Rprofile+` 的代码片段示例：
+
+[source,r,cell-code]
+----
+options(
+  "Authors@R" = utils::person(
+    "Jane", "Doe",
+    email = "jane@example.com",
+    role = c("aut", "cre"),
+    comment = c(ORCID = "0000-1111-2222-3333")
+  ),
+  License = "MIT + file LICENSE"
+)
+----
+
+以下代码展示了如何安装 devtools 和 usethis 的开发版本。 有时，本书可能会介绍 devtools 和相关软件包的开发版本中尚未发布的新功能。
+
+[source,r,cell-code]
+----
+devtools::install_github("r-lib/devtools")
+devtools::install_github("r-lib/usethis")
+
+# or, alternatively
+pak::pak("r-lib/devtools")
+pak::pak("r-lib/usethis")
+----
+
+[[setup-tools]]
+== R 构建工具链
+
+要能够完全从源代码构建 R 软件包，还需要一个编译器和其他一些命令行工具。 这可能不是严格必须的，除非你想构建包含 C 或 C++ 代码的程序包。 特别是如果你正在使用 RStudio，可以暂时把它放在一边。 一旦你尝试执行需要设置开发环境的操作，IDE 将发出警报并提供支持。 请阅读下面的建议，了解如何自己做到这一点。
+
+=== Windows
+
+在 Windows 上，从源代码构建程序包所需要的工具集叫做 RTools。
+
+Rtools *不是* R 软件包。 它**不是**通过 `+install.packages()+` 进行安装。 而是通过从 https://cran.r-project.org/bin/windows/Rtools/ 下载并运行安装程序来安装。
+
+在 RTools 的安装过程中，您可能会看到一个窗口，它询问您是否“Select Additional Tasks”。
+
+* **不要**选中“Edit the system PATH”。devtools 和 Rstudio 会在需要时自动将 RTools 放入 `+PATH+`。
+* 选中 "`Save version information to registry`"。它应该是默认选中的。
+
+=== macOS
+
+你需要安装 Xcode 命令行工具，这需要你https://developer.apple.com/programs/enroll/[注册成为 Apple 开发人员]（不用担心，对于哪些只希望安装应用程序，例如 Xcode 命令行工具的个人来说是免费的。只有那些想要发布应用程序、访问测试版软件并集成Siri、Apple Pay和iCloud等功能的人才需要加入付费开发者计划。）。
+
+然后，在 shell 中执行如下操作：
+
+[source,shell]
+----
+xcode-select --install
+----
+
+或者，你可以从 https://itunes.apple.com/ca/app/xcode/id497799835?mt=12[Xcode from the Mac App Store] 安装最新版本的完整的 Xcode。 这会包含许多您不需要的东西，但是它有 App Store 便利性的优势。
+
+=== Linux
+
+请确保你不仅已经安装了 R，还安装了 R 开发工具 (R development tools)。 例如，在 Ubuntu（以及 Debian）上，你需要安装 `+r-base-dev+` 包：
+
+....
+sudo apt install r-base-dev
+....
+
+在 Fedora 和 RedHat 上，开发工具（名为 `+R-core-devel+`）将会在你使用 `+sudo dnf install R+` 时自动安装。
+
+== 验证系统设置
+
+你可以使用 `+devtools::dev_sitrep()+` 生成一个“（软件包）开发环境报告”：
+
+[source,r,cell-code]
+----
+devtools::dev_sitrep()
+#> ── R ───────────────────────────────────────────────────────────────────────
+#> • version: 4.1.2
+#> • path: '/Library/Frameworks/R.framework/Versions/4.1/Resources/'
+#> ── RStudio ─────────────────────────────────────────────────────────────────
+#> • version: 2022.2.0.443
+#> ── devtools ────────────────────────────────────────────────────────────────
+#> • version: 2.4.3.9000
+#> • devtools or its dependencies out of date:
+#>   'gitcreds', 'gh'
+#>   Update them with `devtools::update_packages("devtools")`
+#> ── dev package ─────────────────────────────────────────────────────────────
+#> • package: 'rpkgs'
+#> • path: '/Users/jenny/rrr/r-pkgs/'
+#> • rpkgs dependencies out of date:
+#>   'gitcreds', 'generics', 'tidyselect', 'dplyr', 'tidyr', 'broom', 'gh'
+#>  Update them with `devtools::install_dev_deps()`
+----
+
+如果它揭示了某些工具或软件包丢失或过时的情况，那么我们鼓励你进行相应的更新。

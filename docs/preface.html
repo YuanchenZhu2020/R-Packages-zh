@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.361">
+<meta name="generator" content="quarto-1.4.547">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="description" content="学习如何创建软件包（package），它是可分享、可复用和可重复的 R 代码。">
 <title>R Packages (2e) - 前言</title>
@@ -20,7 +20,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -56,6 +56,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -97,7 +98,13 @@ div.csl-indent {
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -106,6 +113,7 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -116,23 +124,23 @@ div.csl-indent {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./preface.html">前言</a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./preface.html">前言</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
   </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">R Packages (2e)</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/hadley/r-pkgs/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/YuanchenZhu2020/R-Packages-zh" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
   <div class="quarto-reader-toggle-btn">
   <i class="bi"></i>
@@ -213,50 +221,21 @@ div.csl-indent {
 </li>
       </ul>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text">软件包组件</span></a>
+ <span class="menu-text">Appendices</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./code.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">R code</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./misc.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">其它组件</span></span></a>
-  </div>
-</li>
-      </ul>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">References</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./R-CMD-check.html" class="sidebar-item-text sidebar-link">
@@ -267,7 +246,7 @@ div.csl-indent {
 </li>
     </ul>
 </div>
-</nav><div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
@@ -276,7 +255,7 @@ div.csl-indent {
 <li><a href="#%E8%87%B4%E8%B0%A2" id="toc-致谢" class="nav-link active" data-scroll-target="#%E8%87%B4%E8%B0%A2">致谢</a></li>
   <li><a href="#%E5%86%85%E5%AE%B9%E7%BA%A6%E5%AE%9A" id="toc-内容约定" class="nav-link" data-scroll-target="#%E5%86%85%E5%AE%B9%E7%BA%A6%E5%AE%9A">内容约定</a></li>
   <li><a href="#colophon" id="toc-colophon" class="nav-link" data-scroll-target="#colophon">Colophon</a></li>
-  </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/hadley/r-pkgs/edit/main/preface.Rmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/hadley/r-pkgs/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+  </ul><div class="toc-actions"><ul><li><a href="https://github.com/YuanchenZhu2020/R-Packages-zh/edit/main/preface.Rmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/YuanchenZhu2020/R-Packages-zh/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
@@ -293,6 +272,7 @@ div.csl-indent {
   </div>
   
 
+
 </header><p>欢迎阅读 <em>R packages</em> 第二版！ 如果你熟悉第一版的内容，这篇序言介绍了第二版中主要的内容变化，这样你就可以把阅读重点放在新的部分。</p>
 <p>这一版有一些主要的变化：</p>
 <ul>
@@ -302,21 +282,21 @@ div.csl-indent {
 </ul>
 <p>所有的内容已经被完全修改和更新。 许多章节都是新加入的，或是被重新组织，也有一些章节被移除了：</p>
 <ul>
-<li><p>新的章节 <a href="whole-game.html"><span>Chapter&nbsp;1</span></a> “整体流程”。本章概述了整个软件包的开发过程。</p></li>
-<li><p>新的章节 <a href="setup.html"><span>Chapter&nbsp;2</span></a> “系统设置”。本章已经从之前版本的“简介 (Introduction)”一章分离出来，并增加了更多细节内容。</p></li>
-<li><p>原先名为“软件包结构 (Package structure)”的章节已经扩展了内容并分为两章，一章涵盖了软件包结构和状态 (<a href="structure.html"><span>Chapter&nbsp;3</span></a>) ，另一章涉及工作流和工具 (<a href="workflow101.html"><span>Chapter&nbsp;4</span></a>)。</p></li>
-<li><p>新的章节 <a href="package-within.html"><span>Chapter&nbsp;5</span></a> “软件包中的奥秘”。本章演示了如何从数据分析脚本中提取可复用的逻辑并将其放入包中。</p></li>
-<li><p><a href="code.html"><span>Chapter&nbsp;6</span></a> “R 代码”中“组织你的函数 (Organising your functions)”和“代码风格 (Code style)”部分已被删除，转而采用一篇在线的代码风格指南 <a href="https://style.tidyverse.org/" class="uri">https://style.tidyverse.org/</a>。 这篇代码风格指南与新的 styler 软件包<span class="citation" data-cites="styler">(<a href="references.html#ref-styler" role="doc-biblioref">Müller and Walthert 2018</a>)</span> 搭配使用，可以自动应用许多编码规则。</p></li>
+<li><p>新的章节 <a href="whole-game.html" class="quarto-xref"><span>1&nbsp; 整个流程</span></a> “整体流程”。本章概述了整个软件包的开发过程。</p></li>
+<li><p>新的章节 <a href="setup.html" class="quarto-xref"><span>2&nbsp; 系统设置</span></a> “系统设置”。本章已经从之前版本的“简介 (Introduction)”一章分离出来，并增加了更多细节内容。</p></li>
+<li><p>原先名为“软件包结构 (Package structure)”的章节已经扩展了内容并分为两章，一章涵盖了软件包结构和状态 (<a href="structure.html" class="quarto-xref"><span>3&nbsp; 软件包结构与状态</span></a>) ，另一章涉及工作流和工具 (<a href="workflow101.html" class="quarto-xref"><span>4&nbsp; 基本开发工作流</span></a>)。</p></li>
+<li><p>新的章节 <a href="package-within.html" class="quarto-xref"><span>5&nbsp; The package within</span></a> “软件包中的奥秘”。本章演示了如何从数据分析脚本中提取可复用的逻辑并将其放入包中。</p></li>
+<li><p><span class="quarto-unresolved-ref">?sec-r</span> “R 代码”中“组织你的函数 (Organising your functions)”和“代码风格 (Code style)”部分已被删除，转而采用一篇在线的代码风格指南 <a href="https://style.tidyverse.org/" class="uri">https://style.tidyverse.org/</a>。 这篇代码风格指南与新的 styler 软件包<span class="citation" data-cites="styler">(<a href="references.html#ref-styler" role="doc-biblioref">Müller and Walthert 2018</a>)</span> 搭配使用，可以自动应用许多编码规则。</p></li>
 <li><p>有关软件包测试的内容以及扩展成三个章节： <span class="quarto-unresolved-ref">?sec-testing-basics</span> 是软件包测试基础， <span class="quarto-unresolved-ref">?sec-testing-design</span> 是测试套件的设计，而 <span class="quarto-unresolved-ref">?sec-testing-advanced</span> 则包含了各种高级的内容主题。</p></li>
 <li><p>围绕 <code>NAMESPACE</code> 文件和依赖关系的内容被重新组织成两章：<span class="quarto-unresolved-ref">?sec-dependencies-mindset-background</span> 提供了让我们深入思考如何处理软件包依赖关系的技术知识，<span class="quarto-unresolved-ref">?sec-dependencies-in-practice</span> 给出了在不同情况下使用不同类型依赖关系的操作细节。</p></li>
 <li><p>新的章节 <span class="quarto-unresolved-ref">?sec-license</span> “添加开源许可证”。本章将之前关于添加开源许可证的内容扩展为单独的一章。</p></li>
 <li><p>删除了关于 C/C++ 的章节。 因为它没有提供足够有用的信息，并且自本书第一版以来，出现了其他更好的学习资源。</p></li>
 <li><p>删除了“其他组件 (Other components)”一章。</p></li>
 <li><p>关于 Git/GitHub 的章节以及围绕软件开发实践 (<span class="quarto-unresolved-ref">?sec-sw-dev-practices</span>) 这一更普遍的主题进行了重构。 这章将不一步步说明使用 Git/GitHub 的基本步骤。 自本书第一版依赖，Git/GitHub 的使用呈现爆炸式增长，同时和 R 相关的通用和特定主题学习资源也同样飞速增长（例如 <a href="https://happygitwithr.com/index.html">Happy Git and GitHub for the useR</a> 网站）。 Git/GitHub 在本书中仍然占据重要地位，特别是在 <span class="quarto-unresolved-ref">?sec-sw-dev-practices</span>。</p></li>
-<li><p>非常简短的 “inst” 一章已经被合并到 <a href="misc.html"><span>Chapter&nbsp;8</span></a> 中，内容包括对所有其它的目录的介绍，这些目录在特定情况下可能很重要，但对所有软件包来说并不是必要的。</p></li>
+<li><p>非常简短的 “inst” 一章已经被合并到 <span class="quarto-unresolved-ref">?sec-misc</span> 中，内容包括对所有其它的目录的介绍，这些目录在特定情况下可能很重要，但对所有软件包来说并不是必要的。</p></li>
 </ul>
 <section id="致谢" class="level2"><h2 class="anchored" data-anchor-id="致谢">致谢</h2>
-<p>自从 R Packages 第一版发布以来，支持本书描述的工作流的软件包已经有了广泛的发展。 最初的三个软件包 devtools, roxygen2 和 testthat 已经扩展到由 devtools “有意识地解耦”所创建的许多软件包，就如 <a href="setup.html#sec-setup-usage"><span>Section&nbsp;2.2</span></a> 所描述的那样。 由于它们具有共同的根源 devtools，因此这些软件包多数源自 Hadley Wickham (HW)。 还有许多其他重要的贡献者，其中许多人现在是软件包的维护者：</p>
+<p>自从 R Packages 第一版发布以来，支持本书描述的工作流的软件包已经有了广泛的发展。 最初的三个软件包 devtools, roxygen2 和 testthat 已经扩展到由 devtools “有意识地解耦”所创建的许多软件包，就如 <a href="setup.html#sec-setup-usage" class="quarto-xref"><span>2.2 devtools, usethis, 以及你自己</span></a> 所描述的那样。 由于它们具有共同的根源 devtools，因此这些软件包多数源自 Hadley Wickham (HW)。 还有许多其他重要的贡献者，其中许多人现在是软件包的维护者：</p>
 <ul>
 <li>devtools: HW, <a href="https://github.com/wch">Winston Chang</a>, <a href="https://github.com/jimhester">Jim Hester</a> (maintainer, &gt;= v1.13.5), <a href="https://github.com/jennybc">Jennifer Bryan</a> (maintainer &gt;= v2.4.3)</li>
 <li>usethis: HW, <a href="https://github.com/jennybc">Jennifer Bryan</a> (maintainer &gt;= v1.5.0), Malcolm Barrett</li>
@@ -346,9 +326,9 @@ div.csl-indent {
 #&gt; Warning: package 'forcats' was built under R version 4.2.3
 #&gt; Warning: package 'lubridate' was built under R version 4.2.3
 #&gt; ── Attaching core tidyverse packages ──────────── tidyverse 2.0.0 ──
-#&gt; ✔ dplyr     1.1.2     ✔ readr     2.1.4
+#&gt; ✔ dplyr     1.1.4     ✔ readr     2.1.4
 #&gt; ✔ forcats   1.0.0     ✔ stringr   1.5.0
-#&gt; ✔ ggplot2   3.4.2     ✔ tibble    3.2.1
+#&gt; ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
 #&gt; ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
 #&gt; ✔ purrr     1.0.1     
 #&gt; ── Conflicts ────────────────────────────── tidyverse_conflicts() ──
@@ -408,7 +388,7 @@ div.csl-indent {
 <span><span class="co">#&gt;  collate  Chinese (Simplified)_China.utf8</span></span>
 <span><span class="co">#&gt;  ctype    Chinese (Simplified)_China.utf8</span></span>
 <span><span class="co">#&gt;  tz       Asia/Taipei</span></span>
-<span><span class="co">#&gt;  date     2023-12-28</span></span>
+<span><span class="co">#&gt;  date     2024-01-21</span></span>
 <span><span class="co">#&gt;  pandoc   3.1.1 @ D:/Program Files/RStudio/resources/app/bin/quarto/bin/tools/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ─ Packages ───────────────────────────────────────────────────────</span></span>
@@ -422,24 +402,24 @@ div.csl-indent {
 <span><span class="co">#&gt;  colorspace    2.1-0   2023-01-23 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  crayon        1.5.2   2022-09-29 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  devtools    * 2.4.5   2022-10-11 [1] CRAN (R 4.2.2)</span></span>
-<span><span class="co">#&gt;  digest        0.6.29  2021-12-01 [1] CRAN (R 4.2.1)</span></span>
-<span><span class="co">#&gt;  dplyr       * 1.1.2   2023-04-20 [1] CRAN (R 4.2.3)</span></span>
+<span><span class="co">#&gt;  digest        0.6.34  2024-01-11 [1] CRAN (R 4.2.3)</span></span>
+<span><span class="co">#&gt;  dplyr       * 1.1.4   2023-11-17 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  ellipsis      0.3.2   2021-04-29 [1] CRAN (R 4.2.1)</span></span>
-<span><span class="co">#&gt;  evaluate      0.21    2023-05-05 [1] CRAN (R 4.2.1)</span></span>
+<span><span class="co">#&gt;  evaluate      0.23    2023-11-01 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  fansi         1.0.3   2022-03-24 [1] CRAN (R 4.2.1)</span></span>
-<span><span class="co">#&gt;  fastmap       1.1.0   2021-01-25 [1] CRAN (R 4.2.1)</span></span>
+<span><span class="co">#&gt;  fastmap       1.1.1   2023-02-24 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  forcats     * 1.0.0   2023-01-29 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  fs            1.6.2   2023-04-25 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  generics      0.1.3   2022-07-05 [1] CRAN (R 4.2.1)</span></span>
-<span><span class="co">#&gt;  ggplot2     * 3.4.2   2023-04-03 [1] CRAN (R 4.2.3)</span></span>
+<span><span class="co">#&gt;  ggplot2     * 3.4.4   2023-10-12 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  glue          1.6.2   2022-02-24 [1] CRAN (R 4.2.1)</span></span>
 <span><span class="co">#&gt;  gtable        0.3.3   2023-03-21 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  hms           1.1.3   2023-03-21 [1] CRAN (R 4.2.3)</span></span>
-<span><span class="co">#&gt;  htmltools     0.5.5   2023-03-23 [1] CRAN (R 4.2.3)</span></span>
+<span><span class="co">#&gt;  htmltools     0.5.7   2023-11-03 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  htmlwidgets   1.6.2   2023-03-17 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  httpuv        1.6.6   2022-09-08 [1] CRAN (R 4.2.1)</span></span>
-<span><span class="co">#&gt;  jsonlite      1.8.5   2023-06-05 [1] CRAN (R 4.2.3)</span></span>
-<span><span class="co">#&gt;  knitr         1.43    2023-05-25 [1] CRAN (R 4.2.3)</span></span>
+<span><span class="co">#&gt;  jsonlite      1.8.8   2023-12-04 [1] CRAN (R 4.2.3)</span></span>
+<span><span class="co">#&gt;  knitr         1.45    2023-10-30 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  later         1.3.0   2021-08-18 [1] CRAN (R 4.2.1)</span></span>
 <span><span class="co">#&gt;  lifecycle     1.0.3   2022-10-07 [1] CRAN (R 4.2.2)</span></span>
 <span><span class="co">#&gt;  lubridate   * 1.9.2   2023-02-10 [1] CRAN (R 4.2.3)</span></span>
@@ -451,41 +431,41 @@ div.csl-indent {
 <span><span class="co">#&gt;  pillar        1.9.0   2023-03-22 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  pkgbuild      1.4.1   2023-06-14 [1] CRAN (R 4.2.1)</span></span>
 <span><span class="co">#&gt;  pkgconfig     2.0.3   2019-09-22 [1] CRAN (R 4.2.1)</span></span>
-<span><span class="co">#&gt;  pkgload       1.3.2   2022-11-16 [1] CRAN (R 4.2.3)</span></span>
+<span><span class="co">#&gt;  pkgload       1.3.4   2024-01-16 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  prettyunits   1.1.1   2020-01-24 [1] CRAN (R 4.2.1)</span></span>
-<span><span class="co">#&gt;  processx      3.8.1   2023-04-18 [1] CRAN (R 4.2.3)</span></span>
+<span><span class="co">#&gt;  processx      3.8.3   2023-12-10 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  profvis       0.3.7   2020-11-02 [1] CRAN (R 4.2.2)</span></span>
 <span><span class="co">#&gt;  promises      1.2.0.1 2021-02-11 [1] CRAN (R 4.2.1)</span></span>
-<span><span class="co">#&gt;  ps            1.7.1   2022-06-18 [1] CRAN (R 4.2.1)</span></span>
+<span><span class="co">#&gt;  ps            1.7.6   2024-01-18 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  purrr       * 1.0.1   2023-01-10 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  R6            2.5.1   2021-08-19 [1] CRAN (R 4.2.1)</span></span>
 <span><span class="co">#&gt;  Rcpp          1.0.9   2022-07-08 [1] CRAN (R 4.2.1)</span></span>
 <span><span class="co">#&gt;  readr       * 2.1.4   2023-02-10 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  remotes       2.4.2   2021-11-30 [1] CRAN (R 4.2.1)</span></span>
 <span><span class="co">#&gt;  rlang         1.1.1   2023-04-28 [1] CRAN (R 4.2.3)</span></span>
-<span><span class="co">#&gt;  rmarkdown     2.22    2023-06-01 [1] CRAN (R 4.2.3)</span></span>
-<span><span class="co">#&gt;  roxygen2    * 7.2.3   2022-12-08 [1] CRAN (R 4.2.3)</span></span>
-<span><span class="co">#&gt;  rstudioapi    0.14    2022-08-22 [1] CRAN (R 4.2.3)</span></span>
+<span><span class="co">#&gt;  rmarkdown     2.25    2023-09-18 [1] CRAN (R 4.2.3)</span></span>
+<span><span class="co">#&gt;  roxygen2    * 7.3.0   2024-01-11 [1] CRAN (R 4.2.3)</span></span>
+<span><span class="co">#&gt;  rstudioapi    0.15.0  2023-07-07 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  scales        1.2.1   2022-08-20 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  sessioninfo   1.2.2   2021-12-06 [1] CRAN (R 4.2.2)</span></span>
-<span><span class="co">#&gt;  shiny         1.7.4   2022-12-15 [1] CRAN (R 4.2.3)</span></span>
-<span><span class="co">#&gt;  stringi       1.7.8   2022-07-11 [1] CRAN (R 4.2.1)</span></span>
+<span><span class="co">#&gt;  shiny         1.8.0   2023-11-17 [1] CRAN (R 4.2.3)</span></span>
+<span><span class="co">#&gt;  stringi       1.8.3   2023-12-11 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  stringr     * 1.5.0   2022-12-02 [1] CRAN (R 4.2.3)</span></span>
-<span><span class="co">#&gt;  testthat    * 3.1.8   2023-05-04 [1] CRAN (R 4.2.3)</span></span>
+<span><span class="co">#&gt;  testthat    * 3.2.1   2023-12-02 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  tibble      * 3.2.1   2023-03-20 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  tidyr       * 1.3.0   2023-01-24 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  tidyselect    1.2.0   2022-10-10 [1] CRAN (R 4.2.2)</span></span>
 <span><span class="co">#&gt;  tidyverse   * 2.0.0   2023-02-22 [1] CRAN (R 4.2.3)</span></span>
-<span><span class="co">#&gt;  timechange    0.2.0   2023-01-11 [1] CRAN (R 4.2.3)</span></span>
-<span><span class="co">#&gt;  tinytex       0.45    2023-04-18 [1] CRAN (R 4.2.3)</span></span>
-<span><span class="co">#&gt;  tzdb          0.3.0   2022-03-28 [1] CRAN (R 4.2.1)</span></span>
+<span><span class="co">#&gt;  timechange    0.3.0   2024-01-18 [1] CRAN (R 4.2.3)</span></span>
+<span><span class="co">#&gt;  tinytex       0.49    2023-11-22 [1] CRAN (R 4.2.3)</span></span>
+<span><span class="co">#&gt;  tzdb          0.4.0   2023-05-12 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  urlchecker    1.0.1   2021-11-30 [1] CRAN (R 4.2.2)</span></span>
 <span><span class="co">#&gt;  usethis     * 2.2.0   2023-06-06 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  utf8          1.2.2   2021-07-24 [1] CRAN (R 4.2.1)</span></span>
-<span><span class="co">#&gt;  vctrs         0.6.2   2023-04-19 [1] CRAN (R 4.2.3)</span></span>
+<span><span class="co">#&gt;  vctrs         0.6.5   2023-12-01 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  vroom         1.6.3   2023-04-28 [1] CRAN (R 4.2.3)</span></span>
-<span><span class="co">#&gt;  withr         2.5.0   2022-03-03 [1] CRAN (R 4.2.1)</span></span>
-<span><span class="co">#&gt;  xfun          0.39    2023-04-20 [1] CRAN (R 4.2.3)</span></span>
+<span><span class="co">#&gt;  withr         3.0.0   2024-01-16 [1] CRAN (R 4.2.3)</span></span>
+<span><span class="co">#&gt;  xfun          0.41    2023-11-01 [1] CRAN (R 4.2.3)</span></span>
 <span><span class="co">#&gt;  xml2          1.3.3   2021-11-30 [1] CRAN (R 4.2.1)</span></span>
 <span><span class="co">#&gt;  xtable        1.8-4   2019-04-21 [1] CRAN (R 4.2.1)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -495,7 +475,7 @@ div.csl-indent {
 </div>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-styler" class="csl-entry" role="listitem">
 Müller, Kirill, and Lorenz Walthert. 2018. <em>Styler: Non-Invasive Pretty Printing of <span>R</span> Code</em>. <a href="http://styler.r-lib.org">http://styler.r-lib.org</a>.
 </div>
@@ -582,10 +562,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -595,8 +574,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -609,6 +597,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -652,6 +759,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -677,6 +785,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -736,12 +870,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./translator-preface.html" class="pagination-link">
+      <a href="./translator-preface.html" class="pagination-link  aria-label=">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">翻译与排版说明</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./introduction.html" class="pagination-link">
+      <a href="./introduction.html" class="pagination-link" aria-label="简介">
         <span class="nav-page-text">简介</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
@@ -750,4 +884,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/YuanchenZhu2020/R-Packages-zh/edit/main/preface.Rmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/YuanchenZhu2020/R-Packages-zh/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
