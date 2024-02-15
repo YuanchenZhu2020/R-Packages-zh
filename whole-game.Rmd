@@ -728,7 +728,7 @@ RStudio 在 *Build* 菜单中，或者在 *Build* 窗格中通过 *More \> Test 
 每当你使用 `check()` 检查软件包时，你的测试也会运行。
 这样，你基本上就可以使用一些特定于自己的包的检查来扩展标准检查。
 使用 [covr package](https://covr.r-lib.org) 跟踪该测试所执行的源代码的比例也是一个好主意。
-更多细节见 @sec-testing-basics。
+更多细节见 @sec-testing-design-coverage。
 
 ## `use_package()`
 

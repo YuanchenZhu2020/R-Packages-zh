@@ -156,7 +156,7 @@ knitr::include_graphics("diagrams/package-files.png")
 当你需要向 `.Rbuildignore` 中添加文件时，我们会在书中提到。
 请记住 `usethis::use_build_ignore()` 是管理这类文件的一种有吸引力的方法。
 此外，许多 usethis 函数在添加一个应该列在 `.Rbuildignore` 中的文件时会自动处理这个问题。
-例如 `use_read_rmd()` 会将 "\^README\\.Rmd\$" 添加到 `.Rbuildignore`。
+例如 `use_readme_rmd()` 会将 "\^README\\.Rmd\$" 添加到 `.Rbuildignore`。
 
 ## 二进制包 (Binary Package) {#sec-structure-binary}
 
