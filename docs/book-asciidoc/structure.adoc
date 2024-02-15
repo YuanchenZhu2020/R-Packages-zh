@@ -106,58 +106,58 @@ image::diagrams/package-files.png[diagrams/package-files]
 
 注意，上面的注释不能出现在实际的 `+.Rbuildignore+` 文件中，它们在这里只是为了说明文件作用。
 
-当你需要向 `+.Rbuildignore+` 中添加文件时，我们会在书中提到。 请记住 `+usethis::use_build_ignore()+` 是管理这类文件的一种有吸引力的方法。 此外，许多 usethis 函数在添加一个应该列在 `+.Rbuildignore+` 中的文件时会自动处理这个问题。 例如 `+use_read_rmd()+` 会将 "`^README\.Rmd$`" 添加到 `+.Rbuildignore+`。
+当你需要向 `+.Rbuildignore+` 中添加文件时，我们会在书中提到。 请记住 `+usethis::use_build_ignore()+` 是管理这类文件的一种有吸引力的方法。 此外，许多 usethis 函数在添加一个应该列在 `+.Rbuildignore+` 中的文件时会自动处理这个问题。 例如 `+use_readme_rmd()+` 会将 "`^README\.Rmd$`" 添加到 `+.Rbuildignore+`。
 
 [[sec-structure-binary]]
 == 二进制包 (Binary Package)
 
-If you want to distribute your package to an R user who doesn’t have package development tools, you’ll need to provide a *binary* package. The primary maker and distributor of binary packages is CRAN, not individual maintainers. But even if you delegate the responsibility of distributing your package to CRAN, it’s still important for a maintainer to understand the nature of a binary package.
+如果你想把你的包分发给没有软件包开发工具的用户，则需要提供**二进制**包文件。 二进制包最主要的制作者和分发者是 CRAN，而不是单个维护者。 但是，即使你将分发包的责任委托给 CRAN，对于维护人员来说，理解二进制包的性质仍然很重要。
 
-Like a package bundle, a binary package is a single file. Unlike a bundled package, a binary package is platform specific and there are two basic flavors: Windows and macOS. (Linux users are generally required to have the tools necessary to install from `+.tar.gz+` files, although the emergence of resources like https://packagemanager.posit.co/[Posit Public Package Manager] is giving Linux users the same access to binary packages as their colleagues on Windows and macOS.)
+像一个捆绑包一样，一个二进制包是一个单独的文件。 但是与捆绑包不同，二进制包是特定于平台的，有两种基本类型：Windows 和 macOS。 （Linux 用户通常需要拥有从 `+.tar.gz+` 文件安装软件包所必须的工具，尽管 https://packagemanager.posit.co/[Posit Public Package Manager] 等资源的出现使得 Linux 用户能够像 Windows 和 macOS 用户一样访问并从二进制包安装。）
 
-Binary packages for macOS are stored as `+.tgz+`, whereas Windows binary packages end in `+.zip+`. If you need to make a binary package, use `+devtools::build(binary = TRUE)+` on the relevant operating system. Under the hood, this calls `+pkgbuild::build(binary = TRUE)+` and, ultimately, `+R CMD INSTALL --build+`, which is described further in the https://cran.r-project.org/doc/manuals/R-exts.html#Building-binary-packages[Building binary packages] section of https://cran.r-project.org/doc/manuals/R-exts.html[Writing R Extensions]. If you choose to release your package on CRAN (<<sec-release>>), you submit your package in bundled form, then CRAN creates and distributes the package binaries.
+macOS 上的二进制包是以 `+.tgz+` 为后缀的文件，而 Windows 上的二进制包则以 `+.zip+` 作为文件后缀。 如果你需要制作一个二进制包，则需要在相关的平台上使用 `+devtools::build(binary = TRUE)+`。 在幕后，该函数调用 `+pkgbuild::build(binary= TRUE)+` 并且最终调用 `+R CMD INSTALL --build+`，这一命令会在 https://cran.r-project.org/doc/manuals/R-exts.html[Writing R Extensions] 中的 https://cran.r-project.org/doc/manuals/R-exts.html#Building-binary-packages[Building binary packages] 进行更详细的叙述。 如果你选择在 CRAN 上发布你的软件包 (<<sec-release>>)，你需要以归档包的形式提交软件包，然后 CRAN 会创建并分发包二进制包文件。
 
-CRAN packages are usually available in binary form, for both macOS and Windows, for the current, previous, and (possibly) development versions of R. Continuing our examples from above, you could download binary packages such as:
+CRAN 软件包通常以二进制形式提供，适用于 macOS 和 Windows，且适用于 R 的当前、历史和（可能的）开发版本。 继续上面的例子，你可以下载如下所示的二进制包：
 
-* forcats for macOS: `+forcats_0.4.0.tgz+`
-* readxl for Windows: `+readxl_1.3.1.zip+`
+* macOS 上的 forcats：`+forcats_0.4.0.tgz+`
+* Windows 上的 readxl：`+readxl_1.3.1.zip+`
 
-and this is, indeed, part of what’s usually going on behind the scenes when you call `+install.packages()+`.
+实际上，当你调用 `+install.packages()+` 时，这就是在幕后通常会发生的一部分事情。
 
-If you uncompress a binary package, you’ll see that the internal structure is rather different from a source or bundled package. <<fig-package-files>> includes this comparison, so this is a good time to revisit that diagram. Here are some of the most notable differences:
+如果你解压一个二进制包，你会看到其内部结构和源码包或归档包非常不同。 <<fig-package-files>> 包含了二者的比较，所以现在是重温这个图的好时机。 以下是一些最显著的区别：
 
-* There are no `+.R+` files in the `+R/+` directory - instead there are three files that store the parsed functions in an efficient file format. This is basically the result of loading all the R code and then saving the functions with `+save()+`. (In the process, this adds a little extra metadata to make things as fast as possible).
-* A `+Meta/+` directory contains a number of `+.rds+` files. These files contain cached metadata about the package, like what topics the help files cover and a parsed version of the `+DESCRIPTION+` file. (You can use `+readRDS()+` to see exactly what’s in those files). These files make package loading faster by caching costly computations.
-* The actual help content appears in `+help/+` and `+html/+` (no longer in `+man/+`).
-* If you had any code in the `+src/+` directory, there will now be a `+libs/+` directory that contains the results of compiling the code.
-* If you had any objects in `+data/+`, they have now been converted into a more efficient form.
-* The contents of `+inst/+` are moved to the top-level directory. For example, vignette files are now in `+doc/+`.
-* Some files and folders have been dropped, such as `+README.md+`, `+build/+`, `+tests/+`, and `+vignettes/+`.
+* `+R/+` 目录下不再有 `+.R+` 文件，而是有三个文件以高效的文件格式存储着解析后的函数。 这基本上是加载所有R代码然后用 `+save()+` 保存函数的结果。 （在此过程中会添加一些额外的元数据，以使函数加载过程尽可能快）。
+* 一个 `+Meta/+` 目录中包含一些 `+.rds+` 文件。 这些文件中包含关于软件包的缓存元数据，例如帮助文档涵盖的主题以及 `+DESCRIPTION+` 文件的解析版本。 （你可以使用 `+readRDS()+` 来查看这些文件中的确切内容）。 这些文件通过缓存昂贵的计算结果使软件包加载过程更快。
+* 实际的帮助内容出现在 `+help/+` 和 `+html/+` 中（不再出现在 `+man/+` 中）。
+* 如果 `+src/+` 目录下有任何代码，那么现在会有一个 `+libs/+` 目录，其中包含代码编译后的结果。
+* 如果 `+data/+` 目录下有任何数据对象，它们现在已经被转换为更高效的数据格式。
+* `+inst/+` 目录下的内容被移动到顶层目录， 例如，主题文档 (vignette) 文件现在在 `+doc/+` 目录下。
+* 一些文件和文件夹被删除了，例如 `+README.md+`、`+build/+`、`+tests/+` 和 `+vignettes/+`。
 
 [[sec-installed-package]]
 == 已安装的包 (Installed package)
 
-An *installed* package is a binary package that’s been decompressed into a package library (described in <<sec-library>>). <<fig-installation>> illustrates the many ways a package can be installed, along with a few other functions for converting a package from one state to another. This diagram is complicated! In an ideal world, installing a package would involve stringing together a set of simple steps: source -> bundle, bundle -> binary, binary -> installed. In the real world, it’s not this simple because there are often (faster) shortcuts available.
+一个**已安装的**软件包是一个二进制包，它被解压缩到一个软件包库中（在 <<sec-library>> 中进行了叙述）。 <<fig-installation>> 说明了安装包的多种方式，以及将软件包从一个状态转换为另一个状态的一些函数。 这个图表很复杂！ 在理想情况下，安装一个软件包需要将一组简单步骤串在一起：source -> bundle, bundle -> binary, binary -> installed。 然而在现实世界中，事情并没有那么简单，因为通常有（更快的）捷径可用。
 
-.Many methods for converting between package states.
+.转换软件包状态的许多方法。
 [#fig-installation]
 image::diagrams/install-load.png[diagrams/install-load]
 
-The built-in command line tool `+R CMD INSTALL+` powers all package installation. It can install a package from source files, a bundle (a.k.a. a source tarball), or a binary package. Details are available in the https://cran.r-project.org/doc/manuals/R-admin.html#Installing-packages[Installing packages section] of https://cran.r-project.org/doc/manuals/R-admin.html[R Installation and Administration]. Just like with `+devtools::build()+`, devtools provides a wrapper function, `+devtools::install()+`, that makes this tool available from within an R session.
+内置命令行工具 `+R CMD INSTALL+` 能够进行所有类型软件包的安装。 它可以从源文件、归档包（也称为 source tarball）或者二进制包进行安装。 要了解更多详细信息，请参阅 https://cran.r-project.org/doc/manuals/R-admin.html[R Installation and Administration] 中的 https://cran.r-project.org/doc/manuals/R-admin.html#Installing-packages[Installing packages section]。 与 `+devtools::build()+` 一样，devtools 提供了一个封装函数 `+devtools::install()+`，能够使 `+R CMD INSTALL+` 在 R session 中可用。
 
 [TIP]
 .RStudio
 ====
-RStudio can also help you install your in-development package via the _Install_ and _More_ drop-downs in the _Build_ pane and with _Install Package_ in the _Build_ menu.
+RStudio 可以通过 _Build_ 窗格中的 _Install_ 和 _More_ 下拉菜单和 _Build_ 菜单中的 _Install Package_ 来帮助你安装你正在开发中的软件包。
 ====
 
-Most useRs understandably like to install packages from the comfort of an R session and directly from CRAN. The built-in function `+install.packages()+` meets this need. It can download the package, in various forms, install it, and optionally attend to the installation of dependencies.
+可以理解的是，大多数用户喜欢在舒适的 R session 中直接从 CRAN 安装包。 内置函数 `+install.packages()+` 满足了这一需求。 它可以下载各种形式的包，安装它，并可选地处理依赖项的安装。
 
-There is a price, however, for the convenience of installing R packages from within an R session. As you might expect, it can be a bit tricky to re-install a package that is already in use in the current session. This actually works most of the time, but sometimes it does not, especially when installing an R package with compiled code on Windows. Due to how file handles are locked on Windows, an attempt to install a new version of a package that’s in use can result in a corrupt installation where the package’s R code has been updated, but its compiled code has not. When troubleshooting, Windows users should strive to install packages in a clean R session, with as few packages loaded as possible.
+然而，从 R session 中安装 R 包的便利性是有代价的。 正如你所预料的那样，重新安装当前 session 中正在使用的包可能会有点困难。 实际上 `+install.packages()+` 在大多数情况下都是有效的，但有时不行，特别是在 Windows 上安装带有编译代码的 R 包时。 由于 Windows 上的文件句柄是锁定的，尝试安装正在使用的软件包的新版本可能会导致安装损坏，其中软件包的 R 代码已经更新，但其编译代码没有更新。 在进行故障排除时，Windows 用户应该努力在一个干净的 R session 中安装软件包，并加载尽可能少的软件包。
 
-The pak package (https://pak.r-lib.org/) is a relative newcomer (at the time of writing) and provides a promising alternative to `+install.packages()+`, as well as other more specialized functions such as `+devtools::install_github()+`. It’s too early to make a blanket recommendation for using pak for all of your package installation needs, but we are certainly using it more and more in our personal workflows. One of pak’s flagship features is that it nicely solves the "`locked DLL`" problem described above, i.e. updating a package with compiled code on Windows. As you get deeper into package development, you will find yourself doing a whole new set of tasks, such as installing a dependency from an in-development branch or scrutinizing package dependency trees. pak provides a rich toolkit for this and many other related tasks. We predict that pak will soon become our official recommendation for how to install packages (and more).
+pak 软件包 (https://pak.r-lib.org/) 是一个相对较新的包（在本书写作时），它提供了一个很有前途的 `+install.packages()+` 的替代方案，另外还有其它更专业的函数可以替代，例如 `+devtools::install_github()+`。 现在就全面推荐使用 pak 来满足你素有的软件包安装需求还为时过早，但是我们肯定会在个人工作流程中越来越多地使用它。 pak 的旗舰功能之一是它很好地解决了上面描述的 "`locked DLL`" 问题，即在 Windows 上用编译后的代码进行软件包更新。 当你更加深入地了解软件包开发时，你会发现自己在完成一套全新的任务，例如从开发分支中安装依赖项，或仔细检查包依赖树。 pak 为此和许多其它相关任务提供了一个丰富的工具包。 我们预测，pak 将很快成为我们如何安装软件包（以及更多任务）的官方建议。
 
-However, in the meantime, we describe the _status quo_. devtools has long offered a family of `+install_*()+` functions to address some needs beyond the reach of `+install.packages()+` or to make existing capabilities easier to access. These functions are actually maintained in the https://remotes.r-lib.org[remotes package] and are re-exported by devtools. (Given what we said above, it is likely that remotes will essentially become superseded, in favor of pak, but we’re not quite there yet.)
+然而，在此期间，我们先来描述__现状__。 devtools 长期以来提供了一系列 `+install_*()+` 函数来解决 `+install.packages()+` 无法满足的一些需求，或者使现有功能更加容易使用。 这些函数实际上保存在 https://remotes.r-lib.org[remotes 软件包] 中，并由 devtools 重新导出供使用。 （考虑到我们上面所说的，remotes 包很可能会被取代，取而代之的是 pak 包，但我们还没有完全做到这一点。）
 
 [source,r,cell-code]
 ----
@@ -172,9 +172,9 @@ grep("^install_.+", funs, value = TRUE)
 #> [13] "install_version"
 ----
 
-`+install_github()+` is the most useful of these functions and is also featured in <<fig-installation>>. It is the flagship example of a family of functions that can download a package from a remote location that is not CRAN and do whatever is necessary to install it and its dependencies. The rest of the devtools/remotes `+install_*()+` functions are aimed at making things that are technically possible with base tooling a bit easier or more explicit, such as `+install_version()+` which installs a specific version of a CRAN package.
+`+install_github()+` 是这些函数中最有用的，也在 <<fig-installation>> 中列出了。 它是一系列函数的旗舰示例，这些函数可以从非 CRAN 的远程位置下载包，并执行安装包及其依赖项所需的任何操作。 devtools/remotes 的其余 `+install_*()+` 函数旨在使那些能够通过基础工具在技术上实现的事情变得更加简单或明确，例如 `+install_version()+`，它安装特定版本的 CRAN 软件包。
 
-Analogous to `+.Rbuildignore+`, described in section <<sec-rbuildignore>>, `+.Rinstignore+` lets you keep files present in a package bundle out of the installed package. However, in contrast to `+.Rbuildignore+`, this is rather obscure and rarely needed.
+类似于在 <<sec-rbuildignore>> 中描述的 `+.Rbuildignore+`，`+.Rinstignore+` 允许你将文件保存在归档包中，但是不保存在已安装的包中。 然而，和 `+.Rbuildignore+` 相比，这一功能是相当模糊且很少使用的。
 
 == 内存中的包 (In-memory package)
 
@@ -199,17 +199,17 @@ usethis 包现在已经被载入了内存，实际上，它也被附加到了搜
 [[sec-library]]
 == 软件包库 (Package libraries)
 
-We just discussed the `+library()+` function, whose name is inspired by what it does. When you call `+library(somepackage)+`, R looks through the current *libraries* for an installed package named "`somepackage`" and, if successful, it makes somepackage available for use.
+我们刚刚讨论了 `+library()+` 函数，它的名称源于其功能。 当你调用 `+library(somepackage)+` 时，R 会在当前的所有**库**中查找一个叫做“somepackage”的已安装包，如果查找成功，R 会使得 somepackage 包变得可用。
 
-In R, a *library* is a directory containing installed packages, sort of like a library for books. Unfortunately, in the R world, you will frequently encounter confused usage of the words "`library`" and "`package`". It’s common for someone to refer to dplyr, for example, as a library when it is actually a package. There are a few reasons for the confusion. First, R’s terminology arguably runs counter to broader programming conventions, where the usual meaning of "`library`" is closer to what we mean by "`package`". The name of the `+library()+` function itself probably reinforces the wrong associations. Finally, this vocabulary error is often harmless, so it’s easy for R users to fall into the wrong habit and for people who point out this mistake to look like insufferable pedants. But here’s the bottom line:
+在 R 中，一个**库**就是一个包含了许多已安装软件包的目录，有点像藏书的图书馆。 不幸的是，在 R 的世界，我们会经常遇到“库 (library)”和“包 (package)”这两个词的混淆用法。 例如，delyr 实际上是一个包 (package)，但是也有人通常将其称为一个库 (library) 造成这种混乱的原因有几个。 首先，R 的术语有争议地违背了更广泛的编程惯例，"`库 (library)`"的通常含义更接近于我们所说的“包 (package)”。 `+library()+` 函数的名称可能会强化这一错误的关联。 最后，这种词汇错误通常是无害的，因此 R 用户很容易养成错误的习惯，然而指出这个错误的人会看起来像是令人无法忍受的学究。 但是最重要的事实是：
 
 ____
-We use the `+library()+` function to load footnote:[Well, actually, `+library()+` loads and attaches a package, but that’s a topic for <<sec-dependencies-attach-vs-load>>.] a *package*.
+我们使用 `+library()+` 函数来加载footnote:[好吧，实际上 `+library()+` 会加载并附加一个软件包，不过这是 <<sec-dependencies-attach-vs-load>> 的主题。]一个**软件包**。
 ____
 
-The distinction between the two is important and useful as you get involved in package development.
+当你参与软件包开发中时，这两者的区别时重要且有用的。
 
-You can have multiple libraries on your computer. In fact, many of you already do, especially if you’re on Windows. You can use `+.libPaths()+` to see which libraries are currently active. Here’s how this might look on Windows:
+你的计算机上可以有多个库。 事实上，你们中的很多人已经这样做了，尤其是 Windows 用户。 你可以使用 `+.libPaths()+` 来查看当前处于活动状态的库。 以下是在 Windows 中该函数的输出结果：
 
 [source,r,cell-code]
 ----
@@ -235,7 +235,7 @@ lapply(.libPaths(), list.dirs, recursive = FALSE, full.names = FALSE)
 #> [29] "translations" "utils"
 ----
 
-Here’s a similar look on macOS (but your results may vary):
+以下是在 macOS 中的表现（你的输出内容可能有所不同）：
 
 [source,r,cell-code]
 ----
@@ -261,25 +261,25 @@ lapply(.libPaths(), list.dirs, recursive = FALSE, full.names = FALSE)
 #> [29] "translations" "utils"
 ----
 
-In both cases we see two active libraries, consulted in this order:
+在这两种情况下，我们都看到了两个活动的库，查询顺序如下：
 
 [arabic]
-. A user library
-. A system-level or global library
+. 用户库
+. 系统级或全局级的库
 
-This setup is typical on Windows, but is something you usually need to opt into on macOS and Linuxfootnote:[For more details, see the https://rstats.wtf/maintaining-r#how-to-transfer-your-library-when-updating-r[Maintaining R section] in _What They Forgot To Teach You About R_, https://rstudio.github.io/r-manuals/r-admin/Add-on-packages.html#managing-libraries[Managing Libraries] in _R Installation and Administration_ and the R help files for `+?Startup+` and `+?.libPaths+`.]. With this setup, add-on packages installed from CRAN (or elsewhere) or under local development are kept in the user library. Above, the macOS system is used as a primary development machine and has many packages here (~1000), whereas the Windows system is only used occasionally and is much more spartan. The core set of base and recommended packages that ship with R live in the system-level library and are the same on all operating systems. This separation appeals to many developers and makes it easy to, for example, clean out your add-on packages without disturbing your base R installation.
+这样的设置在 Windows 中是典型设置，但在 macOS 和 Linux 上通常需要手动配置footnote:[如果想知道更多的详细信息，请参阅 _What They Forgot To Teach You About R_ 中的 https://rstats.wtf/maintaining-r#how-to-transfer-your-library-when-updating-r[Maintaining R section], _R Installation and Administration_ 中的 https://rstudio.github.io/r-manuals/r-admin/Add-on-packages.html#managing-libraries[Managing Libraries] 以及使用 `+?Startup+` 和 `+?.libPaths+` 查看 R 的帮助文档。]。 在该设置下，从 CRAN（或其它源）或本地开发中安装的附加软件包会被保存到用户库中。 和上面一样，macOS 系统是我们主要的开发机器，并且安装了很多软件包（大约 1000 个），而 Windows 系统只是偶尔会被使用，而且要简朴得多。 R 附带的基础和推荐软件包的核心集合位于系统级库中，这一点在所有操作系统上是相同的。 这种分离对许多开发人员来说很有吸引力，例如能够使得清理附加软件包变得更容易，且不会干扰 base R 的安装。
 
-If you’re on macOS or Linux and only see one library, there is no urgent need to change anything. But next time you upgrade R, consider creating a user-level library. By default, R looks for a user library found at the path stored in the environment variable `+R_LIBS_USER+`, which itself defaults to `+~/Library/R/m/x.y/library,+` on macOS, and `+~/R/m-library/x.y+` on Linux (where `+m+` is a concise description of your CPU architecture, and `+x.y+` is the R version). You can see this path with `+Sys.getenv("R_LIBS_USER")+`. These directories do not exist by default, and the use of them must be enabled by creating the directory. When you install a new version of R, and prior to installing any add-on packages, use `+dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)+` to create a user library in the default location. Now you will have the library setup seen above. Alternatively, you could set up a user library elsewhere and tell R about that by setting the `+R_LIBS_USER+` environment variable in `+.Renviron+`. The simplest way to edit your `+.Renviron+` file is with `+usethis::edit_r_environ()+`, which will create the file if it doesn’t exist, and open it for editing.
+如果你使用 macOS 或 Linux，并且只看到了一个库，你不需要紧急更改任何内容。 但是下次升级 R 时，请考虑创建一个用户级库。 默认情况下，R 会在环境变量 `+R_LIBS_USER+` 存储的路径中查找用户库路径，在 macOS 中该环境变量默认为 `+~/Library/R/m/x.y/library,+`，而在 Linux 中则默认是 `+~/R/m-library/x.y+`（其中 `+m+` 是对 CPU 架构的简明描述，而 `+x.y+` 是 R 版本号）。 你可以通过 `+Sys.getenv("R_LIBS_USER")+` 来查看当前的用户库路径。 默认情况下，这些目录不存在，必须通过创建目录来启用它们。 当你安装一个新版本的 R 时，在安装任何软件包之前，请使用 `+dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)+` 在默认位置上创建一个用户库。 现在，你将拥有如上所示的库设置。 或者，你也可以在其它任何地方设置一个用户库，并通过在 `+.Renviron+` 中设置 `+R_LIBS_USER+` 环境变量来告诉 R 用户库的位置。 编辑你的 `+.Renviron+` 文件的最简单方法是使用 `+usethis::edit_r_environ()+`，如果文件不存在，这一函数将会创建该文件，并打开它进行编辑。
 
-The filepaths for these libraries also make it clear they are associated with a specific version of R (4.2.x at the time of writing), which is also typical. This reflects and enforces the fact that you need to reinstall your add-on packages when you update R from, say, 4.1 to 4.2, which is a change in the *minor* version. You generally do not need to re-install add-on packages for a *patch* release, e.g., going from R 4.2.1 to 4.2.2.
+这些库的文件路径也清楚地表明它们与特定版本的 R（在本书写作时是 4.2.x）相关联，这是常见的情况。 这一特点反映并强调了这样一个事实，当你将 R 从 4.1 更新到 4.2 ，即在**次要**版本号上进行更新时，你需要重新安装软件包。 对于在**补丁**版本号上的更新，例如从 4.2.1 更新到 4.2.2 时，通常不需要重新安装软件包。
 
-As your R usage grows more sophisticated, it’s common to start managing package libraries with more intention. For example, tools like https://rstudio.github.io/renv/[renv] (and its predecessor https://rstudio.github.io/packrat/[packrat]) automate the process of managing project-specific libraries. This can be important for making data products reproducible, portable, and isolated from one another. A package developer might prepend the library search path with a temporary library, containing a set of packages at specific versions, in order to explore issues with backwards and forwards compatibility, without affecting other day-to-day work. Reverse dependency checks are another example where we explicitly manage the library search path.
+随着你开始越来越精密和复杂地使用 R，开始更有目的地管理软件包库是很正常的。 例如，像 https://rstudio.github.io/renv/[renv]（以及它的前身 https://rstudio.github.io/packrat/[packrat]）这样的工具能够自动化管理特定于项目的库。 这对于使数据产品具有可复制性、可移植性和相互隔离性来说十分重要。 软件包开发者可能会在库搜索路径前添加一个临时库，其中包含一组特定版本的包，以便在不影响其它日常工作的情况下探索向后和向前兼容性问题。 反向依赖检查 (Reverse dependency checks) 是我们显式管理库搜索路径的另一个例子。
 
-Here are the main levers that control which libraries are active, in order of scope and persistence:
+以下是按范围和持久性排序的一些主要开关，用于控制哪些库处于活动状态：
 
-* Environment variables, like `+R_LIBS+` and `+R_LIBS_USER+`, which are consulted at startup.
-* Calling `+.libPaths()+` with one or more filepaths.
-* Executing small snippets of code with a temporarily altered library search path via `+withr::with_libpaths()+`.
-* Arguments to individual functions, like `+install.packages(lib =)+` and `+library(lib.loc =)+`.
+* 环境变量，例如 `+R_LIBS+` 和 `+R_LIBS_USER+`，它们在 R 启动时被查询；
+* 调用 `+.libPaths()+` 时传入一个或多个文件路径作为库路径；
+* 通过 `+withr::with_libpaths()+` 使用临时更改的库搜索路径执行小段代码；
+* 函数的参数，例如 `+install.packages(lib =)+` 以及 `+library(lib.loc =)+`。
 
-Finally, it’s important to note that `+library()+` should NEVER be used _inside a package_. Packages and scripts rely on different mechanisms for declaring their dependencies and this is one of the biggest adjustments you need to make in your mental model and habits. We explore this topic fully in <<sec-description-imports-suggests>> and <<sec-dependencies-in-practice>>.
+最后，重要的是要注意 `+library()+` 永远不应该在**软件包内**使用。 软件包和脚本依赖于不同的机制来声明它们的依赖关系，这是你需要在心智模型和习惯中做出的最大调整之一。 我们会在 <<sec-description-imports-suggests>> 和 <<sec-dependencies-in-practice>> 中详细讨论这一主题。

@@ -207,62 +207,62 @@ CRAN 软件包通常以二进制形式提供，适用于 macOS 和 Windows，且
 
 ## 已安装的包 (Installed package) {#sec-installed-package}
 
-An **installed** package is a binary package that's been decompressed into a package library (described in @sec-library).
-@fig-installation illustrates the many ways a package can be installed, along with a few other functions for converting a package from one state to another.
-This diagram is complicated!
-In an ideal world, installing a package would involve stringing together a set of simple steps: source -\> bundle, bundle -\> binary, binary -\> installed.
-In the real world, it's not this simple because there are often (faster) shortcuts available.
+一个**已安装的**软件包是一个二进制包，它被解压缩到一个软件包库中（在 @sec-library 中进行了叙述）。
+@fig-installation 说明了安装包的多种方式，以及将软件包从一个状态转换为另一个状态的一些函数。
+这个图表很复杂！
+在理想情况下，安装一个软件包需要将一组简单步骤串在一起：source -\> bundle, bundle -\> binary, binary -\> installed。
+然而在现实世界中，事情并没有那么简单，因为通常有（更快的）捷径可用。
 
 ```{r}
 #| label: fig-installation
 #| echo: false
 #| out-width: ~
 #| fig-cap: >
-#|   Many methods for converting between package states.
+#|   转换软件包状态的许多方法。
 #| fig-alt: > 
-#|   A chart showing different ways to go from one package state to another:
-#|   1. library() puts an installed package into memory.
-#|   2. Functions such as install.packages(),
-#|      devtools::install_github(), and devtools::install()
-#|      can install a package starting variously in the source,
-#|      bundle, or binary forms.
-#|   3. devtools::build() can create a bundle or a binary.
-#|   4. devtools::load_all() puts a source package into memory.
+#|   显示从一个包状态到另一个包状态的不同方式的图表：
+#|   1. library() 将一个已安装包载入内存。
+#|   2. 部分函数，例如 install.packages(),
+#|      devtools::install_github() 和 devtools::install()
+#|      能够从源码包、归档包或二进制包
+#|      进行安装。
+#|   3. devtools::build() 能够创建一个归档包或二进制包。
+#|   4. devtools::load_all() 能够将源码包载入内存。
 knitr::include_graphics("diagrams/install-load.png")
 ```
 
-The built-in command line tool `R CMD INSTALL` powers all package installation.
-It can install a package from source files, a bundle (a.k.a. a source tarball), or a binary package.
-Details are available in the [Installing packages section](https://cran.r-project.org/doc/manuals/R-admin.html#Installing-packages) of [R Installation and Administration](https://cran.r-project.org/doc/manuals/R-admin.html).
-Just like with `devtools::build()`, devtools provides a wrapper function, `devtools::install()`, that makes this tool available from within an R session.
+内置命令行工具 `R CMD INSTALL` 能够进行所有类型软件包的安装。
+它可以从源文件、归档包（也称为 source tarball）或者二进制包进行安装。
+要了解更多详细信息，请参阅 [R Installation and Administration](https://cran.r-project.org/doc/manuals/R-admin.html) 中的 [Installing packages section](https://cran.r-project.org/doc/manuals/R-admin.html#Installing-packages)。
+与 `devtools::build()` 一样，devtools 提供了一个封装函数 `devtools::install()`，能够使 `R CMD INSTALL` 在 R session 中可用。
 
 ::: callout-tip
 ## RStudio
 
-RStudio can also help you install your in-development package via the *Install* and *More* drop-downs in the *Build* pane and with *Install Package* in the *Build* menu.
+RStudio 可以通过 *Build* 窗格中的 *Install* 和 *More* 下拉菜单和 *Build* 菜单中的 *Install Package* 来帮助你安装你正在开发中的软件包。
 :::
 
-Most useRs understandably like to install packages from the comfort of an R session and directly from CRAN.
-The built-in function `install.packages()` meets this need.
-It can download the package, in various forms, install it, and optionally attend to the installation of dependencies.
+可以理解的是，大多数用户喜欢在舒适的 R session 中直接从 CRAN 安装包。
+内置函数 `install.packages()` 满足了这一需求。
+它可以下载各种形式的包，安装它，并可选地处理依赖项的安装。
 
-There is a price, however, for the convenience of installing R packages from within an R session.
-As you might expect, it can be a bit tricky to re-install a package that is already in use in the current session.
-This actually works most of the time, but sometimes it does not, especially when installing an R package with compiled code on Windows.
-Due to how file handles are locked on Windows, an attempt to install a new version of a package that's in use can result in a corrupt installation where the package's R code has been updated, but its compiled code has not.
-When troubleshooting, Windows users should strive to install packages in a clean R session, with as few packages loaded as possible.
+然而，从 R session 中安装 R 包的便利性是有代价的。
+正如你所预料的那样，重新安装当前 session 中正在使用的包可能会有点困难。
+实际上 `install.packages()` 在大多数情况下都是有效的，但有时不行，特别是在 Windows 上安装带有编译代码的 R 包时。
+由于 Windows 上的文件句柄是锁定的，尝试安装正在使用的软件包的新版本可能会导致安装损坏，其中软件包的 R 代码已经更新，但其编译代码没有更新。
+在进行故障排除时，Windows 用户应该努力在一个干净的 R session 中安装软件包，并加载尽可能少的软件包。
 
-The pak package (<https://pak.r-lib.org/>) is a relative newcomer (at the time of writing) and provides a promising alternative to `install.packages()`, as well as other more specialized functions such as `devtools::install_github()`.
-It's too early to make a blanket recommendation for using pak for all of your package installation needs, but we are certainly using it more and more in our personal workflows.
-One of pak's flagship features is that it nicely solves the "locked DLL" problem described above, i.e. updating a package with compiled code on Windows.
-As you get deeper into package development, you will find yourself doing a whole new set of tasks, such as installing a dependency from an in-development branch or scrutinizing package dependency trees.
-pak provides a rich toolkit for this and many other related tasks.
-We predict that pak will soon become our official recommendation for how to install packages (and more).
+pak 软件包 (<https://pak.r-lib.org/>) 是一个相对较新的包（在本书写作时），它提供了一个很有前途的 `install.packages()` 的替代方案，另外还有其它更专业的函数可以替代，例如 `devtools::install_github()`。
+现在就全面推荐使用 pak 来满足你素有的软件包安装需求还为时过早，但是我们肯定会在个人工作流程中越来越多地使用它。
+pak 的旗舰功能之一是它很好地解决了上面描述的 "locked DLL" 问题，即在 Windows 上用编译后的代码进行软件包更新。
+当你更加深入地了解软件包开发时，你会发现自己在完成一套全新的任务，例如从开发分支中安装依赖项，或仔细检查包依赖树。
+pak 为此和许多其它相关任务提供了一个丰富的工具包。
+我们预测，pak 将很快成为我们如何安装软件包（以及更多任务）的官方建议。
 
-However, in the meantime, we describe the *status quo*.
-devtools has long offered a family of `install_*()` functions to address some needs beyond the reach of `install.packages()` or to make existing capabilities easier to access.
-These functions are actually maintained in the [remotes package](https://remotes.r-lib.org) and are re-exported by devtools.
-(Given what we said above, it is likely that remotes will essentially become superseded, in favor of pak, but we're not quite there yet.)
+然而，在此期间，我们先来描述*现状*。
+devtools 长期以来提供了一系列 `install_*()` 函数来解决 `install.packages()` 无法满足的一些需求，或者使现有功能更加容易使用。
+这些函数实际上保存在 [remotes 软件包](https://remotes.r-lib.org) 中，并由 devtools 重新导出供使用。
+（考虑到我们上面所说的，remotes 包很可能会被取代，取而代之的是 pak 包，但我们还没有完全做到这一点。）
 
 ```{r}
 library(remotes)
@@ -271,12 +271,12 @@ funs <- as.character(lsf.str("package:remotes"))
 grep("^install_.+", funs, value = TRUE)
 ```
 
-`install_github()` is the most useful of these functions and is also featured in @fig-installation.
-It is the flagship example of a family of functions that can download a package from a remote location that is not CRAN and do whatever is necessary to install it and its dependencies.
-The rest of the devtools/remotes `install_*()` functions are aimed at making things that are technically possible with base tooling a bit easier or more explicit, such as `install_version()` which installs a specific version of a CRAN package.
+`install_github()` 是这些函数中最有用的，也在 @fig-installation 中列出了。
+它是一系列函数的旗舰示例，这些函数可以从非 CRAN 的远程位置下载包，并执行安装包及其依赖项所需的任何操作。
+devtools/remotes 的其余 `install_*()` 函数旨在使那些能够通过基础工具在技术上实现的事情变得更加简单或明确，例如 `install_version()`，它安装特定版本的 CRAN 软件包。
 
-Analogous to `.Rbuildignore`, described in section @sec-rbuildignore, `.Rinstignore` lets you keep files present in a package bundle out of the installed package.
-However, in contrast to `.Rbuildignore`, this is rather obscure and rarely needed.
+类似于在 @sec-rbuildignore 中描述的 `.Rbuildignore`，`.Rinstignore` 允许你将文件保存在归档包中，但是不保存在已安装的包中。
+然而，和 `.Rbuildignore` 相比，这一功能是相当模糊且很少使用的。
 
 ## 内存中的包 (In-memory package)
 

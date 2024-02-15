@@ -6,9 +6,9 @@ source("common.R")
 
 Having peeked under the hood of R packages and libraries in @sec-package-structure-state, here we provide the basic workflows for creating a package and moving it through the different states that come up during development.
 
-## Create a package {#sec-workflow101-create-package}
+## 创建一个软件包 {#sec-workflow101-create-package}
 
-### Survey the existing landscape
+### 调查已经存在的软件包
 
 Many packages are born out of one person's frustration at some common task that should be easier.
 How should you decide whether something is package-worthy?
@@ -17,7 +17,7 @@ There's no definitive answer, but it's helpful to appreciate at least two types 
 -   Product: your life will be better when this functionality is implemented formally, in a package.
 -   Process: greater mastery of R will make you more effective in your work.
 
-If all you care about is the existence of a product, then your main goal is to navigate the space of existing packages.
+If all you care about is the existence of a product, then your mdiaoal is to navigate the space of existing packages.
 Silge, Nash, and Graves organized a survey and sessions around this at useR!
 2017 and their write up for the R Journal [@silge-nash-graves] provides a comprehensive roundup of resources.
 
@@ -37,7 +37,7 @@ For example, there is a very active R community around spatial data analysis ([r
 In modeling, the [hardhat package](https://hardhat.tidymodels.org) provides scaffolding for creating a modeling package that plays well with the [tidymodels](https://www.tidymodels.org) ecosystem.
 Your package will get more usage and will need less documentation if it fits nicely into the surrounding landscape.
 
-### Name your package
+### 为你的软件包取名
 
 > "There are only two hard things in Computer Science: cache invalidation and naming things."
 >
@@ -47,7 +47,7 @@ Before you can create your package, you need to come up with a name for it.
 This can be the hardest part of creating a package!
 (Not least because no one can automate it for you.)
 
-#### Formal requirements
+#### 正式要求
 
 There are three formal requirements:
 
@@ -58,7 +58,7 @@ There are three formal requirements:
 Unfortunately, this means you can't use either hyphens or underscores, i.e., `-` or `_`, in your package name.
 We recommend against using periods in package names, due to confusing associations with file extensions and S3 methods.
 
-#### Things to consider
+#### 需要考虑的事情
 
 If you plan to share your package with others, it's important to come up with a good name.
 Here are some tips:
@@ -103,7 +103,7 @@ Here are some tips:
 Nick Tierney presents a fun typology of package names in his [Naming Things](https://www.njtierney.com/post/2018/06/20/naming-things/) blog post, which also includes more inspiring examples.
 He also has some experience with renaming packages; the post [So, you've decided to change your r package name](https://www.njtierney.com/post/2017/10/27/change-pkg-name/) is a good resource if you don't get this right the first time.
 
-#### Use the available package
+#### 使用 available 包
 
 It is impossible to abide by all of the above suggestions simultaneously, so you will need to make some trade-offs.
 The [available package](https://cran.r-project.org/package=available) has a function called `available()` that helps you evaluate a potential package name from many angles:
@@ -136,7 +136,7 @@ available("doofus")
 `pak::pkg_name_check()` is alternative function with a similar purpose.
 Since the pak package is under more active development than available, it may emerge as the better option going forward.
 
-### Package creation {#sec-creating}
+### 软件包项目的创建 {#sec-creating}
 
 Once you've come up with a name, there are two ways to create the package.
 
@@ -163,7 +163,7 @@ It anticipates a different development process than we use here, so repairing th
 Use `create_package()`.
 :::
 
-### Where should you `create_package()`?
+### 你应该在哪里执行 `create_package()`？
 
 The main and only required argument to `create_package()` is the `path` where your new package will live:
 
@@ -185,7 +185,7 @@ An academic researcher might organize their files around individual publications
 There is no particular technical or traditional reason for one specific approach.
 As long as you keep a clear distinction between source and installed packages, just pick a strategy that works within your overall system for file organization, and use it consistently.
 
-## RStudio Projects {#sec-workflow101-rstudio-projects}
+## RStudio 项目 {#sec-workflow101-rstudio-projects}
 
 devtools works hand-in-hand with RStudio, which we believe is the best development environment for most R users.
 To be clear, you can use devtools without using RStudio and you can develop packages in RStudio without using devtools.
@@ -198,7 +198,7 @@ An RStudio **Project**, with a capital "P", is a regular directory on your compu
 A project might be an R package, a data analysis, a Shiny app, a book, a blog, etc.
 :::
 
-### Benefits of RStudio Projects
+### 使用 RStudio 项目的好处
 
 From @sec-source-package, you already know that a source package lives in a directory on your computer.
 We strongly recommend that each source package is also an RStudio Project.
@@ -244,7 +244,7 @@ It is invoked via Ctrl + Shift + P (Windows & Linux) or Cmd + Shift + P (macOS).
 Follow \@[rstudiotips](https://twitter.com/rstudiotips) on Twitter for a regular dose of RStudio tips and tricks.
 :::
 
-### How to get an RStudio Project
+### 怎样开始一个 RStudio 项目
 
 If you follow our recommendation to create new packages with `create_package()`, each new package will also be an RStudio Project, if you're working from RStudio.
 
@@ -254,7 +254,7 @@ If you need to designate the directory of a pre-existing source package as an RS
 -   Call `create_package()` with the path to the pre-existing R source package.
 -   Call `usethis::use_rstudio()`, with the [active usethis project](#sec-rstudio-project-vs-active-usethis-project) set to an existing R package. In practice, this probably means you just need to make sure your working directory is inside the pre-existing package directory.
 
-### What makes an RStudio Project?
+### RStudio 项目文件是什么？
 
 A directory that is an RStudio Project will contain an `.Rproj` file.
 Typically, if the directory is named "foo", the Project file is `foo.Rproj`.
@@ -328,7 +328,7 @@ knitr::include_graphics("images/project-options-2.png")
 knitr::include_graphics("images/project-options-1.png")
 ```
 
-### How to launch an RStudio Project
+### 怎样启动一个 RStudio 项目
 
 Double-click the `foo.Rproj` file in macOS's Finder or Windows Explorer to launch the foo Project in RStudio.
 
@@ -365,7 +365,7 @@ proj_sitrep()
 #> * active_rstudio_proj: '/Users/jenny/rrr/readxl'
 ```
 
-## Working directory and filepath discipline
+## 工作目录和文件路径规范
 
 As you develop your package, you will be executing R code.
 This will be a mix of workflow calls (e.g., `document()` or `test()`) and *ad hoc* calls that help you write your functions, examples, and tests.
@@ -389,7 +389,7 @@ There are two reasons why implicit paths are hard to get right:
 Path helpers like `testthat::test_path()`, `fs::path_package()`, and the [rprojroot package](https://rprojroot.r-lib.org) are extremely useful for building resilient paths that hold up across the whole range of situations that come up during development and usage.
 Another way to eliminate brittle paths is to be rigorous in your use of proper methods for storing data inside your package (@sec-data) and to target the session temp directory when appropriate, such as for ephemeral testing artefacts (@sec-testing-basics).
 
-## Test drive with `load_all()` {#sec-workflow101-load-all}
+## 使用 `load_all()` 驱动测试 {#sec-workflow101-load-all}
 
 The `load_all()` function is arguably the most important part of the devtools workflow.
 
@@ -410,7 +410,7 @@ load_all()
 
 When you're new to package development or to devtools, it's easy to overlook the importance of `load_all()` and fall into some awkward habits from a data analysis workflow.
 
-### Benefits of `load_all()`
+### 使用 `load_all()` 的好处
 
 When you first start to use a development environment, like RStudio or VS Code, the biggest win is the ability to send lines of code from an `.R` script for execution in R console.
 The fluidity of this is what makes it tolerable to follow the best practice of regarding your source code as real [^workflow101-2] (as opposed to objects in the workspace) and saving `.R` files (as opposed to saving and reloading `.Rdata`).
@@ -450,7 +450,7 @@ The main benefits of `load_all()` include:
 
 `load_all()` removes friction from the development workflow and eliminates the temptation to use workarounds that often lead to mistakes around namespace and dependency management.
 
-### Other ways to call `load_all()`
+### 调用 `load_all()` 的其它方法
 
 When working in a Project that is a package, RStudio offers several ways to call `load_all()`:
 
@@ -461,7 +461,7 @@ When working in a Project that is a package, RStudio offers several ways to call
 `devtools::load_all()` is a thin wrapper around `pkgload::load_all()` that adds a bit of user-friendliness.
 It is unlikely you will use `load_all()` programmatically or inside another package, but if you do, you should probably use `pkgload::load_all()` directly.
 
-## `check()` and `R CMD check` {#sec-workflow101-r-cmd-check}
+## `check()` 以及 `R CMD check` {#sec-workflow101-r-cmd-check}
 
 Base R provides various command line tools and `R CMD check` is the official method for checking that an R package is valid.
 It is essential to pass `R CMD check` if you plan to submit your package to CRAN, but we **highly recommend** holding yourself to this standard even if you don't intend to release your package on CRAN.
@@ -497,7 +497,7 @@ We don't run `check()` manually quite that often, but when we're actively workin
 Don't tinker with your package for days, weeks, or months, waiting for some special milestone to finally run `R CMD check`.
 If you use GitHub (@sec-sw-dev-practices-git-github), we'll show you how to set things up so that `R CMD check` runs automatically every time you push (@sec-sw-dev-practices-gha).
 
-### Workflow {#check-workflow}
+### 工作流 {#check-workflow}
 
 Here's what happens inside `devtools::check()`:
 
@@ -536,7 +536,7 @@ The workflow for checking a package is simple, but tedious:
 `R CMD check` consists of dozens of individual checks and it would be overwhelming to enumerate them here.
 See our [online-only guide to `R CMD check`](https://r-pkgs.org/R-CMD-check.html) for details.
 
-### Background on `R CMD check`
+### `R CMD check` 的幕后工作
 
 As you accumulate package development experience, you might want to access `R CMD check` directly at some point.
 Remember that `R CMD check` is something you must run in the terminal, not in the R console.

@@ -80,7 +80,7 @@
 | Introduction | ✅  |  ⚙️|
 | The Whole Game | ✅ | ⚙️ |
 | System setup | ✅ | ⚙️ |
-| Package structure and state | ⚙️ |  |
+| Package structure and state | ✅  | ⚙️ |
 | Fundamental development workflows | | |
 | The package within | | |
 | R Code | | |

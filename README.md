@@ -11,7 +11,7 @@
 -   [x] Introduction
 -   [x] The Whole Game
 -   [x] System setup
--   [ ] Package structure and state
+-   [x] Package structure and state
 -   [ ] Fundamental development workflows
 -   [ ] The package within
 -   [ ] R Code
@@ -31,5 +31,5 @@
 -   [ ] Software development practices
 -   [ ] Lifecycle
 -   [ ] Releasing to CRAN
--   [ ] References
+-   [x] References
 -   [ ] Appendix A `R CND` check

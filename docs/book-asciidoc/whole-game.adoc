@@ -618,7 +618,7 @@ test()
 RStudio 在 _Build_ 菜单中，或者在 _Build_ 窗格中通过 _More > Test package_ 提供 `+test()+` 的快捷调用，另外使用快捷键 Ctrl + Shift + T (Windows & Linux) 或 Cmd + Shift + T (macOS) 也可以快速调用这一函数。
 ====
 
-每当你使用 `+check()+` 检查软件包时，你的测试也会运行。 这样，你基本上就可以使用一些特定于自己的包的检查来扩展标准检查。 使用 https://covr.r-lib.org[covr package] 跟踪该测试所执行的源代码的比例也是一个好主意。 更多细节见 <<sec-testing-basics>>。
+每当你使用 `+check()+` 检查软件包时，你的测试也会运行。 这样，你基本上就可以使用一些特定于自己的包的检查来扩展标准检查。 使用 https://covr.r-lib.org[covr package] 跟踪该测试所执行的源代码的比例也是一个好主意。 更多细节见 <<sec-testing-design-coverage>>。
 
 == `+use_package()+`
 

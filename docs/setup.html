@@ -286,7 +286,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>如果你正在交互式地使用这些函数来帮助开发软件包，则应将 devtools 视为首选的用于包开发的函数提供者。在这种情况下，你应该将使用 <code><a href="https://devtools.r-lib.org/">library(devtools)</a></code> 附加 devtools 并在不加限定符的情况下调用函数（例如 <code><a href="https://devtools.r-lib.org/reference/load_all.html">load_all()</a></code>）。</li>
 <li>如果你正在编写包代码并使用 devtools 和相关函数，则<strong>不应该</strong>依赖 devtools，而应通过是它们所在的软件包来访问函数。
 <ul>
-<li>devtools 应该尽量避免以形如 <code>pkg::fcn()</code> 的限定调用的形式出现在 <code>pkg</code> 中。相对地，<code>pkg</code> 应该是 <code>fcn()</code> 的函数定义所在的包。例如，如果你要在包中创建一个函数，在函数内你需要查询用户 R session 的状态，请在你的包中使用 <code><a href="https://r-lib.github.io/sessioninfo/reference/session_info.html">sessioninfo::session_info()</a></code> 而不是 <code><a href="https://r-lib.github.io/sessioninfo/reference/session_info.html">devtools::session_info()</a></code>。</li>
+<li>devtools 应该尽量避免以形如 <code>pkg::fcn()</code> 的限定调用的形式出现在 <code>pkg</code> 中。相对地，<code>pkg</code> 应该是 <code>fcn()</code> 的函数定义所在的包。例如，如果你要在包中创建一个函数，在函数内你需要查询用户 R session 的状态，请在你的包中使用 <code><a href="https://rdrr.io/pkg/sessioninfo/man/session_info.html">sessioninfo::session_info()</a></code> 而不是 <code><a href="https://rdrr.io/pkg/sessioninfo/man/session_info.html">devtools::session_info()</a></code>。</li>
 </ul>
 </li>
 <li>如果你发现了漏洞，请尝试在作为函数主要宿主的包上报告它们。<code>devtools::fcn()</code> 的帮助文档通常说明了 devtools 何时从另一个包中重新导出一个函数。</li>
