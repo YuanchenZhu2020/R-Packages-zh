@@ -160,50 +160,50 @@ knitr::include_graphics("diagrams/package-files.png")
 
 ## 二进制包 (Binary Package) {#sec-structure-binary}
 
-If you want to distribute your package to an R user who doesn't have package development tools, you'll need to provide a **binary** package.
-The primary maker and distributor of binary packages is CRAN, not individual maintainers.
-But even if you delegate the responsibility of distributing your package to CRAN, it's still important for a maintainer to understand the nature of a binary package.
+如果你想把你的包分发给没有软件包开发工具的用户，则需要提供**二进制**包文件。
+二进制包最主要的制作者和分发者是 CRAN，而不是单个维护者。
+但是，即使你将分发包的责任委托给 CRAN，对于维护人员来说，理解二进制包的性质仍然很重要。
 
-Like a package bundle, a binary package is a single file.
-Unlike a bundled package, a binary package is platform specific and there are two basic flavors: Windows and macOS.
-(Linux users are generally required to have the tools necessary to install from `.tar.gz` files, although the emergence of resources like [Posit Public Package Manager](https://packagemanager.posit.co/) is giving Linux users the same access to binary packages as their colleagues on Windows and macOS.)
+像一个捆绑包一样，一个二进制包是一个单独的文件。
+但是与捆绑包不同，二进制包是特定于平台的，有两种基本类型：Windows 和 macOS。
+（Linux 用户通常需要拥有从 `.tar.gz` 文件安装软件包所必须的工具，尽管 [Posit Public Package Manager](https://packagemanager.posit.co/) 等资源的出现使得 Linux 用户能够像 Windows 和 macOS 用户一样访问并从二进制包安装。）
 
-Binary packages for macOS are stored as `.tgz`, whereas Windows binary packages end in `.zip`.
-If you need to make a binary package, use `devtools::build(binary = TRUE)` on the relevant operating system.
-Under the hood, this calls `pkgbuild::build(binary = TRUE)` and, ultimately, `R CMD INSTALL --build`, which is described further in the [Building binary packages](https://cran.r-project.org/doc/manuals/R-exts.html#Building-binary-packages) section of [Writing R Extensions](https://cran.r-project.org/doc/manuals/R-exts.html).
-If you choose to release your package on CRAN (@sec-release), you submit your package in bundled form, then CRAN creates and distributes the package binaries.
+macOS 上的二进制包是以 `.tgz` 为后缀的文件，而 Windows 上的二进制包则以 `.zip` 作为文件后缀。
+如果你需要制作一个二进制包，则需要在相关的平台上使用 `devtools::build(binary = TRUE)`。
+在幕后，该函数调用 `pkgbuild::build(binary= TRUE)` 并且最终调用 `R CMD INSTALL --build`，这一命令会在 [Writing R Extensions](https://cran.r-project.org/doc/manuals/R-exts.html) 中的 [Building binary packages](https://cran.r-project.org/doc/manuals/R-exts.html#Building-binary-packages) 进行更详细的叙述。
+如果你选择在 CRAN 上发布你的软件包 (@sec-release)，你需要以归档包的形式提交软件包，然后 CRAN 会创建并分发包二进制包文件。
 
-CRAN packages are usually available in binary form, for both macOS and Windows, for the current, previous, and (possibly) development versions of R.
-Continuing our examples from above, you could download binary packages such as:
+CRAN 软件包通常以二进制形式提供，适用于 macOS 和 Windows，且适用于 R 的当前、历史和（可能的）开发版本。
+继续上面的例子，你可以下载如下所示的二进制包：
 
--   forcats for macOS: `forcats_0.4.0.tgz`
--   readxl for Windows: `readxl_1.3.1.zip`
+-   macOS 上的 forcats：`forcats_0.4.0.tgz`
+-   Windows 上的 readxl：`readxl_1.3.1.zip`
 
-and this is, indeed, part of what's usually going on behind the scenes when you call `install.packages()`.
+实际上，当你调用 `install.packages()` 时，这就是在幕后通常会发生的一部分事情。
 
-If you uncompress a binary package, you'll see that the internal structure is rather different from a source or bundled package.
-@fig-package-files includes this comparison, so this is a good time to revisit that diagram.
-Here are some of the most notable differences:
+如果你解压一个二进制包，你会看到其内部结构和源码包或归档包非常不同。
+@fig-package-files 包含了二者的比较，所以现在是重温这个图的好时机。
+以下是一些最显著的区别：
 
--   There are no `.R` files in the `R/` directory - instead there are three files that store the parsed functions in an efficient file format.
-    This is basically the result of loading all the R code and then saving the functions with `save()`.
-    (In the process, this adds a little extra metadata to make things as fast as possible).
+-   `R/` 目录下不再有 `.R` 文件，而是有三个文件以高效的文件格式存储着解析后的函数。
+    这基本上是加载所有R代码然后用 `save()` 保存函数的结果。
+    （在此过程中会添加一些额外的元数据，以使函数加载过程尽可能快）。
 
--   A `Meta/` directory contains a number of `.rds` files.
-    These files contain cached metadata about the package, like what topics the help files cover and a parsed version of the `DESCRIPTION` file.
-    (You can use `readRDS()` to see exactly what's in those files).
-    These files make package loading faster by caching costly computations.
+-   一个 `Meta/` 目录中包含一些 `.rds` 文件。
+    这些文件中包含关于软件包的缓存元数据，例如帮助文档涵盖的主题以及 `DESCRIPTION` 文件的解析版本。
+    （你可以使用 `readRDS()` 来查看这些文件中的确切内容）。
+    这些文件通过缓存昂贵的计算结果使软件包加载过程更快。
 
--   The actual help content appears in `help/` and `html/` (no longer in `man/`).
+-   实际的帮助内容出现在 `help/` 和 `html/` 中（不再出现在 `man/` 中）。
 
--   If you had any code in the `src/` directory, there will now be a `libs/` directory that contains the results of compiling the code.
+-   如果 `src/` 目录下有任何代码，那么现在会有一个 `libs/` 目录，其中包含代码编译后的结果。
 
--   If you had any objects in `data/`, they have now been converted into a more efficient form.
+-   如果 `data/` 目录下有任何数据对象，它们现在已经被转换为更高效的数据格式。
 
--   The contents of `inst/` are moved to the top-level directory.
-    For example, vignette files are now in `doc/`.
+-   `inst/` 目录下的内容被移动到顶层目录，
+    例如，主题文档 (vignette) 文件现在在 `doc/` 目录下。
 
--   Some files and folders have been dropped, such as `README.md`, `build/`, `tests/`, and `vignettes/`.
+-   一些文件和文件夹被删除了，例如 `README.md`、`build/`、`tests/` 和 `vignettes/`。
 
 ## 已安装的包 (Installed package) {#sec-installed-package}
 
@@ -301,28 +301,28 @@ usethis 包现在已经被载入了内存，实际上，它也被附加到了搜
 
 ## 软件包库 (Package libraries) {#sec-library}
 
-We just discussed the `library()` function, whose name is inspired by what it does.
-When you call `library(somepackage)`, R looks through the current **libraries** for an installed package named "somepackage" and, if successful, it makes somepackage available for use.
+我们刚刚讨论了 `library()` 函数，它的名称源于其功能。
+当你调用 `library(somepackage)` 时，R 会在当前的所有**库**中查找一个叫做“somepackage”的已安装包，如果查找成功，R 会使得 somepackage 包变得可用。
 
-In R, a **library** is a directory containing installed packages, sort of like a library for books.
-Unfortunately, in the R world, you will frequently encounter confused usage of the words "library" and "package".
-It's common for someone to refer to dplyr, for example, as a library when it is actually a package.
-There are a few reasons for the confusion.
-First, R's terminology arguably runs counter to broader programming conventions, where the usual meaning of "library" is closer to what we mean by "package".
-The name of the `library()` function itself probably reinforces the wrong associations.
-Finally, this vocabulary error is often harmless, so it's easy for R users to fall into the wrong habit and for people who point out this mistake to look like insufferable pedants.
-But here's the bottom line:
+在 R 中，一个**库**就是一个包含了许多已安装软件包的目录，有点像藏书的图书馆。
+不幸的是，在 R 的世界，我们会经常遇到“库 (library)”和“包 (package)”这两个词的混淆用法。
+例如，delyr 实际上是一个包 (package)，但是也有人通常将其称为一个库 (library)
+造成这种混乱的原因有几个。
+首先，R 的术语有争议地违背了更广泛的编程惯例，“库 (library)”的通常含义更接近于我们所说的“包 (package)”。
+`library()` 函数的名称可能会强化这一错误的关联。
+最后，这种词汇错误通常是无害的，因此 R 用户很容易养成错误的习惯，然而指出这个错误的人会看起来像是令人无法忍受的学究。
+但是最重要的事实是：
 
-> We use the `library()` function to load [^structure-2] a **package**.
+> 我们使用 `library()` 函数来加载[^structure-2]一个**软件包**。
 
-[^structure-2]: Well, actually, `library()` loads and attaches a package, but that's a topic for @sec-dependencies-attach-vs-load.
+[^structure-2]: 好吧，实际上 `library()` 会加载并附加一个软件包，不过这是 @sec-dependencies-attach-vs-load 的主题。
 
-The distinction between the two is important and useful as you get involved in package development.
+当你参与软件包开发中时，这两者的区别时重要且有用的。
 
-You can have multiple libraries on your computer.
-In fact, many of you already do, especially if you're on Windows.
-You can use `.libPaths()` to see which libraries are currently active.
-Here's how this might look on Windows:
+你的计算机上可以有多个库。
+事实上，你们中的很多人已经这样做了，尤其是 Windows 用户。
+你可以使用 `.libPaths()` 来查看当前处于活动状态的库。
+以下是在 Windows 中该函数的输出结果：
 
 ```{r, eval = FALSE}
 # on Windows
@@ -347,7 +347,7 @@ lapply(.libPaths(), list.dirs, recursive = FALSE, full.names = FALSE)
 #> [29] "translations" "utils"
 ```
 
-Here's a similar look on macOS (but your results may vary):
+以下是在 macOS 中的表现（你的输出内容可能有所不同）：
 
 ```{r, eval = FALSE}
 # on macOS
@@ -372,46 +372,46 @@ lapply(.libPaths(), list.dirs, recursive = FALSE, full.names = FALSE)
 #> [29] "translations" "utils"
 ```
 
-In both cases we see two active libraries, consulted in this order:
+在这两种情况下，我们都看到了两个活动的库，查询顺序如下：
 
-1.  A user library
-2.  A system-level or global library
+1.  用户库
+2.  系统级或全局级的库
 
-This setup is typical on Windows, but is something you usually need to opt into on macOS and Linux[^structure-3].
-With this setup, add-on packages installed from CRAN (or elsewhere) or under local development are kept in the user library.
-Above, the macOS system is used as a primary development machine and has many packages here (\~1000), whereas the Windows system is only used occasionally and is much more spartan.
-The core set of base and recommended packages that ship with R live in the system-level library and are the same on all operating systems.
-This separation appeals to many developers and makes it easy to, for example, clean out your add-on packages without disturbing your base R installation.
+这样的设置在 Windows 中是典型设置，但在 macOS 和 Linux 上通常需要手动配置[^structure-3]。
+在该设置下，从 CRAN（或其它源）或本地开发中安装的附加软件包会被保存到用户库中。
+和上面一样，macOS 系统是我们主要的开发机器，并且安装了很多软件包（大约 1000 个），而 Windows 系统只是偶尔会被使用，而且要简朴得多。
+R 附带的基础和推荐软件包的核心集合位于系统级库中，这一点在所有操作系统上是相同的。
+这种分离对许多开发人员来说很有吸引力，例如能够使得清理附加软件包变得更容易，且不会干扰 base R 的安装。
 
-[^structure-3]: For more details, see the [Maintaining R section](https://rstats.wtf/maintaining-r#how-to-transfer-your-library-when-updating-r) in *What They Forgot To Teach You About R*, [Managing Libraries](https://rstudio.github.io/r-manuals/r-admin/Add-on-packages.html#managing-libraries) in *R Installation and Administration* and the R help files for `?Startup` and `?.libPaths`.
+[^structure-3]: 如果想知道更多的详细信息，请参阅 *What They Forgot To Teach You About R* 中的 [Maintaining R section](https://rstats.wtf/maintaining-r#how-to-transfer-your-library-when-updating-r), *R Installation and Administration* 中的 [Managing Libraries](https://rstudio.github.io/r-manuals/r-admin/Add-on-packages.html#managing-libraries) 以及使用 `?Startup` 和 `?.libPaths` 查看 R 的帮助文档。
 
-If you're on macOS or Linux and only see one library, there is no urgent need to change anything.
-But next time you upgrade R, consider creating a user-level library.
-By default, R looks for a user library found at the path stored in the environment variable `R_LIBS_USER`, which itself defaults to `~/Library/R/m/x.y/library,` on macOS, and `~/R/m-library/x.y` on Linux (where `m` is a concise description of your CPU architecture, and `x.y` is the R version).
-You can see this path with `Sys.getenv("R_LIBS_USER")`.
-These directories do not exist by default, and the use of them must be enabled by creating the directory.
-When you install a new version of R, and prior to installing any add-on packages, use `dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)` to create a user library in the default location.
-Now you will have the library setup seen above.
-Alternatively, you could set up a user library elsewhere and tell R about that by setting the `R_LIBS_USER` environment variable in `.Renviron`.
-The simplest way to edit your `.Renviron` file is with `usethis::edit_r_environ()`, which will create the file if it doesn't exist, and open it for editing.
+如果你使用 macOS 或 Linux，并且只看到了一个库，你不需要紧急更改任何内容。
+但是下次升级 R 时，请考虑创建一个用户级库。
+默认情况下，R 会在环境变量 `R_LIBS_USER` 存储的路径中查找用户库路径，在 macOS 中该环境变量默认为 `~/Library/R/m/x.y/library,`，而在 Linux 中则默认是 `~/R/m-library/x.y`（其中 `m` 是对 CPU 架构的简明描述，而 `x.y` 是 R 版本号）。
+你可以通过 `Sys.getenv("R_LIBS_USER")` 来查看当前的用户库路径。
+默认情况下，这些目录不存在，必须通过创建目录来启用它们。
+当你安装一个新版本的 R 时，在安装任何软件包之前，请使用 `dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)` 在默认位置上创建一个用户库。
+现在，你将拥有如上所示的库设置。
+或者，你也可以在其它任何地方设置一个用户库，并通过在 `.Renviron` 中设置 `R_LIBS_USER` 环境变量来告诉 R 用户库的位置。
+编辑你的 `.Renviron` 文件的最简单方法是使用 `usethis::edit_r_environ()`，如果文件不存在，这一函数将会创建该文件，并打开它进行编辑。
 
-The filepaths for these libraries also make it clear they are associated with a specific version of R (4.2.x at the time of writing), which is also typical.
-This reflects and enforces the fact that you need to reinstall your add-on packages when you update R from, say, 4.1 to 4.2, which is a change in the **minor** version.
-You generally do not need to re-install add-on packages for a **patch** release, e.g., going from R 4.2.1 to 4.2.2.
+这些库的文件路径也清楚地表明它们与特定版本的 R（在本书写作时是 4.2.x）相关联，这是常见的情况。
+这一特点反映并强调了这样一个事实，当你将 R 从 4.1 更新到 4.2 ，即在**次要**版本号上进行更新时，你需要重新安装软件包。
+对于在**补丁**版本号上的更新，例如从 4.2.1 更新到 4.2.2 时，通常不需要重新安装软件包。
 
-As your R usage grows more sophisticated, it's common to start managing package libraries with more intention.
-For example, tools like [renv](https://rstudio.github.io/renv/) (and its predecessor [packrat](https://rstudio.github.io/packrat/)) automate the process of managing project-specific libraries.
-This can be important for making data products reproducible, portable, and isolated from one another.
-A package developer might prepend the library search path with a temporary library, containing a set of packages at specific versions, in order to explore issues with backwards and forwards compatibility, without affecting other day-to-day work.
-Reverse dependency checks are another example where we explicitly manage the library search path.
+随着你开始越来越精密和复杂地使用 R，开始更有目的地管理软件包库是很正常的。
+例如，像 [renv](https://rstudio.github.io/renv/)（以及它的前身 [packrat](https://rstudio.github.io/packrat/)）这样的工具能够自动化管理特定于项目的库。
+这对于使数据产品具有可复制性、可移植性和相互隔离性来说十分重要。
+软件包开发者可能会在库搜索路径前添加一个临时库，其中包含一组特定版本的包，以便在不影响其它日常工作的情况下探索向后和向前兼容性问题。
+反向依赖检查 (Reverse dependency checks) 是我们显式管理库搜索路径的另一个例子。
 
-Here are the main levers that control which libraries are active, in order of scope and persistence:
+以下是按范围和持久性排序的一些主要开关，用于控制哪些库处于活动状态：
 
--   Environment variables, like `R_LIBS` and `R_LIBS_USER`, which are consulted at startup.
--   Calling `.libPaths()` with one or more filepaths.
--   Executing small snippets of code with a temporarily altered library search path via `withr::with_libpaths()`.
--   Arguments to individual functions, like `install.packages(lib =)` and `library(lib.loc =)`.
+-   环境变量，例如 `R_LIBS` 和 `R_LIBS_USER`，它们在 R 启动时被查询；
+-   调用 `.libPaths()` 时传入一个或多个文件路径作为库路径；
+-   通过 `withr::with_libpaths()` 使用临时更改的库搜索路径执行小段代码；
+-   函数的参数，例如 `install.packages(lib =)` 以及 `library(lib.loc =)`。
 
-Finally, it's important to note that `library()` should NEVER be used *inside a package*.
-Packages and scripts rely on different mechanisms for declaring their dependencies and this is one of the biggest adjustments you need to make in your mental model and habits.
-We explore this topic fully in @sec-description-imports-suggests and @sec-dependencies-in-practice.
+最后，重要的是要注意 `library()` 永远不应该在**软件包内**使用。
+软件包和脚本依赖于不同的机制来声明它们的依赖关系，这是你需要在心智模型和习惯中做出的最大调整之一。
+我们会在 @sec-description-imports-suggests 和 @sec-dependencies-in-practice 中详细讨论这一主题。
