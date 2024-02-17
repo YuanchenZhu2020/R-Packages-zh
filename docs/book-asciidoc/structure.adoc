@@ -80,7 +80,7 @@ image::diagrams/package-files.png[diagrams/package-files]
 
 我们通常使用 `+usethis::use_build_ignore()+` 函数来修改 `+.Rbuildignore+`，该函数能够帮助你处理一些容易遗忘的细节，例如正则表达式的添加定位锚点 (anchoring) 和转义 (escaping)。 要排除特定的文件或目录（这是最常见的用例），**必须**为正则表达式添加定位锚点 (anchor)。 例如，如果要排除一个名为 "`notes`" 的目录，`+.Rbuildignore+` 中对应条目必须是 `+^notes$+`，而没有添加定位锚点的正则表达式 `+notes+` 将会匹配任意包含 "`notes`" 的文件名，例如 `+R/notes.R+`, `+man/important-notes.R+`, `+data/endnotes.Rdata+` 等。 我们发现 `+use_build_ignore()+` 有助于我们第一次就更准确地获取更多的 `+.Rbuildignore+` 条目。
 
-`+.Rbuildignore+` 提供了一种解决方式，能够协调支持开发流程的常规做法和 CRAN 对软件包提交和分发的要求之间的一些紧张关系 (<<sec-release>>)。 即使你不打算在 CRAN 上发布你的软件包，遵循这些约定也能让你充分地利用 R 的内置工具来检查和安装程序包。 你应该添加到 `+.Rbuildignore+` 中的文件分为两个半重叠的类别：
+`+.Rbuildignore+` 提供了一种解决方式，能够在常规开发流程与 CRAN 对软件包提交和分发的要求之间的一些冲突中做出协调 (<<sec-release>>)。 即使你不打算在 CRAN 上发布你的软件包，遵循这些约定也能让你充分地利用 R 的内置工具来检查和安装软件包。 你应该添加到 `+.Rbuildignore+` 中的文件分为两个半重叠的类别：
 
 * 帮助你以编程方式生成软件包内容的文件。例如：
 ** 使用 `+README.Rmd+` 生成信息丰富且最新的 `+README.md+` (<<sec-readme>>)。

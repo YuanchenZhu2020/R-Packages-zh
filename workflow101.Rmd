@@ -4,38 +4,38 @@
 source("common.R")
 ```
 
-Having peeked under the hood of R packages and libraries in @sec-package-structure-state, here we provide the basic workflows for creating a package and moving it through the different states that come up during development.
+在了解了 @sec-package-structure-state 中的 R 包和库的内部机制后，我们在这里提供了一个基本工作流，能够创建软件包并在开发过程出现的不同状态间进行转换。
 
 ## 创建一个软件包 {#sec-workflow101-create-package}
 
 ### 调查已经存在的软件包
 
-Many packages are born out of one person's frustration at some common task that should be easier.
-How should you decide whether something is package-worthy?
-There's no definitive answer, but it's helpful to appreciate at least two types of payoff:
+许多软件包都是在人们对一些本应该更容易完成的普通任务感到沮丧而产生的。
+但我们应该如何判断某些东西是否值得被制作成软件包呢？
+虽然这个问题没有明确的答案，但你应该了解至少两种制作软件包的汇报：
 
--   Product: your life will be better when this functionality is implemented formally, in a package.
--   Process: greater mastery of R will make you more effective in your work.
+-   结果：当这个功能在包中正式实现时，你的工作体验会变得更美好。
+-   过程：更好地掌握 R 语言会让你在工作中更有效率。
 
-If all you care about is the existence of a product, then your mdiaoal is to navigate the space of existing packages.
-Silge, Nash, and Graves organized a survey and sessions around this at useR!
-2017 and their write up for the R Journal [@silge-nash-graves] provides a comprehensive roundup of resources.
+如果你只关注是否能做出具体产品，那么你的主要目标就是在现有的软件包中进行检索。
+Silge、Nash 和 Graves 在 useR! 2017 围绕这个问题组织了一次调查和会议，
+并在他们为 R Journal 撰写的文章 [@silge-nash-graves] 中提供了一个详细的资源综述。
 
-If you are looking for ways to increase your R mastery, you should still educate yourself about the landscape.
-But there are plenty of good reasons to make your own package, even if there is relevant prior work.
-The way experts got that way is by actually building things, often very basic things, and you deserve the same chance to learn by tinkering.
-If you're only allowed to work on things that have never been touched, you're likely looking at problems that are either very obscure or very difficult.
+如果你正在寻找方法提高对 R 的掌握，那么你仍然应该对现有的软件包有所了解。
+但是即使已经有相关的工作和软件包存在，仍然有很多很棒的理由制作你自己的软件包。
+专家们获得成功的方式是通过亲自动手构建事物，并且通常是非常基本的事物，你也应该有同样的机会在自己动手的过程中学习。
+如果你只被允许研究从未接触过的事物，你遇到的问题可能要么非常晦涩，要么非常困难。
 
-It's also valid to evaluate the suitability of existing tools on the basis of user interface, defaults, and edge case behaviour.
-A package may technically do what you need, but perhaps it's very unergonomic for your use case.
-In this case, it may make sense for you to develop your own implementation or to write wrapper functions that smooth over the sharp edges.
+在用户界面、默认值和边缘情况行为的基础上评估现有工具的适用性也是有用的。
+一个包在技术上可以完成你所需要的任务，但对于你的用例来说，它可能非常不符合人体工程学。
+在这种情况下，开发自己的功能实现或编写能够降低使用难度[^译者注：原文为 "smooth over the sharp edges"]的包装函数可能是有意义的。
 
-If your work falls into a well-defined domain, educate yourself about the existing R packages, even if you've resolved to create your own package.
-Do they follow specific design patterns?
-Are there specific data structures that are common as the primary input and output?
-For example, there is a very active R community around spatial data analysis ([r-spatial.org](https://www.r-spatial.org)) that has successfully self-organised to promote greater consistency across packages with different maintainers.
-In modeling, the [hardhat package](https://hardhat.tidymodels.org) provides scaffolding for creating a modeling package that plays well with the [tidymodels](https://www.tidymodels.org) ecosystem.
-Your package will get more usage and will need less documentation if it fits nicely into the surrounding landscape.
+如果你的工作属于一个定义良好的领域，那么即使你已经决定要创建自己的软件包，也要先了解现有的 R 包。
+它们是否遵循现有的设计模式？
+是否存在作为主要输入和输出的特定数据结构？
+例如，围绕空间数据分析有一个非常活跃的 R 社区 ([r-spatial.org](https://www.r-spatial.org))，他们已经成功地自我组织起来，以促进不同维护者的软件包之间更大的一致性。
+在建模领域，[hardhat 包](https://hardhat.tidymodels.org) 提供了用于创建与 [tidymodels](https://www.tidymodels.org) 生态兼容的建模包的框架。
+如果你的包能够很好地适应相关的生态环境，那么它将得到更多的使用，并且不需要很多的文档。
 
 ### 为你的软件包取名
 
@@ -43,70 +43,70 @@ Your package will get more usage and will need less documentation if it fits nic
 >
 > --- Phil Karlton
 
-Before you can create your package, you need to come up with a name for it.
-This can be the hardest part of creating a package!
-(Not least because no one can automate it for you.)
+在创建软件包之前，你需要为它取一个名字。
+这可能是创建软件包的过程中最困难的部分！
+（不仅仅是因为没人可以为你实现自动化取名。）
 
-#### 正式要求
+#### 正式的命名要求
 
-There are three formal requirements:
+软件包命名有三个正式的要求：
 
-1.  The name can only consist of letters, numbers, and periods, i.e., `.`.
-2.  It must start with a letter.
-3.  It cannot end with a period.
+1.  名字只能由字母、数字和句点（即 `.`）组成。
+2.  名字必须由字母开头。
+3.  名字不能以句点（即 `.`）结尾。
 
-Unfortunately, this means you can't use either hyphens or underscores, i.e., `-` or `_`, in your package name.
-We recommend against using periods in package names, due to confusing associations with file extensions and S3 methods.
+不幸的是，这意味着你不能在你的包名中使用连字符或下划线，即 `-` 和 `_`。
+我们建议不要在包名中使用句点 `.`，因为这会混淆句点与文件扩展名和 S3 方法的关联。
 
-#### 需要考虑的事情
+#### 需要考虑的事项
 
-If you plan to share your package with others, it's important to come up with a good name.
-Here are some tips:
+如果你打算和别人分享你的软件包，那么花几分钟想一个好名字是值得的。
+以下是一些需要考虑的事项：
 
--   Pick a unique name that's easy to Google.
-    This makes it easy for potential users to find your package (and associated resources) and for you to see who's using it.
+-   选择一个便于 Google 搜索的独特名称。
+    这使得潜在的用户能够很容易地找到你的软件包（以及相关的资源），并且可以让你了解软件包的用户。
 
--   Don't pick a name that's already in use on CRAN or Bioconductor.
-    You may also want to consider some other types of name collision:
+-   不要选择一个已经在 CRAN 或 Bioconductor 上使用的包名。
+    你可能还需要考虑一些其他类型的命名冲突：
 
-    -   Is there an in-development package maturing on, say, GitHub that already has some history and seems to be heading towards release?
-    -   Is this name already used for another piece of software or for a library or framework in, e.g., the Python or JavaScript ecosystem?
+    -   在 GitHub 上是否有成熟的且正在开发中的软件包，该软件包已经有了一定的提交历史，并且似乎即将发布？
+    -   这个名称是否已经用于另一个软件，例如是 Python 或 JavaScript 生态系统中的库或框架？
 
--   Avoid using both upper and lower case letters: doing so makes the package name hard to type and even harder to remember.
-    For example, it's hard to remember if it's Rgtk2 or RGTK2 or RGtk2.
+-   避免同时使用大写和小写字母：这样做会使包名称难以输入，甚至难以记住。
+    例如，很难记住一个软件包的名字是 Rgtk2、RGTK2 还是 RGtk2。
 
--   Give preference to names that are pronounceable, so people are comfortable talking about your package and have a way to hear it inside their head.
+-   优先选择可发音的名字，这样人们在谈论你的软件包时会很舒服，并且能够在他们的脑海里听到它。
 
--   Find a word that evokes the problem and modify it so that it's unique.
-    Here are some examples:
+-   找到一个能唤起对问题的联想的单词，并对其进行修改，使其具有唯一性：
+    以下是一些例子：
 
-    -   lubridate makes dates and times easier.
-    -   rvest "harvests" the content from web pages.
-    -   r2d3 provides utilities for working with D3 visualizations.
-    -   forcats is an anagram of factors, which we use **for** **cat**egorical data.
+    -   lubridate 使得处理日期和时间更加容易。
+    -   rvest 从网页中“收获 (harvests)”内容。
+    -   r2d3 提供了使用 D3 可视化的实用程序。
+    -   forcats 是因子（factors）的变位词，即分类数据 (**for** **cat**egorical data)。
 
--   Use abbreviations, like the following:
+-   使用缩写，例如：
 
     -   Rcpp = R + C++ (plus plus)
-    -   brms = Bayesian Regression Models using Stan
+    -   brms = 使用 Stan 的贝叶斯回归模型（Bayesian Regression Models using Stan）
 
--   Add an extra R, for example:
+-   名字后添加额外的字符 R，例如：
 
-    -   stringr provides string tools.
-    -   beepr plays notification sounds.
-    -   callr calls R, from R.
+    -   stringr 提供字符串工具。
+    -   beepr 播放通知声音。
+    -   callr 在 R 中调用 R。
 
--   Don't get sued.
+-   别被起诉。
 
-    -   If you're creating a package that talks to a commercial service, check the branding guidelines. For example, rDrop isn't called rDropbox because Dropbox prohibits any applications from using the full trademarked name.
+    -   如果你要创建一个与商业服务有关的包，请查看商标使用指南。例如，rDrop 不被称为 rDropbox，因为 Dropbox 禁止任何应用程序使用它的完整商标名。
 
-Nick Tierney presents a fun typology of package names in his [Naming Things](https://www.njtierney.com/post/2018/06/20/naming-things/) blog post, which also includes more inspiring examples.
-He also has some experience with renaming packages; the post [So, you've decided to change your r package name](https://www.njtierney.com/post/2017/10/27/change-pkg-name/) is a good resource if you don't get this right the first time.
+Nick Tierney 在他的 [Naming Things](https://www.njtierney.com/post/2018/06/20/naming-things/) 博客文章中向我们展示了一种有趣的软件包名称分类学，其中还包括更具启发性的例子。
+他也有一些重命名包的经验，因此，如果你第一次取名没有做对，他的博客文章 [So, you've decided to change your r package name](https://www.njtierney.com/post/2017/10/27/change-pkg-name/) 是一个很好的资源。
 
 #### 使用 available 包
 
-It is impossible to abide by all of the above suggestions simultaneously, so you will need to make some trade-offs.
-The [available package](https://cran.r-project.org/package=available) has a function called `available()` that helps you evaluate a potential package name from many angles:
+同时遵守上述所有建议是十分困难的，因此你显然需要做出一些权衡。
+[available 包](https://cran.r-project.org/package=available) 有一个名叫 `available()` 的函数，它能帮助你从多个角度评估可能的软件包名称：
 
 ```{r, eval = FALSE}
 library(available)
@@ -126,15 +126,15 @@ available("doofus")
 #> Sentiment:???
 ```
 
-`available::available()` does the following:
+`available::available()` 执行以下操作：
 
--   Checks for validity.
--   Checks availability on CRAN, Bioconductor, and beyond.
--   Searches various websites to help you discover any unintended meanings. In an interactive session, the URLs you see above are opened in browser tabs.
--   Attempts to report whether name has positive or negative sentiment.
+-   检查名称有效性。
+-   检查名称是否可以在 CRAN、Bioconductor 和其他产品上使用。
+-   搜索各种网站，帮助你发现任何意料之外的含义。在交互式会话中，上面的 URLs 将在浏览器选项卡中打开。
+-   尝试报告该名称是否有积极或消极含义。
 
-`pak::pkg_name_check()` is alternative function with a similar purpose.
-Since the pak package is under more active development than available, it may emerge as the better option going forward.
+`pak::pkg_name_check()` 是一个有相似功能的替代函数。
+由于 pak 包的开发比其它可用包更积极，因此它可能会成为更好的选择。
 
 ### 软件包项目的创建 {#sec-creating}
 

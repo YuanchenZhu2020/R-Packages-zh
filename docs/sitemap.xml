@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://book.formlesslab.top/r-pkgs/book-asciidoc/R-Packages--2e-.adoc</loc>
-    <lastmod>2024-02-15T16:37:34.682Z</lastmod>
+    <lastmod>2024-02-17T08:33:15.181Z</lastmod>
   </url>
   <url>
     <loc>https://book.formlesslab.top/r-pkgs/index.html</loc>
@@ -10,7 +10,7 @@
   </url>
   <url>
     <loc>https://book.formlesslab.top/r-pkgs/book-asciidoc/translator-preface.adoc</loc>
-    <lastmod>2024-02-15T16:37:38.983Z</lastmod>
+    <lastmod>2024-02-17T08:33:19.281Z</lastmod>
   </url>
   <url>
     <loc>https://book.formlesslab.top/r-pkgs/translator-preface.html</loc>
@@ -18,7 +18,7 @@
   </url>
   <url>
     <loc>https://book.formlesslab.top/r-pkgs/book-asciidoc/preface.adoc</loc>
-    <lastmod>2024-02-15T16:37:48.344Z</lastmod>
+    <lastmod>2024-02-17T08:33:27.692Z</lastmod>
   </url>
   <url>
     <loc>https://book.formlesslab.top/r-pkgs/preface.html</loc>
@@ -26,7 +26,7 @@
   </url>
   <url>
     <loc>https://book.formlesslab.top/r-pkgs/book-asciidoc/introduction.adoc</loc>
-    <lastmod>2024-02-15T16:38:06.397Z</lastmod>
+    <lastmod>2024-02-17T08:33:36.171Z</lastmod>
   </url>
   <url>
     <loc>https://book.formlesslab.top/r-pkgs/introduction.html</loc>
@@ -34,7 +34,7 @@
   </url>
   <url>
     <loc>https://book.formlesslab.top/r-pkgs/book-asciidoc/whole-game.adoc</loc>
-    <lastmod>2024-02-15T16:38:21.003Z</lastmod>
+    <lastmod>2024-02-17T08:37:15.419Z</lastmod>
   </url>
   <url>
     <loc>https://book.formlesslab.top/r-pkgs/whole-game.html</loc>
@@ -42,7 +42,7 @@
   </url>
   <url>
     <loc>https://book.formlesslab.top/r-pkgs/book-asciidoc/setup.adoc</loc>
-    <lastmod>2024-02-15T16:38:40.361Z</lastmod>
+    <lastmod>2024-02-17T08:38:35.265Z</lastmod>
   </url>
   <url>
     <loc>https://book.formlesslab.top/r-pkgs/setup.html</loc>
@@ -50,23 +50,23 @@
   </url>
   <url>
     <loc>https://book.formlesslab.top/r-pkgs/book-asciidoc/structure.adoc</loc>
-    <lastmod>2024-02-15T16:40:31.335Z</lastmod>
+    <lastmod>2024-02-17T08:39:06.811Z</lastmod>
   </url>
   <url>
     <loc>https://book.formlesslab.top/r-pkgs/structure.html</loc>
-    <lastmod>2024-02-15T16:37:24.559Z</lastmod>
+    <lastmod>2024-02-17T08:32:57.182Z</lastmod>
   </url>
   <url>
     <loc>https://book.formlesslab.top/r-pkgs/book-asciidoc/workflow101.adoc</loc>
-    <lastmod>2024-02-15T16:41:08.189Z</lastmod>
+    <lastmod>2024-02-17T08:39:44.359Z</lastmod>
   </url>
   <url>
     <loc>https://book.formlesslab.top/r-pkgs/workflow101.html</loc>
-    <lastmod>2024-02-15T16:51:16.999Z</lastmod>
+    <lastmod>2024-02-17T12:07:26.418Z</lastmod>
   </url>
   <url>
     <loc>https://book.formlesslab.top/r-pkgs/book-asciidoc/package-within.adoc</loc>
-    <lastmod>2024-02-15T16:41:33.095Z</lastmod>
+    <lastmod>2024-02-17T08:40:33.653Z</lastmod>
   </url>
   <url>
     <loc>https://book.formlesslab.top/r-pkgs/package-within.html</loc>
@@ -74,7 +74,7 @@
   </url>
   <url>
     <loc>https://book.formlesslab.top/r-pkgs/book-asciidoc/references.adoc</loc>
-    <lastmod>2024-02-15T16:41:59.384Z</lastmod>
+    <lastmod>2024-02-17T08:41:55.554Z</lastmod>
   </url>
   <url>
     <loc>https://book.formlesslab.top/r-pkgs/references.html</loc>
@@ -82,7 +82,7 @@
   </url>
   <url>
     <loc>https://book.formlesslab.top/r-pkgs/book-asciidoc/R-CMD-check.adoc</loc>
-    <lastmod>2024-02-15T16:42:04.752Z</lastmod>
+    <lastmod>2024-02-17T08:42:01.246Z</lastmod>
   </url>
   <url>
     <loc>https://book.formlesslab.top/r-pkgs/R-CMD-check.html</loc>

@@ -304,85 +304,85 @@ div.csl-indent {
   
 
 
-</header><p>Having peeked under the hood of R packages and libraries in <a href="structure.html" class="quarto-xref"><span>Chapter 3</span></a>, here we provide the basic workflows for creating a package and moving it through the different states that come up during development.</p>
+</header><p>在了解了 <a href="structure.html" class="quarto-xref"><span>Chapter 3</span></a> 中的 R 包和库的内部机制后，我们在这里提供了一个基本工作流，能够创建软件包并在开发过程出现的不同状态间进行转换。</p>
 <section id="sec-workflow101-create-package" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="sec-workflow101-create-package">
 <span class="header-section-number">4.1</span> 创建一个软件包</h2>
 <section id="调查已经存在的软件包" class="level3" data-number="4.1.1"><h3 data-number="4.1.1" class="anchored" data-anchor-id="调查已经存在的软件包">
 <span class="header-section-number">4.1.1</span> 调查已经存在的软件包</h3>
-<p>Many packages are born out of one person’s frustration at some common task that should be easier. How should you decide whether something is package-worthy? There’s no definitive answer, but it’s helpful to appreciate at least two types of payoff:</p>
+<p>许多软件包都是在人们对一些本应该更容易完成的普通任务感到沮丧而产生的。 但我们应该如何判断某些东西是否值得被制作成软件包呢？ 虽然这个问题没有明确的答案，但你应该了解至少两种制作软件包的汇报：</p>
 <ul>
-<li>Product: your life will be better when this functionality is implemented formally, in a package.</li>
-<li>Process: greater mastery of R will make you more effective in your work.</li>
+<li>结果：当这个功能在包中正式实现时，你的工作体验会变得更美好。</li>
+<li>过程：更好地掌握 R 语言会让你在工作中更有效率。</li>
 </ul>
-<p>If all you care about is the existence of a product, then your mdiaoal is to navigate the space of existing packages. Silge, Nash, and Graves organized a survey and sessions around this at useR! 2017 and their write up for the R Journal <span class="citation" data-cites="silge-nash-graves">(<a href="references.html#ref-silge-nash-graves" role="doc-biblioref">Silge, Nash, and Graves 2018</a>)</span> provides a comprehensive roundup of resources.</p>
-<p>If you are looking for ways to increase your R mastery, you should still educate yourself about the landscape. But there are plenty of good reasons to make your own package, even if there is relevant prior work. The way experts got that way is by actually building things, often very basic things, and you deserve the same chance to learn by tinkering. If you’re only allowed to work on things that have never been touched, you’re likely looking at problems that are either very obscure or very difficult.</p>
-<p>It’s also valid to evaluate the suitability of existing tools on the basis of user interface, defaults, and edge case behaviour. A package may technically do what you need, but perhaps it’s very unergonomic for your use case. In this case, it may make sense for you to develop your own implementation or to write wrapper functions that smooth over the sharp edges.</p>
-<p>If your work falls into a well-defined domain, educate yourself about the existing R packages, even if you’ve resolved to create your own package. Do they follow specific design patterns? Are there specific data structures that are common as the primary input and output? For example, there is a very active R community around spatial data analysis (<a href="https://www.r-spatial.org">r-spatial.org</a>) that has successfully self-organised to promote greater consistency across packages with different maintainers. In modeling, the <a href="https://hardhat.tidymodels.org">hardhat package</a> provides scaffolding for creating a modeling package that plays well with the <a href="https://www.tidymodels.org">tidymodels</a> ecosystem. Your package will get more usage and will need less documentation if it fits nicely into the surrounding landscape.</p>
+<p>如果你只关注是否能做出具体产品，那么你的主要目标就是在现有的软件包中进行检索。 Silge、Nash 和 Graves 在 useR! 2017 围绕这个问题组织了一次调查和会议， 并在他们为 R Journal 撰写的文章 <span class="citation" data-cites="silge-nash-graves">(<a href="references.html#ref-silge-nash-graves" role="doc-biblioref">Silge, Nash, and Graves 2018</a>)</span> 中提供了一个详细的资源综述。</p>
+<p>如果你正在寻找方法提高对 R 的掌握，那么你仍然应该对现有的软件包有所了解。 但是即使已经有相关的工作和软件包存在，仍然有很多很棒的理由制作你自己的软件包。 专家们获得成功的方式是通过亲自动手构建事物，并且通常是非常基本的事物，你也应该有同样的机会在自己动手的过程中学习。 如果你只被允许研究从未接触过的事物，你遇到的问题可能要么非常晦涩，要么非常困难。</p>
+<p>在用户界面、默认值和边缘情况行为的基础上评估现有工具的适用性也是有用的。 一个包在技术上可以完成你所需要的任务，但对于你的用例来说，它可能非常不符合人体工程学。 在这种情况下，开发自己的功能实现或编写能够降低使用难度[^译者注：原文为 “smooth over the sharp edges”]的包装函数可能是有意义的。</p>
+<p>如果你的工作属于一个定义良好的领域，那么即使你已经决定要创建自己的软件包，也要先了解现有的 R 包。 它们是否遵循现有的设计模式？ 是否存在作为主要输入和输出的特定数据结构？ 例如，围绕空间数据分析有一个非常活跃的 R 社区 (<a href="https://www.r-spatial.org">r-spatial.org</a>)，他们已经成功地自我组织起来，以促进不同维护者的软件包之间更大的一致性。 在建模领域，<a href="https://hardhat.tidymodels.org">hardhat 包</a> 提供了用于创建与 <a href="https://www.tidymodels.org">tidymodels</a> 生态兼容的建模包的框架。 如果你的包能够很好地适应相关的生态环境，那么它将得到更多的使用，并且不需要很多的文档。</p>
 </section><section id="为你的软件包取名" class="level3" data-number="4.1.2"><h3 data-number="4.1.2" class="anchored" data-anchor-id="为你的软件包取名">
 <span class="header-section-number">4.1.2</span> 为你的软件包取名</h3>
 <blockquote class="blockquote">
 <p>“There are only two hard things in Computer Science: cache invalidation and naming things.”</p>
 <p>— Phil Karlton</p>
 </blockquote>
-<p>Before you can create your package, you need to come up with a name for it. This can be the hardest part of creating a package! (Not least because no one can automate it for you.)</p>
-<section id="正式要求" class="level4" data-number="4.1.2.1"><h4 data-number="4.1.2.1" class="anchored" data-anchor-id="正式要求">
-<span class="header-section-number">4.1.2.1</span> 正式要求</h4>
-<p>There are three formal requirements:</p>
+<p>在创建软件包之前，你需要为它取一个名字。 这可能是创建软件包的过程中最困难的部分！ （不仅仅是因为没人可以为你实现自动化取名。）</p>
+<section id="正式的命名要求" class="level4" data-number="4.1.2.1"><h4 data-number="4.1.2.1" class="anchored" data-anchor-id="正式的命名要求">
+<span class="header-section-number">4.1.2.1</span> 正式的命名要求</h4>
+<p>软件包命名有三个正式的要求：</p>
 <ol type="1">
-<li>The name can only consist of letters, numbers, and periods, i.e., <code>.</code>.</li>
-<li>It must start with a letter.</li>
-<li>It cannot end with a period.</li>
+<li>名字只能由字母、数字和句点（即 <code>.</code>）组成。</li>
+<li>名字必须由字母开头。</li>
+<li>名字不能以句点（即 <code>.</code>）结尾。</li>
 </ol>
-<p>Unfortunately, this means you can’t use either hyphens or underscores, i.e., <code>-</code> or <code>_</code>, in your package name. We recommend against using periods in package names, due to confusing associations with file extensions and S3 methods.</p>
-</section><section id="需要考虑的事情" class="level4" data-number="4.1.2.2"><h4 data-number="4.1.2.2" class="anchored" data-anchor-id="需要考虑的事情">
-<span class="header-section-number">4.1.2.2</span> 需要考虑的事情</h4>
-<p>If you plan to share your package with others, it’s important to come up with a good name. Here are some tips:</p>
+<p>不幸的是，这意味着你不能在你的包名中使用连字符或下划线，即 <code>-</code> 和 <code>_</code>。 我们建议不要在包名中使用句点 <code>.</code>，因为这会混淆句点与文件扩展名和 S3 方法的关联。</p>
+</section><section id="需要考虑的事项" class="level4" data-number="4.1.2.2"><h4 data-number="4.1.2.2" class="anchored" data-anchor-id="需要考虑的事项">
+<span class="header-section-number">4.1.2.2</span> 需要考虑的事项</h4>
+<p>如果你打算和别人分享你的软件包，那么花几分钟想一个好名字是值得的。 以下是一些需要考虑的事项：</p>
 <ul>
-<li><p>Pick a unique name that’s easy to Google. This makes it easy for potential users to find your package (and associated resources) and for you to see who’s using it.</p></li>
+<li><p>选择一个便于 Google 搜索的独特名称。 这使得潜在的用户能够很容易地找到你的软件包（以及相关的资源），并且可以让你了解软件包的用户。</p></li>
 <li>
-<p>Don’t pick a name that’s already in use on CRAN or Bioconductor. You may also want to consider some other types of name collision:</p>
+<p>不要选择一个已经在 CRAN 或 Bioconductor 上使用的包名。 你可能还需要考虑一些其他类型的命名冲突：</p>
 <ul>
-<li>Is there an in-development package maturing on, say, GitHub that already has some history and seems to be heading towards release?</li>
-<li>Is this name already used for another piece of software or for a library or framework in, e.g., the Python or JavaScript ecosystem?</li>
+<li>在 GitHub 上是否有成熟的且正在开发中的软件包，该软件包已经有了一定的提交历史，并且似乎即将发布？</li>
+<li>这个名称是否已经用于另一个软件，例如是 Python 或 JavaScript 生态系统中的库或框架？</li>
 </ul>
 </li>
-<li><p>Avoid using both upper and lower case letters: doing so makes the package name hard to type and even harder to remember. For example, it’s hard to remember if it’s Rgtk2 or RGTK2 or RGtk2.</p></li>
-<li><p>Give preference to names that are pronounceable, so people are comfortable talking about your package and have a way to hear it inside their head.</p></li>
+<li><p>避免同时使用大写和小写字母：这样做会使包名称难以输入，甚至难以记住。 例如，很难记住一个软件包的名字是 Rgtk2、RGTK2 还是 RGtk2。</p></li>
+<li><p>优先选择可发音的名字，这样人们在谈论你的软件包时会很舒服，并且能够在他们的脑海里听到它。</p></li>
 <li>
-<p>Find a word that evokes the problem and modify it so that it’s unique. Here are some examples:</p>
+<p>找到一个能唤起对问题的联想的单词，并对其进行修改，使其具有唯一性： 以下是一些例子：</p>
 <ul>
-<li>lubridate makes dates and times easier.</li>
-<li>rvest “harvests” the content from web pages.</li>
-<li>r2d3 provides utilities for working with D3 visualizations.</li>
-<li>forcats is an anagram of factors, which we use <strong>for</strong> <strong>cat</strong>egorical data.</li>
+<li>lubridate 使得处理日期和时间更加容易。</li>
+<li>rvest 从网页中“收获 (harvests)”内容。</li>
+<li>r2d3 提供了使用 D3 可视化的实用程序。</li>
+<li>forcats 是因子（factors）的变位词，即分类数据 (<strong>for</strong> <strong>cat</strong>egorical data)。</li>
 </ul>
 </li>
 <li>
-<p>Use abbreviations, like the following:</p>
+<p>使用缩写，例如：</p>
 <ul>
 <li>Rcpp = R + C++ (plus plus)</li>
-<li>brms = Bayesian Regression Models using Stan</li>
+<li>brms = 使用 Stan 的贝叶斯回归模型（Bayesian Regression Models using Stan）</li>
 </ul>
 </li>
 <li>
-<p>Add an extra R, for example:</p>
+<p>名字后添加额外的字符 R，例如：</p>
 <ul>
-<li>stringr provides string tools.</li>
-<li>beepr plays notification sounds.</li>
-<li>callr calls R, from R.</li>
+<li>stringr 提供字符串工具。</li>
+<li>beepr 播放通知声音。</li>
+<li>callr 在 R 中调用 R。</li>
 </ul>
 </li>
 <li>
-<p>Don’t get sued.</p>
+<p>别被起诉。</p>
 <ul>
-<li>If you’re creating a package that talks to a commercial service, check the branding guidelines. For example, rDrop isn’t called rDropbox because Dropbox prohibits any applications from using the full trademarked name.</li>
+<li>如果你要创建一个与商业服务有关的包，请查看商标使用指南。例如，rDrop 不被称为 rDropbox，因为 Dropbox 禁止任何应用程序使用它的完整商标名。</li>
 </ul>
 </li>
 </ul>
-<p>Nick Tierney presents a fun typology of package names in his <a href="https://www.njtierney.com/post/2018/06/20/naming-things/">Naming Things</a> blog post, which also includes more inspiring examples. He also has some experience with renaming packages; the post <a href="https://www.njtierney.com/post/2017/10/27/change-pkg-name/">So, you’ve decided to change your r package name</a> is a good resource if you don’t get this right the first time.</p>
+<p>Nick Tierney 在他的 <a href="https://www.njtierney.com/post/2018/06/20/naming-things/">Naming Things</a> 博客文章中向我们展示了一种有趣的软件包名称分类学，其中还包括更具启发性的例子。 他也有一些重命名包的经验，因此，如果你第一次取名没有做对，他的博客文章 <a href="https://www.njtierney.com/post/2017/10/27/change-pkg-name/">So, you’ve decided to change your r package name</a> 是一个很好的资源。</p>
 </section><section id="使用-available-包" class="level4" data-number="4.1.2.3"><h4 data-number="4.1.2.3" class="anchored" data-anchor-id="使用-available-包">
 <span class="header-section-number">4.1.2.3</span> 使用 available 包</h4>
-<p>It is impossible to abide by all of the above suggestions simultaneously, so you will need to make some trade-offs. The <a href="https://cran.r-project.org/package=available">available package</a> has a function called <code>available()</code> that helps you evaluate a potential package name from many angles:</p>
+<p>同时遵守上述所有建议是十分困难的，因此你显然需要做出一些权衡。 <a href="https://cran.r-project.org/package=available">available 包</a> 有一个名叫 <code>available()</code> 的函数，它能帮助你从多个角度评估可能的软件包名称：</p>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-lib/available">available</a></span><span class="op">)</span></span>
 <span></span>
@@ -400,14 +400,14 @@ div.csl-indent {
 <span><span class="co">#&gt; Wiktionary: https://en.wiktionary.org/wiki/doofus</span></span>
 <span><span class="co">#&gt; Sentiment:???</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><code>available::available()</code> does the following:</p>
+<p><code>available::available()</code> 执行以下操作：</p>
 <ul>
-<li>Checks for validity.</li>
-<li>Checks availability on CRAN, Bioconductor, and beyond.</li>
-<li>Searches various websites to help you discover any unintended meanings. In an interactive session, the URLs you see above are opened in browser tabs.</li>
-<li>Attempts to report whether name has positive or negative sentiment.</li>
+<li>检查名称有效性。</li>
+<li>检查名称是否可以在 CRAN、Bioconductor 和其他产品上使用。</li>
+<li>搜索各种网站，帮助你发现任何意料之外的含义。在交互式会话中，上面的 URLs 将在浏览器选项卡中打开。</li>
+<li>尝试报告该名称是否有积极或消极含义。</li>
 </ul>
-<p><code><a href="https://rdrr.io/pkg/pak/man/pkg_name_check.html">pak::pkg_name_check()</a></code> is alternative function with a similar purpose. Since the pak package is under more active development than available, it may emerge as the better option going forward.</p>
+<p><code><a href="https://pak.r-lib.org/reference/pkg_name_check.html">pak::pkg_name_check()</a></code> 是一个有相似功能的替代函数。 由于 pak 包的开发比其它可用包更积极，因此它可能会成为更好的选择。</p>
 </section></section><section id="sec-creating" class="level3" data-number="4.1.3"><h3 data-number="4.1.3" class="anchored" data-anchor-id="sec-creating">
 <span class="header-section-number">4.1.3</span> 软件包项目的创建</h3>
 <p>Once you’ve come up with a name, there are two ways to create the package.</p>
@@ -659,7 +659,7 @@ Figure&nbsp;4.4: devtools::load_all() vs.&nbsp;library().
 <li>Build pane’s <em>More …</em> menu</li>
 <li><em>Build &gt; Load All</em></li>
 </ul>
-<p><code><a href="https://devtools.r-lib.org/reference/load_all.html">devtools::load_all()</a></code> is a thin wrapper around <code><a href="https://pkgload.r-lib.org/reference/load_all.html">pkgload::load_all()</a></code> that adds a bit of user-friendliness. It is unlikely you will use <code>load_all()</code> programmatically or inside another package, but if you do, you should probably use <code><a href="https://pkgload.r-lib.org/reference/load_all.html">pkgload::load_all()</a></code> directly.</p>
+<p><code><a href="https://devtools.r-lib.org/reference/load_all.html">devtools::load_all()</a></code> is a thin wrapper around <code><a href="https://rdrr.io/pkg/pkgload/man/load_all.html">pkgload::load_all()</a></code> that adds a bit of user-friendliness. It is unlikely you will use <code>load_all()</code> programmatically or inside another package, but if you do, you should probably use <code><a href="https://rdrr.io/pkg/pkgload/man/load_all.html">pkgload::load_all()</a></code> directly.</p>
 </section></section><section id="sec-workflow101-r-cmd-check" class="level2" data-number="4.5"><h2 data-number="4.5" class="anchored" data-anchor-id="sec-workflow101-r-cmd-check">
 <span class="header-section-number">4.5</span> <code>check()</code> 以及 <code>R CMD check</code>
 </h2>

@@ -290,9 +290,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>首先需要加载 devtools 包, 它是一组支持软件包开发各个方面的包的公开接口。 其中最明显的是 usethis 包，你可以看到它也会被加载。</p>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/">devtools</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: package 'devtools' was built under R version 4.2.2</span></span>
-<span><span class="co">#&gt; Loading required package: usethis</span></span>
-<span><span class="co">#&gt; Warning: package 'usethis' was built under R version 4.2.3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt; Loading required package: usethis</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>你现在安装的是旧版本的 devtools 包吗？ 比较一下你的版本和我们的版本，必要时可以进行升级。</p>
 <div class="cell">
@@ -341,8 +339,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>为了创建这本书，我们必须在一个临时目录中工作，因为这本书是在云中以非交互方式构建的。 在幕后，我们正在执行我们自己的 <code><a href="https://usethis.r-lib.org/reference/create_package.html">create_package()</a></code> 命令，如果我们的输出与你的略有不同，请不要感到惊讶。</p>
 <div class="cell">
-<pre><code>#&gt; ✔ Creating 'C:/Users/xiaob/AppData/Local/Temp/Rtmpk30OW9/regexcite/'
-#&gt; ✔ Setting active project to 'C:/Users/xiaob/AppData/Local/Temp/Rtmpk30OW9/regexcite'
+<pre><code>#&gt; ✔ Creating 'C:/Users/xiaob/AppData/Local/Temp/RtmpU1BibJ/regexcite/'
+#&gt; ✔ Setting active project to 'C:/Users/xiaob/AppData/Local/Temp/RtmpU1BibJ/regexcite'
 #&gt; ✔ Creating 'R/'
 #&gt; ✔ Writing 'DESCRIPTION'
 #&gt; Package: regexcite
@@ -355,7 +353,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 #&gt;     license
 #&gt; Encoding: UTF-8
 #&gt; Roxygen: list(markdown = TRUE)
-#&gt; RoxygenNote: 7.3.0
+#&gt; RoxygenNote: 7.3.1
 #&gt; ✔ Writing 'NAMESPACE'
 #&gt; ✔ Writing 'regexcite.Rproj'
 #&gt; ✔ Adding '^regexcite\\.Rproj$' to '.Rbuildignore'
@@ -470,7 +468,7 @@ RStudio
 <th style="text-align: left;">message</th>
 </tr></thead>
 <tbody><tr class="odd">
-<td style="text-align: left;">df926df8cd…</td>
+<td style="text-align: left;">b63e49663f…</td>
 <td style="text-align: left;">YuanchenZhu2020 <a href="mailto:yuanchenzhu@126.com" class="email">yuanchenzhu@126.com</a>
 </td>
 <td style="text-align: left;">Initial commit</td>
@@ -620,7 +618,7 @@ index 0000000..29efb88
 </div>
 <div class="cell">
 <pre><code>── R CMD check results ─────────────────── regexcite 0.0.0.9000 ────
-Duration: 26.9s
+Duration: 34.3s
 
 ❯ checking DESCRIPTION meta-information ... WARNING
   Non-standard license specification:
@@ -738,7 +736,7 @@ COPYRIGHT HOLDER: regexcite authors</code></pre>
 <div class="cell">
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://devtools.r-lib.org/reference/document.html">document</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ℹ Updating regexcite documentation</span></span>
-<span><span class="co">#&gt; Setting `RoxygenNote` to "7.3.0"</span></span>
+<span><span class="co">#&gt; Setting `RoxygenNote` to "7.3.1"</span></span>
 <span><span class="co">#&gt; ℹ Loading regexcite</span></span>
 <span><span class="co">#&gt; Writing 'NAMESPACE'</span></span>
 <span><span class="co">#&gt; Writing 'strsplit1.Rd'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -781,7 +779,7 @@ export(strsplit1)</code></pre>
 </div>
 <div class="cell">
 <pre><code>── R CMD check results ─────────────────── regexcite 0.0.0.9000 ────
-Duration: 24.3s
+Duration: 22.2s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔</code></pre>
 </div>
@@ -794,16 +792,16 @@ Duration: 24.3s
 </div>
 <div class="cell">
 <pre><code>── R CMD build ─────────────────────────────────────────────────────
-* checking for file 'C:\Users\xiaob\AppData\Local\Temp\Rtmpk30OW9\regexcite/DESCRIPTION' ... OK
+* checking for file 'C:\Users\xiaob\AppData\Local\Temp\RtmpU1BibJ\regexcite/DESCRIPTION' ... OK
 * preparing 'regexcite':
 * checking DESCRIPTION meta-information ... OK
 * checking for LF line-endings in source and make files and shell scripts
 * checking for empty or unneeded directories
 * building 'regexcite_0.0.0.9000.tar.gz'
-Running "D:/R/R-4.2.1/bin/x64/Rcmd.exe" INSTALL \
-  "C:\Users\xiaob\AppData\Local\Temp\Rtmpk30OW9/regexcite_0.0.0.9000.tar.gz" \
+Running "D:/R/R-4.3.2/bin/x64/Rcmd.exe" INSTALL \
+  "C:\Users\xiaob\AppData\Local\Temp\RtmpU1BibJ/regexcite_0.0.0.9000.tar.gz" \
   --install-tests 
-* installing to library 'D:/R/R-4.2.1/library'
+* installing to library 'D:/R/R-4.3.2/library'
 * installing *source* package 'regexcite' ...
 ** using staged installation
 ** R
@@ -875,7 +873,6 @@ RStudio
 <span><span class="co">#&gt; ✔ | F W  S  OK | Context</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ⠏ |          0 | strsplit1                                          </span></span>
-<span><span class="co">#&gt; ⠋ |          1 | strsplit1                                          </span></span>
 <span><span class="co">#&gt; ✔ |          1 | strsplit1</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ══ Results ═════════════════════════════════════════════════════════</span></span>
@@ -1110,7 +1107,7 @@ str_split_one(y, pattern = stringr::fixed("."))
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://devtools.r-lib.org/reference/build_rmd.html">build_readme</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ℹ Installing regexcite in temporary library</span></span>
 <span><span class="co">#&gt; ℹ Building</span></span>
-<span><span class="co">#&gt;   'C:/Users/xiaob/AppData/Local/Temp/Rtmpk30OW9/regexcite/README.Rmd'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">#&gt;   'C:/Users/xiaob/AppData/Local/Temp/RtmpU1BibJ/regexcite/README.Rmd'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>你只需要简单地<a href="https://github.com/jennybc/regexcite#readme">访问 GitHub 上的 regexcite</a>就可以看到已经渲染好的 <code>README.md</code>。</p>
 <p>最后，别忘了做最后一次提交。 如果你使用了 GitHub，还需要推送至远程仓库。</p>
@@ -1123,7 +1120,7 @@ str_split_one(y, pattern = stringr::fixed("."))
 </div>
 <div class="cell">
 <pre><code>── R CMD check results ─────────────────── regexcite 0.0.0.9000 ────
-Duration: 25.7s
+Duration: 22.2s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔</code></pre>
 </div>
@@ -1133,16 +1130,16 @@ Duration: 25.7s
 </div>
 <div class="cell">
 <pre><code>── R CMD build ─────────────────────────────────────────────────────
-* checking for file 'C:\Users\xiaob\AppData\Local\Temp\Rtmpk30OW9\regexcite/DESCRIPTION' ... OK
+* checking for file 'C:\Users\xiaob\AppData\Local\Temp\RtmpU1BibJ\regexcite/DESCRIPTION' ... OK
 * preparing 'regexcite':
 * checking DESCRIPTION meta-information ... OK
 * checking for LF line-endings in source and make files and shell scripts
 * checking for empty or unneeded directories
 * building 'regexcite_0.0.0.9000.tar.gz'
-Running "D:/R/R-4.2.1/bin/x64/Rcmd.exe" INSTALL \
-  "C:\Users\xiaob\AppData\Local\Temp\Rtmpk30OW9/regexcite_0.0.0.9000.tar.gz" \
+Running "D:/R/R-4.3.2/bin/x64/Rcmd.exe" INSTALL \
+  "C:\Users\xiaob\AppData\Local\Temp\RtmpU1BibJ/regexcite_0.0.0.9000.tar.gz" \
   --install-tests 
-* installing to library 'D:/R/R-4.2.1/library'
+* installing to library 'D:/R/R-4.3.2/library'
 * installing *source* package 'regexcite' ...
 ** using staged installation
 ** R

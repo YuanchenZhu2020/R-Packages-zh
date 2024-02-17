@@ -19,9 +19,7 @@ _剧透警告！_
 [source,r,cell-code]
 ----
 library(devtools)
-#> Warning: package 'devtools' was built under R version 4.2.2
 #> Loading required package: usethis
-#> Warning: package 'usethis' was built under R version 4.2.3
 ----
 
 你现在安装的是旧版本的 devtools 包吗？ 比较一下你的版本和我们的版本，必要时可以进行升级。
@@ -73,8 +71,8 @@ create_package("~/path/to/regexcite")
 为了创建这本书，我们必须在一个临时目录中工作，因为这本书是在云中以非交互方式构建的。 在幕后，我们正在执行我们自己的 `+create_package()+` 命令，如果我们的输出与你的略有不同，请不要感到惊讶。
 
 ....
-#> ✔ Creating 'C:/Users/xiaob/AppData/Local/Temp/RtmpUfUgyF/regexcite/'
-#> ✔ Setting active project to 'C:/Users/xiaob/AppData/Local/Temp/RtmpUfUgyF/regexcite'
+#> ✔ Creating 'C:/Users/xiaob/AppData/Local/Temp/RtmpEHpPQv/regexcite/'
+#> ✔ Setting active project to 'C:/Users/xiaob/AppData/Local/Temp/RtmpEHpPQv/regexcite'
 #> ✔ Creating 'R/'
 #> ✔ Writing 'DESCRIPTION'
 #> Package: regexcite
@@ -87,7 +85,7 @@ create_package("~/path/to/regexcite")
 #>     license
 #> Encoding: UTF-8
 #> Roxygen: list(markdown = TRUE)
-#> RoxygenNote: 7.3.0
+#> RoxygenNote: 7.3.1
 #> ✔ Writing 'NAMESPACE'
 #> ✔ Writing 'regexcite.Rproj'
 #> ✔ Adding '^regexcite\\.Rproj$' to '.Rbuildignore'
@@ -160,7 +158,7 @@ use_git()
 [cols="<,<,<",options="header",]
 |===
 |commit |author |message
-|d3fb0d2444… |YuanchenZhu2020 yuanchenzhu@126.com |Initial commit
+|621103acfd… |YuanchenZhu2020 yuanchenzhu@126.com |Initial commit
 |===
 
 [TIP]
@@ -321,7 +319,7 @@ check()
 
 ....
 ── R CMD check results ─────────────────── regexcite 0.0.0.9000 ────
-Duration: 24.7s
+Duration: 20.5s
 
 ❯ checking DESCRIPTION meta-information ... WARNING
   Non-standard license specification:
@@ -451,7 +449,7 @@ strsplit1 <- function(x, split) {
 ----
 document()
 #> ℹ Updating regexcite documentation
-#> Setting `RoxygenNote` to "7.3.0"
+#> Setting `RoxygenNote` to "7.3.1"
 #> ℹ Loading regexcite
 #> Writing 'NAMESPACE'
 #> Writing 'strsplit1.Rd'
@@ -497,7 +495,7 @@ check()
 
 ....
 ── R CMD check results ─────────────────── regexcite 0.0.0.9000 ────
-Duration: 23.8s
+Duration: 21.3s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 ....
@@ -513,16 +511,16 @@ install()
 
 ....
 ── R CMD build ─────────────────────────────────────────────────────
-* checking for file 'C:\Users\xiaob\AppData\Local\Temp\RtmpUfUgyF\regexcite/DESCRIPTION' ... OK
+* checking for file 'C:\Users\xiaob\AppData\Local\Temp\RtmpEHpPQv\regexcite/DESCRIPTION' ... OK
 * preparing 'regexcite':
 * checking DESCRIPTION meta-information ... OK
 * checking for LF line-endings in source and make files and shell scripts
 * checking for empty or unneeded directories
 * building 'regexcite_0.0.0.9000.tar.gz'
-Running "D:/R/R-4.2.1/bin/x64/Rcmd.exe" INSTALL \
-  "C:\Users\xiaob\AppData\Local\Temp\RtmpUfUgyF/regexcite_0.0.0.9000.tar.gz" \
+Running "D:/R/R-4.3.2/bin/x64/Rcmd.exe" INSTALL \
+  "C:\Users\xiaob\AppData\Local\Temp\RtmpEHpPQv/regexcite_0.0.0.9000.tar.gz" \
   --install-tests 
-* installing to library 'D:/R/R-4.2.1/library'
+* installing to library 'D:/R/R-4.3.2/library'
 * installing *source* package 'regexcite' ...
 ** using staged installation
 ** R
@@ -875,7 +873,7 @@ str_split_one(y, pattern = stringr::fixed("."))
 build_readme()
 #> ℹ Installing regexcite in temporary library
 #> ℹ Building
-#>   'C:/Users/xiaob/AppData/Local/Temp/RtmpUfUgyF/regexcite/README.Rmd'
+#>   'C:/Users/xiaob/AppData/Local/Temp/RtmpEHpPQv/regexcite/README.Rmd'
 ----
 
 你只需要简单地https://github.com/jennybc/regexcite#readme[访问 GitHub 上的 regexcite]就可以看到已经渲染好的 `+README.md+`。
@@ -893,7 +891,7 @@ check()
 
 ....
 ── R CMD check results ─────────────────── regexcite 0.0.0.9000 ────
-Duration: 27.4s
+Duration: 52.1s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 ....
@@ -907,16 +905,16 @@ install()
 
 ....
 ── R CMD build ─────────────────────────────────────────────────────
-* checking for file 'C:\Users\xiaob\AppData\Local\Temp\RtmpUfUgyF\regexcite/DESCRIPTION' ... OK
+* checking for file 'C:\Users\xiaob\AppData\Local\Temp\RtmpEHpPQv\regexcite/DESCRIPTION' ... OK
 * preparing 'regexcite':
 * checking DESCRIPTION meta-information ... OK
 * checking for LF line-endings in source and make files and shell scripts
 * checking for empty or unneeded directories
 * building 'regexcite_0.0.0.9000.tar.gz'
-Running "D:/R/R-4.2.1/bin/x64/Rcmd.exe" INSTALL \
-  "C:\Users\xiaob\AppData\Local\Temp\RtmpUfUgyF/regexcite_0.0.0.9000.tar.gz" \
+Running "D:/R/R-4.3.2/bin/x64/Rcmd.exe" INSTALL \
+  "C:\Users\xiaob\AppData\Local\Temp\RtmpEHpPQv/regexcite_0.0.0.9000.tar.gz" \
   --install-tests 
-* installing to library 'D:/R/R-4.2.1/library'
+* installing to library 'D:/R/R-4.3.2/library'
 * installing *source* package 'regexcite' ...
 ** using staged installation
 ** R

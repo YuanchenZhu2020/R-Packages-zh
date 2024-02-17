@@ -125,8 +125,8 @@ knitr::include_graphics("diagrams/package-files.png")
 `R/notes.R`, `man/important-notes.R`, `data/endnotes.Rdata` 等。
 我们发现 `use_build_ignore()` 有助于我们第一次就更准确地获取更多的 `.Rbuildignore` 条目。
 
-`.Rbuildignore` 提供了一种解决方式，能够协调支持开发流程的常规做法和 CRAN 对软件包提交和分发的要求之间的一些紧张关系 (@sec-release)。
-即使你不打算在 CRAN 上发布你的软件包，遵循这些约定也能让你充分地利用 R 的内置工具来检查和安装程序包。
+`.Rbuildignore` 提供了一种解决方式，能够在常规开发流程与 CRAN 对软件包提交和分发的要求之间的一些冲突中做出协调 (@sec-release)。
+即使你不打算在 CRAN 上发布你的软件包，遵循这些约定也能让你充分地利用 R 的内置工具来检查和安装软件包。
 你应该添加到 `.Rbuildignore` 中的文件分为两个半重叠的类别：
 
 -   帮助你以编程方式生成软件包内容的文件。例如：
